@@ -1,16 +1,21 @@
 import { goBackOrHome } from '@/lib/navigation';
-import { Redirect } from 'expo-router';
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { isGatePassed } from '@/features/parent/gate';
+import { useParentGuard } from '@/features/parent/gate';
 import { useProgress } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
-import { colors, font, radius, spacing } from '@/ui/tokens';
+import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
-const BENEFITS = ['All themes unlocked', 'New content every week', 'Songs & stories', 'Parent reports'];
+const BENEFITS = [
+  '10 more themes: animals, colors, numbers, body, clothes, home, toys, nature, transport and feelings',
+  'Songs and rhymes for every theme',
+  'Weekly parent reports',
+  'Family voice: hear words in your own voice',
+];
 
 export default function Paywall() {
+  const guard = useParentGuard('/parent/paywall');
   const { state, setPremium } = useProgress();
 
   const buy = () => {
@@ -22,9 +27,9 @@ export default function Paywall() {
     }
   };
 
-  if (!isGatePassed()) {
-    return <Redirect href={{ pathname: '/parent-gate', params: { next: '/parent/paywall' } }} />;
-  }
+  const restore = () => Alert.alert('Coming soon', 'Restoring purchases is not available yet.');
+
+  if (guard) return guard;
 
   return (
     <Screen>
@@ -49,14 +54,28 @@ export default function Paywall() {
           </>
         ) : (
           <>
-            <View style={styles.plan}>
-              <Text style={styles.badge}>Best value</Text>
-              <BigButton label="Yearly $34.99" color={colors.success} onPress={buy} />
-            </View>
-            <BigButton label="Monthly $4.99" onPress={buy} />
+            {__DEV__ ? (
+              <>
+                <View style={styles.plan}>
+                  <Text style={styles.badge}>Best value</Text>
+                  <BigButton label="Yearly $34.99" color={colors.success} onPress={buy} />
+                </View>
+                <BigButton label="Monthly $4.99" onPress={buy} />
+                <Text style={styles.note}>Prices shown in USD; final price in your store.</Text>
+              </>
+            ) : (
+              <>
+                <BigButton label="Coming soon" disabled onPress={buy} accessibilityHint="Subscriptions are not available yet" />
+                <Text style={styles.note}>Subscriptions are not available yet.</Text>
+              </>
+            )}
             {__DEV__ ? <BigButton label="Unlock (test)" color={colors.textMuted} onPress={buy} /> : null}
           </>
         )}
+
+        <Pressable accessibilityRole="button" accessibilityLabel="Restore purchases" onPress={restore} style={styles.link}>
+          <Text style={styles.linkText}>Restore purchases</Text>
+        </Pressable>
 
         <BigButton label="Close" color={colors.textMuted} onPress={goBackOrHome} />
       </ScrollView>
@@ -72,5 +91,8 @@ const styles = StyleSheet.create({
   benefit: { fontSize: font.body, color: colors.text, fontWeight: '600' },
   plan: { gap: spacing.xs },
   badge: { fontSize: font.small, fontWeight: '800', color: colors.primaryDark, textAlign: 'center' },
+  note: { fontSize: font.small, color: colors.textMuted, textAlign: 'center' },
+  link: { minHeight: TOUCH_MIN, alignItems: 'center', justifyContent: 'center' },
+  linkText: { fontSize: font.body, fontWeight: '700', color: colors.primaryDark, textDecorationLine: 'underline' },
   active: { fontSize: font.heading, fontWeight: '800', color: colors.success, textAlign: 'center' },
 });

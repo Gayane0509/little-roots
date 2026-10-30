@@ -4,8 +4,21 @@ import { THEMES, getTheme, getWord } from './themes';
 describe('content', () => {
   const all = THEMES.flatMap((t) => t.words);
 
-  it('has 6 themes in order', () => {
-    expect(THEMES.map((t) => t.id)).toEqual(['family', 'food', 'animals', 'colors', 'numbers', 'body']);
+  it('has 12 themes in order', () => {
+    expect(THEMES.map((t) => t.id)).toEqual([
+      'family',
+      'food',
+      'animals',
+      'colors',
+      'numbers',
+      'body',
+      'clothes',
+      'home',
+      'toys',
+      'nature',
+      'transport',
+      'feelings',
+    ]);
   });
 
   it('has unique word ids', () => {
@@ -25,6 +38,13 @@ describe('content', () => {
 
   it('only family and food are free', () => {
     for (const t of THEMES) expect(t.free).toBe(t.id === 'family' || t.id === 'food');
+  });
+
+  it('has unique ids and unique emojis within each theme', () => {
+    for (const t of THEMES) {
+      expect(new Set(t.words.map((w) => w.id)).size).toBe(t.words.length);
+      expect(new Set(t.words.map((w) => w.emoji)).size).toBe(t.words.length);
+    }
   });
 
   it('has complete word fields', () => {

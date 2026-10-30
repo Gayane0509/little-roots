@@ -1,4 +1,5 @@
 import * as Speech from 'expo-speech';
+import { useEffect, useState } from 'react';
 
 const ARMENIAN = 'hy-AM';
 
@@ -18,4 +19,16 @@ export function speakEnglish(text: string): void {
 
 export function stopSpeaking(): void {
   Speech.stop();
+}
+
+export function useArmenianVoiceAvailable(): boolean | null {
+  const [available, setAvailable] = useState<boolean | null>(null);
+  useEffect(() => {
+    let active = true;
+    Speech.getAvailableVoicesAsync()
+      .then((voices) => { if (active) setAvailable(voices.some((voice) => voice.language.toLowerCase().startsWith('hy'))); })
+      .catch(() => { if (active) setAvailable(false); });
+    return () => { active = false; };
+  }, []);
+  return available;
 }

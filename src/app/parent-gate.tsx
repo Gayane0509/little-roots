@@ -1,32 +1,51 @@
-import { goBackOrHome } from '@/lib/navigation';
-import { router, useLocalSearchParams, type Href } from 'expo-router';
-import { useState } from 'react';
+import { router, useLocalSearchParams } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput } from 'react-native';
 
-import { markGatePassed } from '@/features/parent/gate';
+import {
+  cooldownRemainingMs,
+  isGateAnswerCorrect,
+  markGatePassed,
+  newGateQuestion,
+  parseGateRoute,
+  recordWrongAttempt,
+  resetGateAttempts,
+} from '@/features/parent/gate';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
 import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
-function newQuestion() {
-  return { a: 3 + Math.floor(Math.random() * 7), b: 3 + Math.floor(Math.random() * 7) };
-}
-
 export default function ParentGate() {
   const { next } = useLocalSearchParams<{ next?: string }>();
-  const [q, setQ] = useState(newQuestion);
+  const [q, setQ] = useState(() => newGateQuestion());
   const [answer, setAnswer] = useState('');
   const [wrong, setWrong] = useState(false);
+  const [cooldown, setCooldown] = useState(() => cooldownRemainingMs());
+
+  const locked = cooldown > 0;
+
+  useEffect(() => {
+    if (!locked) return;
+    const id = setInterval(() => {
+      const left = cooldownRemainingMs();
+      setCooldown(left);
+      if (left <= 0) clearInterval(id);
+    }, 500);
+    return () => clearInterval(id);
+  }, [locked]);
 
   const submit = () => {
-    if (Number(answer.trim()) === q.a * q.b) {
+    if (locked) return;
+    if (isGateAnswerCorrect(q, answer)) {
+      resetGateAttempts();
       markGatePassed();
-      const target: Href = next === '/parent/paywall' ? '/parent/paywall' : '/parent';
-      router.replace(target);
+      router.replace(parseGateRoute(next));
     } else {
+      recordWrongAttempt();
+      setCooldown(cooldownRemainingMs());
       setWrong(true);
       setAnswer('');
-      setQ(newQuestion());
+      setQ(newGateQuestion());
     }
   };
 
@@ -34,7 +53,8 @@ export default function ParentGate() {
     <Screen>
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
         <Text style={styles.emoji}>🔐</Text>
-        <Text style={styles.title}>Ask a grown-up</Text>
+        <Text style={styles.title}>Grown-ups only</Text>
+        <Text style={styles.hint}>Solve this to continue.</Text>
         <Text style={styles.question} accessibilityLabel={`${q.a} times ${q.b}`}>
           {q.a} × {q.b} = ?
         </Text>
@@ -47,13 +67,21 @@ export default function ParentGate() {
             setWrong(false);
           }}
           keyboardType="number-pad"
+          returnKeyType="done"
+          onSubmitEditing={submit}
           maxLength={3}
           placeholder="Answer"
           placeholderTextColor={colors.textMuted}
         />
-        {wrong ? <Text style={styles.error}>Not quite. Try this one.</Text> : null}
-        <BigButton label="Continue" onPress={submit} disabled={answer.length === 0} />
-        <BigButton label="Cancel" color={colors.textMuted} onPress={goBackOrHome} />
+        {locked ? (
+          <Text style={styles.error} accessibilityLiveRegion="polite">
+            Too many tries. Please wait {Math.ceil(cooldown / 1000)} seconds.
+          </Text>
+        ) : wrong ? (
+          <Text style={styles.error}>Not quite. Try this one.</Text>
+        ) : null}
+        <BigButton label="Continue" onPress={submit} disabled={locked || answer.length === 0} />
+        <BigButton label="Cancel" color={colors.textMuted} onPress={() => router.replace('/')} />
       </ScrollView>
     </Screen>
   );
@@ -63,6 +91,7 @@ const styles = StyleSheet.create({
   content: { gap: spacing.lg, paddingVertical: spacing.lg, alignItems: 'stretch' },
   emoji: { fontSize: 64, textAlign: 'center' },
   title: { fontSize: font.title, fontWeight: '800', color: colors.text, textAlign: 'center' },
+  hint: { fontSize: font.body, color: colors.textMuted, textAlign: 'center' },
   question: { fontSize: 48, fontWeight: '800', color: colors.primaryDark, textAlign: 'center' },
   input: {
     minHeight: TOUCH_MIN,

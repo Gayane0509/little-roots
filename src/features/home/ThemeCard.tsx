@@ -8,19 +8,19 @@ interface ThemeCardProps {
   learned: number;
   total: number;
   unlocked: boolean;
+  onOpenPress: () => void;
   onLockedPress: () => void;
 }
 
-export function ThemeCard({ theme, learned, total, unlocked, onLockedPress }: ThemeCardProps) {
+export function ThemeCard({ theme, learned, total, unlocked, onOpenPress, onLockedPress }: ThemeCardProps) {
   const label = unlocked
-    ? `${theme.titleEn}, ${learned} of ${total} words learned`
+    ? `${theme.titleEn}, ${learned} of ${total} words learned. Open`
     : `${theme.titleEn}, locked. Ask a grown-up to unlock`;
   return (
     <Pressable
-      accessibilityRole={unlocked ? 'text' : 'button'}
+      accessibilityRole="button"
       accessibilityLabel={label}
-      disabled={unlocked}
-      onPress={onLockedPress}
+      onPress={unlocked ? onOpenPress : onLockedPress}
       style={[styles.card, { backgroundColor: unlocked ? theme.color : colors.locked }]}
     >
       <Text style={styles.emoji}>{unlocked ? theme.emoji : '🔒'}</Text>
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   },
   emoji: { fontSize: 40 },
   texts: { gap: 2 },
-  titleHy: { fontSize: font.heading, fontWeight: '800', color: colors.text },
+  titleHy: { fontSize: font.body, fontWeight: '800', color: colors.text },
   titleEn: { fontSize: font.body, color: colors.text },
   count: { fontSize: font.small, fontWeight: '700', color: colors.textMuted },
 });

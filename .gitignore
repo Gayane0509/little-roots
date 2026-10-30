@@ -41,4 +41,4 @@ yarn-error.*
 /android
 
 # agent scratch
-.ai/PLAN.md
+.ai/

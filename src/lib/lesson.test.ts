@@ -59,4 +59,13 @@ describe('daily lesson', () => {
     expect(premium?.reviewWords[0].themeId).toBe('animals');
     expect(buildDailyLesson({ themes: [locked], words: lockedWords, isPremium: false, now })).toBeNull();
   });
+
+  it('prioritizes six due reviews over new words when backlog reaches eight', () => {
+    const second = theme('food', true);
+    const due = [...free.words, ...second.words];
+    const words = Object.fromEntries(due.map((word) => [word.id, scheduleReview(undefined, word.id, true, now - 2 * 86_400_000)]));
+    const lesson = buildDailyLesson({ themes: [free, second, theme('colors', true)], words, isPremium: false, now });
+    expect(lesson?.newWords).toEqual([]);
+    expect(lesson?.reviewWords).toHaveLength(6);
+  });
 });

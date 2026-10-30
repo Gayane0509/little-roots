@@ -1,4 +1,16 @@
-export type ThemeId = 'family' | 'food' | 'animals' | 'colors' | 'numbers' | 'body';
+export type ThemeId =
+  | 'family'
+  | 'food'
+  | 'animals'
+  | 'colors'
+  | 'numbers'
+  | 'body'
+  | 'clothes'
+  | 'home'
+  | 'toys'
+  | 'nature'
+  | 'transport'
+  | 'feelings';
 
 export interface Word {
   /** Stable id, e.g. "family.mom". Progress is keyed by it — never rename once shipped. */

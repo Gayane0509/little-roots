@@ -1,12 +1,13 @@
-import { Redirect, router } from 'expo-router';
-import { useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { router, useFocusEffect } from 'expo-router';
+import { useCallback, useEffect, useState } from 'react';
+import { Alert, AppState, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { getWord } from '@/content/themes';
 import type { Word } from '@/content/types';
-import { isGatePassed } from '@/features/parent/gate';
+import { useParentGuard } from '@/features/parent/gate';
 import { PracticeRow } from '@/features/parent/PracticeRow';
 import { weeklyReport } from '@/lib/report';
+import { currentStreak } from '@/lib/streak';
 import { useProgress } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
@@ -17,9 +18,18 @@ function toWords(ids: string[]): Word[] {
 }
 
 export default function ParentArea() {
+  const guard = useParentGuard('/parent');
   const { state, setChildName, reset } = useProgress();
   const [name, setName] = useState(state.childName);
-  const [now] = useState(() => Date.now());
+  const [saved, setSaved] = useState(false);
+  const [now, setNow] = useState(() => Date.now());
+  useFocusEffect(useCallback(() => setNow(Date.now()), []));
+  useEffect(() => {
+    const sub = AppState.addEventListener('change', (st) => {
+      if (st === 'active') setNow(Date.now());
+    });
+    return () => sub.remove();
+  }, []);
   const report = weeklyReport(state, now);
 
   const practice = toWords(report.practiceWordIds.length > 0 ? report.practiceWordIds : report.newWordIds);
@@ -37,7 +47,7 @@ export default function ParentArea() {
       },
     ]);
 
-  if (!isGatePassed()) return <Redirect href={{ pathname: '/parent-gate', params: { next: '/parent' } }} />;
+  if (guard) return guard;
 
   return (
     <Screen>
@@ -49,7 +59,7 @@ export default function ParentArea() {
           <Stat label="Days active" value={`${report.daysActive}/7`} />
           <Stat label="New words" value={String(report.newWordIds.length)} />
           <Stat label="Total words" value={String(report.totalWords)} />
-          <Stat label="Streak" value={`🔥 ${report.streakDays}`} />
+          <Stat label="Streak" value={`🔥 ${currentStreak(state, now)}`} />
         </View>
 
         <Text style={styles.heading}>Practice at home</Text>
@@ -64,14 +74,21 @@ export default function ParentArea() {
           accessibilityLabel="Child's name"
           style={styles.input}
           value={name}
-          onChangeText={setName}
+          onChangeText={(v) => {
+            setName(v);
+            setSaved(false);
+          }}
           maxLength={20}
           autoCorrect={false}
         />
         <BigButton
-          label="Save name"
-          onPress={() => setChildName(name.trim() || 'Friend')}
-          disabled={name.trim() === state.childName}
+          label={saved ? 'Saved ✓' : 'Save name'}
+          color={saved ? colors.success : colors.primary}
+          onPress={() => {
+            setChildName(name.trim() || 'Friend');
+            setSaved(true);
+          }}
+          disabled={saved || name.trim() === state.childName}
         />
 
         <Text style={styles.heading}>Subscription</Text>
@@ -82,8 +99,13 @@ export default function ParentArea() {
           onPress={() => router.push('/parent/paywall')}
         />
 
+        <Text style={styles.heading}>Family voice</Text>
+        <Text style={styles.body}>Record words in your own voice so your child hears family.</Text>
+        <BigButton label="🎙️ Family voice" color={colors.success} onPress={() => router.push('/parent/voices')} />
+
         <Text style={styles.heading}>Privacy</Text>
         <Text style={styles.body}>All progress is stored only on this device. No accounts, no ads, no tracking.</Text>
+        <BigButton label="🔒 Privacy" color={colors.textMuted} onPress={() => router.push('/parent/privacy')} />
 
         <BigButton label="Reset progress" color={colors.danger} onPress={confirmReset} />
         <BigButton label="Back to home" color={colors.textMuted} onPress={() => router.replace('/')} />
