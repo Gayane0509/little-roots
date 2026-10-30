@@ -1,10 +1,13 @@
 import * as Haptics from 'expo-haptics';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Animated, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import type { Word } from '@/content/types';
+import { useBuddyLine } from '@/features/buddy/useBuddyLine';
 import { goBackOrHome } from '@/lib/navigation';
 import { stopSpeaking } from '@/lib/speech';
+import { playSfx } from '@/lib/sfx';
+import { useSettings } from '@/state/settings';
 import { useProgressActions } from '@/state/progress';
 import { stopWordAudio, useSpeakWord } from '@/state/recordings';
 import { BigButton } from '@/ui/BigButton';
@@ -21,6 +24,8 @@ const NEXT_DELAY_MS = 1300;
 const PLAY_DELAY_MS = 450;
 
 export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] }) {
+  const line = useBuddyLine();
+  const { soundEffects } = useSettings();
   const { recordAnswer, recordGamePlayed } = useProgressActions();
   const speak = useSpeakWord();
   const optionCount = mode === 'listen' ? 4 : 3;
@@ -56,8 +61,8 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
   }, [clearTimers]);
 
   useEffect(() => {
-    if (rounds.length > 0 && index >= rounds.length && !counted.current) { counted.current = true; recordGamePlayed(); }
-  }, [index, rounds.length, recordGamePlayed]);
+    if (rounds.length > 0 && index >= rounds.length && !counted.current) { counted.current = true; recordGamePlayed(); playSfx('reward', soundEffects); }
+  }, [index, rounds.length, recordGamePlayed, soundEffects]);
 
   const round = rounds[index] as ChoiceRound | undefined;
   const answerId = round?.answer.id;
@@ -72,6 +77,7 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
   const choose = (option: Word) => {
     if (!round || locked.current || solved) return;
     if (option.id !== round.answer.id) {
+      playSfx('try', soundEffects);
       hadWrong.current = true;
       void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
       setWrongIds((ids) => (ids.includes(option.id) ? ids : [...ids, option.id]));
@@ -83,6 +89,7 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
       return;
     }
     locked.current = true;
+    playSfx('correct', soundEffects);
     const firstTry = !hadWrong.current;
     recordAnswer(round.answer.id, firstTry);
     if (firstTry) setScore((s) => s + 1);
@@ -95,7 +102,7 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
     // Read mode keeps the audio back until the child has answered.
     if (mode === 'read') speak(round.answer);
     later(() => {
-      if (index + 1 === rounds.length && !counted.current) { counted.current = true; recordGamePlayed(); }
+      if (index + 1 === rounds.length && !counted.current) { counted.current = true; recordGamePlayed(); playSfx('reward', soundEffects); }
       setIndex((i) => i + 1);
       setWrongIds([]);
       setSolved(false);
@@ -120,23 +127,23 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
 
   if (!round) {
     return (
-      <View style={styles.done}>
-        <Buddy mood="cheer" message={`Great job! ${score} of ${rounds.length} right on the first try!`} />
+      <ScrollView contentContainerStyle={styles.done}>
+        <Buddy mood="cheer" message={line('game_score', { score, total: rounds.length })} />
         <GameDoneActions onPlayAgain={playAgain} />
-      </View>
+      </ScrollView>
     );
   }
 
   const message = solved
-    ? 'Great!'
+    ? line('game_correct')
     : wrongIds.length > 0
-      ? 'Try again'
+      ? line('game_try_again')
       : mode === 'listen'
-        ? 'Listen and find the picture!'
-        : 'Which word is this?';
+        ? line('game_listen_prompt')
+        : line('game_read_prompt');
 
   return (
-    <View style={styles.root}>
+    <ScrollView contentContainerStyle={styles.root}>
       <Text style={styles.round} accessibilityLabel={`Round ${index + 1} of ${rounds.length}`}>
         {index + 1} / {rounds.length}
       </Text>
@@ -188,12 +195,12 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
       </Animated.View>
 
       <BigButton label="Back" color={colors.textMuted} onPress={goBackOrHome} style={styles.back} />
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, gap: spacing.md },
+  root: { flexGrow: 1, gap: spacing.md },
   round: { fontSize: font.heading, fontWeight: '700', color: colors.textMuted, textAlign: 'center' },
   picture: {
     alignItems: 'center',
@@ -222,6 +229,6 @@ const styles = StyleSheet.create({
   right: { borderColor: colors.success, backgroundColor: '#E3F7EC' },
   optionWord: { fontSize: font.word, fontWeight: '800', color: colors.text },
   check: { position: 'absolute', top: spacing.xs, right: spacing.sm, fontSize: font.heading },
-  done: { flex: 1, justifyContent: 'center', gap: spacing.lg },
+  done: { flexGrow: 1, justifyContent: 'center', gap: spacing.lg },
   back: { marginTop: 'auto' },
 });

@@ -1,15 +1,18 @@
+
 import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { AVATAR_WORD_IDS, useProfiles, type AvatarWordId } from '@/state/profiles';
+import { useBuddyLine } from '@/features/buddy/useBuddyLine';
 import { ProfileAvatar } from '@/features/profiles/ProfileAvatar';
 import { BigButton } from '@/ui/BigButton';
-import { Buddy, BUDDY_NAME } from '@/ui/Buddy';
+import { Buddy } from '@/ui/Buddy';
 import { Screen } from '@/ui/Screen';
 import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 export default function Onboarding() {
+  const line = useBuddyLine();
   const { add } = useProfiles();
   const [avatar, setAvatar] = useState<AvatarWordId>('family.child');
   const [busy, setBusy] = useState(false);
@@ -32,7 +35,7 @@ export default function Onboarding() {
     <Screen>
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-          <Buddy mood="cheer" message={`Բարև։ Ես ${BUDDY_NAME.hy}ն եմ։ Hi! I am ${BUDDY_NAME.en}.`} />
+          <Buddy mood="cheer" message={line('onboarding_intro')} />
           <Text style={styles.question}>What is your name?</Text>
           <TextInput
             accessibilityLabel="Child's first name"

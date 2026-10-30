@@ -102,6 +102,9 @@ export default function ParentArea() {
           </>
         ) : null}
 
+        <Text style={styles.heading}>Settings</Text>
+        <BigButton label="⚙️ Sound & Buddy language" color={colors.primary} onPress={() => router.push('/parent/settings')} />
+
         <Text style={styles.heading}>Privacy</Text>
         <Text style={styles.body}>All progress is stored only on this device. No accounts, no ads, no tracking.</Text>
         <BigButton label="🔒 Privacy" color={colors.textMuted} onPress={() => router.push('/parent/privacy')} />

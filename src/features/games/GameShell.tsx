@@ -1,8 +1,9 @@
 import { router } from 'expo-router';
 import { useMemo, useState, type ReactNode } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { goBackOrHome } from '@/lib/navigation';
+import { useBuddyLine } from '@/features/buddy/useBuddyLine';
 import { canPlayGame } from '@/lib/entitlements';
 import { gamesPlayedToday, useProgressState } from '@/state/progress';
 import type { Word } from '@/content/types';
@@ -21,6 +22,7 @@ interface GameShellProps {
 
 /** Loading + "finish a lesson first" gate shared by every game screen. */
 export function GameShell({ title, children }: GameShellProps) {
+  const line = useBuddyLine();
   const { state, ready } = useProgressState();
   const seen = useMemo(() => pickSeenWords(state.words), [state.words]);
 
@@ -37,11 +39,11 @@ export function GameShell({ title, children }: GameShellProps) {
   if (seen.length < MIN_SEEN_WORDS) {
     return (
       <Screen>
-        <View style={styles.locked}>
-          <Buddy mood="think" message="Finish a lesson first to unlock games!" />
+        <ScrollView contentContainerStyle={styles.locked}>
+          <Buddy mood="think" message={line('games_locked')} />
           <BigButton label="Go to lesson" onPress={() => router.replace('/lesson')} />
           <BigButton label="Back" color={colors.textMuted} onPress={goBackOrHome} />
-        </View>
+        </ScrollView>
       </Screen>
     );
   }
@@ -50,13 +52,14 @@ export function GameShell({ title, children }: GameShellProps) {
 }
 
 function AdmittedGame({ title, seen, isPremium, played, children }: { title: string; seen: Word[]; isPremium: boolean; played: number; children: (words: Word[]) => ReactNode }) {
+  const line = useBuddyLine();
   const [admitted] = useState(() => canPlayGame(isPremium, played));
   if (!admitted) {
-    return <Screen><View style={styles.locked}>
-      <Buddy mood="happy" message="That's all the games for today — see you tomorrow!" />
+    return <Screen><ScrollView contentContainerStyle={styles.locked}>
+      <Buddy mood="happy" message={line('games_done_today')} />
       <BigButton label="Grown-ups: unlimited games" onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'games' } })} />
       <BigButton label="Back" color={colors.textMuted} onPress={goBackOrHome} />
-    </View></Screen>;
+    </ScrollView></Screen>;
   }
   return (
     <Screen>
@@ -70,6 +73,6 @@ function AdmittedGame({ title, seen, isPremium, played, children }: { title: str
 
 const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  locked: { flex: 1, justifyContent: 'center', gap: spacing.lg },
+  locked: { flexGrow: 1, justifyContent: 'center', gap: spacing.lg },
   title: { fontSize: font.title, fontWeight: '800', color: colors.text, textAlign: 'center', marginBottom: spacing.sm },
 });

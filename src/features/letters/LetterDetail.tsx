@@ -6,9 +6,12 @@ import { router } from 'expo-router';
 import type { Letter } from '@/content/alphabet';
 import { THEMES } from '@/content/themes';
 import { ALPHABET } from '@/content/alphabet';
+import { useBuddyLine } from '@/features/buddy/useBuddyLine';
 import { canTraceLetter } from '@/lib/entitlements';
 import { useProgressState } from '@/state/progress';
 import { speakArmenian } from '@/lib/speech';
+import { playSfx } from '@/lib/sfx';
+import { useSettings } from '@/state/settings';
 import { BigButton } from '@/ui/BigButton';
 import { WordArt } from '@/ui/WordArt';
 import { Buddy } from '@/ui/Buddy';
@@ -24,6 +27,8 @@ interface LetterDetailProps {
 
 /** Bottom sheet with one letter: huge upper+lower case, name, sound and an example word. */
 export function LetterDetail({ letter, onClose }: LetterDetailProps) {
+  const line = useBuddyLine();
+  const { soundEffects } = useSettings();
   const [tracing, setTracing] = useState(false);
   const [drawing, setDrawing] = useState(false);
   const [feedback, setFeedback] = useState<'success' | 'retry' | null>(null);
@@ -42,11 +47,11 @@ export function LetterDetail({ letter, onClose }: LetterDetailProps) {
                 <>
                   <Text style={styles.name}>Trace {letter.name}</Text>
                   <View style={styles.feedback}>
-                    {feedback === 'success' ? <Buddy mood="cheer" message="⭐ Wonderful tracing!" size={48} /> : null}
-                    {feedback === 'retry' ? <Text style={styles.sound}>Try once more! Clear and try again.</Text> : null}
+                    {feedback === 'success' ? <Buddy mood="cheer" message={line('tracing_success')} size={48} /> : null}
+                    {feedback === 'retry' ? <Text style={styles.sound}>{line('tracing_retry')}</Text> : null}
                   </View>
                   <TraceCanvas key={letter.upper} upper={letter.upper} lower={letter.lower} onDrawingChange={setDrawing} onEdit={() => setFeedback(null)} onDone={(score) => {
-                    if (isTraceGoodEnough(score)) { if (!traced.has(letter.upper)) { markTraced(letter.upper); void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {}); } setFeedback('success'); }
+                    if (isTraceGoodEnough(score)) { if (!traced.has(letter.upper)) { markTraced(letter.upper); void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {}); } playSfx('star', soundEffects); setFeedback('success'); }
                     else setFeedback('retry');
                   }} />
                   <BigButton label="Back to letter" color={colors.textMuted} onPress={() => { setTracing(false); setFeedback(null); }} />

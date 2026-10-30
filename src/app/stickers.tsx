@@ -1,7 +1,9 @@
+
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { StickerTile } from '@/features/stickers/StickerTile';
 import { wordIdForSticker } from '@/features/stickers/stickerArt';
+import { useBuddyLine } from '@/features/buddy/useBuddyLine';
 import { goBackOrHome } from '@/lib/navigation';
 import { useProgress } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
@@ -12,6 +14,7 @@ import { colors, font, spacing } from '@/ui/tokens';
 const MIN_SLOTS = 24;
 
 export default function Stickers() {
+  const line = useBuddyLine();
   const { state } = useProgress();
   const stickers = state.stickers;
   const slots = Math.max(MIN_SLOTS, Math.ceil(stickers.length / 3) * 3);
@@ -21,7 +24,7 @@ export default function Stickers() {
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>⭐ Sticker book</Text>
         {stickers.length === 0 ? (
-          <Buddy mood="think" message="Your book is empty. Finish a lesson to get your first sticker!" />
+          <Buddy mood="think" message={line('stickers_empty')} />
         ) : (
           <Text style={styles.sub} accessibilityLabel={`${stickers.length} of ${slots} stickers`}>
             {stickers.length} of {slots} stickers

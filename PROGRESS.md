@@ -54,6 +54,10 @@ locked theme, free words finished, 4th game of the day, 6th recording, full repo
       (/parent/report: every word, mastery stars, theme bars, 8 rolling weeks); paywall redesign with reason-tailored
       headline kept through the gate, Free vs Premium table; "free words finished" moment on home + lesson.
 
+### Wave 6 — delight & immersion (done)
+- [x] Original synthesized sound effects (correct, try, reward, flip, tap, star) with parent on/off.
+- [x] Buddy speaks Armenian + English (parent setting): 24 child-facing phrases, native-style imperatives.
+
 ### Wave 3 — differentiation
 - [x] Games area: memory match, listen & find, read it (feed spaced repetition).
 - [x] Letter tracing (5–8): trace canvas, forgiving score, traced stars, persisted. Reviewed and fixed (gesture capture, scribble guard, storage).
@@ -84,6 +88,8 @@ locked theme, free words finished, 4th game of the day, 6th recording, full repo
 ## Log
 
 (Times from git commits, Armenia time.)
+
+- 2026-10-30 ~17:40 (+04): Wave 6 merged (sounds, settings, Armenian Buddy phrases); 115 tests; Armenian mode verified.
 
 - 2026-10-30 16:48 (+04): Wave 5 (profiles + purchases interface) merged after data-safety review (12 findings
   fixed); 104 tests; live migration verified in preview. Native Swift-5 workaround tried and removed.

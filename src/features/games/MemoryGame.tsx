@@ -3,8 +3,11 @@ import { Animated, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions,
 import * as Haptics from 'expo-haptics';
 
 import type { Word } from '@/content/types';
+import { useBuddyLine } from '@/features/buddy/useBuddyLine';
 import { goBackOrHome } from '@/lib/navigation';
 import { stopSpeaking } from '@/lib/speech';
+import { playSfx } from '@/lib/sfx';
+import { useSettings } from '@/state/settings';
 import { stopWordAudio, useSpeakWord } from '@/state/recordings';
 import { useProgressActions } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
@@ -69,6 +72,8 @@ function FlipCard({ card, open, matched, disabled, onPress, width, height }: {
 }
 
 export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
+  const line = useBuddyLine();
+  const { soundEffects } = useSettings();
   const speak = useSpeakWord();
   const { recordGamePlayed } = useProgressActions();
   const counted = useRef(false);
@@ -90,8 +95,8 @@ export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
   const pairs = deck.length / 2;
   const won = pairs > 0 && matched.length === pairs;
   useEffect(() => {
-    if (won && !counted.current) { counted.current = true; recordGamePlayed(); }
-  }, [won, recordGamePlayed]);
+    if (won && !counted.current) { counted.current = true; recordGamePlayed(); playSfx('reward', soundEffects); }
+  }, [won, recordGamePlayed, soundEffects]);
 
   const gap = spacing.sm;
   const cardW = Math.max(TOUCH_MIN, Math.floor((width - spacing.md * 2 - gap * 2) / 3) - 1);
@@ -102,6 +107,7 @@ export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
   const flip = (card: MemoryCard) => {
     const t = turn.current;
     if (t.busy || t.flipped.length >= 2 || t.flipped.includes(card.key) || t.matched.includes(card.word.id)) return;
+    playSfx('flip', soundEffects);
     if (t.flipped.length === 0) {
       t.flipped = [card.key];
       setFlipped(t.flipped);
@@ -115,7 +121,7 @@ export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
     if (first.word.id === card.word.id) {
       void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       t.matched = [...t.matched, card.word.id];
-      if (t.matched.length === pairs && !counted.current) { counted.current = true; recordGamePlayed(); }
+      if (t.matched.length === pairs && !counted.current) { counted.current = true; recordGamePlayed(); playSfx('reward', soundEffects); }
       t.flipped = [];
       setMatched(t.matched);
       setFlipped([]);
@@ -146,10 +152,10 @@ export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
 
   if (won) {
     return (
-      <View style={styles.win}>
-        <Buddy mood="cheer" message={`You did it in ${moves} moves!`} />
+      <ScrollView contentContainerStyle={styles.win}>
+        <Buddy mood="cheer" message={line('game_memory_done', { moves })} />
         <GameDoneActions onPlayAgain={playAgain} />
-      </View>
+      </ScrollView>
     );
   }
 
@@ -206,5 +212,5 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   hy: { fontSize: font.heading, fontWeight: '800', color: colors.text },
-  win: { flex: 1, justifyContent: 'center', gap: spacing.lg },
+  win: { flexGrow: 1, justifyContent: 'center', gap: spacing.lg },
 });

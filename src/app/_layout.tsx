@@ -6,6 +6,7 @@ import { LettersProvider } from '@/state/letters';
 import { ProfilesProvider, useProfiles } from '@/state/profiles';
 import { ProgressProvider } from '@/state/progress';
 import { RecordingsProvider } from '@/state/recordings';
+import { SettingsProvider } from '@/state/settings';
 
 configureNotificationHandler();
 
@@ -33,11 +34,20 @@ function ProfileTree() {
             <Stack.Screen name="games/listen" />
             <Stack.Screen name="games/read" />
             <Stack.Screen name="parent/reminders" />
+            <Stack.Screen name="parent/settings" />
           </Stack>
         </LettersProvider>
     </ProgressProvider>;
 }
 
 export default function RootLayout() {
-  return <ProfilesProvider><RecordingsProvider><ProfileTree /></RecordingsProvider></ProfilesProvider>;
+  return (
+    <SettingsProvider>
+      <ProfilesProvider>
+        <RecordingsProvider>
+          <ProfileTree />
+        </RecordingsProvider>
+      </ProfilesProvider>
+    </SettingsProvider>
+  );
 }

@@ -4,12 +4,15 @@ import { AccessibilityInfo, Animated, Pressable, ScrollView, StyleSheet, Text, V
 import * as Haptics from 'expo-haptics';
 
 import { THEMES } from '@/content/themes';
+import { useBuddyLine } from '@/features/buddy/useBuddyLine';
 import { freeWordsFinished } from '@/features/paywall/offer';
 import type { Word } from '@/content/types';
 import { gameOptions, shuffled } from '@/features/lesson/game';
 import { initialLessonState, lessonReducer, type Step } from '@/features/lesson/lessonReducer';
 import { buildDailyLesson, type DailyLesson } from '@/lib/lesson';
 import { speakArmenian, stopSpeaking } from '@/lib/speech';
+import { playSfx } from '@/lib/sfx';
+import { useSettings } from '@/state/settings';
 import { stopWordAudio, useSpeakWord } from '@/state/recordings';
 import { useProgress } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
@@ -19,12 +22,15 @@ import { WordArt } from '@/ui/WordArt';
 import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 export default function LessonScreen() {
+  const line = useBuddyLine();
   const { ready } = useProgress();
-  if (!ready) return <Screen><Buddy message="Getting your lesson ready…" /></Screen>;
+  if (!ready) return <Screen><Buddy message={line('lesson_loading')} /></Screen>;
   return <ReadyLesson />;
 }
 
 function ReadyLesson() {
+  const line = useBuddyLine();
+  const { soundEffects } = useSettings();
   const { state, recordAnswer, completeLesson } = useProgress();
   const [lesson] = useState<DailyLesson | null>(() => buildDailyLesson({
     themes: THEMES, words: state.words, isPremium: state.isPremium, now: Date.now(),
@@ -68,9 +74,10 @@ function ReadyLesson() {
 
   useEffect(() => {
     if (step !== 'reward') return;
+    playSfx('reward', soundEffects);
     burst.setValue(0);
     Animated.spring(burst, { toValue: 1, friction: 5, useNativeDriver: true }).start();
-  }, [step, burst]);
+  }, [step, burst, soundEffects]);
 
   function nextStep() {
     stopSpeaking();
@@ -81,6 +88,7 @@ function ReadyLesson() {
   function answer(word: Word) {
     if (!currentRound || answerLocked.current || feedbackPending) return;
     if (word.id !== currentRound.id) {
+      playSfx('try', soundEffects);
       wrongThisRound.current = true;
       dispatch({ type: 'WRONG', round: roundIndex });
       AccessibilityInfo.announceForAccessibility('Try again. Tap another picture.');
@@ -94,6 +102,7 @@ function ReadyLesson() {
       return;
     }
     answerLocked.current = true;
+    playSfx('correct', soundEffects);
     const firstTry = !wrongThisRound.current;
     dispatch({ type: 'CORRECT', round: roundIndex, selectedId: word.id });
     recordAnswer(currentRound.id, firstTry);
@@ -123,10 +132,10 @@ function ReadyLesson() {
   if (lesson === null) {
     return (
       <Screen>
-        <View style={styles.centered}>
-          {!state.isPremium && freeWordsFinished(state) ? <><Buddy mood="cheer" message="You learned all the free words! 🎉" /><BigButton label="Ask a grown-up for 80 more words" onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'themes' } })} /></> : <Buddy message="All caught up! Come back tomorrow." />}
+        <ScrollView contentContainerStyle={styles.centered}>
+          {!state.isPremium && freeWordsFinished(state) ? <><Buddy mood="cheer" message={line('free_words_finished')} /><BigButton label="Ask a grown-up for 80 more words" onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'themes' } })} /></> : <Buddy message={line('all_caught_up')} />}
           <BigButton label="Back home" onPress={() => router.replace('/')} />
-        </View>
+        </ScrollView>
       </Screen>
     );
   }
@@ -146,13 +155,13 @@ function ReadyLesson() {
 
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         {step === 'hello' && <>
-          <Buddy message={`Hello${state.childName ? `, ${state.childName}` : ''}! ${lesson.newWords.length ? `Let's learn ${lesson.newWords.length} new words!` : "Let's practice our words!"}`} />
+          <Buddy message={`${state.childName ? line('greeting', { name: state.childName }) : line('greeting_anon')}\n${lesson.newWords.length ? line('lesson_new_words', { count: lesson.newWords.length }) : line('lesson_practice')}`} />
           <Text style={styles.heroEmoji}>{lesson.theme.emoji}</Text>
           <Text style={styles.heading}>{lesson.theme.titleEn}</Text>
         </>}
 
         {step === 'new' && card && <>
-          <Buddy message="Tap the card to hear the word!" />
+          <Buddy message={line('lesson_tap_card')} />
           <Text style={styles.counter}>Word {cardIndex + 1} of {lesson.newWords.length}</Text>
           <Animated.View style={{ width: '100%', opacity: cardEntrance, transform: [{ translateY: cardEntrance.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }] }}><Pressable accessibilityRole="button" accessibilityLabel={`Hear ${card.en} in Armenian`} onPress={() => speakWordAudio(card)} style={styles.wordCard}>
             <WordArt wordId={card.id} emoji={card.emoji} size={160} />
@@ -163,7 +172,7 @@ function ReadyLesson() {
         </>}
 
         {step === 'game' && currentRound && <>
-          <Buddy message={hadWrongTap ? 'Good try! Tap another picture.' : 'Find the picture!'} mood={hadWrongTap ? 'cheer' : 'happy'} />
+          <Buddy message={line(hadWrongTap ? 'lesson_good_try' : 'lesson_find_picture')} mood={hadWrongTap ? 'cheer' : 'happy'} />
           <Text style={styles.counter}>Picture {roundIndex + 1} of {rounds.length}</Text>
           <Pressable accessibilityRole="button" accessibilityLabel={`Hear ${currentRound.hy} again`} style={styles.prompt} onPress={() => speakWordAudio(currentRound)}>
             <Text style={styles.promptWord}>🔊 {currentRound.hy}</Text>
@@ -183,7 +192,7 @@ function ReadyLesson() {
         </>}
 
         {step === 'song' && <>
-          <Buddy message="Let's hear our little song! Tap a line." />
+          <Buddy message={line('lesson_song')} />
           <Text style={styles.heading}>{lesson.song.title}</Text>
           {lesson.song.lines.map((line, index) => (
             <Pressable key={index} accessibilityRole="button" accessibilityLabel={`Hear song line ${index + 1}: ${line.hy}`} onPress={() => { dispatch({ type: 'SONG_LINE', index }); stopWordAudio(); speakArmenian(line.hy); }} style={[styles.songLine, songLineIndex === index && styles.songLineActive]}>
@@ -194,7 +203,7 @@ function ReadyLesson() {
         </>}
 
         {step === 'speak' && speakWord && <>
-          <Buddy message="My turn, then your turn! Say the word aloud." />
+          <Buddy message={line('lesson_say_it')} />
           <Text style={styles.counter}>Say it {speakIndex + 1} of {lesson.newWords.length}</Text>
           <Pressable accessibilityRole="button" accessibilityLabel={`Hear ${speakWord.en} again`} onPress={() => speakWordAudio(speakWord)} style={styles.wordCard}>
             <WordArt wordId={speakWord.id} emoji={speakWord.emoji} size={160} />
@@ -204,7 +213,7 @@ function ReadyLesson() {
         </>}
 
         {step === 'reward' && <>
-          <Buddy message="Amazing work! You did it!" mood="cheer" />
+          <Buddy message={line('lesson_done')} mood="cheer" />
           <Animated.View style={{ transform: [{ scale: burst }] }}><Text style={styles.heroEmoji}>⭐</Text></Animated.View>
           <View style={styles.burst}>{['✨', '🌟', '✨', '⭐', '✨'].map((item, index) =>
             <Animated.Text key={index} style={[styles.burstStar, { opacity: burst, transform: [{ translateY: burst.interpolate({ inputRange: [0, 1], outputRange: [12, index % 2 ? -16 : 16] }) }] }]}>{item}</Animated.Text>)}</View>
@@ -219,9 +228,10 @@ function ReadyLesson() {
       {step !== 'game' && <View style={styles.footer}>
         {step === 'hello' && <BigButton label="Let's go!" onPress={nextStep} />}
         {step === 'new' && <BigButton label="Next" onPress={() => {
+          playSfx('tap', soundEffects);
           dispatch({ type: 'NEXT_CARD', count: lesson.newWords.length, expected: cardIndex, expectedStep: stepIndex, steps: steps.length });
         }} />}
-        {step === 'song' && <BigButton label="Next" onPress={nextStep} />}
+        {step === 'song' && <BigButton label="Next" onPress={() => { playSfx('tap', soundEffects); nextStep(); }} />}
         {step === 'speak' && <BigButton label="I said it!" onPress={() => {
           dispatch({ type: 'NEXT_SPEAK', count: lesson.newWords.length, expected: speakIndex, expectedStep: stepIndex, steps: steps.length });
         }} />}
@@ -239,7 +249,7 @@ const styles = StyleSheet.create({
   dot: { width: 12, height: 12, borderRadius: radius.round, backgroundColor: colors.border },
   dotActive: { backgroundColor: colors.primary },
   content: { flexGrow: 1, alignItems: 'center', gap: spacing.lg, paddingVertical: spacing.lg },
-  centered: { flex: 1, justifyContent: 'center', gap: spacing.xl },
+  centered: { flexGrow: 1, justifyContent: 'center', gap: spacing.xl },
   heading: { color: colors.text, fontSize: font.title, fontWeight: '800', textAlign: 'center' },
   heroEmoji: { fontSize: 112, textAlign: 'center' },
   counter: { color: colors.textMuted, fontSize: font.body, fontWeight: '700' },

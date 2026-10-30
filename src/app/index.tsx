@@ -1,3 +1,4 @@
+
 import { Redirect, router, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, AppState, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -9,6 +10,7 @@ import { currentStreak } from '@/lib/streak';
 import { useProgress } from '@/state/progress';
 import { useProfiles } from '@/state/profiles';
 import { ProfileAvatar } from '@/features/profiles/ProfileAvatar';
+import { useBuddyLine } from '@/features/buddy/useBuddyLine';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
 import { freeWordsFinished } from '@/features/paywall/offer';
@@ -16,6 +18,7 @@ import { Screen } from '@/ui/Screen';
 import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 export default function Home() {
+  const line = useBuddyLine();
   const { state, ready } = useProgress();
   const { active } = useProfiles();
   const [now, setNow] = useState(() => Date.now());
@@ -63,9 +66,9 @@ export default function Home() {
         </View>
 
         {active ? <Pressable accessibilityRole="button" accessibilityLabel={`Switch child, current child ${active.name}`} onPress={() => router.push('/profiles')} style={styles.profile}><ProfileAvatar wordId={active.avatarWordId} size={56} /><Text style={styles.profileName}>{active.name} ▾</Text></Pressable> : null}
-        <Buddy message={`Բարև, ${state.childName}!`} />
+        <Buddy message={line('greeting', { name: state.childName })} />
 
-        {!state.isPremium && freeWordsFinished(state) ? <View style={styles.freeDone}><Buddy mood="cheer" message="You learned all the free words! 🎉" /><BigButton label="Ask a grown-up for 80 more words" onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'themes' } })} /></View> : null}
+        {!state.isPremium && freeWordsFinished(state) ? <View style={styles.freeDone}><Buddy mood="cheer" message={line('free_words_finished')} /><BigButton label="Ask a grown-up for 80 more words" onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'themes' } })} /></View> : null}
 
         <BigButton label="Start today's lesson" onPress={() => router.push('/lesson')} style={styles.start} />
 
