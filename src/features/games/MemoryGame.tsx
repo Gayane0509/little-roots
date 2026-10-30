@@ -8,6 +8,7 @@ import { stopSpeaking } from '@/lib/speech';
 import { stopWordAudio, useSpeakWord } from '@/state/recordings';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
+import { WordArt } from '@/ui/WordArt';
 import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 import { buildMemoryDeck, type MemoryCard } from './logic';
@@ -56,7 +57,7 @@ function FlipCard({ card, open, matched, disabled, onPress, width, height }: {
         ]}
       >
         {card.kind === 'emoji' ? (
-          <Text style={styles.emoji}>{card.word.emoji}</Text>
+          <WordArt wordId={card.word.id} emoji={card.word.emoji} size={Math.min(72, width - spacing.sm * 2 - 6, height - spacing.sm * 2 - 6)} />
         ) : (
           <Text style={styles.hy} adjustsFontSizeToFit numberOfLines={1}>{card.word.hy}</Text>
         )}
@@ -196,7 +197,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     elevation: 8,
   },
-  emoji: { fontSize: 44 },
   hy: { fontSize: font.heading, fontWeight: '800', color: colors.text },
   win: { flex: 1, justifyContent: 'center', gap: spacing.lg },
 });

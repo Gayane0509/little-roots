@@ -9,6 +9,7 @@ import { useProgress } from '@/state/progress';
 import { useSpeakWord } from '@/state/recordings';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
+import { WordArt } from '@/ui/WordArt';
 import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 export default function ThemeDetail() {
@@ -70,7 +71,7 @@ function SeenCard({ word, onPress }: { word: Word; onPress: () => void }) {
       onPress={onPress}
       style={({ pressed }) => [styles.card, { transform: [{ scale: pressed ? 0.95 : 1 }] }]}
     >
-      <Text style={styles.cardEmoji}>{word.emoji}</Text>
+      <WordArt wordId={word.id} emoji={word.emoji} size={84} />
       <Text style={styles.cardHy} numberOfLines={1} adjustsFontSizeToFit>
         {word.hy}
       </Text>

@@ -6,7 +6,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 const [theme, out = `art-${theme}.png`] = process.argv.slice(2);
 const src = readFileSync(new URL(`../src/art/words/${theme}.ts`, import.meta.url), 'utf8');
 // Theme files are plain `slug: \`<svg ...>\`` entries; evaluate the object literal.
-const body = src.slice(src.indexOf('{', src.indexOf('art')), src.lastIndexOf('}') + 1);
+const body = src.slice(src.indexOf('= {') + 2, src.lastIndexOf('}') + 1);
 const art = Function(`return (${body});`)();
 const names = Object.keys(art);
 const cell = 200;

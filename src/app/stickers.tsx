@@ -1,6 +1,7 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { StickerTile } from '@/features/stickers/StickerTile';
+import { wordIdForSticker } from '@/features/stickers/stickerArt';
 import { goBackOrHome } from '@/lib/navigation';
 import { useProgress } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
@@ -28,7 +29,7 @@ export default function Stickers() {
         )}
         <View style={styles.grid}>
           {Array.from({ length: slots }, (_, i) => (
-            <StickerTile key={i} emoji={stickers[i] ?? null} index={i} />
+            <StickerTile key={i} emoji={stickers[i] ?? null} index={i} wordId={stickers[i] ? wordIdForSticker(stickers[i]) : undefined} />
           ))}
         </View>
         <BigButton label="Back" color={colors.textMuted} onPress={goBackOrHome} />

@@ -40,7 +40,7 @@ Free: Family + Food themes. Paid: everything else. Offline, no ads, no accounts,
 - [ ] Verify on iOS simulator (Expo Go / dev build) incl. large text sizes.
 
 ### Wave 2.5 — illustrations (owner request: replace emoji with real pictures)
-- [ ] Hand-drawn SVG illustrations for all 96 words (src/art, style in src/art/STYLE.md, QA via
+- [x] Hand-drawn SVG illustrations for all 96 words (src/art, style in src/art/STYLE.md, QA via
       `node scripts/render-art.mjs <theme>`), WordArt component with emoji fallback, used in lesson, games, theme pages,
       stickers, parent lists.
 
@@ -69,6 +69,9 @@ Free: Family + Food themes. Paid: everything else. Offline, no ads, no accounts,
 - Disk was full (freed ~18 GB of caches with owner approval); keep an eye on free space for native builds.
 
 ## Log
+
+- 2026-10-30 ~18:45 (+04): 96 original SVG illustrations (reviewed sheet by sheet; colours redone twice → crayons;
+  horse + nose redrawn), wired into lesson, games, theme pages, stickers, letters, parent lists. 63 tests.
 
 - 2026-10-30 ~17:40 (+04): Wave 2 merged after cross-review (12 findings fixed): games, reminders, reliability; 59 tests.
   CI green on GitHub for Wave 1. Owner asked for real pictures instead of emoji → Wave 2.5.

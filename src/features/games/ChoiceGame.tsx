@@ -9,6 +9,7 @@ import { useProgressActions } from '@/state/progress';
 import { stopWordAudio, useSpeakWord } from '@/state/recordings';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
+import { WordArt } from '@/ui/WordArt';
 import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 import { buildChoiceRounds, type ChoiceRound } from './logic';
@@ -138,7 +139,7 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
         <BigButton label="🔊 Hear it again" onPress={() => speak(round.answer)} disabled={solved} />
       ) : (
         <View style={styles.picture} accessibilityLabel="Picture to read">
-          <Text style={styles.bigEmoji}>{round.answer.emoji}</Text>
+          <WordArt wordId={round.answer.id} emoji={round.answer.emoji} size={128} />
         </View>
       )}
 
@@ -168,7 +169,7 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
                 ]}
               >
                 {mode === 'listen' ? (
-                  <Text style={styles.optionEmoji}>{option.emoji}</Text>
+                  <WordArt wordId={option.id} emoji={option.emoji} size={80} />
                 ) : (
                   <Text style={styles.optionWord} adjustsFontSizeToFit numberOfLines={1}>{option.hy}</Text>
                 )}
@@ -196,7 +197,6 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     paddingVertical: spacing.lg,
   },
-  bigEmoji: { fontSize: 110 },
   options: { gap: spacing.md },
   grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
   gridItem: { width: '48%', marginBottom: spacing.md },
@@ -213,7 +213,6 @@ const styles = StyleSheet.create({
   },
   wrong: { borderColor: colors.danger, backgroundColor: '#FDE8E8', opacity: 0.6 },
   right: { borderColor: colors.success, backgroundColor: '#E3F7EC' },
-  optionEmoji: { fontSize: 64 },
   optionWord: { fontSize: font.word, fontWeight: '800', color: colors.text },
   check: { position: 'absolute', top: spacing.xs, right: spacing.sm, fontSize: font.heading },
   done: { flex: 1, justifyContent: 'center', gap: spacing.lg },

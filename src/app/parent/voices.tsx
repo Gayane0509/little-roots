@@ -10,6 +10,7 @@ import { useArmenianVoiceAvailable } from '@/lib/speech';
 import { useRecordings, useSpeakWord } from '@/state/recordings';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
+import { WordArt } from '@/ui/WordArt';
 import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 export default function FamilyVoicesScreen() {
@@ -80,7 +81,7 @@ export default function FamilyVoicesScreen() {
       {THEMES.map((theme) => <View key={theme.id} style={styles.section}>
         <Text style={styles.theme}>{theme.emoji} {theme.titleEn}</Text>
         {theme.words.map((word) => <View key={word.id} style={styles.row}>
-          <View style={styles.word}><Text style={styles.wordHy}>{word.emoji} {word.hy}</Text><Text style={styles.wordEn}>{word.en}</Text></View>
+          <View style={styles.word}><View style={styles.wordTitle}><WordArt wordId={word.id} emoji={word.emoji} size={42} /><Text style={styles.wordHy}>{word.hy}</Text></View><Text style={styles.wordEn}>{word.en}</Text></View>
           <View style={styles.buttons}>
             <BigButton label="Play" onPress={() => speakWord(word)} disabled={!!recordingId || busy} style={styles.button} />
             <BigButton label={recordingId === word.id ? 'Stop' : uris[word.id] ? 'Re-record' : 'Record'}
@@ -106,6 +107,7 @@ const styles = StyleSheet.create({
   theme: { color: colors.text, fontSize: font.heading, fontWeight: '800' },
   row: { padding: spacing.md, backgroundColor: colors.surface, borderRadius: radius.md, gap: spacing.sm },
   word: { gap: spacing.xs },
+  wordTitle: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   wordHy: { color: colors.text, fontSize: font.heading, fontWeight: '700' },
   wordEn: { color: colors.textMuted, fontSize: font.body },
   buttons: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },

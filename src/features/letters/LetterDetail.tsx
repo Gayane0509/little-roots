@@ -1,8 +1,10 @@
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import type { Letter } from '@/content/alphabet';
+import { THEMES } from '@/content/themes';
 import { speakArmenian } from '@/lib/speech';
 import { BigButton } from '@/ui/BigButton';
+import { WordArt } from '@/ui/WordArt';
 import { colors, font, radius, spacing } from '@/ui/tokens';
 
 interface LetterDetailProps {
@@ -12,6 +14,7 @@ interface LetterDetailProps {
 
 /** Bottom sheet with one letter: huge upper+lower case, name, sound and an example word. */
 export function LetterDetail({ letter, onClose }: LetterDetailProps) {
+  const exampleWord = letter && THEMES.flatMap((theme) => theme.words).find((word) => word.hy === letter.example.hy);
   return (
     <Modal visible={letter !== null} transparent animationType="slide" onRequestClose={onClose}>
       <View style={styles.backdrop}>
@@ -26,7 +29,7 @@ export function LetterDetail({ letter, onClose }: LetterDetailProps) {
               <Text style={styles.sound}>Sounds like: {letter.sound}</Text>
 
               <View style={styles.example} accessibilityLabel={`${letter.example.hy}, ${letter.example.translit}, ${letter.example.en}`}>
-                <Text style={styles.exampleEmoji}>{letter.example.emoji}</Text>
+                {exampleWord ? <WordArt wordId={exampleWord.id} emoji={letter.example.emoji} size={70} /> : <Text style={styles.exampleEmoji}>{letter.example.emoji}</Text>}
                 <View style={styles.exampleTexts}>
                   <Text style={styles.exampleHy}>{letter.example.hy}</Text>
                   <Text style={styles.exampleSub}>

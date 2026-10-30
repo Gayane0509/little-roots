@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { WordArt } from '@/ui/WordArt';
 import { colors, radius, TOUCH_MIN } from '@/ui/tokens';
 
 interface StickerTileProps {
   emoji: string | null;
   index: number;
+  wordId?: string;
 }
 
 /** One slot of the sticker book: a bouncy sticker, or an empty dotted slot. */
-export function StickerTile({ emoji, index }: StickerTileProps) {
+export function StickerTile({ emoji, index, wordId }: StickerTileProps) {
   const [scale] = useState(() => new Animated.Value(emoji ? 0.4 : 1));
 
   useEffect(() => {
@@ -29,7 +31,7 @@ export function StickerTile({ emoji, index }: StickerTileProps) {
   return (
     <Pressable accessibilityRole="button" accessibilityLabel={`Sticker ${emoji}`} onPress={bounce} style={styles.slot}>
       <Animated.View style={[styles.tile, styles.filled, { transform: [{ scale }] }]}>
-        <Text style={styles.emoji}>{emoji}</Text>
+        {wordId ? <WordArt wordId={wordId} emoji={emoji} size={76} /> : <Text style={styles.emoji}>{emoji}</Text>}
       </Animated.View>
     </Pressable>
   );

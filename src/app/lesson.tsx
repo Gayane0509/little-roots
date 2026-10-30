@@ -14,6 +14,7 @@ import { useProgress } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
 import { Screen } from '@/ui/Screen';
+import { WordArt } from '@/ui/WordArt';
 import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 export default function LessonScreen() {
@@ -153,7 +154,7 @@ function ReadyLesson() {
           <Buddy message="Tap the card to hear the word!" />
           <Text style={styles.counter}>Word {cardIndex + 1} of {lesson.newWords.length}</Text>
           <Animated.View style={{ width: '100%', opacity: cardEntrance, transform: [{ translateY: cardEntrance.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }] }}><Pressable accessibilityRole="button" accessibilityLabel={`Hear ${card.en} in Armenian`} onPress={() => speakWordAudio(card)} style={styles.wordCard}>
-            <Text style={styles.cardEmoji}>{card.emoji}</Text>
+            <WordArt wordId={card.id} emoji={card.emoji} size={160} />
             <Text style={styles.armenian}>{card.hy}</Text>
             <Text style={styles.translit}>{card.translit}</Text>
             <Text style={styles.english}>{card.en}</Text>
@@ -172,7 +173,7 @@ function ReadyLesson() {
                 <Pressable accessibilityRole="button" accessibilityLabel={`Picture ${index + 1} of ${options.length}`}
                   accessibilityHint="Double tap to choose this picture" disabled={feedbackPending}
                   onPress={() => answer(word)} style={[styles.option, selectedId === word.id && styles.optionCorrect]}>
-                  <Text style={styles.optionEmoji}>{word.emoji}</Text>
+                  <WordArt wordId={word.id} emoji={word.emoji} size={88} />
                   {selectedId === word.id && <Text style={styles.check}>✓</Text>}
                 </Pressable>
               </Animated.View>
@@ -195,7 +196,7 @@ function ReadyLesson() {
           <Buddy message="My turn, then your turn! Say the word aloud." />
           <Text style={styles.counter}>Say it {speakIndex + 1} of {lesson.newWords.length}</Text>
           <Pressable accessibilityRole="button" accessibilityLabel={`Hear ${speakWord.en} again`} onPress={() => speakWordAudio(speakWord)} style={styles.wordCard}>
-            <Text style={styles.cardEmoji}>{speakWord.emoji}</Text>
+            <WordArt wordId={speakWord.id} emoji={speakWord.emoji} size={160} />
             <Text style={styles.armenian}>{speakWord.hy}</Text>
             <Text style={styles.translit}>{speakWord.translit}</Text>
           </Pressable>
@@ -207,7 +208,10 @@ function ReadyLesson() {
           <View style={styles.burst}>{['✨', '🌟', '✨', '⭐', '✨'].map((item, index) =>
             <Animated.Text key={index} style={[styles.burstStar, { opacity: burst, transform: [{ translateY: burst.interpolate({ inputRange: [0, 1], outputRange: [12, index % 2 ? -16 : 16] }) }] }]}>{item}</Animated.Text>)}</View>
           <Text style={styles.heading}>You earned {3 + firstTryCorrect} stars!</Text>
-          {showNewSticker && lesson.newWords[0] && <Text style={styles.sticker}>New sticker: {lesson.newWords[0].emoji}</Text>}
+          {showNewSticker && lesson.newWords[0] && <View style={styles.stickerRow}>
+            <Text style={styles.sticker}>New sticker:</Text>
+            <WordArt wordId={lesson.newWords[0].id} emoji={lesson.newWords[0].emoji} size={96} />
+          </View>}
         </>}
       </ScrollView>
 
@@ -239,7 +243,6 @@ const styles = StyleSheet.create({
   heroEmoji: { fontSize: 112, textAlign: 'center' },
   counter: { color: colors.textMuted, fontSize: font.body, fontWeight: '700' },
   wordCard: { width: '100%', minHeight: 300, backgroundColor: colors.surface, borderRadius: radius.lg, borderWidth: 2, borderColor: colors.border, alignItems: 'center', justifyContent: 'center', padding: spacing.lg, gap: spacing.sm },
-  cardEmoji: { fontSize: 88 },
   armenian: { color: colors.text, fontSize: font.word, fontWeight: '800', textAlign: 'center' },
   translit: { color: colors.textMuted, fontSize: font.heading, textAlign: 'center' },
   english: { color: colors.text, fontSize: font.body, textAlign: 'center' },
@@ -247,7 +250,6 @@ const styles = StyleSheet.create({
   promptWord: { color: colors.text, fontSize: font.title, fontWeight: '800', textAlign: 'center' },
   options: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: spacing.md },
   option: { width: '100%', minHeight: 120, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.surface, borderRadius: radius.md, borderWidth: 2, borderColor: colors.border },
-  optionEmoji: { fontSize: 72 },
   optionCorrect: { borderColor: colors.success, backgroundColor: '#E9F8EF' },
   check: { position: 'absolute', right: spacing.md, top: spacing.sm, color: colors.success, fontSize: 34, fontWeight: '800' },
   burst: { flexDirection: 'row', gap: spacing.sm },
@@ -257,5 +259,6 @@ const styles = StyleSheet.create({
   songHy: { color: colors.text, fontSize: font.heading, fontWeight: '700', textAlign: 'center' },
   songEn: { color: colors.textMuted, fontSize: font.small, textAlign: 'center' },
   sticker: { color: colors.text, fontSize: font.heading, fontWeight: '700' },
+  stickerRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   footer: { paddingVertical: spacing.md },
 });
