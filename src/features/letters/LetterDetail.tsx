@@ -46,12 +46,13 @@ export function LetterDetail({ letter, onClose }: LetterDetailProps) {
             <ScrollView scrollEnabled={!drawing} contentContainerStyle={styles.content}>
               {tracing ? (
                 <>
-                  <Text style={styles.name}>Trace {letter.name}</Text>
+                  <Text style={styles.name} accessibilityRole="header">Trace {letter.name}</Text>
                   <View style={styles.feedback}>
                     {feedback === 'success' ? <Buddy mood="cheer" message={line('tracing_success')} size={48} /> : null}
                     {feedback === 'retry' ? <Text style={styles.sound}>{line('tracing_retry')}</Text> : null}
                   </View>
                   <TraceCanvas key={letter.upper} upper={letter.upper} lower={letter.lower} onDrawingChange={setDrawing} onEdit={() => setFeedback(null)} onDone={(score) => {
+                    if (!canTraceLetter(state.isPremium, ALPHABET.findIndex((item) => item.upper === letter.upper))) return;
                     if (isTraceGoodEnough(score)) { if (!traced.has(letter.upper)) { markTraced(letter.upper); void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {}); } playSfx('star', soundEffects); setFeedback('success'); }
                     else setFeedback('retry');
                   }} />
@@ -61,11 +62,11 @@ export function LetterDetail({ letter, onClose }: LetterDetailProps) {
               <Text style={styles.letters} accessibilityLabel={`Letter ${letter.name}`}>
                 {letter.upper} {letter.lower}
               </Text>
-              <Text style={styles.name}>{letter.name}</Text>
+              <Text style={styles.name} accessibilityRole="header">{letter.name}</Text>
               <Text style={styles.sound}>Sounds like: {letter.sound}</Text>
 
               <View style={styles.example} accessibilityLabel={`${letter.example.hy}, ${letter.example.translit}, ${letter.example.en}`}>
-                {exampleWord ? <WordArt wordId={exampleWord.id} emoji={letter.example.emoji} size={70} /> : <Text style={styles.exampleEmoji}>{letter.example.emoji}</Text>}
+                <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">{exampleWord ? <WordArt wordId={exampleWord.id} emoji={letter.example.emoji} size={70} /> : <Text style={styles.exampleEmoji}>{letter.example.emoji}</Text>}</View>
                 <View style={styles.exampleTexts}>
                   <Text style={styles.exampleHy}>{letter.example.hy}</Text>
                   <Text style={styles.exampleSub}>
@@ -110,11 +111,12 @@ const styles = StyleSheet.create({
   },
   content: { padding: spacing.lg, gap: spacing.md },
   feedback: { minHeight: 56, justifyContent: 'center' },
-  letters: { fontSize: 104, lineHeight: 124, fontWeight: '800', color: colors.primaryDark, textAlign: 'center' },
+  letters: { fontSize: 104, fontWeight: '800', color: colors.primaryText, textAlign: 'center' },
   name: { fontSize: font.title, fontWeight: '800', color: colors.text, textAlign: 'center' },
   sound: { fontSize: font.body, color: colors.textMuted, textAlign: 'center' },
   example: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     alignItems: 'center',
     gap: spacing.md,
     backgroundColor: colors.surface,

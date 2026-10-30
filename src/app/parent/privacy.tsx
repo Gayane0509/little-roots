@@ -14,7 +14,7 @@ export default function Privacy() {
   return (
     <Screen>
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.title}>🔒 Privacy</Text>
+        <View style={styles.titleRow}><View accessible={false} importantForAccessibility="no-hide-descendants" accessibilityElementsHidden><Text style={styles.title}>🔒</Text></View><Text accessibilityRole="header" style={styles.title}>Privacy</Text></View>
         {PRIVACY_SECTIONS.map((section) => (
           <View key={section.heading} style={styles.card}>
             <Text style={styles.heading} accessibilityRole="header">
@@ -35,7 +35,7 @@ export default function Privacy() {
 
 const styles = StyleSheet.create({
   content: { gap: spacing.md, paddingBottom: spacing.xl },
-  title: { fontSize: font.title, fontWeight: '800', color: colors.text },
+  titleRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm }, title: { fontSize: font.title, fontWeight: '800', color: colors.text },
   card: { backgroundColor: colors.surface, borderRadius: radius.md, padding: spacing.md, gap: spacing.sm },
   heading: { fontSize: font.heading, fontWeight: '800', color: colors.text },
   body: { fontSize: font.body, color: colors.text },

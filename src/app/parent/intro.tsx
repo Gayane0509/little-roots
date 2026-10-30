@@ -40,14 +40,14 @@ export default function ParentIntroScreen() {
           </Pressable>
         </View>
 
-        <View style={styles.dots} accessibilityLabel={`Step ${stepIndex + 1} of ${INTRO_STEPS.length}`}>
+        <View style={styles.dots} accessible accessibilityLabel={`Step ${stepIndex + 1} of ${INTRO_STEPS.length}`}>
           {INTRO_STEPS.map((item, index) => (
             <View key={item.id} style={[styles.dot, index === stepIndex && styles.activeDot]} />
           ))}
         </View>
 
         <View style={styles.card}>
-          {step.emoji ? <Text style={styles.emoji} accessibilityLabel={step.title}>{step.emoji}</Text> : null}
+          {step.emoji ? <View accessible={false} importantForAccessibility="no-hide-descendants" accessibilityElementsHidden><Text style={styles.emoji}>{step.emoji}</Text></View> : null}
           <Text style={styles.title} accessibilityRole="header">{step.title}</Text>
           <Text style={styles.body}>{step.body}</Text>
           {step.id === 'daily-reminder' && Platform.OS === 'web' ? (
@@ -70,15 +70,15 @@ const styles = StyleSheet.create({
   topRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   counter: { color: colors.textMuted, fontSize: font.body, fontWeight: '700' },
   skip: { minHeight: TOUCH_MIN, minWidth: TOUCH_MIN, justifyContent: 'center', alignItems: 'center' },
-  skipText: { color: colors.primaryDark, fontSize: font.body, fontWeight: '700' },
+  skipText: { color: colors.primaryText, fontSize: font.body, fontWeight: '700' },
   dots: { flexDirection: 'row', justifyContent: 'center', gap: spacing.sm },
   dot: { width: spacing.sm, height: spacing.sm, borderRadius: radius.round, backgroundColor: colors.border },
   activeDot: { backgroundColor: colors.primary, width: spacing.lg },
   card: { gap: spacing.md, padding: spacing.lg, borderRadius: radius.md, backgroundColor: colors.surface },
   emoji: { fontSize: font.word, textAlign: 'center' },
   title: { color: colors.text, fontSize: font.title, fontWeight: '800' },
-  body: { color: colors.text, fontSize: font.body, lineHeight: 27 },
-  note: { color: colors.textMuted, fontSize: font.body, lineHeight: 27 },
+  body: { color: colors.text, fontSize: font.body },
+  note: { color: colors.textMuted, fontSize: font.body },
   actions: { flexDirection: 'row', gap: spacing.sm },
   action: { flex: 1 },
 });

@@ -64,10 +64,10 @@ export default function ParentArea() {
   return (
     <Screen>
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-        <Text style={styles.title}>Parents</Text>
+        <Text accessibilityRole="header" style={styles.title}>Parents</Text>
         <StorageErrorBanner />
 
-        <Text style={styles.heading}>This week</Text>
+        <Text accessibilityRole="header" style={styles.heading}>This week</Text>
         <View style={styles.stats}>
           <Stat label="Days active" value={`${report.daysActive}/7`} />
           <Stat label="New words" value={String(report.newWordIds.length)} />
@@ -77,14 +77,14 @@ export default function ParentArea() {
 
         <WeeklyShareCard childName={active?.name ?? 'My child'} report={report} />
 
-        <Text style={styles.heading}>Practice at home</Text>
+        <Text accessibilityRole="header" style={styles.heading}>Practice at home</Text>
         {practice.length === 0 ? (
           <Text style={styles.muted}>Nothing yet. Finish a lesson to see words here.</Text>
         ) : (
           practice.map((w) => <PracticeRow key={w.id} word={w} />)
         )}
 
-        <Text style={styles.heading}>Full progress</Text>
+        <Text accessibilityRole="header" style={styles.heading}>Full progress</Text>
         {!canSeeFullReport(state.isPremium) ? <View style={styles.teaser}>
           <Text style={styles.body}>See every word your child learns, by theme and week.</Text>
           {teaserWords.map((word) => <View key={word.id} style={styles.teaserRow}><WordArt wordId={word.id} emoji={word.emoji} size={32} /><Text style={styles.body}>{word.hy} · {word.en}</Text></View>)}
@@ -92,9 +92,9 @@ export default function ParentArea() {
         </View> : null}
         <BigButton label="📈 Full progress" onPress={() => router.push(canSeeFullReport(state.isPremium) ? '/parent/report' : { pathname: '/parent/paywall', params: { reason: 'report' } })} />
 
-        <Text style={styles.heading}>Children</Text>
+        <Text accessibilityRole="header" style={styles.heading}>Children</Text>
         <BigButton label="Manage children" onPress={() => router.push('/parent/children')} />
-        <Text style={styles.heading}>Subscription</Text>
+        <Text accessibilityRole="header" style={styles.heading}>Subscription</Text>
         <Text style={styles.body}>{state.isPremium ? 'Premium is active.' : 'Free plan: Family and Food.'}</Text>
         <BigButton
           label={state.isPremium ? 'Manage Premium' : 'See Premium'}
@@ -102,25 +102,25 @@ export default function ParentArea() {
           onPress={() => router.push('/parent/paywall')}
         />
 
-        <Text style={styles.heading}>Family voice</Text>
+        <Text accessibilityRole="header" style={styles.heading}>Family voice</Text>
         <Text style={styles.body}>Record words in your own voice so your child hears family.</Text>
         <BigButton label="🎙️ Family voice" color={colors.success} onPress={() => router.push('/parent/voices')} />
 
         {Platform.OS !== 'web' ? (
           <>
-            <Text style={styles.heading}>Daily reminder</Text>
+            <Text accessibilityRole="header" style={styles.heading}>Daily reminder</Text>
             <Text style={styles.body}>A gentle reminder for you to do the daily lesson together.</Text>
             <BigButton label="⏰ Reminder" color={colors.primary} onPress={() => router.push('/parent/reminders')} />
           </>
         ) : null}
 
-        <Text style={styles.heading}>Getting started</Text>
+        <Text accessibilityRole="header" style={styles.heading}>Getting started</Text>
         <BigButton label="💡 How Little Roots works" color={colors.primary} onPress={() => router.push({ pathname: '/parent/intro', params: { replay: '1' } })} />
 
-        <Text style={styles.heading}>Settings</Text>
+        <Text accessibilityRole="header" style={styles.heading}>Settings</Text>
         <BigButton label="⚙️ Sound & Buddy language" color={colors.primary} onPress={() => router.push('/parent/settings')} />
 
-        <Text style={styles.heading}>Privacy</Text>
+        <Text accessibilityRole="header" style={styles.heading}>Privacy</Text>
         <Text style={styles.body}>All progress is stored only on this device. No accounts, no ads, no tracking.</Text>
         <BigButton label="🔒 Privacy" color={colors.textMuted} onPress={() => router.push('/parent/privacy')} />
 
@@ -133,7 +133,7 @@ export default function ParentArea() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <View style={styles.stat} accessibilityLabel={`${label}: ${value}`}>
+    <View style={styles.stat} accessible accessibilityLabel={`${label}: ${value}`}>
       <Text style={styles.statValue}>{value}</Text>
       <Text style={styles.statLabel}>{label}</Text>
     </View>
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     padding: spacing.md,
     alignItems: 'center',
   },
-  statValue: { fontSize: font.title, fontWeight: '800', color: colors.primaryDark },
+  statValue: { fontSize: font.title, fontWeight: '800', color: colors.primaryText },
   statLabel: { fontSize: font.small, color: colors.textMuted },
   teaser: { backgroundColor: colors.surface, borderRadius: radius.md, padding: spacing.md, gap: spacing.sm },
   teaserRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, opacity: 0.72 },

@@ -77,15 +77,15 @@ export default function FamilyVoicesScreen() {
 
   if (guard) return guard;
   return <Screen>
-    <SectionList sections={THEMES.map((theme) => ({ title: `${theme.emoji} ${theme.titleEn}`, data: theme.words }))} keyExtractor={(word) => word.id} contentContainerStyle={styles.content} stickySectionHeadersEnabled={false}
+    <SectionList sections={THEMES.map((theme) => ({ title: theme.titleEn, emoji: theme.emoji, data: theme.words }))} keyExtractor={(word) => word.id} contentContainerStyle={styles.content} stickySectionHeadersEnabled={false}
       ListHeaderComponent={<>
       <Pressable accessibilityRole="button" accessibilityLabel="Back to parent area" onPress={() => { if (router.canGoBack()) router.back(); else router.replace('/parent'); }} style={styles.back}><Text style={styles.backText}>‹ Back</Text></Pressable>
-      <Text style={styles.heading}>Family voice — record words in your own voice. Recordings stay on this device.</Text>
+      <Text accessibilityRole="header" style={styles.heading}>Family voice — record words in your own voice. Recordings stay on this device.</Text>
       {voiceAvailable === false && <View style={styles.banner}><Text style={styles.bannerText}>This device has no Armenian voice. Record words so your child hears them.</Text></View>}
       <Text style={styles.message}>{state.isPremium ? 'Unlimited family recordings' : `${Object.keys(uris).length} of ${FREE_LIMITS.recordings} free recordings used`}</Text>
       {!!message && <Text accessibilityLiveRegion="polite" style={styles.message}>{message}</Text>}
       </>}
-      renderSectionHeader={({ section }) => <Text style={styles.theme}>{section.title}</Text>}
+      renderSectionHeader={({ section }) => <View style={styles.themeRow}><View accessible={false} importantForAccessibility="no-hide-descendants" accessibilityElementsHidden><Text style={styles.theme}>{section.emoji}</Text></View><Text accessibilityRole="header" style={styles.theme}>{section.title}</Text></View>}
       renderItem={({ item: word }) => <View style={styles.row}>
           <View style={styles.word}><View style={styles.wordTitle}><WordArt wordId={word.id} emoji={word.emoji} size={42} /><Text style={styles.wordHy}>{word.hy}</Text></View><Text style={styles.wordEn}>{word.en}</Text></View>
           <View style={styles.buttons}>
@@ -103,12 +103,12 @@ export default function FamilyVoicesScreen() {
 const styles = StyleSheet.create({
   content: { gap: spacing.lg, paddingBottom: spacing.xxl },
   back: { minHeight: TOUCH_MIN, justifyContent: 'center' },
-  backText: { color: colors.primaryDark, fontSize: font.body, fontWeight: '700' },
+  backText: { color: colors.primaryText, fontSize: font.body, fontWeight: '700' },
   heading: { color: colors.text, fontSize: font.heading, fontWeight: '800' },
   banner: { padding: spacing.md, backgroundColor: '#FFF0DF', borderRadius: radius.md },
   bannerText: { color: colors.text, fontSize: font.body },
   message: { color: colors.textMuted, fontSize: font.body },
-  theme: { color: colors.text, fontSize: font.heading, fontWeight: '800' },
+  themeRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm }, theme: { color: colors.text, fontSize: font.heading, fontWeight: '800' },
   row: { padding: spacing.md, backgroundColor: colors.surface, borderRadius: radius.md, gap: spacing.sm },
   word: { gap: spacing.xs },
   wordTitle: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },

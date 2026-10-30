@@ -16,8 +16,8 @@ interface ThemeCardProps {
 
 export function ThemeCard({ theme, learned, total, unlocked, onOpenPress, onLockedPress }: ThemeCardProps) {
   const label = unlocked
-    ? `${theme.titleEn}, ${learned} of ${total} words learned. Open`
-    : `${theme.titleEn}, locked. Ask a grown-up to unlock`;
+    ? `${theme.titleHy}, ${theme.titleEn}, ${learned} of ${total} words learned. Open`
+    : `${theme.titleHy}, ${theme.titleEn}, locked. Ask a grown-up to unlock`;
   return (
     <Pressable
       accessibilityRole="button"
@@ -25,9 +25,9 @@ export function ThemeCard({ theme, learned, total, unlocked, onOpenPress, onLock
       onPress={unlocked ? onOpenPress : onLockedPress}
       style={[styles.card, { backgroundColor: unlocked ? theme.color : colors.locked }]}
     >
-      <View style={styles.art}><WordArt wordId={themeArtWordId(theme.id)} emoji={theme.emoji} size={56} />{!unlocked ? <Text style={styles.lock}>🔒</Text> : null}</View>
+      <View style={styles.art} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={themeArtWordId(theme.id)} emoji={theme.emoji} size={56} />{!unlocked ? <Text style={styles.lock}>🔒</Text> : null}</View>
       <View style={styles.texts}>
-        <Text style={styles.titleHy} numberOfLines={1} adjustsFontSizeToFit>{theme.titleHy}</Text>
+        <Text style={styles.titleHy}>{theme.titleHy}</Text>
         <Text style={styles.titleEn}>{theme.titleEn}</Text>
         <Text style={styles.count}>
           {learned}/{total}
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   art: { width: 64, height: 64, alignItems: 'center', justifyContent: 'center' },
   lock: { position: 'absolute', right: -4, bottom: -4, fontSize: 24 },
-  texts: { gap: 2 },
+  texts: { gap: 2, flexShrink: 1 },
   titleHy: { fontSize: font.body, fontWeight: '800', color: colors.text },
   titleEn: { fontSize: font.body, color: colors.text },
   count: { fontSize: font.small, fontWeight: '700', color: colors.textMuted },

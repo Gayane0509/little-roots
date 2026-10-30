@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/refs -- PanResponder owns the mutable in-progress stroke; version state triggers SVG redraws. */
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { PanResponder, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { AccessibilityInfo, PanResponder, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import Svg, { Path, Text as SvgText } from 'react-native-svg';
 
 import { BigButton } from '@/ui/BigButton';
@@ -36,6 +36,7 @@ export function TraceCanvas(props: Props) {
 
 function TraceCanvasInner({ size, upper, lower, onDone, onDrawingChange, onEdit }: Props & { size: number }) {
   const [useUpper, setUseUpper] = useState(true);
+  const [screenReaderEnabled, setScreenReaderEnabled] = useState(false);
   const [finished, setFinished] = useState<TraceStroke[]>([]);
   const [version, setVersion] = useState(0);
   const active = useRef<TraceStroke>([]);
@@ -47,6 +48,12 @@ function TraceCanvasInner({ size, upper, lower, onDone, onDrawingChange, onEdit 
   const cancelFrame = () => { if (pendingFrame.current !== null) { cancelAnimationFrame(pendingFrame.current); pendingFrame.current = null; } };
   const clear = () => { cancelFrame(); active.current = []; setFinished([]); setVersion((v) => v + 1); edit.current?.(); };
   useEffect(() => { drawingChange.current = onDrawingChange; edit.current = onEdit; }, [onDrawingChange, onEdit]);
+  useEffect(() => {
+    let active = true;
+    void AccessibilityInfo.isScreenReaderEnabled().then((enabled) => { if (active) setScreenReaderEnabled(enabled); }).catch(() => {});
+    const subscription = AccessibilityInfo.addEventListener('screenReaderChanged', setScreenReaderEnabled);
+    return () => { active = false; subscription.remove(); };
+  }, []);
   useEffect(() => () => { if (pendingFrame.current !== null) cancelAnimationFrame(pendingFrame.current); drawingChange.current?.(false); }, []);
   const responder = useMemo(() => PanResponder.create({
     onStartShouldSetPanResponderCapture: () => true,
@@ -90,8 +97,8 @@ function TraceCanvasInner({ size, upper, lower, onDone, onDrawingChange, onEdit 
     <View style={styles.wrap}>
       <Text style={styles.prompt}>Follow the letter with your finger</Text>
       <View style={styles.actions}>
-        <BigButton label="Uppercase" onPress={() => { setUseUpper(true); clear(); }} color={useUpper ? colors.primary : colors.textMuted} style={styles.toggle} />
-        <BigButton label="Lowercase" onPress={() => { setUseUpper(false); clear(); }} color={!useUpper ? colors.primary : colors.textMuted} style={styles.toggle} />
+        <BigButton label="Uppercase" selected={useUpper} onPress={() => { setUseUpper(true); clear(); }} color={useUpper ? colors.primary : colors.textMuted} style={styles.toggle} />
+        <BigButton label="Lowercase" selected={!useUpper} onPress={() => { setUseUpper(false); clear(); }} color={!useUpper ? colors.primary : colors.textMuted} style={styles.toggle} />
       </View>
       <View style={[styles.frame, { width: size + 4, height: size + 4 }]}>
         <View style={{ width: size, height: size }} accessible accessibilityRole="image" accessibilityLabel={`Trace ${useUpper ? 'uppercase' : 'lowercase'} ${upper}`} accessibilityHint="Drawing area. Follow the faint letter with your finger." {...responder.panHandlers}>
@@ -102,6 +109,7 @@ function TraceCanvasInner({ size, upper, lower, onDone, onDrawingChange, onEdit 
           </Svg>
         </View>
       </View>
+      {screenReaderEnabled ? <BigButton label="Mark as traced" onPress={() => onDone(1)} /> : null}
       <View style={styles.actions}>
         <BigButton label="Clear" onPress={clear} color={colors.textMuted} style={styles.toggle} />
         <BigButton label="Done" onPress={() => onDone(traceScore([...finished, active.current], size))} style={styles.toggle} />
@@ -113,7 +121,7 @@ function TraceCanvasInner({ size, upper, lower, onDone, onDrawingChange, onEdit 
 const styles = StyleSheet.create({
   wrap: { alignItems: 'center', gap: spacing.md },
   prompt: { color: colors.text, fontSize: 18, fontWeight: '700', textAlign: 'center' },
-  actions: { flexDirection: 'row', gap: spacing.sm, width: '100%' },
-  toggle: { flex: 1, paddingHorizontal: spacing.sm },
+  actions: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, width: '100%' },
+  toggle: { flex: 1, minWidth: 48, paddingHorizontal: spacing.sm },
   frame: { backgroundColor: colors.surface, borderRadius: radius.md, borderWidth: 2, borderColor: colors.border, overflow: 'hidden' },
 });

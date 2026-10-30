@@ -150,8 +150,8 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
       {mode === 'listen' ? (
         <BigButton label="🔊 Hear it again" onPress={() => speak(round.answer)} disabled={solved} />
       ) : (
-        <View style={styles.picture} accessibilityLabel="Picture to read">
-          <WordArt wordId={round.answer.id} emoji={round.answer.emoji} size={128} />
+        <View style={styles.picture} accessible accessibilityRole="image" accessibilityLabel={`Picture of ${round.answer.en}`}>
+          <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={round.answer.id} emoji={round.answer.emoji} size={128} /></View>
         </View>
       )}
 
@@ -169,8 +169,8 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
             >
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel={mode === 'listen' ? 'Picture choice' : 'Word choice'}
-                accessibilityState={{ disabled: solved }}
+                accessibilityLabel={`${mode === 'listen' ? `Picture choice: ${option.en}` : `Word choice: ${option.hy}`}${isRight ? ', correct' : isWrong ? ', try again' : ''}`}
+                accessibilityState={{ disabled: solved || isWrong, selected: isRight }}
                 disabled={solved || isWrong}
                 onPress={() => choose(option)}
                 style={({ pressed }) => [
@@ -181,11 +181,11 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
                 ]}
               >
                 {mode === 'listen' ? (
-                  <WordArt wordId={option.id} emoji={option.emoji} size={80} />
+                  <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={option.id} emoji={option.emoji} size={80} /></View>
                 ) : (
-                  <Text style={styles.optionWord} adjustsFontSizeToFit numberOfLines={1}>{option.hy}</Text>
+                  <Text style={styles.optionWord}>{option.hy}</Text>
                 )}
-                {isRight ? <Text style={styles.check}>✅</Text> : null}
+                {isRight ? <View style={styles.check} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Text style={styles.checkText}>✅</Text></View> : null}
               </Pressable>
             </Animated.View>
           );
@@ -225,8 +225,9 @@ const styles = StyleSheet.create({
   },
   wrong: { borderColor: colors.danger, backgroundColor: '#FDE8E8', opacity: 0.6 },
   right: { borderColor: colors.success, backgroundColor: '#E3F7EC' },
-  optionWord: { fontSize: font.word, fontWeight: '800', color: colors.text },
-  check: { position: 'absolute', top: spacing.xs, right: spacing.sm, fontSize: font.heading },
+  optionWord: { fontSize: font.word, fontWeight: '800', color: colors.text, textAlign: 'center', flexShrink: 1 },
+  check: { position: 'absolute', top: spacing.xs, right: spacing.sm },
+  checkText: { fontSize: font.heading },
   done: { flexGrow: 1, justifyContent: 'center', gap: spacing.lg },
   back: { marginTop: 'auto' },
 });

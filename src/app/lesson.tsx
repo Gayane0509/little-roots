@@ -158,15 +158,15 @@ function ReadyLesson() {
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         {step === 'hello' && <>
           <Buddy message={`${state.childName ? line('greeting', { name: state.childName }) : line('greeting_anon')}\n${lesson.newWords.length ? line('lesson_new_words', { count: lesson.newWords.length }) : line('lesson_practice')}`} />
-          <Text style={styles.heroEmoji}>{lesson.theme.emoji}</Text>
-          <Text style={styles.heading}>{lesson.theme.titleEn}</Text>
+          <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Text style={styles.heroEmoji}>{lesson.theme.emoji}</Text></View>
+          <Text style={styles.heading} accessibilityRole="header">{lesson.theme.titleEn}</Text>
         </>}
 
         {step === 'new' && card && <>
           <Buddy message={line('lesson_tap_card')} />
           <Text style={styles.counter}>Word {cardIndex + 1} of {lesson.newWords.length}</Text>
-          <Animated.View style={{ width: '100%', opacity: cardEntrance, transform: [{ translateY: cardEntrance.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }] }}><Pressable accessibilityRole="button" accessibilityLabel={`Hear ${card.en} in Armenian`} onPress={() => speakWordAudio(card)} style={styles.wordCard}>
-            <WordArt wordId={card.id} emoji={card.emoji} size={160} />
+          <Animated.View style={{ width: '100%', opacity: cardEntrance, transform: [{ translateY: cardEntrance.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }] }}><Pressable accessibilityRole="button" accessibilityLabel={`${card.hy}, ${card.translit}, ${card.en}. Hear in Armenian`} onPress={() => speakWordAudio(card)} style={styles.wordCard}>
+            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={card.id} emoji={card.emoji} size={160} /></View>
             <Text style={styles.armenian}>{card.hy}</Text>
             <Text style={styles.translit}>{card.translit}</Text>
             <Text style={styles.english}>{card.en}</Text>
@@ -182,11 +182,12 @@ function ReadyLesson() {
           <Animated.View style={[styles.options, { transform: [{ translateX: shake }] }]}>
             {options.map((word, index) => (
               <Animated.View key={word.id} style={{ width: '44%', transform: [{ scale: selectedId === word.id ? successScale : 1 }] }}>
-                <Pressable accessibilityRole="button" accessibilityLabel={`Picture ${index + 1} of ${options.length}`}
+                <Pressable accessibilityRole="button" accessibilityLabel={`Picture ${index + 1} of ${options.length}: ${word.en}${selectedId === word.id ? ', correct' : ''}`}
+                  accessibilityState={{ disabled: feedbackPending, selected: selectedId === word.id }}
                   accessibilityHint="Double tap to choose this picture" disabled={feedbackPending}
                   onPress={() => answer(word)} style={[styles.option, selectedId === word.id && styles.optionCorrect]}>
-                  <WordArt wordId={word.id} emoji={word.emoji} size={88} />
-                  {selectedId === word.id && <Text style={styles.check}>✓</Text>}
+                  <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={word.id} emoji={word.emoji} size={88} /></View>
+                  {selectedId === word.id && <View style={styles.check} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Text style={styles.checkText}>✓</Text></View>}
                 </Pressable>
               </Animated.View>
             ))}
@@ -195,9 +196,9 @@ function ReadyLesson() {
 
         {step === 'song' && <>
           <Buddy message={line('lesson_song')} />
-          <Text style={styles.heading}>{lesson.song.title}</Text>
+          <Text style={styles.heading} accessibilityRole="header">{lesson.song.title}</Text>
           {lesson.song.lines.map((line, index) => (
-            <Pressable key={index} accessibilityRole="button" accessibilityLabel={`Hear song line ${index + 1}: ${line.hy}`} onPress={() => { dispatch({ type: 'SONG_LINE', index }); stopWordAudio(); speakArmenian(line.hy); }} style={[styles.songLine, songLineIndex === index && styles.songLineActive]}>
+            <Pressable key={index} accessibilityRole="button" accessibilityLabel={`Hear song line ${index + 1}: ${line.hy}, ${line.en}`} accessibilityState={{ selected: songLineIndex === index }} onPress={() => { dispatch({ type: 'SONG_LINE', index }); stopWordAudio(); speakArmenian(line.hy); }} style={[styles.songLine, songLineIndex === index && styles.songLineActive]}>
               <Text style={styles.songHy}>{line.hy}</Text>
               <Text style={styles.songEn}>{line.en}</Text>
             </Pressable>
@@ -207,8 +208,8 @@ function ReadyLesson() {
         {step === 'speak' && speakWord && <>
           <Buddy speak={false} message={line('lesson_say_it')} />
           <Text style={styles.counter}>Say it {speakIndex + 1} of {lesson.newWords.length}</Text>
-          <Pressable accessibilityRole="button" accessibilityLabel={`Hear ${speakWord.en} again`} onPress={() => speakWordAudio(speakWord)} style={styles.wordCard}>
-            <WordArt wordId={speakWord.id} emoji={speakWord.emoji} size={160} />
+          <Pressable accessibilityRole="button" accessibilityLabel={`${speakWord.hy}, ${speakWord.translit}, ${speakWord.en}. Hear again`} onPress={() => speakWordAudio(speakWord)} style={styles.wordCard}>
+            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={speakWord.id} emoji={speakWord.emoji} size={160} /></View>
             <Text style={styles.armenian}>{speakWord.hy}</Text>
             <Text style={styles.translit}>{speakWord.translit}</Text>
           </Pressable>
@@ -216,13 +217,13 @@ function ReadyLesson() {
 
         {step === 'reward' && <>
           <Buddy message={line('lesson_done')} mood="cheer" />
-          <Animated.View style={{ transform: [{ scale: burst }] }}><Text style={styles.heroEmoji}>⭐</Text></Animated.View>
-          <View style={styles.burst}>{['✨', '🌟', '✨', '⭐', '✨'].map((item, index) =>
+          <Animated.View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={{ transform: [{ scale: burst }] }}><Text style={styles.heroEmoji}>⭐</Text></Animated.View>
+          <View style={styles.burst} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">{['✨', '🌟', '✨', '⭐', '✨'].map((item, index) =>
             <Animated.Text key={index} style={[styles.burstStar, { opacity: burst, transform: [{ translateY: burst.interpolate({ inputRange: [0, 1], outputRange: [12, index % 2 ? -16 : 16] }) }] }]}>{item}</Animated.Text>)}</View>
-          <Text style={styles.heading}>You earned {3 + firstTryCorrect} stars!</Text>
+          <Text style={styles.heading} accessibilityRole="header">You earned {3 + firstTryCorrect} stars!</Text>
           {showNewSticker && lesson.newWords[0] && <View style={styles.stickerRow}>
             <Text style={styles.sticker}>New sticker:</Text>
-            <WordArt wordId={lesson.newWords[0].id} emoji={lesson.newWords[0].emoji} size={96} />
+            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={lesson.newWords[0].id} emoji={lesson.newWords[0].emoji} size={96} /></View>
           </View>}
         </>}
       </ScrollView>
@@ -246,7 +247,7 @@ function ReadyLesson() {
 const styles = StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
   close: { width: TOUCH_MIN, height: TOUCH_MIN, alignItems: 'center', justifyContent: 'center' },
-  closeText: { color: colors.text, fontSize: 38, lineHeight: 44 },
+  closeText: { color: colors.text, fontSize: 38 },
   dots: { flex: 1, flexDirection: 'row', justifyContent: 'center', gap: spacing.sm, paddingRight: TOUCH_MIN },
   dot: { width: 12, height: 12, borderRadius: radius.round, backgroundColor: colors.border },
   dotActive: { backgroundColor: colors.primary },
@@ -264,7 +265,8 @@ const styles = StyleSheet.create({
   options: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: spacing.md },
   option: { width: '100%', minHeight: 120, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.surface, borderRadius: radius.md, borderWidth: 2, borderColor: colors.border },
   optionCorrect: { borderColor: colors.success, backgroundColor: '#E9F8EF' },
-  check: { position: 'absolute', right: spacing.md, top: spacing.sm, color: colors.success, fontSize: 34, fontWeight: '800' },
+  check: { position: 'absolute', right: spacing.md, top: spacing.sm },
+  checkText: { color: colors.successText, fontSize: 34, fontWeight: '800' },
   burst: { flexDirection: 'row', gap: spacing.sm },
   burstStar: { fontSize: 28 },
   songLine: { width: '100%', minHeight: TOUCH_MIN, justifyContent: 'center', padding: spacing.md, backgroundColor: colors.surface, borderRadius: radius.md, borderWidth: 2, borderColor: colors.border },

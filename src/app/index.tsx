@@ -65,7 +65,7 @@ export default function Home() {
           </Pressable>
         </View>
 
-        {active ? <Pressable accessibilityRole="button" accessibilityLabel={`Switch child, current child ${active.name}`} onPress={() => router.push('/profiles')} style={styles.profile}><ProfileAvatar wordId={active.avatarWordId} size={56} /><Text style={styles.profileName}>{active.name} ▾</Text></Pressable> : null}
+        {active ? <Pressable accessibilityRole="button" accessibilityLabel={`Switch child, current child ${active.name}`} onPress={() => router.push('/profiles')} style={styles.profile}><View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><ProfileAvatar wordId={active.avatarWordId} size={56} /></View><Text style={styles.profileName}>{active.name} ▾</Text></Pressable> : null}
         <Buddy message={line('greeting', { name: state.childName })} />
 
         {!state.isPremium && freeWordsFinished(state) ? <View style={styles.freeDone}><Buddy mood="cheer" message={line('free_words_finished')} /><BigButton label="Ask a grown-up for 80 more words" onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'themes' } })} /></View> : null}
@@ -79,7 +79,7 @@ export default function Home() {
             onPress={() => router.push('/letters')}
             style={[styles.tile, { backgroundColor: '#CDE7FF' }]}
           >
-            <Text style={styles.tileEmoji}>🔤</Text>
+            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Text style={styles.tileEmoji}>🔤</Text></View>
             <Text style={styles.tileLabel}>Letters</Text>
           </Pressable>
           <Pressable
@@ -88,7 +88,7 @@ export default function Home() {
             onPress={() => router.push('/stickers')}
             style={[styles.tile, { backgroundColor: '#FFE9A8' }]}
           >
-            <Text style={styles.tileEmoji}>⭐</Text>
+            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Text style={styles.tileEmoji}>⭐</Text></View>
             <Text style={styles.tileLabel}>Stickers</Text>
           </Pressable>
           <Pressable
@@ -97,7 +97,7 @@ export default function Home() {
             onPress={() => router.push('/games')}
             style={[styles.tile, { backgroundColor: '#CAFFBF' }]}
           >
-            <Text style={styles.tileEmoji}>🎮</Text>
+            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Text style={styles.tileEmoji}>🎮</Text></View>
             <Text style={styles.tileLabel}>Games</Text>
           </Pressable>
         </View>
@@ -131,8 +131,8 @@ const styles = StyleSheet.create({
   freeDone: { gap: spacing.md, padding: spacing.md, backgroundColor: colors.surface, borderRadius: radius.md },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   content: { gap: spacing.lg, paddingBottom: spacing.xl },
-  topRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  stats: { flexDirection: 'row', gap: spacing.md },
+  topRow: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: spacing.sm },
+  stats: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md, flexShrink: 1 },
   stat: { fontSize: font.heading, fontWeight: '800', color: colors.text },
   parents: {
     minHeight: TOUCH_MIN,

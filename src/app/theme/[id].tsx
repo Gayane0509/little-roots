@@ -31,9 +31,9 @@ export default function ThemeDetail() {
     <Screen background={theme.color}>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.header}>
-          <WordArt wordId={themeArtWordId(theme.id)} emoji={theme.emoji} size={64} />
+          <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={themeArtWordId(theme.id)} emoji={theme.emoji} size={64} /></View>
           <View style={styles.headerTexts}>
-            <Text style={styles.titleHy} numberOfLines={1} adjustsFontSizeToFit>
+            <Text style={styles.titleHy} accessibilityRole="header">
               {theme.titleHy}
             </Text>
             <Text style={styles.titleEn}>{theme.titleEn}</Text>
@@ -73,8 +73,8 @@ function SeenCard({ word, onPress }: { word: Word; onPress: () => void }) {
       onPress={onPress}
       style={({ pressed }) => [styles.card, { transform: [{ scale: pressed ? 0.95 : 1 }] }]}
     >
-      <WordArt wordId={word.id} emoji={word.emoji} size={84} />
-      <Text style={styles.cardHy} numberOfLines={1} adjustsFontSizeToFit>
+      <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={word.id} emoji={word.emoji} size={84} /></View>
+      <Text style={styles.cardHy}>
         {word.hy}
       </Text>
       <Text style={styles.cardTranslit}>{word.translit}</Text>
@@ -95,8 +95,8 @@ function UnseenCard() {
 const styles = StyleSheet.create({
   content: { gap: spacing.md, paddingBottom: spacing.xl },
   sub: { fontSize: font.body, color: colors.text },
-  header: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
-  headerTexts: { flex: 1 },
+  header: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: spacing.md },
+  headerTexts: { flexGrow: 1, flexShrink: 1, minWidth: '50%' },
   titleHy: { fontSize: font.title, fontWeight: '800', color: colors.text },
   titleEn: { fontSize: font.body, color: colors.text },
   count: { fontSize: font.heading, fontWeight: '800', color: colors.text, paddingRight: spacing.sm },
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   },
   cardEmoji: { fontSize: 48 },
   cardHy: { fontSize: font.heading, fontWeight: '800', color: colors.text, maxWidth: '100%' },
-  cardTranslit: { fontSize: font.body, color: colors.primaryDark, fontWeight: '700' },
+  cardTranslit: { fontSize: font.body, color: colors.primaryText, fontWeight: '700', textAlign: 'center' },
   cardEn: { fontSize: font.small, color: colors.textMuted },
   unseen: { backgroundColor: 'rgba(255,255,255,0.55)', borderWidth: 2, borderColor: colors.surface, borderStyle: 'dashed' },
   unseenText: { fontSize: font.small, fontWeight: '700', color: colors.text, textAlign: 'center' },

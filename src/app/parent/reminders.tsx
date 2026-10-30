@@ -6,6 +6,7 @@ import { goBackOrHome } from '@/lib/navigation';
 import { getReminder, setReminder, type ReminderSettings } from '@/lib/reminders';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
+import { labelColorOn } from '@/ui/contrast';
 import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 const PRESETS = [8, 12, 16, 18, 19, 20];
@@ -59,7 +60,7 @@ export default function Reminders() {
         <Text style={styles.body}>A gentle daily reminder for you, the parent — never shown to your child as an ad.</Text>
 
         <View style={styles.card}>
-          <Text style={styles.heading}>Current state</Text>
+          <Text style={styles.heading} accessibilityRole="header">Current state</Text>
           <Text style={styles.body} accessibilityLiveRegion="polite">
             {loading ? 'Loading…' : settings.enabled
               ? `On · Every day at ${timeLabel(settings.hour, settings.minute)}`
@@ -73,7 +74,7 @@ export default function Reminders() {
           />
         </View>
 
-        <Text style={styles.heading}>Choose a time</Text>
+        <Text style={styles.heading} accessibilityRole="header">Choose a time</Text>
         <View style={styles.presets}>
           {PRESETS.map((hour) => {
             const selected = settings.hour === hour && settings.minute === 0;
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
   heading: { fontSize: font.heading, fontWeight: '800', color: colors.text },
   body: { fontSize: font.body, color: colors.text },
   note: { fontSize: font.small, color: colors.textMuted },
-  warning: { fontSize: font.body, color: colors.danger },
+  warning: { fontSize: font.body, color: colors.dangerText },
   card: { backgroundColor: colors.surface, borderRadius: radius.md, padding: spacing.md, gap: spacing.md },
   presets: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
   chip: {
@@ -130,5 +131,5 @@ const styles = StyleSheet.create({
   },
   selectedChip: { backgroundColor: colors.primary, borderColor: colors.primaryDark },
   chipText: { fontSize: font.body, fontWeight: '700', color: colors.text },
-  selectedChipText: { color: colors.surface },
+  selectedChipText: { color: labelColorOn(colors.primary) },
 });

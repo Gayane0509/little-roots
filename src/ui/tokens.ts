@@ -10,6 +10,10 @@ export const colors = {
   star: '#FFC531',
   locked: '#C9CCD6',
   border: '#F0E3D0',
+  /** Text-only variants that pass WCAG 4.5:1 on background and surface (use the fills above for shapes). */
+  primaryText: '#A84B0C',
+  successText: '#1E7A4C',
+  dangerText: '#B42318',
 } as const;
 
 export const spacing = { xs: 4, sm: 8, md: 16, lg: 24, xl: 32, xxl: 48 } as const;

@@ -11,8 +11,8 @@ export default function ProfilesPicker() {
   const [busy, setBusy] = useState(false);
   const choose = async (id: string, locked: boolean) => { if (busy) return; if (locked) { router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'children' } }); return; } setBusy(true); try { await switchTo(id); router.replace('/'); } catch { Alert.alert('Could not switch', 'Please try again after saving progress.'); } finally { setBusy(false); } };
   return <Screen><ScrollView contentContainerStyle={styles.content}>
-    <Text style={styles.title}>Who is learning?</Text>
-    <View style={styles.grid}>{profiles.map((profile, index) => <Pressable key={profile.id} accessibilityRole="button" accessibilityLabel={index > 0 && !isPremium ? `${profile.name}, locked` : `Learn as ${profile.name}`} disabled={busy} onPress={() => void choose(profile.id, index > 0 && !isPremium)} style={[styles.tile, profile.id === activeId && styles.active]}>
+    <Text accessibilityRole="header" style={styles.title}>Who is learning?</Text>
+    <View style={styles.grid}>{profiles.map((profile, index) => <Pressable key={profile.id} accessibilityRole="button" accessibilityLabel={index > 0 && !isPremium ? `${profile.name}, locked` : `Learn as ${profile.name}`} disabled={busy} accessibilityState={{ selected: profile.id === activeId, disabled: busy }} onPress={() => void choose(profile.id, index > 0 && !isPremium)} style={[styles.tile, profile.id === activeId && styles.active]}>
       <ProfileAvatar wordId={profile.avatarWordId} size={82} />
       <Text style={styles.name}>{profile.name}</Text>
       {index > 0 && !isPremium ? <Text style={styles.name}>🔒 Premium</Text> : null}

@@ -1,6 +1,6 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput } from 'react-native';
+import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import {
   cooldownRemainingMs,
@@ -56,8 +56,8 @@ export default function ParentGate() {
   return (
     <Screen>
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-        <Text style={styles.emoji}>🔐</Text>
-        <Text style={styles.title}>Grown-ups only</Text>
+        <View accessible={false} importantForAccessibility="no-hide-descendants" accessibilityElementsHidden><Text style={styles.emoji}>🔐</Text></View>
+        <Text accessibilityRole="header" style={styles.title}>Grown-ups only</Text>
         <Text style={styles.hint}>Solve this to continue.</Text>
         <Text style={styles.question} accessibilityLabel={`${q.a} times ${q.b}`}>
           {q.a} × {q.b} = ?
@@ -82,7 +82,7 @@ export default function ParentGate() {
             Too many tries. Please wait {Math.ceil(cooldown / 1000)} seconds.
           </Text>
         ) : wrong ? (
-          <Text style={styles.error}>Not quite. Try this one.</Text>
+          <Text style={styles.error} accessibilityRole="alert">Not quite. Try this one.</Text>
         ) : null}
         <BigButton label="Continue" onPress={submit} disabled={locked || answer.length === 0} />
         <BigButton label="Cancel" color={colors.textMuted} onPress={() => router.replace('/')} />
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   emoji: { fontSize: 64, textAlign: 'center' },
   title: { fontSize: font.title, fontWeight: '800', color: colors.text, textAlign: 'center' },
   hint: { fontSize: font.body, color: colors.textMuted, textAlign: 'center' },
-  question: { fontSize: 48, fontWeight: '800', color: colors.primaryDark, textAlign: 'center' },
+  question: { fontSize: 48, fontWeight: '800', color: colors.primaryText, textAlign: 'center' },
   input: {
     minHeight: TOUCH_MIN,
     borderRadius: radius.md,
@@ -108,5 +108,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: colors.text,
   },
-  error: { fontSize: font.body, color: colors.danger, textAlign: 'center', fontWeight: '700' },
+  error: { fontSize: font.body, color: colors.dangerText, textAlign: 'center', fontWeight: '700' },
 });

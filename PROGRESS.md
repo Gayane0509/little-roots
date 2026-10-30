@@ -81,12 +81,19 @@ locked theme, free words finished, 4th game of the day, 6th recording, full repo
       to the clipboard; a dismissed share sheet never copies. view-shot image not added (not installed; text is
       lighter and works everywhere).
 
+### Accessibility pass (done)
+- [x] Contrast: text-only tokens (primaryText/successText/dangerText ≥ 4.5:1, tested); BigButton picks the readable
+      label colour for its fill (`src/ui/contrast.ts`), announces disabled/selected, wraps long labels.
+- [x] Screen readers: header roles, decorative emoji/art hidden, choices labelled by content without revealing the
+      answer, memory card faces hidden until open, "Mark as traced" for screen-reader users (free limits kept).
+- [x] Large text: Armenian words and titles wrap instead of shrinking; paywall comparison stacked; 48+ pt targets.
+- Device check with VoiceOver/TalkBack still needed (owner, after the Xcode update).
+
 ## Next steps (prioritized, for whoever resumes)
 
 1. Wave 9 — language packs: refactor content (themes, alphabet, phrases, audio) behind a `LanguagePack` interface
    so Russian/Georgian/Persian can be added; ship Armenian as the first pack; parent picks the family language.
-2. Accessibility pass: large system text sizes, screen-reader order, colour contrast of muted text.
-3. Final: full regression in the web preview, FINAL_REPORT.md (features, architecture, tests, limitations, owner
+2. Final: full regression in the web preview, FINAL_REPORT.md (features, architecture, tests, limitations, owner
    actions, future roadmap), push. Deadline 2026-11-01 02:00 (+04).
 
 ## Decisions
@@ -109,6 +116,9 @@ locked theme, free words finished, 4th game of the day, 6th recording, full repo
 - Disk was full (freed ~18 GB of caches with owner approval); keep an eye on free space for native builds.
 
 ## Log
+
+- 2026-10-30 19:50 (+04): accessibility pass done; cross-review caught 2 answer leaks in screen-reader labels
+  and a wrapping chart, fixed; 32 suites / 132 tests green.
 
 - 2026-10-30 19:20 (+04): Wave 8 done (parent intro + share card); cross-review fixed nav stack on replay,
   web cancel copying to clipboard, loading flash; 31 suites / 130 tests green; verified in web preview.

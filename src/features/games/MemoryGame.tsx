@@ -37,23 +37,27 @@ function FlipCard({ card, open, matched, disabled, onPress, width, height }: {
   const backRotate = flip.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '180deg'] });
   const frontRotate = flip.interpolate({ inputRange: [0, 1], outputRange: ['180deg', '360deg'] });
   const label = matched
-    ? `Matched card, ${card.word.en}`
+    ? `Matched card, ${card.word.hy}, ${card.word.en}`
     : open
-      ? card.kind === 'emoji' ? `Picture of ${card.word.en}` : `Word card, ${card.word.translit}`
+      ? card.kind === 'emoji' ? `Picture of ${card.word.en}` : `Word card, ${card.word.hy}, ${card.word.translit}, ${card.word.en}`
       : 'Face-down card';
 
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={label}
+      accessibilityState={{ disabled: disabled || open }}
       disabled={disabled || open}
       onPress={onPress}
-      style={[styles.cardWrap, { width, height }]}
+      style={[styles.cardWrap, { width, minHeight: height }]}
     >
-      <Animated.View style={[styles.face, styles.back, { transform: [{ perspective: 800 }, { rotateY: backRotate }] }]}>
+      <Animated.View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[styles.face, styles.back, { transform: [{ perspective: 800 }, { rotateY: backRotate }] }]}>
         <Text style={styles.backMark}>❓</Text>
       </Animated.View>
       <Animated.View
+        accessible={false}
+        accessibilityElementsHidden
+        importantForAccessibility="no-hide-descendants"
         style={[
           styles.face,
           styles.front,
@@ -64,7 +68,7 @@ function FlipCard({ card, open, matched, disabled, onPress, width, height }: {
         {card.kind === 'emoji' ? (
           <WordArt wordId={card.word.id} emoji={card.word.emoji} size={Math.min(72, width - spacing.sm * 2 - 6, height - spacing.sm * 2 - 6)} />
         ) : (
-          <Text style={styles.hy} adjustsFontSizeToFit numberOfLines={1}>{card.word.hy}</Text>
+          <Text style={styles.hy}>{card.word.hy}</Text>
         )}
       </Animated.View>
     </Pressable>
@@ -76,7 +80,7 @@ export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
   const { soundEffects } = useSettings();
   const speak = useSpeakWord();
   const { recordGamePlayed } = useProgressActions();
-  const { width, height } = useWindowDimensions();
+  const { width, height, fontScale } = useWindowDimensions();
   const [deck, setDeck] = useState(() => buildMemoryDeck(seenWords));
   const [flipped, setFlipped] = useState<string[]>([]);
   const [matched, setMatched] = useState<string[]>([]);
@@ -99,7 +103,7 @@ export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
   const cardW = Math.max(TOUCH_MIN, Math.floor((width - spacing.md * 2 - gap * 2) / 3) - 1);
   // Height budget: title, moves, back button and padding take roughly 300px.
   const rows = Math.ceil(deck.length / 3) || 1;
-  const cardH = Math.max(TOUCH_MIN + 16, Math.min(Math.round(cardW * 1.1), Math.floor((height - 300) / rows) - gap));
+  const cardH = Math.ceil(Math.max(TOUCH_MIN + 16, Math.min(Math.round(cardW * 1.1), Math.floor((height - 300) / rows) - gap)) * Math.max(1, fontScale));
 
   const flip = (card: MemoryCard) => {
     const t = turn.current;

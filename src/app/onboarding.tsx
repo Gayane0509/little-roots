@@ -36,7 +36,7 @@ export default function Onboarding() {
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
           <Buddy mood="cheer" message={line('onboarding_intro')} />
-          <Text style={styles.question}>What is your name?</Text>
+          <Text accessibilityRole="header" style={styles.question}>What is your name?</Text>
           <TextInput
             accessibilityLabel="Child's first name"
             style={styles.input}

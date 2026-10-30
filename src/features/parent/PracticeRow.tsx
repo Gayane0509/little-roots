@@ -6,7 +6,7 @@ import { colors, font, radius, spacing } from '@/ui/tokens';
 
 export function PracticeRow({ word }: { word: Word }) {
   return (
-    <View style={styles.row} accessibilityLabel={`${word.hy}, ${word.translit}, ${word.en}`}>
+    <View style={styles.row} accessible accessibilityLabel={`${word.hy}, ${word.translit}, ${word.en}`}>
       <WordArt wordId={word.id} emoji={word.emoji} size={45} />
       <View style={styles.texts}>
         <Text style={styles.hy}>{word.hy}</Text>

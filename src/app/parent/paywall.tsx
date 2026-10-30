@@ -36,11 +36,10 @@ export default function Paywall() {
   if (guard) return guard;
   return <Screen><ScrollView contentContainerStyle={styles.content}>
     <Buddy mood="cheer" message="More little discoveries together" size={76} />
-    <Text style={styles.title}>{offerHeadline(reason)}</Text>
+    <Text accessibilityRole="header" style={styles.title}>{offerHeadline(reason)}</Text>
     <Text style={styles.sub}>Choose what fits your family. Learning stays on this device.</Text>
     <View style={styles.table}>
-      <View style={styles.tableHead}><Text style={styles.feature}>Included</Text><Text style={styles.column}>Free</Text><Text style={styles.column}>Premium</Text></View>
-      {comparison.map((row) => <View key={row.feature} style={styles.tableRow}><Text style={styles.feature}>{row.feature}</Text><Text style={styles.column}>{row.free}</Text><Text style={styles.column}>{row.premium}</Text></View>)}
+      {comparison.map((row) => <View key={row.feature} style={styles.tableRow} accessible accessibilityLabel={`${row.feature}. Free: ${row.free}. Premium: ${row.premium}`}><Text style={styles.feature}>{row.feature}</Text><View style={styles.cells}><Text style={styles.column}>Free: {row.free}</Text><Text style={styles.column}>Premium: {row.premium}</Text></View></View>)}
     </View>
     {state.isPremium ? <Text style={styles.active}>Premium is active</Text> : <>
       {__DEV__ ? <Text style={styles.trial}>7-day free trial · Test mode</Text> : null}
@@ -58,10 +57,10 @@ export default function Paywall() {
 }
 const styles = StyleSheet.create({
   content: { gap: spacing.md, paddingVertical: spacing.lg }, title: { fontSize: font.title, fontWeight: '800', color: colors.text, textAlign: 'center' }, sub: { fontSize: font.body, color: colors.textMuted, textAlign: 'center' },
-  table: { borderRadius: radius.md, backgroundColor: colors.surface, overflow: 'hidden', borderWidth: 1, borderColor: colors.border },
-  tableHead: { flexDirection: 'row', backgroundColor: '#FFE8D3', padding: spacing.sm }, tableRow: { flexDirection: 'row', alignItems: 'center', minHeight: 54, padding: spacing.sm, borderTopWidth: 1, borderColor: colors.border },
-  feature: { flex: 1.4, color: colors.text, fontSize: font.small, fontWeight: '700' }, column: { flex: 1, color: colors.text, fontSize: font.small, textAlign: 'center' },
-  trial: { color: colors.success, fontSize: font.heading, fontWeight: '800', textAlign: 'center' }, plan: { backgroundColor: colors.surface, borderRadius: radius.md, padding: spacing.md, gap: spacing.xs }, badge: { color: colors.primaryDark, fontSize: font.small, fontWeight: '800', textAlign: 'center' }, planNote: { color: colors.textMuted, textAlign: 'center' },
+  table: { borderRadius: radius.md, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border },
+  tableRow: { gap: spacing.xs, minHeight: 54, padding: spacing.sm, borderTopWidth: 1, borderColor: colors.border }, cells: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
+  feature: { color: colors.text, fontSize: font.small, fontWeight: '700' }, column: { color: colors.text, fontSize: font.small },
+  trial: { color: colors.successText, fontSize: font.heading, fontWeight: '800', textAlign: 'center' }, plan: { backgroundColor: colors.surface, borderRadius: radius.md, padding: spacing.md, gap: spacing.xs }, badge: { color: colors.primaryText, fontSize: font.small, fontWeight: '800', textAlign: 'center' }, planNote: { color: colors.textMuted, textAlign: 'center' },
   planLabel: { color: colors.text, fontSize: font.heading, fontWeight: '800', textAlign: 'center' },
-  coming: { color: colors.textMuted, fontSize: font.body, textAlign: 'center' }, active: { color: colors.success, fontSize: font.heading, fontWeight: '800', textAlign: 'center' }, link: { minHeight: TOUCH_MIN, alignItems: 'center', justifyContent: 'center' }, linkText: { color: colors.primaryDark, fontSize: font.body, fontWeight: '700', textDecorationLine: 'underline' },
+  coming: { color: colors.textMuted, fontSize: font.body, textAlign: 'center' }, active: { color: colors.successText, fontSize: font.heading, fontWeight: '800', textAlign: 'center' }, link: { minHeight: TOUCH_MIN, alignItems: 'center', justifyContent: 'center' }, linkText: { color: colors.primaryText, fontSize: font.body, fontWeight: '700', textDecorationLine: 'underline' },
 });
