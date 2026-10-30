@@ -4,6 +4,8 @@ import { THEMES } from '@/content/themes';
 import type { ProgressState } from '@/state/progress.types';
 
 test('offer reasons and limits stay consistent', () => {
+  expect(offerHeadline('children')).toBe('Room for every child in your family');
+  expect(comparison.find((row) => row.feature === 'Children')).toMatchObject({ free: '1', premium: '4' });
   expect(offerHeadline('games')).toBe('Unlimited games');
   expect(offerHeadline('unknown')).toContain('grandma');
   expect(parseOfferReason('toString')).toBeUndefined();

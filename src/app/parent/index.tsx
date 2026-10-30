@@ -1,6 +1,6 @@
 import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { Alert, AppState, Platform, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, AppState, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { getWord, THEMES } from '@/content/themes';
 import { canSeeFullReport } from '@/lib/entitlements';
@@ -13,7 +13,7 @@ import { currentStreak } from '@/lib/streak';
 import { useProgress } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
-import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
+import { colors, font, radius, spacing } from '@/ui/tokens';
 import { StorageErrorBanner } from '@/features/storage/StorageErrorBanner';
 
 function toWords(ids: string[]): Word[] {
@@ -22,9 +22,7 @@ function toWords(ids: string[]): Word[] {
 
 export default function ParentArea() {
   const guard = useParentGuard('/parent');
-  const { state, setChildName, reset } = useProgress();
-  const [name, setName] = useState(state.childName);
-  const [saved, setSaved] = useState(false);
+  const { state, reset } = useProgress();
   const [now, setNow] = useState(() => Date.now());
   useFocusEffect(useCallback(() => setNow(Date.now()), []));
   useEffect(() => {
@@ -82,28 +80,8 @@ export default function ParentArea() {
         </View> : null}
         <BigButton label="📈 Full progress" onPress={() => router.push(canSeeFullReport(state.isPremium) ? '/parent/report' : { pathname: '/parent/paywall', params: { reason: 'report' } })} />
 
-        <Text style={styles.heading}>{"Child's name"}</Text>
-        <TextInput
-          accessibilityLabel="Child's name"
-          style={styles.input}
-          value={name}
-          onChangeText={(v) => {
-            setName(v);
-            setSaved(false);
-          }}
-          maxLength={20}
-          autoCorrect={false}
-        />
-        <BigButton
-          label={saved ? 'Saved ✓' : 'Save name'}
-          color={saved ? colors.success : colors.primary}
-          onPress={() => {
-            setChildName(name.trim() || 'Friend');
-            setSaved(true);
-          }}
-          disabled={saved || name.trim() === state.childName}
-        />
-
+        <Text style={styles.heading}>Children</Text>
+        <BigButton label="Manage children" onPress={() => router.push('/parent/children')} />
         <Text style={styles.heading}>Subscription</Text>
         <Text style={styles.body}>{state.isPremium ? 'Premium is active.' : 'Free plan: Family and Food.'}</Text>
         <BigButton
@@ -162,14 +140,4 @@ const styles = StyleSheet.create({
   statLabel: { fontSize: font.small, color: colors.textMuted },
   teaser: { backgroundColor: colors.surface, borderRadius: radius.md, padding: spacing.md, gap: spacing.sm },
   teaserRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, opacity: 0.72 },
-  input: {
-    minHeight: TOUCH_MIN,
-    borderRadius: radius.md,
-    borderWidth: 2,
-    borderColor: colors.border,
-    backgroundColor: colors.surface,
-    paddingHorizontal: spacing.md,
-    fontSize: font.heading,
-    color: colors.text,
-  },
 });

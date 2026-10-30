@@ -5,6 +5,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { daysBetween, localDay } from '@/lib/date';
 import { scheduleReview } from '@/lib/srs';
 import type { WordProgress, WordProgressMap } from '@/lib/srs.types';
+import { progressKey, useOptionalProfiles } from './profiles';
 import type { LessonRecord, LessonSummary, ProgressActions, ProgressApi, ProgressSnapshot, ProgressState } from './progress.types';
 
 const STORAGE_KEY = 'littleroots.progress.v1';
@@ -122,6 +123,11 @@ const StateContext = createContext<ProgressSnapshot | null>(null);
 const ActionsContext = createContext<ProgressActions | null>(null);
 
 export function ProgressProvider({ children }: { children: ReactNode }) {
+  const profiles = useOptionalProfiles();
+  const profileId = profiles?.activeId;
+  const mayWrite = profiles?.mayWrite;
+  const storageKey = profileId ? progressKey(profileId) : STORAGE_KEY;
+  const scoped = profiles !== null;
   const [state, setState] = useState<ProgressState>(defaultProgress);
   const [ready, setReady] = useState(false);
   const [storageError, setStorageError] = useState(false);
@@ -136,17 +142,18 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   const writeQueue = useRef<Promise<void>>(Promise.resolve());
   const mounted = useRef(true);
 
-  const flush = useCallback((force = false, retry = false) => {
+  const flush = useCallback((force = false, retry = false): Promise<void> => {
     if (timer.current !== null) {
       clearTimeout(timer.current);
       timer.current = null;
     }
-    if (!readyRef.current || loadFailed.current || saveFailed.current || (!dirty.current && !force)) return;
-    const serialized = JSON.stringify(stateRef.current);
+    if (scoped && profileId && !mayWrite?.(profileId)) { if (timer.current !== null) { clearTimeout(timer.current); timer.current = null; } dirty.current = false; return writeQueue.current; }
+    if (!readyRef.current || loadFailed.current || saveFailed.current || (scoped && !profileId) || (!dirty.current && !force)) return writeQueue.current;
+    const serialized = JSON.stringify(scoped ? { ...stateRef.current, childName: undefined, isPremium: undefined } : stateRef.current);
     dirty.current = false;
     writeQueue.current = writeQueue.current.then(async () => {
       if (saveFailed.current) return false;
-      await AsyncStorage.setItem(STORAGE_KEY, serialized);
+      await AsyncStorage.setItem(storageKey, serialized);
       return true;
     }).then((wrote) => {
       if (retry && wrote && mounted.current) setStorageError(false);
@@ -157,7 +164,8 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         if (mounted.current) setStorageError(true);
         if (__DEV__) console.warn('Could not save progress.', error);
       });
-  }, []);
+    return writeQueue.current;
+  }, [scoped, profileId, storageKey, mayWrite]);
 
   const scheduleWrite = useCallback(() => {
     dirty.current = true;
@@ -169,7 +177,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     if (loading.current) return;
     loading.current = true;
     try {
-      const stored = await AsyncStorage.getItem(STORAGE_KEY);
+      const stored = await AsyncStorage.getItem(storageKey);
       if (!mounted.current) return;
       let loaded = parseProgress(stored);
       if (retry && loadFailed.current) {
@@ -183,7 +191,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       readyRef.current = true;
       setReady(true);
       // Persist bounded history and any changes made while the first load was unavailable.
-      scheduleWrite();
+      if (!scoped || profileId) scheduleWrite();
     } catch (error) {
       if (!mounted.current) return;
       loadFailed.current = true;
@@ -194,7 +202,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     } finally {
       loading.current = false;
     }
-  }, [scheduleWrite]);
+  }, [scheduleWrite, storageKey, scoped, profileId]);
 
   useEffect(() => {
     mounted.current = true;
@@ -219,8 +227,9 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   }, [scheduleWrite]);
 
   const setChildName = useCallback<ProgressApi['setChildName']>((name) => {
-    update((previous) => ({ ...previous, childName: name.trim() }));
-  }, [update]);
+    if (profiles?.activeId) void profiles.rename(profiles.activeId, name);
+    else update((previous) => ({ ...previous, childName: name.trim() }));
+  }, [profiles, update]);
   const recordAnswer = useCallback<ProgressApi['recordAnswer']>((wordId, correct) => {
     const now = Date.now();
     update((previous) => applyRecordAnswer(previous, wordId, correct, now));
@@ -234,9 +243,10 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     update((previous) => applyRecordGamePlayed(previous, now));
   }, [update]);
   const setPremium = useCallback<ProgressApi['setPremium']>((value) => {
-    update((previous) => ({ ...previous, isPremium: __DEV__ ? value : false }));
-  }, [update]);
-  const reset = useCallback<ProgressApi['reset']>(() => update(() => defaultProgress()), [update]);
+    if (profiles) void profiles.setPremium(value);
+    else update((previous) => ({ ...previous, isPremium: __DEV__ ? value : false }));
+  }, [profiles, update]);
+  const reset = useCallback<ProgressApi['reset']>(() => update(() => ({ ...defaultProgress(), childName: profiles?.active?.name ?? '' })), [profiles, update]);
   const retryStorage = useCallback<ProgressApi['retryStorage']>(() => {
     if (loadFailed.current) {
       void load(true);
@@ -249,7 +259,10 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   const actions = useMemo<ProgressActions>(() => ({
     setChildName, recordAnswer, completeLesson, recordGamePlayed, setPremium, reset, retryStorage,
   }), [setChildName, recordAnswer, completeLesson, recordGamePlayed, setPremium, reset, retryStorage]);
-  const snapshot = useMemo<ProgressSnapshot>(() => ({ state, ready, storageError }), [state, ready, storageError]);
+  const registerFlush = profiles?.registerFlush;
+  useEffect(() => registerFlush?.('progress', async () => { await flush(); if (profileId && !mayWrite?.(profileId)) return; if (saveFailed.current || loadFailed.current) throw new Error('Progress is not saved'); }), [registerFlush, flush, profileId, mayWrite]);
+  const visibleState = useMemo(() => profiles ? { ...state, childName: profiles.active?.name ?? '', isPremium: profiles.isPremium } : state, [state, profiles]);
+  const snapshot = useMemo<ProgressSnapshot>(() => ({ state: visibleState, ready, storageError }), [visibleState, ready, storageError]);
 
   return (
     <ActionsContext.Provider value={actions}>

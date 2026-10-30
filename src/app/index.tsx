@@ -7,6 +7,8 @@ import { ThemeCard } from '@/features/home/ThemeCard';
 import { isThemeUnlocked, themeProgress } from '@/lib/lesson';
 import { currentStreak } from '@/lib/streak';
 import { useProgress } from '@/state/progress';
+import { useProfiles } from '@/state/profiles';
+import { ProfileAvatar } from '@/features/profiles/ProfileAvatar';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
 import { freeWordsFinished } from '@/features/paywall/offer';
@@ -15,6 +17,7 @@ import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 export default function Home() {
   const { state, ready } = useProgress();
+  const { active } = useProfiles();
   const [now, setNow] = useState(() => Date.now());
   useFocusEffect(useCallback(() => setNow(Date.now()), []));
   useEffect(() => {
@@ -59,6 +62,7 @@ export default function Home() {
           </Pressable>
         </View>
 
+        {active ? <Pressable accessibilityRole="button" accessibilityLabel={`Switch child, current child ${active.name}`} onPress={() => router.push('/profiles')} style={styles.profile}><ProfileAvatar wordId={active.avatarWordId} size={56} /><Text style={styles.profileName}>{active.name} ▾</Text></Pressable> : null}
         <Buddy message={`Բարև, ${state.childName}!`} />
 
         {!state.isPremium && freeWordsFinished(state) ? <View style={styles.freeDone}><Buddy mood="cheer" message="You learned all the free words! 🎉" /><BigButton label="Ask a grown-up for 80 more words" onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'themes' } })} /></View> : null}
@@ -119,6 +123,8 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
+  profile: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, alignSelf: 'flex-start', minHeight: TOUCH_MIN, padding: spacing.sm, borderRadius: radius.md, backgroundColor: colors.surface },
+  profileName: { color: colors.text, fontSize: font.heading, fontWeight: '800' },
   freeDone: { gap: spacing.md, padding: spacing.md, backgroundColor: colors.surface, borderRadius: radius.md },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   content: { gap: spacing.lg, paddingBottom: spacing.xl },

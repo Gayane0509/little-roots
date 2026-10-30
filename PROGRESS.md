@@ -32,8 +32,8 @@ Free: Family + Food themes. Paid: everything else. Offline, no ads, no accounts,
 
 ### Wave 2 — polish & store readiness
 - [x] App icon + splash screen (original sprout-with-roots art, Android adaptive + monochrome), expo-splash-screen configured.
-- [~] Paywall honesty: done (no undelivered promises, production shows "Coming soon", Restore link). Remaining:
-      purchases behind one interface ready for StoreKit/Play Billing (needs store accounts — owner action).
+- [x] Paywall honesty + purchases interface (src/lib/purchases.ts: dev provider, production 'unavailable'; plug
+      RevenueCat/StoreKit in once store products exist — owner action).
 - [x] Daily reminder (local notification, parent opt-in, time presets; hidden on web; Android notification icon).
 - [x] Performance: split progress state/actions contexts, 120-day history, debounced batched writes with flush.
 - [x] Storage error surfaced to parents with retry (banner in parent area).
@@ -58,7 +58,8 @@ locked theme, free words finished, 4th game of the day, 6th recording, full repo
 - [x] Games area: memory match, listen & find, read it (feed spaced repetition).
 - [x] Letter tracing (5–8): trace canvas, forgiving score, traced stars, persisted. Reviewed and fixed (gesture capture, scribble guard, storage).
 - [x] Illustrated bear buddy (4 moods, idle bounce, reduce-motion aware); theme cards use word art.
-- [ ] Multiple child profiles.
+- [x] Child profiles (up to 4; 1 free): per-child progress/letters/stickers, family-level premium + recordings,
+      safe migration from single-child saves, serialized mutations, guaranteed deletes, parent management screen.
 - [ ] Second language pack (architecture for Russian / Georgian / Persian).
 
 ## Decisions
@@ -76,10 +77,14 @@ locked theme, free words finished, 4th game of the day, 6th recording, full repo
 - Privacy policy must also be hosted on a public URL for store listings (owner).
 - Native iOS build fails with Xcode 26.3 (Swift 6.2 data-race error inside expo-modules-jsi); Expo SDK 58 needs a
   newer Xcode → owner: update Xcode, then `LANG=en_US.UTF-8 npx expo run:ios`. Expo Go download also hung.
-  Until then UI is verified in the web preview (`npx expo start --web`).
+  Until then UI is verified in the web preview (`npx expo start --web`). Tried forcing Swift 5 for the pod via a
+  Podfile hook — the podspec still compiles with -swift-version 6, so this needs the Xcode update (no workaround kept).
 - Disk was full (freed ~18 GB of caches with owner approval); keep an eye on free space for native builds.
 
 ## Log
+
+- 2026-10-30 ~21:05 (+04): Wave 5 (profiles + purchases interface) merged after data-safety review (12 findings
+  fixed); 104 tests; live migration verified in preview. Native Swift-5 workaround tried and removed.
 
 - 2026-10-30 ~20:15 (+04): Waves 3+4 merged after 2 reviews (14 findings fixed). 85 tests. Pushed.
 
