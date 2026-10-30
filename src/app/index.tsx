@@ -81,6 +81,15 @@ export default function Home() {
             <Text style={styles.tileEmoji}>⭐</Text>
             <Text style={styles.tileLabel}>Stickers</Text>
           </Pressable>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Games"
+            onPress={() => router.push('/games')}
+            style={[styles.tile, { backgroundColor: '#CAFFBF' }]}
+          >
+            <Text style={styles.tileEmoji}>🎮</Text>
+            <Text style={styles.tileLabel}>Games</Text>
+          </Pressable>
         </View>
 
         <View style={styles.grid}>
@@ -125,9 +134,9 @@ const styles = StyleSheet.create({
   },
   parentsText: { fontSize: font.small, fontWeight: '700', color: colors.textMuted },
   start: { minHeight: TOUCH_MIN + 16 },
-  tiles: { flexDirection: 'row', justifyContent: 'space-between' },
+  tiles: { flexDirection: 'row', justifyContent: 'space-between', gap: spacing.sm },
   tile: {
-    width: '48%',
+    flex: 1,
     minHeight: TOUCH_MIN + 24,
     borderRadius: radius.md,
     alignItems: 'center',

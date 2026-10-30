@@ -1,8 +1,11 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 
+import { configureNotificationHandler } from '@/lib/reminders';
 import { ProgressProvider } from '@/state/progress';
 import { RecordingsProvider } from '@/state/recordings';
+
+configureNotificationHandler();
 
 export default function RootLayout() {
   return (
@@ -21,6 +24,11 @@ export default function RootLayout() {
           <Stack.Screen name="theme/[id]" />
           <Stack.Screen name="letters" />
           <Stack.Screen name="stickers" />
+          <Stack.Screen name="games/index" />
+          <Stack.Screen name="games/memory" />
+          <Stack.Screen name="games/listen" />
+          <Stack.Screen name="games/read" />
+          <Stack.Screen name="parent/reminders" />
         </Stack>
       </RecordingsProvider>
     </ProgressProvider>

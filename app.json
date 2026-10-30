@@ -39,6 +39,13 @@
           "resizeMode": "contain",
           "backgroundColor": "#FFE3B8"
         }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#FF8C42"
+        }
       ]
     ],
     "scheme": "littleroots"

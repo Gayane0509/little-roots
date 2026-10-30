@@ -1,6 +1,6 @@
 import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { Alert, AppState, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, AppState, Platform, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { getWord } from '@/content/themes';
 import type { Word } from '@/content/types';
@@ -12,6 +12,7 @@ import { useProgress } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
 import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
+import { StorageErrorBanner } from '@/features/storage/StorageErrorBanner';
 
 function toWords(ids: string[]): Word[] {
   return ids.map(getWord).filter((w): w is Word => w !== undefined);
@@ -53,6 +54,7 @@ export default function ParentArea() {
     <Screen>
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
         <Text style={styles.title}>Parents</Text>
+        <StorageErrorBanner />
 
         <Text style={styles.heading}>This week</Text>
         <View style={styles.stats}>
@@ -102,6 +104,14 @@ export default function ParentArea() {
         <Text style={styles.heading}>Family voice</Text>
         <Text style={styles.body}>Record words in your own voice so your child hears family.</Text>
         <BigButton label="🎙️ Family voice" color={colors.success} onPress={() => router.push('/parent/voices')} />
+
+        {Platform.OS !== 'web' ? (
+          <>
+            <Text style={styles.heading}>Daily reminder</Text>
+            <Text style={styles.body}>A gentle reminder for you to do the daily lesson together.</Text>
+            <BigButton label="⏰ Reminder" color={colors.primary} onPress={() => router.push('/parent/reminders')} />
+          </>
+        ) : null}
 
         <Text style={styles.heading}>Privacy</Text>
         <Text style={styles.body}>All progress is stored only on this device. No accounts, no ads, no tracking.</Text>

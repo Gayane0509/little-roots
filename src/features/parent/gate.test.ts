@@ -40,6 +40,7 @@ describe('parent gate', () => {
 
   it('whitelists next routes', () => {
     expect(parseGateRoute('/parent/privacy')).toBe('/parent/privacy');
+    expect(parseGateRoute('/parent/reminders')).toBe('/parent/reminders');
     expect(parseGateRoute('/lesson')).toBe('/parent');
     expect(parseGateRoute(undefined)).toBe('/parent');
   });

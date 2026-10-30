@@ -34,13 +34,18 @@ Free: Family + Food themes. Paid: everything else. Offline, no ads, no accounts,
 - [x] App icon + splash screen (original sprout-with-roots art, Android adaptive + monochrome), expo-splash-screen configured.
 - [~] Paywall honesty: done (no undelivered promises, production shows "Coming soon", Restore link). Remaining:
       purchases behind one interface ready for StoreKit/Play Billing (needs store accounts — owner action).
-- [ ] Daily reminder (local notification, parent opt-in).
-- [ ] Performance: split progress context / selectors, bound lesson history, batch writes.
-- [ ] Storage error surfaced to parents with retry.
+- [x] Daily reminder (local notification, parent opt-in, time presets; hidden on web; Android notification icon).
+- [x] Performance: split progress state/actions contexts, 120-day history, debounced batched writes with flush.
+- [x] Storage error surfaced to parents with retry (banner in parent area).
 - [ ] Verify on iOS simulator (Expo Go / dev build) incl. large text sizes.
 
+### Wave 2.5 — illustrations (owner request: replace emoji with real pictures)
+- [ ] Hand-drawn SVG illustrations for all 96 words (src/art, style in src/art/STYLE.md, QA via
+      `node scripts/render-art.mjs <theme>`), WordArt component with emoji fallback, used in lesson, games, theme pages,
+      stickers, parent lists.
+
 ### Wave 3 — differentiation
-- [ ] More game types: memory match, listen-only choose, word → picture for readers.
+- [x] Games area: memory match, listen & find, read it (feed spaced repetition).
 - [ ] Letter tracing for ages 6–8.
 - [ ] Multiple child profiles.
 - [ ] Second language pack (architecture for Russian / Georgian / Persian).
@@ -64,6 +69,9 @@ Free: Family + Food themes. Paid: everything else. Offline, no ads, no accounts,
 - Disk was full (freed ~18 GB of caches with owner approval); keep an eye on free space for native builds.
 
 ## Log
+
+- 2026-10-30 ~17:40 (+04): Wave 2 merged after cross-review (12 findings fixed): games, reminders, reliability; 59 tests.
+  CI green on GitHub for Wave 1. Owner asked for real pictures instead of emoji → Wave 2.5.
 
 - 2026-10-30 ~16:45 (+04): Wave 1 merged after cross-review (Codex↔Claude, 20 findings fixed); 38 tests; verified in web
   preview: onboarding, letters, lesson success feedback, credit saved when leaving after game, theme page, gate (19×7),

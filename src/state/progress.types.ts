@@ -30,6 +30,8 @@ export interface ProgressApi {
   state: ProgressState;
   /** False until the stored state has been loaded. */
   ready: boolean;
+  storageError: boolean;
+  retryStorage(): void;
   setChildName(name: string): void;
   /** Update a word's spaced-repetition box after the child answers (or is taught) it. */
   recordAnswer(wordId: string, correct: boolean): void;
@@ -38,3 +40,6 @@ export interface ProgressApi {
   setPremium(value: boolean): void;
   reset(): void;
 }
+
+export type ProgressSnapshot = Pick<ProgressApi, 'state' | 'ready' | 'storageError'>;
+export type ProgressActions = Omit<ProgressApi, keyof ProgressSnapshot>;
