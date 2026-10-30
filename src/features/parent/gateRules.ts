@@ -1,7 +1,7 @@
 /** Pure rules of the parent gate (no React / router imports, so they are easy to unit test). */
 
 /** Routes that may be opened through the parent gate (anything else falls back to '/parent'). */
-export const GATE_ROUTES = ['/parent', '/parent/paywall', '/parent/voices', '/parent/privacy', '/parent/reminders', '/parent/report', '/parent/children', '/parent/settings'] as const;
+export const GATE_ROUTES = ['/parent', '/parent/paywall', '/parent/voices', '/parent/privacy', '/parent/reminders', '/parent/report', '/parent/children', '/parent/settings', '/parent/intro'] as const;
 export type GateRoute = (typeof GATE_ROUTES)[number];
 
 export function parseGateRoute(next: unknown): GateRoute {

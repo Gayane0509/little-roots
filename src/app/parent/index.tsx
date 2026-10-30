@@ -1,4 +1,4 @@
-import { router, useFocusEffect } from 'expo-router';
+import { Redirect, router, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { Alert, AppState, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 
@@ -13,10 +13,12 @@ import { currentStreak } from '@/lib/streak';
 import { useProgress } from '@/state/progress';
 import { useTracedLetters } from '@/state/letters';
 import { useProfiles } from '@/state/profiles';
+import { useSettings } from '@/state/settings';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
 import { colors, font, radius, spacing } from '@/ui/tokens';
 import { StorageErrorBanner } from '@/features/storage/StorageErrorBanner';
+import { WeeklyShareCard } from '@/features/report/WeeklyShareCard';
 
 function toWords(ids: string[]): Word[] {
   return ids.map(getWord).filter((w): w is Word => w !== undefined);
@@ -27,6 +29,7 @@ export default function ParentArea() {
   const { state, reset } = useProgress();
   const { resetTraced } = useTracedLetters();
   const { active } = useProfiles();
+  const { ready: settingsReady, parentIntroSeen } = useSettings();
   const [now, setNow] = useState(() => Date.now());
   useFocusEffect(useCallback(() => setNow(Date.now()), []));
   useEffect(() => {
@@ -55,6 +58,8 @@ export default function ParentArea() {
     ]);
 
   if (guard) return guard;
+  if (!settingsReady) return null;
+  if (!parentIntroSeen) return <Redirect href="/parent/intro" />;
 
   return (
     <Screen>
@@ -69,6 +74,8 @@ export default function ParentArea() {
           <Stat label="Total words" value={String(report.totalWords)} />
           <Stat label="Streak" value={`🔥 ${currentStreak(state, now)}`} />
         </View>
+
+        <WeeklyShareCard childName={active?.name ?? 'My child'} report={report} />
 
         <Text style={styles.heading}>Practice at home</Text>
         {practice.length === 0 ? (
@@ -106,6 +113,9 @@ export default function ParentArea() {
             <BigButton label="⏰ Reminder" color={colors.primary} onPress={() => router.push('/parent/reminders')} />
           </>
         ) : null}
+
+        <Text style={styles.heading}>Getting started</Text>
+        <BigButton label="💡 How Little Roots works" color={colors.primary} onPress={() => router.push({ pathname: '/parent/intro', params: { replay: '1' } })} />
 
         <Text style={styles.heading}>Settings</Text>
         <BigButton label="⚙️ Sound & Buddy language" color={colors.primary} onPress={() => router.push('/parent/settings')} />

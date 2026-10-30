@@ -49,7 +49,7 @@ test('loads saved family settings', async () => {
 test('saves changes together', async () => {
   await mount();
   await act(async () => { api.setSoundEffects(false); api.setBuddyLanguage('hy'); await Promise.resolve(); await Promise.resolve(); });
-  expect(JSON.parse(storage.store.value!)).toEqual({ soundEffects: false, buddyLanguage: 'hy' });
+  expect(JSON.parse(storage.store.value!)).toEqual({ soundEffects: false, buddyLanguage: 'hy', parentIntroSeen: false });
 });
 test('corrupt values use safe defaults', async () => {
   storage.store.value = '{bad'; await mount();
@@ -62,5 +62,15 @@ test('reports failed save and retries latest settings on the next change', async
   storage.store.failWrite = false;
   await act(async () => { api.setBuddyLanguage('hy'); await Promise.resolve(); await Promise.resolve(); });
   expect(api.saveError).toBe(false);
-  expect(JSON.parse(storage.store.value!)).toEqual({ soundEffects: false, buddyLanguage: 'hy' });
+  expect(JSON.parse(storage.store.value!)).toEqual({ soundEffects: false, buddyLanguage: 'hy', parentIntroSeen: false });
+});
+test('remembers that the parent intro was seen', async () => {
+  await mount();
+  expect(api.parentIntroSeen).toBe(false);
+  await act(async () => { api.setParentIntroSeen(true); await Promise.resolve(); await Promise.resolve(); });
+  expect(JSON.parse(storage.store.value!)).toMatchObject({ parentIntroSeen: true });
+  storage.store.value = JSON.stringify({ parentIntroSeen: 'yes' });
+  await act(async () => root?.unmount()); root = null;
+  await mount();
+  expect(api.parentIntroSeen).toBe(false);
 });

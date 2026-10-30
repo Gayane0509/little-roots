@@ -44,6 +44,7 @@ describe('parent gate', () => {
     expect(parseGateRoute('/parent/report')).toBe('/parent/report');
     expect(parseGateRoute('/parent/children')).toBe('/parent/children');
     expect(parseGateRoute('/parent/settings')).toBe('/parent/settings');
+    expect(parseGateRoute('/parent/intro')).toBe('/parent/intro');
     expect(parseGateRoute('/lesson')).toBe('/parent');
     expect(parseGateRoute(undefined)).toBe('/parent');
   });

@@ -74,15 +74,19 @@ locked theme, free words finished, 4th game of the day, 6th recording, full repo
       safe migration from single-child saves, serialized mutations, guaranteed deletes, parent management screen.
 - [ ] Second language pack (architecture for Russian / Georgian / Persian).
 
+### Wave 8 — parent onboarding & sharing (done)
+- [x] Skippable 4-step parent intro (`/parent/intro`): a day's lesson, family voice, reminder, free vs premium;
+      shown once on first parent entry (`settings.parentIntroSeen`), replayable from "How Little Roots works".
+- [x] "Share this week" card on parent home: plain-text summary via the Share API; web without Web Share copies
+      to the clipboard; a dismissed share sheet never copies. view-shot image not added (not installed; text is
+      lighter and works everywhere).
+
 ## Next steps (prioritized, for whoever resumes)
 
-1. Wave 8 — parent onboarding & sharing: after the child's first setup, a short skippable parent intro (how a
-   day works, family voice, reminder, free vs premium); weekly "progress card" the parent can share (rendered
-   image via react-native-view-shot? only if already installed — else a text share via Share API).
-2. Wave 9 — language packs: refactor content (themes, alphabet, phrases, audio) behind a `LanguagePack` interface
+1. Wave 9 — language packs: refactor content (themes, alphabet, phrases, audio) behind a `LanguagePack` interface
    so Russian/Georgian/Persian can be added; ship Armenian as the first pack; parent picks the family language.
-3. Accessibility pass: large system text sizes, screen-reader order, colour contrast of muted text.
-4. Final: full regression in the web preview, FINAL_REPORT.md (features, architecture, tests, limitations, owner
+2. Accessibility pass: large system text sizes, screen-reader order, colour contrast of muted text.
+3. Final: full regression in the web preview, FINAL_REPORT.md (features, architecture, tests, limitations, owner
    actions, future roadmap), push. Deadline 2026-11-01 02:00 (+04).
 
 ## Decisions
@@ -105,6 +109,9 @@ locked theme, free words finished, 4th game of the day, 6th recording, full repo
 - Disk was full (freed ~18 GB of caches with owner approval); keep an eye on free space for native builds.
 
 ## Log
+
+- 2026-10-30 19:20 (+04): Wave 8 done (parent intro + share card); cross-review fixed nav stack on replay,
+  web cancel copying to clipboard, loading flash; 31 suites / 130 tests green; verified in web preview.
 
 (Times from git commits, Armenia time.)
 

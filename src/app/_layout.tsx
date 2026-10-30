@@ -35,6 +35,7 @@ function ProfileTree() {
             <Stack.Screen name="games/read" />
             <Stack.Screen name="parent/reminders" />
             <Stack.Screen name="parent/settings" />
+            <Stack.Screen name="parent/intro" />
           </Stack>
         </LettersProvider>
     </ProgressProvider>;
