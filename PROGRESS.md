@@ -98,8 +98,9 @@ locked theme, free words finished, 4th game of the day, 6th recording, full repo
 
 ## Next steps (prioritized, for whoever resumes)
 
-1. Final: full regression in the web preview, FINAL_REPORT.md (features, architecture, tests, limitations, owner
-   actions, future roadmap), push. Deadline 2026-11-01 02:00 (+04).
+1. Done: final regression + FINAL_REPORT.md (keep it updated if more waves land before the deadline).
+2. Optional, if time remains: wire screens/state to `ACTIVE_PACK` (no visible change; prerequisite for language 2);
+   per-language progress keys with migration; more rhymes/stories per theme.
 
 ## Decisions
 
@@ -121,6 +122,9 @@ locked theme, free words finished, 4th game of the day, 6th recording, full repo
 - Disk was full (freed ~18 GB of caches with owner approval); keep an eye on free space for native builds.
 
 ## Log
+
+- 2026-10-30 20:30 (+04): final regression in web preview (all screens, no console errors); FINAL_REPORT.md
+  written. Mandate runs to 2026-11-01 02:00 — further waves update this file and FINAL_REPORT.md.
 
 - 2026-10-30 20:10 (+04): Wave 9 foundation (language packs + validator); review tightened the validator and
   the README wording; 33 suites / 135 tests green.
