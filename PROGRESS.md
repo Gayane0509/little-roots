@@ -74,6 +74,17 @@ locked theme, free words finished, 4th game of the day, 6th recording, full repo
       safe migration from single-child saves, serialized mutations, guaranteed deletes, parent management screen.
 - [ ] Second language pack (architecture for Russian / Georgian / Persian).
 
+## Next steps (prioritized, for whoever resumes)
+
+1. Wave 8 — parent onboarding & sharing: after the child's first setup, a short skippable parent intro (how a
+   day works, family voice, reminder, free vs premium); weekly "progress card" the parent can share (rendered
+   image via react-native-view-shot? only if already installed — else a text share via Share API).
+2. Wave 9 — language packs: refactor content (themes, alphabet, phrases, audio) behind a `LanguagePack` interface
+   so Russian/Georgian/Persian can be added; ship Armenian as the first pack; parent picks the family language.
+3. Accessibility pass: large system text sizes, screen-reader order, colour contrast of muted text.
+4. Final: full regression in the web preview, FINAL_REPORT.md (features, architecture, tests, limitations, owner
+   actions, future roadmap), push. Deadline 2026-11-01 02:00 (+04).
+
 ## Decisions
 
 - Expo Router + plain React state/context; no state library. RN `Animated` for animations (no Reanimated dependency
