@@ -6,12 +6,14 @@ import type { Word } from '@/content/types';
 import { goBackOrHome } from '@/lib/navigation';
 import { stopSpeaking } from '@/lib/speech';
 import { stopWordAudio, useSpeakWord } from '@/state/recordings';
+import { useProgressActions } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
 import { WordArt } from '@/ui/WordArt';
 import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 import { buildMemoryDeck, type MemoryCard } from './logic';
+import { GameDoneActions } from './GameDoneActions';
 
 const MISMATCH_DELAY_MS = 900;
 
@@ -68,6 +70,8 @@ function FlipCard({ card, open, matched, disabled, onPress, width, height }: {
 
 export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
   const speak = useSpeakWord();
+  const { recordGamePlayed } = useProgressActions();
+  const counted = useRef(false);
   const { width, height } = useWindowDimensions();
   const [deck, setDeck] = useState(() => buildMemoryDeck(seenWords));
   const [flipped, setFlipped] = useState<string[]>([]);
@@ -85,6 +89,9 @@ export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
 
   const pairs = deck.length / 2;
   const won = pairs > 0 && matched.length === pairs;
+  useEffect(() => {
+    if (won && !counted.current) { counted.current = true; recordGamePlayed(); }
+  }, [won, recordGamePlayed]);
 
   const gap = spacing.sm;
   const cardW = Math.max(TOUCH_MIN, Math.floor((width - spacing.md * 2 - gap * 2) / 3) - 1);
@@ -108,6 +115,7 @@ export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
     if (first.word.id === card.word.id) {
       void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       t.matched = [...t.matched, card.word.id];
+      if (t.matched.length === pairs && !counted.current) { counted.current = true; recordGamePlayed(); }
       t.flipped = [];
       setMatched(t.matched);
       setFlipped([]);
@@ -128,6 +136,7 @@ export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
     timer.current = null;
     stopWordAudio();
     stopSpeaking();
+    counted.current = false;
     turn.current = { flipped: [], matched: [], busy: false };
     setDeck(buildMemoryDeck(seenWords));
     setFlipped([]);
@@ -139,8 +148,7 @@ export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
     return (
       <View style={styles.win}>
         <Buddy mood="cheer" message={`You did it in ${moves} moves!`} />
-        <BigButton label="Play again" color={colors.success} onPress={playAgain} />
-        <BigButton label="Back" color={colors.textMuted} onPress={goBackOrHome} />
+        <GameDoneActions onPlayAgain={playAgain} />
       </View>
     );
   }

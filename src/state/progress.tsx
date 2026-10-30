@@ -16,7 +16,7 @@ type ProgressUpdate = (previous: ProgressState) => ProgressState;
 function defaultProgress(): ProgressState {
   return {
     childName: '', stars: 0, streakDays: 0, lastLessonDay: null,
-    words: {}, lessons: [], stickers: [], isPremium: false,
+    words: {}, lessons: [], stickers: [], isPremium: false, gamesToday: { day: '', count: 0 },
   };
 }
 
@@ -69,12 +69,22 @@ export function parseProgress(raw: string | null, now: number = Date.now()): Pro
       words,
       lessons: Array.isArray(value.lessons) ? recentLessons(value.lessons.filter(isLessonRecord), now) : defaults.lessons,
       stickers: Array.isArray(value.stickers) ? value.stickers.filter((sticker): sticker is string => typeof sticker === 'string') : defaults.stickers,
+      gamesToday: isRecord(value.gamesToday) && typeof value.gamesToday.day === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value.gamesToday.day) && typeof value.gamesToday.count === 'number' && Number.isSafeInteger(value.gamesToday.count) && value.gamesToday.count >= 0
+        ? { day: value.gamesToday.day, count: value.gamesToday.count } : defaults.gamesToday,
       // The purchase flow is a stub. A saved dev toggle cannot unlock production content.
       isPremium: __DEV__ && typeof value.isPremium === 'boolean' ? value.isPremium : false,
     };
   } catch {
     return defaults;
   }
+}
+
+export function gamesPlayedToday(state: ProgressState, now: number = Date.now()): number {
+  return state.gamesToday?.day === localDay(now) ? state.gamesToday.count : 0;
+}
+
+export function applyRecordGamePlayed(previous: ProgressState, now: number): ProgressState {
+  return { ...previous, gamesToday: { day: localDay(now), count: gamesPlayedToday(previous, now) + 1 } };
 }
 
 export function applyRecordAnswer(previous: ProgressState, wordId: string, correct: boolean, now: number): ProgressState {
@@ -219,6 +229,10 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     const now = Date.now();
     update((previous) => applyCompleteLesson(previous, summary, now));
   }, [update]);
+  const recordGamePlayed = useCallback<ProgressApi['recordGamePlayed']>(() => {
+    const now = Date.now();
+    update((previous) => applyRecordGamePlayed(previous, now));
+  }, [update]);
   const setPremium = useCallback<ProgressApi['setPremium']>((value) => {
     update((previous) => ({ ...previous, isPremium: __DEV__ ? value : false }));
   }, [update]);
@@ -233,8 +247,8 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   }, [flush, load]);
 
   const actions = useMemo<ProgressActions>(() => ({
-    setChildName, recordAnswer, completeLesson, setPremium, reset, retryStorage,
-  }), [setChildName, recordAnswer, completeLesson, setPremium, reset, retryStorage]);
+    setChildName, recordAnswer, completeLesson, recordGamePlayed, setPremium, reset, retryStorage,
+  }), [setChildName, recordAnswer, completeLesson, recordGamePlayed, setPremium, reset, retryStorage]);
   const snapshot = useMemo<ProgressSnapshot>(() => ({ state, ready, storageError }), [state, ready, storageError]);
 
   return (

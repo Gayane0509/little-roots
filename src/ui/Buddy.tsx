@@ -1,15 +1,15 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { AccessibilityInfo, Animated, Easing, StyleSheet, Text, View } from 'react-native';
+import { SvgXml } from 'react-native-svg';
 
+import { BUDDY_ART } from '@/art/buddy';
 import { colors, font, radius, spacing } from './tokens';
 
 export const BUDDY_NAME = { hy: 'Արջուկ', translit: 'Arjuk', en: 'Little Bear' } as const;
 
-type Mood = 'happy' | 'cheer' | 'think';
-
-const FACE: Record<Mood, string> = { happy: '🐻', cheer: '🥳', think: '🤔' };
+type Mood = 'happy' | 'cheer' | 'think' | 'sleep';
 
 interface BuddyProps {
-  /** What the buddy says, shown in a speech bubble. */
   message?: string;
   mood?: Mood;
   size?: number;
@@ -17,29 +17,40 @@ interface BuddyProps {
 
 /** The child's friend who guides every lesson. */
 export function Buddy({ message, mood = 'happy', size = 72 }: BuddyProps) {
+  const [bounce] = useState(() => new Animated.Value(0));
+  const [reduceMotion, setReduceMotion] = useState(true);
+
+  useEffect(() => {
+    let active = true;
+    void AccessibilityInfo.isReduceMotionEnabled().then((value) => {
+      if (active) setReduceMotion(value);
+    }).catch(() => {});
+    const listener = AccessibilityInfo.addEventListener('reduceMotionChanged', setReduceMotion);
+    return () => { active = false; listener.remove(); };
+  }, []);
+
+  useEffect(() => {
+    if (reduceMotion) { bounce.setValue(0); return; }
+    const animation = Animated.loop(Animated.sequence([
+      Animated.timing(bounce, { toValue: -3, duration: 900, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+      Animated.timing(bounce, { toValue: 0, duration: 900, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+    ]));
+    animation.start();
+    return () => animation.stop();
+  }, [bounce, reduceMotion]);
+
   return (
     <View style={styles.row}>
-      <Text style={{ fontSize: size }} accessibilityLabel={BUDDY_NAME.en}>
-        {FACE[mood]}
-      </Text>
-      {message ? (
-        <View style={styles.bubble}>
-          <Text style={styles.message}>{message}</Text>
-        </View>
-      ) : null}
+      <Animated.View accessible accessibilityRole="image" accessibilityLabel={BUDDY_NAME.en} style={{ width: size, height: size, transform: [{ translateY: bounce }] }}>
+        <SvgXml xml={BUDDY_ART[mood]} width={size} height={size} />
+      </Animated.View>
+      {message ? <View style={styles.bubble}><Text style={styles.message}>{message}</Text></View> : null}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
-  bubble: {
-    flexShrink: 1,
-    backgroundColor: colors.surface,
-    borderRadius: radius.md,
-    borderWidth: 2,
-    borderColor: colors.border,
-    padding: spacing.md,
-  },
+  bubble: { flexShrink: 1, backgroundColor: colors.surface, borderRadius: radius.md, borderWidth: 2, borderColor: colors.border, padding: spacing.md },
   message: { fontSize: font.body, color: colors.text, fontWeight: '600' },
 });

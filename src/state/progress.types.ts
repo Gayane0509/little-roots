@@ -17,6 +17,7 @@ export interface ProgressState {
   lessons: LessonRecord[];
   stickers: string[];
   isPremium: boolean;
+  gamesToday?: { day: string; count: number };
 }
 
 export interface LessonSummary {
@@ -36,6 +37,7 @@ export interface ProgressApi {
   /** Update a word's spaced-repetition box after the child answers (or is taught) it. */
   recordAnswer(wordId: string, correct: boolean): void;
   completeLesson(summary: LessonSummary): void;
+  recordGamePlayed(): void;
   /** Paywall stub: flips premium on/off until real purchases are wired. */
   setPremium(value: boolean): void;
   reset(): void;

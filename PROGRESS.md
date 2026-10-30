@@ -44,9 +44,20 @@ Free: Family + Food themes. Paid: everything else. Offline, no ads, no accounts,
       `node scripts/render-art.mjs <theme>`), WordArt component with emoji fallback, used in lesson, games, theme pages,
       stickers, parent lists.
 
+### Wave 4 — subscription value (owner request; queued after Wave 3)
+Free: Family + Food, full daily lesson, 5 family-voice recordings, trace first 6 letters, 3 games/day, weekly
+summary, stickers, reminders. Premium: all 12 themes, unlimited recordings, trace all 39 letters, unlimited games,
+full parent report (every word, mastery by theme, weekly history). Paywall moments (always behind the parent gate):
+locked theme, free words finished, 4th game of the day, 6th recording, full report. Pricing: yearly $34.99
+("$2.92/month"), monthly $4.99, 7-day free trial (store config). Rules live in src/lib/entitlements.ts.
+- [x] Gate games/day (incl. Play again), recordings (re-record allowed), tracing via entitlements; full parent report
+      (/parent/report: every word, mastery stars, theme bars, 8 rolling weeks); paywall redesign with reason-tailored
+      headline kept through the gate, Free vs Premium table; "free words finished" moment on home + lesson.
+
 ### Wave 3 — differentiation
 - [x] Games area: memory match, listen & find, read it (feed spaced repetition).
-- [ ] Letter tracing for ages 6–8.
+- [x] Letter tracing (5–8): trace canvas, forgiving score, traced stars, persisted. Reviewed and fixed (gesture capture, scribble guard, storage).
+- [x] Illustrated bear buddy (4 moods, idle bounce, reduce-motion aware); theme cards use word art.
 - [ ] Multiple child profiles.
 - [ ] Second language pack (architecture for Russian / Georgian / Persian).
 
@@ -69,6 +80,11 @@ Free: Family + Food themes. Paid: everything else. Offline, no ads, no accounts,
 - Disk was full (freed ~18 GB of caches with owner approval); keep an eye on free space for native builds.
 
 ## Log
+
+- 2026-10-30 ~20:15 (+04): Waves 3+4 merged after 2 reviews (14 findings fixed). 85 tests. Pushed.
+
+- 2026-10-30 ~19:30 (+04): Wave 3 (buddy art + tracing) built by Codex, reviewed (9 findings); Codex now running
+  review fixes + Wave 4 subscription features in one pass (thread 01a18cb1). Not yet committed.
 
 - 2026-10-30 ~18:45 (+04): 96 original SVG illustrations (reviewed sheet by sheet; colours redone twice → crayons;
   horse + nose redrawn), wired into lesson, games, theme pages, stickers, letters, parent lists. 63 tests.

@@ -4,6 +4,7 @@ import { AccessibilityInfo, Animated, Pressable, ScrollView, StyleSheet, Text, V
 import * as Haptics from 'expo-haptics';
 
 import { THEMES } from '@/content/themes';
+import { freeWordsFinished } from '@/features/paywall/offer';
 import type { Word } from '@/content/types';
 import { gameOptions, shuffled } from '@/features/lesson/game';
 import { initialLessonState, lessonReducer, type Step } from '@/features/lesson/lessonReducer';
@@ -123,7 +124,7 @@ function ReadyLesson() {
     return (
       <Screen>
         <View style={styles.centered}>
-          <Buddy message="All caught up! Come back tomorrow." />
+          {!state.isPremium && freeWordsFinished(state) ? <><Buddy mood="cheer" message="You learned all the free words! 🎉" /><BigButton label="Ask a grown-up for 80 more words" onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'themes' } })} /></> : <Buddy message="All caught up! Come back tomorrow." />}
           <BigButton label="Back home" onPress={() => router.replace('/')} />
         </View>
       </Screen>

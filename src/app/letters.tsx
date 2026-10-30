@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { ALPHABET, type Letter } from '@/content/alphabet';
+import { canTraceLetter } from '@/lib/entitlements';
+import { useProgressState } from '@/state/progress';
+import { useTracedLetters } from '@/state/letters';
 import { LetterDetail } from '@/features/letters/LetterDetail';
 import { goBackOrHome } from '@/lib/navigation';
 import { speakArmenian } from '@/lib/speech';
@@ -12,6 +15,8 @@ import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 const TILE_COLORS = ['#FFD6A5', '#CDE7FF', '#CAFFBF', '#FFC8DD', '#FDFFB6', '#E0C3FC'];
 
 export default function Letters() {
+  const { traced } = useTracedLetters();
+  const { state } = useProgressState();
   const [selected, setSelected] = useState<Letter | null>(null);
 
   const open = (letter: Letter) => {
@@ -23,13 +28,13 @@ export default function Letters() {
     <Screen>
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>🔤 Letters</Text>
-        <Text style={styles.sub}>Tap a letter to meet it!</Text>
+        <Text style={styles.sub}>Tap a letter to meet it! · {traced.size} of {ALPHABET.length} traced</Text>
         <View style={styles.grid}>
           {ALPHABET.map((letter, i) => (
             <Pressable
               key={letter.upper}
               accessibilityRole="button"
-              accessibilityLabel={`Letter ${letter.name}`}
+              accessibilityLabel={`Letter ${letter.name}${traced.has(letter.upper) ? ", traced" : ""}`}
               onPress={() => open(letter)}
               style={({ pressed }) => [
                 styles.tile,
@@ -38,6 +43,7 @@ export default function Letters() {
             >
               <Text style={styles.upper}>{letter.upper}</Text>
               <Text style={styles.lower}>{letter.lower}</Text>
+              {traced.has(letter.upper) ? <Text style={styles.star} accessible={false}>⭐</Text> : !canTraceLetter(state.isPremium, i) ? <Text style={styles.star} accessible={false}>🔒</Text> : null}
             </Pressable>
           ))}
         </View>
@@ -61,5 +67,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   upper: { fontSize: 34, fontWeight: '800', color: colors.text },
+  star: { position: 'absolute', right: 4, top: 4, fontSize: 16 },
   lower: { fontSize: font.heading, fontWeight: '700', color: colors.textMuted },
 });

@@ -7,6 +7,8 @@ import { THEMES } from '@/content/themes';
 import type { Word } from '@/content/types';
 import { useParentGuard } from '@/features/parent/gate';
 import { useArmenianVoiceAvailable } from '@/lib/speech';
+import { canRecordMore, FREE_LIMITS } from '@/lib/entitlements';
+import { useProgressState } from '@/state/progress';
 import { useRecordings, useSpeakWord } from '@/state/recordings';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
@@ -14,6 +16,7 @@ import { WordArt } from '@/ui/WordArt';
 import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 export default function FamilyVoicesScreen() {
+  const { state } = useProgressState();
   const guard = useParentGuard('/parent/voices');
   const { ready, uris, saveRecording, deleteRecording } = useRecordings();
   const speakWord = useSpeakWord();
@@ -29,6 +32,7 @@ export default function FamilyVoicesScreen() {
   }, [recorder]);
 
   async function start(word: Word) {
+    if (!uris[word.id] && !canRecordMore(state.isPremium, Object.keys(uris).length)) { router.push({ pathname: '/parent/paywall', params: { reason: 'voice' } }); return; }
     if (Platform.OS === 'web') { setMessage('Recording is unavailable in the web app. Please use your phone.'); return; }
     if (!ready || busy || recordingRef.current) return;
     setBusy(true);
@@ -77,6 +81,7 @@ export default function FamilyVoicesScreen() {
       <Pressable accessibilityRole="button" accessibilityLabel="Back to parent area" onPress={() => router.back()} style={styles.back}><Text style={styles.backText}>‹ Back</Text></Pressable>
       <Text style={styles.heading}>Family voice — record words in your own voice. Recordings stay on this device.</Text>
       {voiceAvailable === false && <View style={styles.banner}><Text style={styles.bannerText}>This device has no Armenian voice. Record words so your child hears them.</Text></View>}
+      <Text style={styles.message}>{state.isPremium ? 'Unlimited family recordings' : `${Object.keys(uris).length} of ${FREE_LIMITS.recordings} free recordings used`}</Text>
       {!!message && <Text accessibilityLiveRegion="polite" style={styles.message}>{message}</Text>}
       {THEMES.map((theme) => <View key={theme.id} style={styles.section}>
         <Text style={styles.theme}>{theme.emoji} {theme.titleEn}</Text>
@@ -84,7 +89,7 @@ export default function FamilyVoicesScreen() {
           <View style={styles.word}><View style={styles.wordTitle}><WordArt wordId={word.id} emoji={word.emoji} size={42} /><Text style={styles.wordHy}>{word.hy}</Text></View><Text style={styles.wordEn}>{word.en}</Text></View>
           <View style={styles.buttons}>
             <BigButton label="Play" onPress={() => speakWord(word)} disabled={!!recordingId || busy} style={styles.button} />
-            <BigButton label={recordingId === word.id ? 'Stop' : uris[word.id] ? 'Re-record' : 'Record'}
+            <BigButton label={recordingId === word.id ? 'Stop' : uris[word.id] ? 'Re-record' : canRecordMore(state.isPremium, Object.keys(uris).length) ? 'Record' : '🔒 Unlock unlimited recordings'}
               onPress={() => { if (recordingId === word.id) void stop(); else void start(word); }}
               disabled={busy || (!!recordingId && recordingId !== word.id) || !ready} style={styles.button} />
             {uris[word.id] && <BigButton label="Delete" color={colors.danger} onPress={() => confirmDelete(word)} disabled={!!recordingId || busy} style={styles.button} />}

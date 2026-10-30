@@ -1,6 +1,8 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import type { Theme } from '@/content/types';
+import { themeArtWordId } from '@/content/themeArt';
+import { WordArt } from '@/ui/WordArt';
 import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 interface ThemeCardProps {
@@ -23,7 +25,7 @@ export function ThemeCard({ theme, learned, total, unlocked, onOpenPress, onLock
       onPress={unlocked ? onOpenPress : onLockedPress}
       style={[styles.card, { backgroundColor: unlocked ? theme.color : colors.locked }]}
     >
-      <Text style={styles.emoji}>{unlocked ? theme.emoji : '🔒'}</Text>
+      <View style={styles.art}><WordArt wordId={themeArtWordId(theme.id)} emoji={theme.emoji} size={56} />{!unlocked ? <Text style={styles.lock}>🔒</Text> : null}</View>
       <View style={styles.texts}>
         <Text style={styles.titleHy} numberOfLines={1} adjustsFontSizeToFit>{theme.titleHy}</Text>
         <Text style={styles.titleEn}>{theme.titleEn}</Text>
@@ -43,7 +45,8 @@ const styles = StyleSheet.create({
     padding: spacing.md,
     justifyContent: 'space-between',
   },
-  emoji: { fontSize: 40 },
+  art: { width: 64, height: 64, alignItems: 'center', justifyContent: 'center' },
+  lock: { position: 'absolute', right: -4, bottom: -4, fontSize: 24 },
   texts: { gap: 2 },
   titleHy: { fontSize: font.body, fontWeight: '800', color: colors.text },
   titleEn: { fontSize: font.body, color: colors.text },

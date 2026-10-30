@@ -3,6 +3,7 @@ import { createElement, useCallback, useEffect, useRef, type ReactElement } from
 import { AppState } from 'react-native';
 
 import type { GateRoute } from './gateRules';
+import { parseOfferReason } from '@/features/paywall/offer';
 
 const VALID_MS = 5 * 60 * 1000;
 
@@ -34,7 +35,8 @@ export function isGatePassed(): boolean {
  * while the screen is open it re-checks on focus and when the app returns to the foreground.
  * Call it at the top of the screen and return the result when it is not null.
  */
-export function useParentGuard(route: GateRoute): ReactElement | null {
+export function useParentGuard(route: GateRoute, reason?: unknown): ReactElement | null {
+  const validReason = route === '/parent/paywall' ? parseOfferReason(reason) : undefined;
   // Only an expiry after a successful pass needs an imperative redirect; a missing pass renders <Redirect>.
   const wasPassed = useRef(false);
   const passed = isGatePassed();
@@ -44,9 +46,9 @@ export function useParentGuard(route: GateRoute): ReactElement | null {
 
   const recheck = useCallback(() => {
     if (wasPassed.current && !isGatePassed()) {
-      router.replace({ pathname: '/parent-gate', params: { next: route } });
+      router.replace({ pathname: '/parent-gate', params: validReason ? { next: route, reason: validReason } : { next: route } });
     }
-  }, [route]);
+  }, [route, validReason]);
 
   // While focused, also expire the screen at the moment the pass runs out.
   useFocusEffect(
@@ -67,5 +69,5 @@ export function useParentGuard(route: GateRoute): ReactElement | null {
   }, [recheck]);
 
   if (passed) return null;
-  return createElement(Redirect, { href: { pathname: '/parent-gate', params: { next: route } } });
+  return createElement(Redirect, { href: { pathname: '/parent-gate', params: validReason ? { next: route, reason: validReason } : { next: route } } });
 }

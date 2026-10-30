@@ -1,9 +1,10 @@
 import { router } from 'expo-router';
-import { useMemo, type ReactNode } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 
 import { goBackOrHome } from '@/lib/navigation';
-import { useProgressState } from '@/state/progress';
+import { canPlayGame } from '@/lib/entitlements';
+import { gamesPlayedToday, useProgressState } from '@/state/progress';
 import type { Word } from '@/content/types';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
@@ -45,6 +46,18 @@ export function GameShell({ title, children }: GameShellProps) {
     );
   }
 
+  return <AdmittedGame title={title} seen={seen} isPremium={state.isPremium} played={gamesPlayedToday(state)}>{children}</AdmittedGame>;
+}
+
+function AdmittedGame({ title, seen, isPremium, played, children }: { title: string; seen: Word[]; isPremium: boolean; played: number; children: (words: Word[]) => ReactNode }) {
+  const [admitted] = useState(() => canPlayGame(isPremium, played));
+  if (!admitted) {
+    return <Screen><View style={styles.locked}>
+      <Buddy mood="happy" message="That's all the games for today — see you tomorrow!" />
+      <BigButton label="Grown-ups: unlimited games" onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'games' } })} />
+      <BigButton label="Back" color={colors.textMuted} onPress={goBackOrHome} />
+    </View></Screen>;
+  }
   return (
     <Screen>
       <Text style={styles.title} accessibilityRole="header">

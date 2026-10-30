@@ -11,12 +11,13 @@ import {
   recordWrongAttempt,
   resetGateAttempts,
 } from '@/features/parent/gate';
+import { parseOfferReason } from '@/features/paywall/offer';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
 import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 export default function ParentGate() {
-  const { next } = useLocalSearchParams<{ next?: string }>();
+  const { next, reason } = useLocalSearchParams<{ next?: string; reason?: string }>();
   const [q, setQ] = useState(() => newGateQuestion());
   const [answer, setAnswer] = useState('');
   const [wrong, setWrong] = useState(false);
@@ -39,7 +40,10 @@ export default function ParentGate() {
     if (isGateAnswerCorrect(q, answer)) {
       resetGateAttempts();
       markGatePassed();
-      router.replace(parseGateRoute(next));
+      const route = parseGateRoute(next);
+      const validReason = parseOfferReason(reason);
+      if (route === '/parent/paywall' && validReason) router.replace({ pathname: route, params: { reason: validReason } });
+      else router.replace(route);
     } else {
       recordWrongAttempt();
       setCooldown(cooldownRemainingMs());

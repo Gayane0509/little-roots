@@ -1,5 +1,9 @@
-import { router, type Href } from 'expo-router';
-import { Pressable, ScrollView, StyleSheet, Text } from 'react-native';
+import { router, useFocusEffect, type Href } from 'expo-router';
+import { useCallback, useState } from 'react';
+import { gamesLeftToday } from '@/lib/entitlements';
+import { gamesPlayedToday, useProgressState } from '@/state/progress';
+import { Buddy } from '@/ui/Buddy';
+import { AppState, Pressable, ScrollView, StyleSheet, Text } from 'react-native';
 
 import { goBackOrHome } from '@/lib/navigation';
 import { BigButton } from '@/ui/BigButton';
@@ -13,17 +17,25 @@ const GAMES: { href: Href; emoji: string; title: string; sub: string; color: str
 ];
 
 export default function Games() {
+  const { state } = useProgressState();
+  const [now, setNow] = useState(() => Date.now());
+  useFocusEffect(useCallback(() => { setNow(Date.now()); const sub = AppState.addEventListener('change', (status) => { if (status === 'active') setNow(Date.now()); }); return () => sub.remove(); }, []));
+  const left = gamesLeftToday(state.isPremium, gamesPlayedToday(state, now));
   return (
     <Screen>
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title} accessibilityRole="header">🎮 Games</Text>
+        {left !== null ? <Text style={styles.count}>{left} games left today</Text> : <Text style={styles.count}>Unlimited games</Text>}
+        {left === 0 ? <><Buddy message="That's all the games for today — see you tomorrow!" /><BigButton label="Grown-ups: unlimited games" onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'games' } })} /></> : null}
         {GAMES.map((game) => (
           <Pressable
             key={game.title}
             accessibilityRole="button"
             accessibilityLabel={game.title}
             accessibilityHint={game.sub}
-            onPress={() => router.push(game.href)}
+            onPress={() => { if (left !== 0) router.push(game.href); }}
+            accessibilityState={{ disabled: left === 0 }}
+            disabled={left === 0}
             style={({ pressed }) => [styles.card, { backgroundColor: game.color, transform: [{ scale: pressed ? 0.97 : 1 }] }]}
           >
             <Text style={styles.emoji}>{game.emoji}</Text>
@@ -39,6 +51,7 @@ export default function Games() {
 
 const styles = StyleSheet.create({
   content: { gap: spacing.md, paddingBottom: spacing.xl },
+  count: { fontSize: font.body, color: colors.textMuted, textAlign: 'center', fontWeight: '700' },
   title: { fontSize: font.title, fontWeight: '800', color: colors.text, textAlign: 'center' },
   card: {
     minHeight: TOUCH_MIN + 70,

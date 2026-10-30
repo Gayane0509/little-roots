@@ -2,7 +2,9 @@ import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { Alert, AppState, Platform, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
-import { getWord } from '@/content/themes';
+import { getWord, THEMES } from '@/content/themes';
+import { canSeeFullReport } from '@/lib/entitlements';
+import { WordArt } from '@/ui/WordArt';
 import type { Word } from '@/content/types';
 import { useParentGuard } from '@/features/parent/gate';
 import { PracticeRow } from '@/features/parent/PracticeRow';
@@ -34,6 +36,7 @@ export default function ParentArea() {
   const report = weeklyReport(state, now);
 
   const practice = toWords(report.practiceWordIds.length > 0 ? report.practiceWordIds : report.newWordIds);
+  const teaserWords = practice.length >= 3 ? practice.slice(0, 3) : THEMES[0].words.slice(0, 3);
 
   const confirmReset = () =>
     Alert.alert('Reset progress?', 'This deletes all words, stars and stickers on this device.', [
@@ -70,6 +73,14 @@ export default function ParentArea() {
         ) : (
           practice.map((w) => <PracticeRow key={w.id} word={w} />)
         )}
+
+        <Text style={styles.heading}>Full progress</Text>
+        {!canSeeFullReport(state.isPremium) ? <View style={styles.teaser}>
+          <Text style={styles.body}>See every word your child learns, by theme and week.</Text>
+          {teaserWords.map((word) => <View key={word.id} style={styles.teaserRow}><WordArt wordId={word.id} emoji={word.emoji} size={32} /><Text style={styles.body}>{word.hy} · {word.en}</Text></View>)}
+          <Text style={styles.muted}>Sample preview · more words and mastery details with Premium…</Text>
+        </View> : null}
+        <BigButton label="📈 Full progress" onPress={() => router.push(canSeeFullReport(state.isPremium) ? '/parent/report' : { pathname: '/parent/paywall', params: { reason: 'report' } })} />
 
         <Text style={styles.heading}>{"Child's name"}</Text>
         <TextInput
@@ -149,6 +160,8 @@ const styles = StyleSheet.create({
   },
   statValue: { fontSize: font.title, fontWeight: '800', color: colors.primaryDark },
   statLabel: { fontSize: font.small, color: colors.textMuted },
+  teaser: { backgroundColor: colors.surface, borderRadius: radius.md, padding: spacing.md, gap: spacing.sm },
+  teaserRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, opacity: 0.72 },
   input: {
     minHeight: TOUCH_MIN,
     borderRadius: radius.md,

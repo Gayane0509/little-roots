@@ -1,10 +1,20 @@
+import { useState } from 'react';
+import * as Haptics from 'expo-haptics';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { router } from 'expo-router';
 
 import type { Letter } from '@/content/alphabet';
 import { THEMES } from '@/content/themes';
+import { ALPHABET } from '@/content/alphabet';
+import { canTraceLetter } from '@/lib/entitlements';
+import { useProgressState } from '@/state/progress';
 import { speakArmenian } from '@/lib/speech';
 import { BigButton } from '@/ui/BigButton';
 import { WordArt } from '@/ui/WordArt';
+import { Buddy } from '@/ui/Buddy';
+import { useTracedLetters } from '@/state/letters';
+import { TraceCanvas } from './TraceCanvas';
+import { isTraceGoodEnough } from './tracing';
 import { colors, font, radius, spacing } from '@/ui/tokens';
 
 interface LetterDetailProps {
@@ -14,14 +24,34 @@ interface LetterDetailProps {
 
 /** Bottom sheet with one letter: huge upper+lower case, name, sound and an example word. */
 export function LetterDetail({ letter, onClose }: LetterDetailProps) {
+  const [tracing, setTracing] = useState(false);
+  const [drawing, setDrawing] = useState(false);
+  const [feedback, setFeedback] = useState<'success' | 'retry' | null>(null);
+  const { traced, markTraced } = useTracedLetters();
+  const { state } = useProgressState();
+  const close = () => { setDrawing(false); setTracing(false); setFeedback(null); onClose(); };
   const exampleWord = letter && THEMES.flatMap((theme) => theme.words).find((word) => word.hy === letter.example.hy);
   return (
-    <Modal visible={letter !== null} transparent animationType="slide" onRequestClose={onClose}>
+    <Modal visible={letter !== null} transparent animationType="slide" onRequestClose={close}>
       <View style={styles.backdrop}>
-        <Pressable accessibilityRole="button" accessibilityLabel="Close" style={styles.dismiss} onPress={onClose} />
+        <Pressable accessibilityRole="button" accessibilityLabel="Close" style={styles.dismiss} onPress={close} />
         {letter ? (
           <View style={styles.sheet}>
-            <ScrollView contentContainerStyle={styles.content}>
+            <ScrollView scrollEnabled={!drawing} contentContainerStyle={styles.content}>
+              {tracing ? (
+                <>
+                  <Text style={styles.name}>Trace {letter.name}</Text>
+                  <View style={styles.feedback}>
+                    {feedback === 'success' ? <Buddy mood="cheer" message="⭐ Wonderful tracing!" size={48} /> : null}
+                    {feedback === 'retry' ? <Text style={styles.sound}>Try once more! Clear and try again.</Text> : null}
+                  </View>
+                  <TraceCanvas key={letter.upper} upper={letter.upper} lower={letter.lower} onDrawingChange={setDrawing} onEdit={() => setFeedback(null)} onDone={(score) => {
+                    if (isTraceGoodEnough(score)) { if (!traced.has(letter.upper)) { markTraced(letter.upper); void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {}); } setFeedback('success'); }
+                    else setFeedback('retry');
+                  }} />
+                  <BigButton label="Back to letter" color={colors.textMuted} onPress={() => { setTracing(false); setFeedback(null); }} />
+                </>
+              ) : <>
               <Text style={styles.letters} accessibilityLabel={`Letter ${letter.name}`}>
                 {letter.upper} {letter.lower}
               </Text>
@@ -49,7 +79,12 @@ export function LetterDetail({ letter, onClose }: LetterDetailProps) {
                 onPress={() => speakArmenian(letter.example.hy)}
                 accessibilityHint={`Says ${letter.example.en} in Armenian`}
               />
-              <BigButton label="Close" color={colors.textMuted} onPress={onClose} />
+              <BigButton label={canTraceLetter(state.isPremium, ALPHABET.findIndex((item) => item.upper === letter.upper)) ? '✏️ Trace it' : '🔒 Unlock tracing'} onPress={() => {
+                if (canTraceLetter(state.isPremium, ALPHABET.findIndex((item) => item.upper === letter.upper))) { setTracing(true); setFeedback(null); }
+                else { close(); router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'letters' } }); }
+              }} accessibilityHint={`Practice writing ${letter.name}`} />
+              <BigButton label="Close" color={colors.textMuted} onPress={close} />
+              </>}
             </ScrollView>
           </View>
         ) : null}
@@ -68,6 +103,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: radius.lg,
   },
   content: { padding: spacing.lg, gap: spacing.md },
+  feedback: { minHeight: 56, justifyContent: 'center' },
   letters: { fontSize: 104, lineHeight: 124, fontWeight: '800', color: colors.primaryDark, textAlign: 'center' },
   name: { fontSize: font.title, fontWeight: '800', color: colors.text, textAlign: 'center' },
   sound: { fontSize: font.body, color: colors.textMuted, textAlign: 'center' },

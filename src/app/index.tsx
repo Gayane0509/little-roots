@@ -9,6 +9,7 @@ import { currentStreak } from '@/lib/streak';
 import { useProgress } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
+import { freeWordsFinished } from '@/features/paywall/offer';
 import { Screen } from '@/ui/Screen';
 import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
@@ -60,6 +61,8 @@ export default function Home() {
 
         <Buddy message={`Բարև, ${state.childName}!`} />
 
+        {!state.isPremium && freeWordsFinished(state) ? <View style={styles.freeDone}><Buddy mood="cheer" message="You learned all the free words! 🎉" /><BigButton label="Ask a grown-up for 80 more words" onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'themes' } })} /></View> : null}
+
         <BigButton label="Start today's lesson" onPress={() => router.push('/lesson')} style={styles.start} />
 
         <View style={styles.tiles}>
@@ -104,7 +107,7 @@ export default function Home() {
                 unlocked={isThemeUnlocked(theme, state.isPremium)}
                 onOpenPress={() => router.push({ pathname: '/theme/[id]', params: { id: theme.id } })}
                 onLockedPress={() =>
-                  router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall' } })
+                  router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'themes' } })
                 }
               />
             );
@@ -116,6 +119,7 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
+  freeDone: { gap: spacing.md, padding: spacing.md, backgroundColor: colors.surface, borderRadius: radius.md },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   content: { gap: spacing.lg, paddingBottom: spacing.xl },
   topRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },

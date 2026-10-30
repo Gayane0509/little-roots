@@ -1,7 +1,7 @@
 import { act, createElement, useEffect, type ReactNode } from 'react';
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import type { ProgressState } from './progress.types';
-import { ProgressProvider, applyCompleteLesson, applyRecordAnswer, parseProgress, useProgress } from './progress';
+import { ProgressProvider, applyCompleteLesson, applyRecordAnswer, applyRecordGamePlayed, gamesPlayedToday, parseProgress, useProgress } from './progress';
 
 jest.mock('react-native', () => {
   const listeners = new Set();
@@ -72,7 +72,7 @@ afterEach(async () => {
 function empty(): ProgressState {
   return {
     childName: '', stars: 0, streakDays: 0, lastLessonDay: null,
-    words: {}, lessons: [], stickers: [], isPremium: false,
+    words: {}, lessons: [], stickers: [], isPremium: false, gamesToday: { day: '', count: 0 },
   };
 }
 
@@ -111,6 +111,11 @@ describe('progress updates', () => {
     const first = applyRecordAnswer(empty(), 'family.mom', true, noon(1));
     const second = applyRecordAnswer(first, 'family.mom', false, noon(1) + 1);
     expect(second.words['family.mom']).toMatchObject({ seen: 2, correct: 1, box: 0 });
+  });
+
+  it('defaults and sanitizes the daily game counter in older or malformed saves', () => {
+    expect(parseProgress(JSON.stringify({ childName: 'Ani' })).gamesToday).toEqual({ day: '', count: 0 });
+    expect(parseProgress(JSON.stringify({ gamesToday: { day: 'x', count: -1 } })).gamesToday).toEqual({ day: '', count: 0 });
   });
 
   it('keeps valid fields from a partly corrupt save', () => {
@@ -200,5 +205,16 @@ describe('progress persistence', () => {
     await act(async () => { api.retryStorage(); api.retryStorage(); });
     expect(storage.default.getItem).toHaveBeenCalledTimes(2); // Initial load plus one retry.
     expect(api.storageError).toBe(false);
+  });
+});
+
+describe('daily game usage', () => {
+  it('counts completed games once per local day and resets the next day', () => {
+    const first = applyRecordGamePlayed(empty(), noon(1));
+    expect(gamesPlayedToday(first, noon(1))).toBe(1);
+    expect(gamesPlayedToday(first, noon(2))).toBe(0);
+    const second = applyRecordGamePlayed(first, noon(2));
+    expect(gamesPlayedToday(second, noon(2))).toBe(1);
+    expect(parseProgress(JSON.stringify(second), noon(2)).gamesToday).toEqual(second.gamesToday);
   });
 });
