@@ -1,11 +1,11 @@
 import { router } from 'expo-router';
-import { useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { goBackOrHome } from '@/lib/navigation';
 import { useBuddyLine } from '@/features/buddy/useBuddyLine';
 import { canPlayGame } from '@/lib/entitlements';
-import { gamesPlayedToday, useProgressState } from '@/state/progress';
+import { gamesPlayedToday, useProgressActions, useProgressState } from '@/state/progress';
 import type { Word } from '@/content/types';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
@@ -24,7 +24,7 @@ interface GameShellProps {
 export function GameShell({ title, children }: GameShellProps) {
   const line = useBuddyLine();
   const { state, ready } = useProgressState();
-  const seen = useMemo(() => pickSeenWords(state.words), [state.words]);
+  const seen = useMemo(() => pickSeenWords(state.words, Math.random, Infinity, undefined, state.isPremium), [state.words, state.isPremium]);
 
   if (!ready) {
     return (
@@ -36,7 +36,7 @@ export function GameShell({ title, children }: GameShellProps) {
     );
   }
 
-  if (seen.length < MIN_SEEN_WORDS) {
+  if (state.lessons.length === 0 || seen.length < MIN_SEEN_WORDS) {
     return (
       <Screen>
         <ScrollView contentContainerStyle={styles.locked}>
@@ -54,6 +54,11 @@ export function GameShell({ title, children }: GameShellProps) {
 function AdmittedGame({ title, seen, isPremium, played, children }: { title: string; seen: Word[]; isPremium: boolean; played: number; children: (words: Word[]) => ReactNode }) {
   const line = useBuddyLine();
   const [admitted] = useState(() => canPlayGame(isPremium, played));
+  const { recordGamePlayed } = useProgressActions();
+  const counted = useRef(false);
+  useEffect(() => {
+    if (admitted && !counted.current) { counted.current = true; recordGamePlayed(); }
+  }, [admitted, recordGamePlayed]);
   if (!admitted) {
     return <Screen><ScrollView contentContainerStyle={styles.locked}>
       <Buddy mood="happy" message={line('games_done_today')} />

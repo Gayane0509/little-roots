@@ -39,12 +39,15 @@ function TraceCanvasInner({ size, upper, lower, onDone, onDrawingChange, onEdit 
   const [finished, setFinished] = useState<TraceStroke[]>([]);
   const [version, setVersion] = useState(0);
   const active = useRef<TraceStroke>([]);
+  const pendingFrame = useRef<number | null>(null);
   const drawingChange = useRef(onDrawingChange);
   const edit = useRef(onEdit);
   const finishedPaths = useMemo(() => finished.map(pathFor), [finished]);
-  const clear = () => { active.current = []; setFinished([]); setVersion((v) => v + 1); edit.current?.(); };
+  const finishedStrokeElements = useMemo(() => finishedPaths.map((path, index) => <Path key={index} d={path} fill="none" stroke={colors.primary} strokeWidth={14} strokeLinecap="round" strokeLinejoin="round" />), [finishedPaths]);
+  const cancelFrame = () => { if (pendingFrame.current !== null) { cancelAnimationFrame(pendingFrame.current); pendingFrame.current = null; } };
+  const clear = () => { cancelFrame(); active.current = []; setFinished([]); setVersion((v) => v + 1); edit.current?.(); };
   useEffect(() => { drawingChange.current = onDrawingChange; edit.current = onEdit; }, [onDrawingChange, onEdit]);
-  useEffect(() => () => drawingChange.current?.(false), []);
+  useEffect(() => () => { if (pendingFrame.current !== null) cancelAnimationFrame(pendingFrame.current); drawingChange.current?.(false); }, []);
   const responder = useMemo(() => PanResponder.create({
     onStartShouldSetPanResponderCapture: () => true,
     onStartShouldSetPanResponder: () => true,
@@ -62,9 +65,13 @@ function TraceCanvasInner({ size, upper, lower, onDone, onDrawingChange, onEdit 
       const previous = active.current[active.current.length - 1];
       if (!previous || Math.hypot(x - previous.x, y - previous.y) < 2) return;
       active.current.push({ x, y });
-      setVersion((v) => v + 1);
+      if (pendingFrame.current === null) pendingFrame.current = requestAnimationFrame(() => {
+        pendingFrame.current = null;
+        setVersion((v) => v + 1);
+      });
     },
     onPanResponderRelease: () => {
+      cancelFrame();
       const completed = active.current;
       if (completed.length) setFinished((strokes) => [...strokes, completed]);
       active.current = [];
@@ -72,6 +79,7 @@ function TraceCanvasInner({ size, upper, lower, onDone, onDrawingChange, onEdit 
       drawingChange.current?.(false);
     },
     onPanResponderTerminate: () => {
+      cancelFrame();
       active.current = [];
       setVersion((v) => v + 1);
       drawingChange.current?.(false);
@@ -89,7 +97,7 @@ function TraceCanvasInner({ size, upper, lower, onDone, onDrawingChange, onEdit 
         <View style={{ width: size, height: size }} accessible accessibilityRole="image" accessibilityLabel={`Trace ${useUpper ? 'uppercase' : 'lowercase'} ${upper}`} accessibilityHint="Drawing area. Follow the faint letter with your finger." {...responder.panHandlers}>
           <Svg width={size} height={size} pointerEvents="none">
             <SvgText x={size / 2} y={size * 0.5 + size * 0.7 * (useUpper ? 0.35 : 0.15)} fontSize={size * 0.7} fontWeight="bold" fill="#D7D9DF" textAnchor="middle">{useUpper ? upper : lower}</SvgText>
-            {finishedPaths.map((path, index) => <Path key={index} d={path} fill="none" stroke={colors.primary} strokeWidth={14} strokeLinecap="round" strokeLinejoin="round" />)}
+            {finishedStrokeElements}
             {activePath ? <Path d={activePath} fill="none" stroke={colors.primary} strokeWidth={14} strokeLinecap="round" strokeLinejoin="round" /> : null}
           </Svg>
         </View>

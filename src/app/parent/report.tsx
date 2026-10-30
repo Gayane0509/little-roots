@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SectionList, StyleSheet, Text, View } from 'react-native';
 import { useMemo, useState } from 'react';
 import { THEMES } from '@/content/themes';
 import { useParentGuard } from '@/features/parent/gate';
@@ -20,22 +20,21 @@ export default function FullReportScreen() {
   if (!canSeeFullReport(state.isPremium)) {
     return <Screen><View style={styles.center}><Text style={styles.title}>Full progress</Text><Text style={styles.sub}>See every word your child learns with Premium.</Text><BigButton label="Explore Premium" onPress={() => router.replace({ pathname: '/parent/paywall', params: { reason: 'report' } })} /></View></Screen>;
   }
-  return <Screen><ScrollView contentContainerStyle={styles.content}>
+  return <Screen><SectionList sections={report.themes.map((item) => ({ ...item, data: item.words.length ? item.words : [{ word: null, stars: 0 }] }))} keyExtractor={(item, index) => item.word?.id ?? `empty-${index}`} contentContainerStyle={styles.content} stickySectionHeadersEnabled={false}
+    ListHeaderComponent={<>
     <Text style={styles.title}>Full progress</Text>
     <Text style={styles.sub}>{report.seenTotal} of {THEMES.reduce((sum, theme) => sum + theme.words.length, 0)} words explored</Text>
     <Text style={styles.heading}>Words learned over 8 weeks</Text>
     <View style={styles.chart}>{report.weeks.map((week) => <View key={week.label} style={styles.week} accessibilityLabel={`${week.label}: ${week.count} words`}>
       <Text style={styles.number}>{week.count}</Text><View style={[styles.bar, { height: Math.max(8, Math.min(100, week.count * 12)) }]} /><Text style={styles.weekLabel}>{week.label}</Text>
     </View>)}</View>
-    {report.themes.map(({ theme, words, seen, total, mastery }) => <View key={theme.id} style={styles.section}>
-      <Text style={styles.heading}>{theme.titleEn} · {seen}/{total}</Text>
-      <View style={styles.track}><View style={[styles.fill, { width: `${mastery * 100}%` }]} /></View>
-      {words.length ? words.map(({ word, stars }) => <View key={word.id} style={styles.row} accessibilityLabel={`${word.hy}, ${word.translit}, ${word.en}, ${stars} mastery stars`}>
-        <WordArt wordId={word.id} emoji={word.emoji} size={48} /><View style={styles.wordText}><Text style={styles.hy}>{word.hy}</Text><Text style={styles.sub}>{word.translit} · {word.en}</Text></View><Text style={styles.stars}>{'★'.repeat(stars)}</Text>
-      </View>) : <Text style={styles.sub}>No words explored yet.</Text>}
-    </View>)}
-    <BigButton label="Back to parents" color={colors.textMuted} onPress={() => router.back()} />
-  </ScrollView></Screen>;
+    </>}
+    renderSectionHeader={({ section }) => <View style={styles.section}><Text style={styles.heading}>{section.theme.titleEn} · {section.seen}/{section.total}</Text><View style={styles.track}><View style={[styles.fill, { width: `${section.mastery * 100}%` }]} /></View></View>}
+    renderItem={({ item }) => item.word ? <View style={styles.row} accessibilityLabel={`${item.word.hy}, ${item.word.translit}, ${item.word.en}, ${item.stars} mastery stars`}>
+      <WordArt wordId={item.word.id} emoji={item.word.emoji} size={48} /><View style={styles.wordText}><Text style={styles.hy}>{item.word.hy}</Text><Text style={styles.sub}>{item.word.translit} · {item.word.en}</Text></View><Text style={styles.stars}>{'★'.repeat(item.stars)}</Text>
+    </View> : <Text style={styles.sub}>No words explored yet.</Text>}
+    ListFooterComponent={<BigButton label="Back to parents" color={colors.textMuted} onPress={() => { if (router.canGoBack()) router.back(); else router.replace('/parent'); }} />}
+  /></Screen>;
 }
 const styles = StyleSheet.create({
   content: { gap: spacing.lg, paddingBottom: spacing.xl }, center: { flex: 1, justifyContent: 'center', gap: spacing.lg },

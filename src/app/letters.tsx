@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import { useFocusEffect } from 'expo-router';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { ALPHABET, type Letter } from '@/content/alphabet';
@@ -7,7 +8,7 @@ import { useProgressState } from '@/state/progress';
 import { useTracedLetters } from '@/state/letters';
 import { LetterDetail } from '@/features/letters/LetterDetail';
 import { goBackOrHome } from '@/lib/navigation';
-import { speakArmenian } from '@/lib/speech';
+import { speakArmenian, stopSpeaking } from '@/lib/speech';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
 import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
@@ -18,6 +19,7 @@ export default function Letters() {
   const { traced } = useTracedLetters();
   const { state } = useProgressState();
   const [selected, setSelected] = useState<Letter | null>(null);
+  useFocusEffect(useCallback(() => () => stopSpeaking(), []));
 
   const open = (letter: Letter) => {
     setSelected(letter);
@@ -49,7 +51,7 @@ export default function Letters() {
         </View>
         <BigButton label="Back" color={colors.textMuted} onPress={goBackOrHome} />
       </ScrollView>
-      <LetterDetail letter={selected} onClose={() => setSelected(null)} />
+      <LetterDetail letter={selected} onClose={() => { stopSpeaking(); setSelected(null); }} />
     </Screen>
   );
 }

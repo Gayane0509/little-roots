@@ -23,14 +23,14 @@ export default function ParentSettingsScreen() {
       </View>
     </View>
     <View style={styles.card}>
-      <Text style={styles.heading}>Buddy speaks</Text>
+      <Text style={styles.heading}>Buddy&apos;s language</Text>
       <Text style={styles.body}>Choose how Buddy gives everyday directions.</Text>
       <View style={styles.options}>
         {([['en', 'English'], ['hy', 'Armenian + English']] as const).map(([value, label]) => <Pressable key={value} accessibilityRole="button" accessibilityState={{ selected: buddyLanguage === value, disabled: !ready }} disabled={!ready} onPress={() => setBuddyLanguage(value)} style={[styles.option, buddyLanguage === value && styles.selected]}>
           <Text style={[styles.optionText, buddyLanguage === value && styles.selectedText]}>{label}</Text>
         </Pressable>)}
       </View>
-      <Text style={styles.note}>With Armenian + English, your child hears everyday Armenian phrases like “Գտի՛ր նկարը” — “Find the picture.”</Text>
+      <Text style={styles.note}>Spoken Armenian needs an Armenian voice installed on this device or recordings. Otherwise Buddy reads the English line aloud.</Text>
     </View>
     <BigButton label="Back" color={colors.textMuted} onPress={goBackOrHome} />
   </ScrollView></Screen>;

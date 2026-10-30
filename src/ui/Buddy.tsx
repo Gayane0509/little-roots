@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
-import { AccessibilityInfo, Animated, Easing, StyleSheet, Text, View } from 'react-native';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { AccessibilityInfo, Animated, Easing, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 
 import { BUDDY_ART } from '@/art/buddy';
+import { speakArmenian, speakEnglish, stopSpeaking, useArmenianVoiceAvailable } from '@/lib/speech';
+import { useSettings } from '@/state/settings';
 import { colors, font, radius, spacing } from './tokens';
 
 export const BUDDY_NAME = { hy: 'Արջուկ', translit: 'Arjuk', en: 'Little Bear' } as const;
@@ -13,12 +15,36 @@ interface BuddyProps {
   message?: string;
   mood?: Mood;
   size?: number;
+  speak?: boolean;
 }
 
 /** The child's friend who guides every lesson. */
-export function Buddy({ message, mood = 'happy', size = 72 }: BuddyProps) {
+export function Buddy({ message, mood = 'happy', size = 72, speak = true }: BuddyProps) {
   const [bounce] = useState(() => new Animated.Value(0));
   const [reduceMotion, setReduceMotion] = useState(true);
+  const { buddyLanguage } = useSettings();
+  const armenianVoiceAvailable = useArmenianVoiceAvailable();
+  const lastSpoken = useRef<string | undefined>(undefined);
+
+  const replay = useCallback(() => {
+    if (!message) return;
+    const lines = message.split('\n');
+    if (buddyLanguage === 'hy' && lines.length > 1 && lines.length % 2 === 0) {
+      const spokenLines = lines.filter((_, index) => index % 2 === (armenianVoiceAvailable ? 0 : 1));
+      if (armenianVoiceAvailable) speakArmenian(spokenLines.join(' '));
+      else speakEnglish(spokenLines.join(' '));
+    } else speakEnglish(message);
+  }, [message, buddyLanguage, armenianVoiceAvailable]);
+
+  useEffect(() => {
+    if (!message || !speak) { lastSpoken.current = undefined; return; }
+    if (buddyLanguage === 'hy' && armenianVoiceAvailable === null) return;
+    if (lastSpoken.current === message) return;
+    lastSpoken.current = message;
+    replay();
+  }, [message, replay, speak, buddyLanguage, armenianVoiceAvailable]);
+
+  useEffect(() => () => { if (speak) stopSpeaking(); }, [speak]);
 
   useEffect(() => {
     let active = true;
@@ -44,7 +70,7 @@ export function Buddy({ message, mood = 'happy', size = 72 }: BuddyProps) {
       <Animated.View accessible accessibilityRole="image" accessibilityLabel={BUDDY_NAME.en} style={{ width: size, height: size, transform: [{ translateY: bounce }] }}>
         <SvgXml xml={BUDDY_ART[mood]} width={size} height={size} />
       </Animated.View>
-      {message ? <View style={styles.bubble}><Text style={styles.message}>{message}</Text></View> : null}
+      {message ? <View style={styles.bubble}><Text style={styles.message}>{message}</Text>{speak ? <Pressable accessibilityRole="button" accessibilityLabel="Replay Buddy's message" onPress={replay} style={styles.replay}><Text style={styles.replayText}>🔊</Text></Pressable> : null}</View> : null}
     </View>
   );
 }
@@ -53,4 +79,6 @@ const styles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   bubble: { flexShrink: 1, backgroundColor: colors.surface, borderRadius: radius.md, borderWidth: 2, borderColor: colors.border, padding: spacing.md },
   message: { fontSize: font.body, color: colors.text, fontWeight: '600' },
+  replay: { alignSelf: 'flex-end', minWidth: 48, minHeight: 48, alignItems: 'center', justifyContent: 'center' },
+  replayText: { fontSize: 26 },
 });

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as Haptics from 'expo-haptics';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { router } from 'expo-router';
@@ -9,7 +9,7 @@ import { ALPHABET } from '@/content/alphabet';
 import { useBuddyLine } from '@/features/buddy/useBuddyLine';
 import { canTraceLetter } from '@/lib/entitlements';
 import { useProgressState } from '@/state/progress';
-import { speakArmenian } from '@/lib/speech';
+import { speakArmenian, stopSpeaking } from '@/lib/speech';
 import { playSfx } from '@/lib/sfx';
 import { useSettings } from '@/state/settings';
 import { BigButton } from '@/ui/BigButton';
@@ -34,7 +34,8 @@ export function LetterDetail({ letter, onClose }: LetterDetailProps) {
   const [feedback, setFeedback] = useState<'success' | 'retry' | null>(null);
   const { traced, markTraced } = useTracedLetters();
   const { state } = useProgressState();
-  const close = () => { setDrawing(false); setTracing(false); setFeedback(null); onClose(); };
+  useEffect(() => () => stopSpeaking(), []);
+  const close = () => { stopSpeaking(); setDrawing(false); setTracing(false); setFeedback(null); onClose(); };
   const exampleWord = letter && THEMES.flatMap((theme) => theme.words).find((word) => word.hy === letter.example.hy);
   return (
     <Modal visible={letter !== null} transparent animationType="slide" onRequestClose={close}>

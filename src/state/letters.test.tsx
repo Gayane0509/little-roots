@@ -65,4 +65,15 @@ test('a write failure keeps the traced letter in memory', async () => {
   await mount(); storage.store.failWrite = true;
   await act(async () => api.markTraced('Ա'));
   expect(api.traced.has('Ա')).toBe(true);
+  expect(api.saveError).toBe(true);
+  storage.store.failWrite = false;
+  await act(async () => api.markTraced('Բ'));
+  expect(api.saveError).toBe(false);
+  expect(JSON.parse(storage.store.value!)).toEqual(['Ա', 'Բ']);
+});
+test('reset clears the active child’s traced letters', async () => {
+  storage.store.value = JSON.stringify(['Ա']); await mount();
+  await act(async () => api.resetTraced());
+  expect([...api.traced]).toEqual([]);
+  expect(JSON.parse(storage.store.value!)).toEqual([]);
 });

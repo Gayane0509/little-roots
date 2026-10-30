@@ -76,7 +76,6 @@ export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
   const { soundEffects } = useSettings();
   const speak = useSpeakWord();
   const { recordGamePlayed } = useProgressActions();
-  const counted = useRef(false);
   const { width, height } = useWindowDimensions();
   const [deck, setDeck] = useState(() => buildMemoryDeck(seenWords));
   const [flipped, setFlipped] = useState<string[]>([]);
@@ -94,9 +93,7 @@ export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
 
   const pairs = deck.length / 2;
   const won = pairs > 0 && matched.length === pairs;
-  useEffect(() => {
-    if (won && !counted.current) { counted.current = true; recordGamePlayed(); playSfx('reward', soundEffects); }
-  }, [won, recordGamePlayed, soundEffects]);
+  useEffect(() => { if (won) playSfx('reward', soundEffects); }, [won, soundEffects]);
 
   const gap = spacing.sm;
   const cardW = Math.max(TOUCH_MIN, Math.floor((width - spacing.md * 2 - gap * 2) / 3) - 1);
@@ -108,6 +105,7 @@ export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
     const t = turn.current;
     if (t.busy || t.flipped.length >= 2 || t.flipped.includes(card.key) || t.matched.includes(card.word.id)) return;
     playSfx('flip', soundEffects);
+    speak(card.word);
     if (t.flipped.length === 0) {
       t.flipped = [card.key];
       setFlipped(t.flipped);
@@ -121,11 +119,9 @@ export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
     if (first.word.id === card.word.id) {
       void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       t.matched = [...t.matched, card.word.id];
-      if (t.matched.length === pairs && !counted.current) { counted.current = true; recordGamePlayed(); playSfx('reward', soundEffects); }
       t.flipped = [];
       setMatched(t.matched);
       setFlipped([]);
-      speak(card.word);
     } else {
       t.busy = true;
       timer.current = setTimeout(() => {
@@ -142,7 +138,7 @@ export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
     timer.current = null;
     stopWordAudio();
     stopSpeaking();
-    counted.current = false;
+    recordGamePlayed();
     turn.current = { flipped: [], matched: [], busy: false };
     setDeck(buildMemoryDeck(seenWords));
     setFlipped([]);

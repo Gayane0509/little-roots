@@ -28,7 +28,7 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
   const { soundEffects } = useSettings();
   const { recordAnswer, recordGamePlayed } = useProgressActions();
   const speak = useSpeakWord();
-  const optionCount = mode === 'listen' ? 4 : 3;
+  const optionCount = mode === 'listen' ? Math.min(4, seenWords.length) : 3;
   const [rounds, setRounds] = useState<ChoiceRound[]>(() => buildChoiceRounds(seenWords, optionCount));
   const [index, setIndex] = useState(0);
   const [wrongIds, setWrongIds] = useState<string[]>([]);
@@ -36,7 +36,6 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
   const [score, setScore] = useState(0);
   const [shake] = useState(() => new Animated.Value(0));
   const [bounce] = useState(() => new Animated.Value(1));
-  const counted = useRef(false);
   const locked = useRef(false);
   const hadWrong = useRef(false);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -61,8 +60,8 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
   }, [clearTimers]);
 
   useEffect(() => {
-    if (rounds.length > 0 && index >= rounds.length && !counted.current) { counted.current = true; recordGamePlayed(); playSfx('reward', soundEffects); }
-  }, [index, rounds.length, recordGamePlayed, soundEffects]);
+    if (rounds.length > 0 && index >= rounds.length) playSfx('reward', soundEffects);
+  }, [index, rounds.length, soundEffects]);
 
   const round = rounds[index] as ChoiceRound | undefined;
   const answerId = round?.answer.id;
@@ -102,7 +101,6 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
     // Read mode keeps the audio back until the child has answered.
     if (mode === 'read') speak(round.answer);
     later(() => {
-      if (index + 1 === rounds.length && !counted.current) { counted.current = true; recordGamePlayed(); playSfx('reward', soundEffects); }
       setIndex((i) => i + 1);
       setWrongIds([]);
       setSolved(false);
@@ -114,7 +112,7 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
   const playAgain = () => {
     clearTimers();
     stopWordAudio();
-    counted.current = false;
+    recordGamePlayed();
     locked.current = false;
     hadWrong.current = false;
     stopSpeaking();
@@ -147,7 +145,7 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
       <Text style={styles.round} accessibilityLabel={`Round ${index + 1} of ${rounds.length}`}>
         {index + 1} / {rounds.length}
       </Text>
-      <Buddy mood={wrongIds.length > 0 && !solved ? 'think' : 'happy'} message={message} size={56} />
+      <Buddy speak={false} mood={wrongIds.length > 0 && !solved ? 'think' : 'happy'} message={message} size={56} />
 
       {mode === 'listen' ? (
         <BigButton label="🔊 Hear it again" onPress={() => speak(round.answer)} disabled={solved} />

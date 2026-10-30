@@ -40,7 +40,8 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
   {
     heading: 'How to delete your data',
     paragraphs: [
-      'Parent area, Reset progress: deletes the name, words, stars and stickers.',
+      'Parent area, Reset progress: resets the active child’s words, stars, stickers and traced letters. The child’s name and family recordings stay.',
+      'Parent area, Children: deleting a child removes their profile, learning progress and traced letters.',
       'Parent area, Family voice: delete any recording.',
       'Delete the app: removes everything stored on the device.',
     ],

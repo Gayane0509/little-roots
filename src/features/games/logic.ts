@@ -1,10 +1,10 @@
-import { getWord } from '@/content/themes';
+import { getWord, THEMES } from '@/content/themes';
 import type { Word } from '@/content/types';
 
 /** Returns a number in [0, 1). Injectable so tests are deterministic. */
 export type Random = () => number;
 
-export const MIN_SEEN_WORDS = 4;
+export const MIN_SEEN_WORDS = 3;
 export const MEMORY_PAIRS = 6;
 export const ROUNDS = 6;
 
@@ -23,10 +23,12 @@ export function pickSeenWords(
   random: Random = Math.random,
   limit = Infinity,
   resolve: (id: string) => Word | undefined = getWord,
+  isPremium = true,
 ): Word[] {
+  const unlocked = new Set(THEMES.filter((theme) => isPremium || theme.free).map((theme) => theme.id));
   const words = Object.keys(seen)
     .map((id) => resolve(id))
-    .filter((word): word is Word => word !== undefined);
+    .filter((word): word is Word => word !== undefined && unlocked.has(word.themeId));
   return shuffle(words, random).slice(0, limit);
 }
 

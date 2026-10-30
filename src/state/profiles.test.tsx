@@ -94,6 +94,22 @@ test('switching flushes and isolates progress and traced letters', async () => {
   expect(letters.traced.has('Ա')).toBe(true);
   expect(letters.traced.has('Բ')).toBe(false);
 });
+test('downgrade keeps child data but locks later profiles and selects the first', async () => {
+  await mount();
+  await act(async () => { await profiles.add('Ani', 'family.child'); await profiles.setPremium(true); await profiles.add('Aram', 'animals.cat'); });
+  const firstId = profiles.profiles[0].id;
+  const secondId = profiles.profiles[1].id;
+  await act(async () => { progress.recordAnswer('family.mom', true); letters.markTraced('Ա'); });
+  await act(async () => { await profiles.setPremium(false); });
+  expect(profiles.activeId).toBe(firstId);
+  expect(profiles.profiles).toHaveLength(2);
+  await act(async () => { await profiles.switchTo(secondId); });
+  expect(profiles.activeId).toBe(firstId);
+  expect(storage.store.get(progressKey(secondId))).toContain('family.mom');
+  expect(storage.store.get(lettersKey(secondId))).toContain('Ա');
+  const parsed = parseProfiles(JSON.stringify({ profiles: profiles.profiles, activeId: secondId, isPremium: false }));
+  expect(parsed.activeId).toBe(firstId);
+});
 
 test('failed progress write keeps the current child active', async () => {
   await mount();

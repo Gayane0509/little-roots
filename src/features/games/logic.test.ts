@@ -37,6 +37,11 @@ describe('pickSeenWords', () => {
     expect(all.map((w) => w.id).sort()).toEqual(['family.w1', 'family.w2']);
     expect(pickSeenWords(seen, seeded(), 1, resolve)).toHaveLength(1);
   });
+  it('excludes locked premium themes for a free child', () => {
+    const animal = makeWord(9, { id: 'animals.cat', themeId: 'animals' });
+    const resolveWithAnimal = (id: string) => id === animal.id ? animal : resolve(id);
+    expect(pickSeenWords({ 'family.w1': {}, 'animals.cat': {} }, seeded(), Infinity, resolveWithAnimal, false).map((word) => word.id)).toEqual(['family.w1']);
+  });
 });
 
 describe('uniqueWords', () => {
@@ -58,6 +63,7 @@ describe('buildMemoryDeck', () => {
   });
   it('makes fewer pairs when fewer words are available', () => {
     expect(buildMemoryDeck(WORDS.slice(0, 4), seeded(), 6)).toHaveLength(8);
+    expect(buildMemoryDeck(WORDS.slice(0, 3), seeded())).toHaveLength(6);
   });
 });
 
@@ -78,6 +84,9 @@ describe('buildChoiceRounds', () => {
   it('cycles answers when there are fewer words than rounds', () => {
     const rounds = buildChoiceRounds(WORDS.slice(0, 4), 4, seeded(), 6);
     expect(rounds).toHaveLength(6);
+  });
+  it('offers three choices when only the first lesson is complete', () => {
+    expect(buildChoiceRounds(WORDS.slice(0, 3), 3, seeded())).toHaveLength(6);
   });
   it('returns no rounds when there are not enough distinct words', () => {
     expect(buildChoiceRounds(WORDS.slice(0, 2), 3, seeded())).toEqual([]);

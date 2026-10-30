@@ -58,6 +58,14 @@ locked theme, free words finished, 4th game of the day, 6th recording, full repo
 - [x] Original synthesized sound effects (correct, try, reward, flip, tap, star) with parent on/off.
 - [x] Buddy speaks Armenian + English (parent setting): 24 child-facing phrases, native-style imperatives.
 
+### Wave 7 — audit #2 fixes (done)
+- [x] Buddy speaks its instructions (auto + 🔊 replay; Armenian voice when available) for pre-readers.
+- [x] Bundled native-audio pipeline: put recordings in assets/audio/<wordId>.m4a, run
+      `node scripts/build-audio-manifest.mjs`; priority family voice → bundled → device TTS.
+- [x] Downgrade rules (extra children locked, games use only unlocked words), games unlock after 1st lesson and
+      count when started, memory cards speak on flip, recordings index read-failure safe, reset scope accurate,
+      audio stopped on exit, virtualized parent lists, tracing batched per frame, theme page "Start a lesson".
+
 ### Wave 3 — differentiation
 - [x] Games area: memory match, listen & find, read it (feed spaced repetition).
 - [x] Letter tracing (5–8): trace canvas, forgiving score, traced stars, persisted. Reviewed and fixed (gesture capture, scribble guard, storage).
@@ -89,7 +97,9 @@ locked theme, free words finished, 4th game of the day, 6th recording, full repo
 
 (Times from git commits, Armenia time.)
 
-- 2026-10-30 ~17:40 (+04): Wave 6 merged (sounds, settings, Armenian Buddy phrases); 115 tests; Armenian mode verified.
+- 2026-10-30 (+04): Wave 7 merged (audit #2: 16 fixes); 123 tests.
+
+- 2026-10-30 16:55 (+04): Wave 6 merged (sounds, settings, Armenian Buddy phrases); 115 tests; Armenian mode verified.
 
 - 2026-10-30 16:48 (+04): Wave 5 (profiles + purchases interface) merged after data-safety review (12 findings
   fixed); 104 tests; live migration verified in preview. Native Swift-5 workaround tried and removed.

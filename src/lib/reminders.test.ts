@@ -57,7 +57,7 @@ describe('reminder settings', () => {
   it('schedules a daily reminder and cancels the previous one on change', async () => {
     expect(await setReminder(true, 8, 0)).toBe('ok');
     expect(notifications.scheduleNotificationAsync).toHaveBeenCalledWith(expect.objectContaining({
-      content: { title: 'Time for Little Roots 🌱', body: 'Արջուկ is waiting with 3 new words!' },
+      content: { title: 'Time for Little Roots 🌱', body: "Արջուկ is waiting for today's Armenian practice!" },
       trigger: { type: 'daily', hour: 8, minute: 0 },
     }));
     expect(await getReminder()).toEqual({ enabled: true, hour: 8, minute: 0 });

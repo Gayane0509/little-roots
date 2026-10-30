@@ -31,8 +31,9 @@ export function parseProfiles(raw: string | null): ProfileData {
     profiles.push({ id: candidate.id, name: typeof candidate.name === 'string' ? candidate.name.trim() || 'Friend' : 'Friend', avatarWordId: validAvatar(candidate.avatarWordId) ? candidate.avatarWordId : 'family.child' });
   }
   const pendingDeletes = Array.isArray(value.pendingDeletes) ? value.pendingDeletes.filter((id): id is string => typeof id === 'string' && /^[a-zA-Z0-9-]+$/.test(id) && !seen.has(id)) : [];
-  return { profiles, activeId: profiles.some((p) => p.id === value.activeId) ? value.activeId as string : profiles[0]?.id ?? null,
-    isPremium: __DEV__ && value.isPremium === true, pendingDeletes };
+  const isPremium = __DEV__ && value.isPremium === true;
+  return { profiles, activeId: profiles.some((p, index) => p.id === value.activeId && (isPremium || index === 0)) ? value.activeId as string : profiles[0]?.id ?? null,
+    isPremium, pendingDeletes };
 }
 
 async function removeLegacyKeys(): Promise<void> {
@@ -127,7 +128,7 @@ export function ProfilesProvider({ children }: { children: ReactNode }) {
   const switchTo = useCallback((id: string) => enqueue(async () => {
     await flushAll();
     const current = dataRef.current;
-    if (id === current.activeId || !current.profiles.some((p) => p.id === id)) return;
+    if (id === current.activeId || !current.profiles.some((p, index) => p.id === id && (current.isPremium || index === 0))) return;
     await persist({ ...current, activeId: id });
   }), [enqueue, flushAll, persist]);
   const add = useCallback((name: string, avatarWordId: AvatarWordId, options?: { activate?: boolean }) => enqueue(async () => {
@@ -168,7 +169,9 @@ export function ProfilesProvider({ children }: { children: ReactNode }) {
   }), [enqueue, flushAll, persist]);
   const setPremium = useCallback((value: boolean) => enqueue(async () => {
     await flushAll();
-    await persist({ ...dataRef.current, isPremium: __DEV__ && value });
+    const current = dataRef.current;
+    const isPremium = __DEV__ && value;
+    await persist({ ...current, isPremium, activeId: isPremium ? current.activeId : current.profiles[0]?.id ?? null });
   }), [enqueue, flushAll, persist]);
   const api = useMemo<ProfilesApi>(() => ({ ...data, active: data.profiles.find((p) => p.id === data.activeId) ?? null,
     ready, error, add, rename, remove, switchTo, setPremium, mayWrite, registerFlush }), [data, ready, error, add, rename, remove, switchTo, setPremium, mayWrite, registerFlush]);

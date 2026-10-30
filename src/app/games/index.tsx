@@ -28,7 +28,7 @@ export default function Games() {
     <Screen>
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title} accessibilityRole="header">🎮 Games</Text>
-        {left !== null ? <Text style={styles.count}>{left} games left today</Text> : <Text style={styles.count}>Unlimited games</Text>}
+        {left !== null ? <Text style={styles.count}>3 games a day · {left} left today</Text> : <Text style={styles.count}>Unlimited games</Text>}
         {left === 0 ? <><Buddy message={line('games_done_today')} /><BigButton label="Grown-ups: unlimited games" onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'games' } })} /></> : null}
         {GAMES.map((game) => (
           <Pressable

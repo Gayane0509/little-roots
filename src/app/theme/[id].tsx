@@ -1,6 +1,7 @@
-import { Redirect, useLocalSearchParams } from 'expo-router';
+import { Redirect, router, useLocalSearchParams } from 'expo-router';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { themeArtWordId } from '@/content/themeArt';
 import { THEMES } from '@/content/themes';
 import type { Word } from '@/content/types';
 import { isThemeUnlocked, themeProgress } from '@/lib/lesson';
@@ -21,7 +22,7 @@ export default function ThemeDetail() {
   if (!theme) return <Redirect href="/" />;
   if (!ready) return <Screen><Text style={styles.sub}>Loading…</Text></Screen>;
   if (!isThemeUnlocked(theme, state.isPremium)) {
-    return <Redirect href={{ pathname: '/parent-gate', params: { next: '/parent/paywall' } }} />;
+    return <Redirect href={{ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'themes' } }} />;
   }
 
   const { learned, total } = themeProgress(theme, state.words);
@@ -30,7 +31,7 @@ export default function ThemeDetail() {
     <Screen background={theme.color}>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.header}>
-          <Text style={styles.headerEmoji}>{theme.emoji}</Text>
+          <WordArt wordId={themeArtWordId(theme.id)} emoji={theme.emoji} size={64} />
           <View style={styles.headerTexts}>
             <Text style={styles.titleHy} numberOfLines={1} adjustsFontSizeToFit>
               {theme.titleHy}
@@ -46,6 +47,7 @@ export default function ThemeDetail() {
           <View style={[styles.barFill, { width: `${total === 0 ? 0 : (learned / total) * 100}%` }]} />
         </View>
 
+        {learned < total ? <BigButton label="▶ Start a lesson" onPress={() => router.push('/lesson')} /> : null}
         <View style={styles.grid}>
           {theme.words.map((word) =>
             state.words[word.id] ? (
@@ -94,7 +96,6 @@ const styles = StyleSheet.create({
   content: { gap: spacing.md, paddingBottom: spacing.xl },
   sub: { fontSize: font.body, color: colors.text },
   header: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
-  headerEmoji: { fontSize: 56 },
   headerTexts: { flex: 1 },
   titleHy: { fontSize: font.title, fontWeight: '800', color: colors.text },
   titleEn: { fontSize: font.body, color: colors.text },

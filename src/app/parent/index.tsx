@@ -11,6 +11,8 @@ import { PracticeRow } from '@/features/parent/PracticeRow';
 import { weeklyReport } from '@/lib/report';
 import { currentStreak } from '@/lib/streak';
 import { useProgress } from '@/state/progress';
+import { useTracedLetters } from '@/state/letters';
+import { useProfiles } from '@/state/profiles';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
 import { colors, font, radius, spacing } from '@/ui/tokens';
@@ -23,6 +25,8 @@ function toWords(ids: string[]): Word[] {
 export default function ParentArea() {
   const guard = useParentGuard('/parent');
   const { state, reset } = useProgress();
+  const { resetTraced } = useTracedLetters();
+  const { active } = useProfiles();
   const [now, setNow] = useState(() => Date.now());
   useFocusEffect(useCallback(() => setNow(Date.now()), []));
   useEffect(() => {
@@ -37,13 +41,14 @@ export default function ParentArea() {
   const teaserWords = practice.length >= 3 ? practice.slice(0, 3) : THEMES[0].words.slice(0, 3);
 
   const confirmReset = () =>
-    Alert.alert('Reset progress?', 'This deletes all words, stars and stickers on this device.', [
+    Alert.alert('Reset progress?', `This resets ${active?.name ?? 'your child'}'s words, stars, stickers and traced letters on this device. Family recordings and other children are kept.`, [
       { text: 'Cancel', style: 'cancel' },
       {
         text: 'Reset',
         style: 'destructive',
         onPress: () => {
           reset();
+          resetTraced();
           router.replace('/');
         },
       },

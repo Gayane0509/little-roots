@@ -77,7 +77,7 @@ export async function setReminder(enabled: boolean, hour: number, minute: number
     notificationId = await Notifications.scheduleNotificationAsync({
       content: {
         title: 'Time for Little Roots 🌱',
-        body: 'Արջուկ is waiting with 3 new words!',
+        body: "Արջուկ is waiting for today's Armenian practice!",
       },
       trigger: {
         type: Notifications.SchedulableTriggerInputTypes.DAILY,

@@ -2,13 +2,14 @@ import { act, useEffect, type ReactNode } from 'react';
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 
 import type { Word } from '@/content/types';
+import { BUNDLED_AUDIO } from '@/content/audio';
 import { RecordingsProvider, useRecordings, useSpeakWord, stopWordAudio } from './recordings';
 
 jest.mock('react-native', () => ({ Platform: { OS: 'ios' } }));
 jest.mock('@react-native-async-storage/async-storage', () => {
-  const store = { value: null as string | null, failNext: false };
+  const store = { value: null as string | null, failNext: false, failRead: false };
   return { __esModule: true, store, default: {
-    getItem: jest.fn(async () => store.value),
+    getItem: jest.fn(async () => { if (store.failRead) throw new Error('read failed'); return store.value; }),
     setItem: jest.fn(async (_key: string, value: string) => {
       if (store.failNext) { store.failNext = false; throw new Error('storage failed'); }
       store.value = value;
@@ -42,7 +43,7 @@ let speak: Speak;
 let root: { render(children: ReactNode): void; unmount(): void };
 const word = { id: 'family.mom', hy: 'մայրիկ' } as Word;
 const storage = jest.requireMock('@react-native-async-storage/async-storage') as {
-  store: { value: string | null; failNext: boolean };
+  store: { value: string | null; failNext: boolean; failRead: boolean };
 };
 const fs = jest.requireMock('expo-file-system') as { files: Set<string> };
 const speech = jest.requireMock('expo-speech') as { speak: jest.Mock };
@@ -72,6 +73,8 @@ beforeEach(() => {
   Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true, window: dom.window, document: dom.window.document });
   storage.store.value = null;
   storage.store.failNext = false;
+  storage.store.failRead = false;
+  delete BUNDLED_AUDIO[word.id];
   fs.files.clear();
   speech.speak.mockClear();
   audio.createAudioPlayer.mockClear();
@@ -83,6 +86,50 @@ afterEach(async () => {
 });
 
 describe('family recordings', () => {
+  it('blocks writes after a failed index read and retries without overwriting it', async () => {
+    storage.store.value = JSON.stringify({ [word.id]: 'existing.m4a' });
+    storage.store.failRead = true;
+    const element = document.createElement('div'); document.body.appendChild(element);
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { createRoot } = require('react-dom/client') as { createRoot(element: HTMLElement): typeof root };
+    root = createRoot(element);
+    await act(async () => { root.render(<RecordingsProvider><Probe /></RecordingsProvider>); });
+    expect(api.loadError).toBe(true);
+    await expect(api.deleteRecording(word.id)).rejects.toThrow();
+    await expect(api.saveRecording(word.id, 'file:///tmp/new.m4a')).rejects.toThrow();
+    expect(storage.store.value).toContain('existing.m4a');
+    storage.store.failRead = false;
+    await act(async () => { await api.retryLoad(); });
+    expect(api.ready).toBe(true);
+    expect(api.loadError).toBe(false);
+  });
+
+  it('preserves a malformed index until it can be repaired', async () => {
+    storage.store.value = '{broken';
+    const element = document.createElement('div'); document.body.appendChild(element);
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { createRoot } = require('react-dom/client') as { createRoot(element: HTMLElement): typeof root };
+    root = createRoot(element);
+    await act(async () => { root.render(<RecordingsProvider><Probe /></RecordingsProvider>); });
+    expect(api.loadError).toBe(true);
+    await expect(api.deleteRecording(word.id)).rejects.toThrow();
+    expect(storage.store.value).toBe('{broken');
+  });
+
+  it('prefers family audio, then bundled audio, then device speech', async () => {
+    BUNDLED_AUDIO[word.id] = 42;
+    await mount();
+    await act(async () => { speak(word); });
+    expect(audio.createAudioPlayer).toHaveBeenCalledWith(42);
+    fs.files.add('file:///tmp/family.m4a');
+    await act(async () => { await api.saveRecording(word.id, 'file:///tmp/family.m4a'); });
+    await act(async () => { speak(word); });
+    expect(audio.createAudioPlayer).toHaveBeenLastCalledWith({ uri: api.uris[word.id] });
+    await act(async () => { await api.deleteRecording(word.id); });
+    delete BUNDLED_AUDIO[word.id];
+    await act(async () => { speak(word); });
+    expect(speech.speak).toHaveBeenCalled();
+  });
   it('copies a recording, persists only its name, replaces and deletes the old file', async () => {
     fs.files.add('file:///tmp/first.m4a');
     await mount();

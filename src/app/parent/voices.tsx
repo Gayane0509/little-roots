@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
 import { RecordingPresets, requestRecordingPermissionsAsync, setAudioModeAsync, useAudioRecorder } from 'expo-audio';
 import { useEffect, useRef, useState } from 'react';
-import { Alert, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Platform, Pressable, SectionList, StyleSheet, Text, View } from 'react-native';
 
 import { THEMES } from '@/content/themes';
 import type { Word } from '@/content/types';
@@ -77,15 +77,16 @@ export default function FamilyVoicesScreen() {
 
   if (guard) return guard;
   return <Screen>
-    <ScrollView contentContainerStyle={styles.content}>
-      <Pressable accessibilityRole="button" accessibilityLabel="Back to parent area" onPress={() => router.back()} style={styles.back}><Text style={styles.backText}>‹ Back</Text></Pressable>
+    <SectionList sections={THEMES.map((theme) => ({ title: `${theme.emoji} ${theme.titleEn}`, data: theme.words }))} keyExtractor={(word) => word.id} contentContainerStyle={styles.content} stickySectionHeadersEnabled={false}
+      ListHeaderComponent={<>
+      <Pressable accessibilityRole="button" accessibilityLabel="Back to parent area" onPress={() => { if (router.canGoBack()) router.back(); else router.replace('/parent'); }} style={styles.back}><Text style={styles.backText}>‹ Back</Text></Pressable>
       <Text style={styles.heading}>Family voice — record words in your own voice. Recordings stay on this device.</Text>
       {voiceAvailable === false && <View style={styles.banner}><Text style={styles.bannerText}>This device has no Armenian voice. Record words so your child hears them.</Text></View>}
       <Text style={styles.message}>{state.isPremium ? 'Unlimited family recordings' : `${Object.keys(uris).length} of ${FREE_LIMITS.recordings} free recordings used`}</Text>
       {!!message && <Text accessibilityLiveRegion="polite" style={styles.message}>{message}</Text>}
-      {THEMES.map((theme) => <View key={theme.id} style={styles.section}>
-        <Text style={styles.theme}>{theme.emoji} {theme.titleEn}</Text>
-        {theme.words.map((word) => <View key={word.id} style={styles.row}>
+      </>}
+      renderSectionHeader={({ section }) => <Text style={styles.theme}>{section.title}</Text>}
+      renderItem={({ item: word }) => <View style={styles.row}>
           <View style={styles.word}><View style={styles.wordTitle}><WordArt wordId={word.id} emoji={word.emoji} size={42} /><Text style={styles.wordHy}>{word.hy}</Text></View><Text style={styles.wordEn}>{word.en}</Text></View>
           <View style={styles.buttons}>
             <BigButton label="Play" onPress={() => speakWord(word)} disabled={!!recordingId || busy} style={styles.button} />
@@ -94,9 +95,8 @@ export default function FamilyVoicesScreen() {
               disabled={busy || (!!recordingId && recordingId !== word.id) || !ready} style={styles.button} />
             {uris[word.id] && <BigButton label="Delete" color={colors.danger} onPress={() => confirmDelete(word)} disabled={!!recordingId || busy} style={styles.button} />}
           </View>
-        </View>)}
-      </View>)}
-    </ScrollView>
+        </View>}
+    />
   </Screen>;
 }
 
@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
   banner: { padding: spacing.md, backgroundColor: '#FFF0DF', borderRadius: radius.md },
   bannerText: { color: colors.text, fontSize: font.body },
   message: { color: colors.textMuted, fontSize: font.body },
-  section: { gap: spacing.md },
   theme: { color: colors.text, fontSize: font.heading, fontWeight: '800' },
   row: { padding: spacing.md, backgroundColor: colors.surface, borderRadius: radius.md, gap: spacing.sm },
   word: { gap: spacing.xs },

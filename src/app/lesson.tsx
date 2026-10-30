@@ -13,7 +13,7 @@ import { buildDailyLesson, type DailyLesson } from '@/lib/lesson';
 import { speakArmenian, stopSpeaking } from '@/lib/speech';
 import { playSfx } from '@/lib/sfx';
 import { useSettings } from '@/state/settings';
-import { stopWordAudio, useSpeakWord } from '@/state/recordings';
+import { stopWordAudio, useRecordings, useSpeakWord } from '@/state/recordings';
 import { useProgress } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
@@ -24,7 +24,9 @@ import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 export default function LessonScreen() {
   const line = useBuddyLine();
   const { ready } = useProgress();
-  if (!ready) return <Screen><Buddy message={line('lesson_loading')} /></Screen>;
+  const { ready: recordingsReady, loadError, retryLoad } = useRecordings();
+  const { ready: settingsReady } = useSettings();
+  if (!ready || !settingsReady || !recordingsReady) return <Screen><Buddy speak={false} message={line('lesson_loading')} />{loadError ? <BigButton label="Retry recordings" onPress={() => void retryLoad()} /> : null}</Screen>;
   return <ReadyLesson />;
 }
 
@@ -172,7 +174,7 @@ function ReadyLesson() {
         </>}
 
         {step === 'game' && currentRound && <>
-          <Buddy message={line(hadWrongTap ? 'lesson_good_try' : 'lesson_find_picture')} mood={hadWrongTap ? 'cheer' : 'happy'} />
+          <Buddy speak={false} message={line(hadWrongTap ? 'lesson_good_try' : 'lesson_find_picture')} mood={hadWrongTap ? 'cheer' : 'happy'} />
           <Text style={styles.counter}>Picture {roundIndex + 1} of {rounds.length}</Text>
           <Pressable accessibilityRole="button" accessibilityLabel={`Hear ${currentRound.hy} again`} style={styles.prompt} onPress={() => speakWordAudio(currentRound)}>
             <Text style={styles.promptWord}>🔊 {currentRound.hy}</Text>
@@ -203,7 +205,7 @@ function ReadyLesson() {
         </>}
 
         {step === 'speak' && speakWord && <>
-          <Buddy message={line('lesson_say_it')} />
+          <Buddy speak={false} message={line('lesson_say_it')} />
           <Text style={styles.counter}>Say it {speakIndex + 1} of {lesson.newWords.length}</Text>
           <Pressable accessibilityRole="button" accessibilityLabel={`Hear ${speakWord.en} again`} onPress={() => speakWordAudio(speakWord)} style={styles.wordCard}>
             <WordArt wordId={speakWord.id} emoji={speakWord.emoji} size={160} />
