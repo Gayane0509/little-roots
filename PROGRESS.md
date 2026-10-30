@@ -83,24 +83,26 @@ locked theme, free words finished, 4th game of the day, 6th recording, full repo
 
 ## Log
 
-- 2026-10-30 ~21:05 (+04): Wave 5 (profiles + purchases interface) merged after data-safety review (12 findings
+(Times from git commits, Armenia time.)
+
+- 2026-10-30 16:48 (+04): Wave 5 (profiles + purchases interface) merged after data-safety review (12 findings
   fixed); 104 tests; live migration verified in preview. Native Swift-5 workaround tried and removed.
 
-- 2026-10-30 ~20:15 (+04): Waves 3+4 merged after 2 reviews (14 findings fixed). 85 tests. Pushed.
+- 2026-10-30 16:31 (+04): Waves 3+4 merged after 2 reviews (14 findings fixed). 85 tests. Pushed.
 
-- 2026-10-30 ~19:30 (+04): Wave 3 (buddy art + tracing) built by Codex, reviewed (9 findings); Codex now running
+- 2026-10-30 16:15 (+04): Wave 3 (buddy art + tracing) built by Codex, reviewed (9 findings); Codex now running
   review fixes + Wave 4 subscription features in one pass (thread 01a18cb1). Not yet committed.
 
-- 2026-10-30 ~18:45 (+04): 96 original SVG illustrations (reviewed sheet by sheet; colours redone twice → crayons;
+- 2026-10-30 16:02 (+04): 96 original SVG illustrations (reviewed sheet by sheet; colours redone twice → crayons;
   horse + nose redrawn), wired into lesson, games, theme pages, stickers, letters, parent lists. 63 tests.
 
-- 2026-10-30 ~17:40 (+04): Wave 2 merged after cross-review (12 findings fixed): games, reminders, reliability; 59 tests.
+- 2026-10-30 15:54 (+04): Wave 2 merged after cross-review (12 findings fixed): games, reminders, reliability; 59 tests.
   CI green on GitHub for Wave 1. Owner asked for real pictures instead of emoji → Wave 2.5.
 
-- 2026-10-30 ~16:45 (+04): Wave 1 merged after cross-review (Codex↔Claude, 20 findings fixed); 38 tests; verified in web
+- 2026-10-30 15:43 (+04): Wave 1 merged after cross-review (Codex↔Claude, 20 findings fixed); 38 tests; verified in web
   preview: onboarding, letters, lesson success feedback, credit saved when leaving after game, theme page, gate (19×7),
   family voice screen. Native build blocked by Xcode version.
 
-- 2026-10-30 ~15:10 (+04): CI, README, icon set + splash done; W1 workers running.
+- 2026-10-30 15:10 (+04): CI, README, icon set + splash done; W1 workers running.
 
-- 2026-10-30 ~14:45 (+04): roadmap created from Codex audit; Wave 1 started.
+- 2026-10-30 14:45 (+04): roadmap created from Codex audit; Wave 1 started.
