@@ -37,3 +37,16 @@ npx tsc --noEmit && npx eslint . && npx jest
 | `src/ui` | Design tokens and shared components |
 
 Progress and roadmap: [PROGRESS.md](PROGRESS.md). Privacy: [PRIVACY.md](PRIVACY.md).
+
+## Adding a family language
+
+Content lives behind the `LanguagePack` interface (`src/content/packs/`). Armenian is the first pack.
+
+1. Create `src/content/packs/<language>.ts` exporting a `LanguagePack`: themes and words (keep the word ids of themes
+   that already exist, since progress is keyed by them), alphabet, every Buddy phrase with the same `{placeholders}`,
+   the device speech locale, and bundled recordings.
+2. Add it to `PACKS` in `src/content/packs/index.ts`. `packs.test.ts` runs `validatePack` on every shipped pack.
+   Today only speech and the settings screen read `ACTIVE_PACK`; screens still import the Armenian content modules
+   directly, and there is no language picker yet. Wiring screens to the active pack and per-language progress is
+   the next step before a second language can ship.
+3. Have a native speaker review all text before release.

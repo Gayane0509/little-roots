@@ -1,5 +1,6 @@
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { ACTIVE_PACK } from '@/content/packs';
 import { useParentGuard } from '@/features/parent/gate';
 import { goBackOrHome } from '@/lib/navigation';
 import { useSettings } from '@/state/settings';
@@ -32,6 +33,10 @@ export default function ParentSettingsScreen() {
         </Pressable>)}
       </View>
       <Text style={styles.note}>Spoken Armenian needs an Armenian voice installed on this device or recordings. Otherwise Buddy reads the English line aloud.</Text>
+    </View>
+    <View style={styles.card}>
+      <Text accessibilityRole="header" style={styles.heading}>Family language</Text>
+      <Text style={styles.body}>{ACTIVE_PACK.name.native} · {ACTIVE_PACK.name.en}</Text>
     </View>
     <BigButton label="Back" color={colors.textMuted} onPress={goBackOrHome} />
   </ScrollView></Screen>;

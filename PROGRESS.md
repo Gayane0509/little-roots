@@ -89,11 +89,16 @@ locked theme, free words finished, 4th game of the day, 6th recording, full repo
 - [x] Large text: Armenian words and titles wrap instead of shrinking; paywall comparison stacked; 48+ pt targets.
 - Device check with VoiceOver/TalkBack still needed (owner, after the Xcode update).
 
+### Wave 9 — language packs, foundation (done)
+- [x] `LanguagePack` interface (`src/content/packs/`), Armenian as the first pack built from the existing content;
+      `validatePack` (ids, free theme, empty text, phrase placeholders/keys, audio ids, kept word ids) runs on every
+      shipped pack in tests; speech locale comes from the active pack; settings shows the family language.
+- [ ] Next: screens read `ACTIVE_PACK` instead of the Armenian modules, per-language progress keys, a language
+      picker — only once a second pack has native-speaker content (no fake choices in the UI).
+
 ## Next steps (prioritized, for whoever resumes)
 
-1. Wave 9 — language packs: refactor content (themes, alphabet, phrases, audio) behind a `LanguagePack` interface
-   so Russian/Georgian/Persian can be added; ship Armenian as the first pack; parent picks the family language.
-2. Final: full regression in the web preview, FINAL_REPORT.md (features, architecture, tests, limitations, owner
+1. Final: full regression in the web preview, FINAL_REPORT.md (features, architecture, tests, limitations, owner
    actions, future roadmap), push. Deadline 2026-11-01 02:00 (+04).
 
 ## Decisions
@@ -116,6 +121,9 @@ locked theme, free words finished, 4th game of the day, 6th recording, full repo
 - Disk was full (freed ~18 GB of caches with owner approval); keep an eye on free space for native builds.
 
 ## Log
+
+- 2026-10-30 20:10 (+04): Wave 9 foundation (language packs + validator); review tightened the validator and
+  the README wording; 33 suites / 135 tests green.
 
 - 2026-10-30 19:50 (+04): accessibility pass done; cross-review caught 2 answer leaks in screen-reader labels
   and a wrapping chart, fixed; 32 suites / 132 tests green.

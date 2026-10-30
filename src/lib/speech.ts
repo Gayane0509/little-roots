@@ -1,7 +1,9 @@
 import * as Speech from 'expo-speech';
 import { useEffect, useState } from 'react';
 
-const ARMENIAN = 'hy-AM';
+import { ACTIVE_PACK } from '@/content/packs';
+
+const { locale: FAMILY_LOCALE, voicePrefix: FAMILY_VOICE } = ACTIVE_PACK.speech;
 
 /**
  * Speaks Armenian text with the device voice. Many devices have no Armenian voice yet;
@@ -9,7 +11,7 @@ const ARMENIAN = 'hy-AM';
  */
 export function speakArmenian(text: string): void {
   Speech.stop();
-  Speech.speak(text, { language: ARMENIAN, rate: 0.85, pitch: 1.1 });
+  Speech.speak(text, { language: FAMILY_LOCALE, rate: 0.85, pitch: 1.1 });
 }
 
 export function speakEnglish(text: string): void {
@@ -26,7 +28,7 @@ export function useArmenianVoiceAvailable(): boolean | null {
   useEffect(() => {
     let active = true;
     Speech.getAvailableVoicesAsync()
-      .then((voices) => { if (active) setAvailable(voices.some((voice) => voice.language.toLowerCase().startsWith('hy'))); })
+      .then((voices) => { if (active) setAvailable(voices.some((voice) => voice.language.toLowerCase().startsWith(FAMILY_VOICE))); })
       .catch(() => { if (active) setAvailable(false); });
     return () => { active = false; };
   }, []);
