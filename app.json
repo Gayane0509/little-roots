@@ -8,7 +8,41 @@
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.littleroots.kids"
+      "bundleIdentifier": "com.littleroots.kids",
+      "privacyManifests": {
+        "NSPrivacyTracking": false,
+        "NSPrivacyTrackingDomains": [],
+        "NSPrivacyCollectedDataTypes": [],
+        "NSPrivacyAccessedAPITypes": [
+          {
+            "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryFileTimestamp",
+            "NSPrivacyAccessedAPITypeReasons": [
+              "C617.1",
+              "0A2A.1",
+              "3B52.1"
+            ]
+          },
+          {
+            "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryDiskSpace",
+            "NSPrivacyAccessedAPITypeReasons": [
+              "E174.1",
+              "85F4.1"
+            ]
+          },
+          {
+            "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
+            "NSPrivacyAccessedAPITypeReasons": [
+              "CA92.1"
+            ]
+          },
+          {
+            "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategorySystemBootTime",
+            "NSPrivacyAccessedAPITypeReasons": [
+              "35F9.1"
+            ]
+          }
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -18,7 +52,12 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.littleroots.kids"
+      "package": "com.littleroots.kids",
+      "blockedPermissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.SYSTEM_ALERT_WINDOW"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -28,7 +67,8 @@
       [
         "expo-audio",
         {
-          "microphonePermission": "Allow Little Roots to record a family member saying words, so your child hears a familiar voice. Recordings stay on this device."
+          "microphonePermission": "Allow Little Roots to record a family member saying words, so your child hears a familiar voice. Recordings stay on this device.",
+          "enableBackgroundPlayback": false
         }
       ],
       [
@@ -46,7 +86,8 @@
           "icon": "./assets/notification-icon.png",
           "color": "#FF8C42"
         }
-      ]
+      ],
+      "expo-asset"
     ],
     "scheme": "littleroots"
   }
