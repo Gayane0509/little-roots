@@ -9,7 +9,7 @@ _Updated: 2026-11-02 evening (+04). Updated at the end of every session._
 - 2026-11-02 evening: kid-safe error screen, app-wide audio session (+ iOS silent-switch fix after recording),
   gentler/throttled sound effects, store config (privacy manifest, no background audio, trimmed Android permissions,
   `expo-asset`), store privacy answers drafted (`STORE_PRIVACY_ANSWERS.md`).
-- Checks on `main`: tsc clean, ESLint clean, Jest 36 suites / 150 tests; expo-doctor 19/20 (patch updates, task #12).
+- Checks on `main`: tsc clean, ESLint clean, Jest 36 suites / 150 tests; expo-doctor 20/20.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Blockers (owner)

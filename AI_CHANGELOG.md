@@ -17,6 +17,10 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   permissions, `expo-asset` peer added (expo-doctor 19/20; remaining = 4 patch updates, task #12),
   `STORE_PRIVACY_ANSWERS.md`, `src/lib/storeConfig.test.ts`. Checks: introspect confirms; tsc ✓, ESLint ✓,
   Jest 36/150 ✓; web preview renders. Commit: see git log ("Store readiness").
+- claude · #12 Expo SDK patch updates via `npx expo install --fix` (expo 58.0.22, expo-audio 58.0.11, expo-router
+  58.0.29, @expo/metro-runtime 58.0.16). expo-doctor 20/20; npm audit (prod) 14 → 12 moderate, 0 high; privacy
+  reason union unchanged. Checks: tsc ✓, ESLint ✓, Jest 36/150 ✓; fresh web server: onboarding → home → lesson,
+  games gate, no console errors. Files: package.json, package-lock.json.
 - Not verified: anything native (Xcode blocker) — silent-switch playback, background stop, error screen on device.
 
 ## 2026-11-02 (setup, outside the work window)

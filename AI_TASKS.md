@@ -16,6 +16,6 @@ Status: todo · doing · waiting-capacity · blocked · done. One owner per task
 | 9 | Share card as image (evaluate react-native-view-shot: size, maintenance, license) | 2×3÷3=2 | M | claude research | todo | decision recorded |
 | 10 | Native test pass incl. VoiceOver/TalkBack | 5×5÷2 | — | owner → claude | blocked (Xcode) | — |
 | 11 | Codex CLI rejects its configured models (`gpt-6-sol`, `gpt-6-astra`: "not supported when using Codex with a ChatGPT account") → owner picks a supported model in `~/.codex/config.toml` | 5×5÷1 | — | owner | blocked | `codex exec` probe answers |
-| 12 | Expo SDK patch updates flagged by expo-doctor (expo 58.0.22, expo-audio 58.0.11, expo-router 58.0.29, @expo/metro-runtime 58.0.16) via `npx expo install --check` | 3×4÷1=12 | L | claude | todo | doctor 20/20; gate + web check green |
-| 13 | `npm audit --omit=dev`: 14 transitive findings (1 low, 11 moderate, 2 high: deepmerge, glob, minimatch, zod) — trace which ship in the app bundle vs build tooling; fix only non-breaking | 3×3÷2=4.5 | M | claude | todo | written triage; no `--force` |
+| 12 | Expo SDK patch updates flagged by expo-doctor (expo 58.0.22, expo-audio 58.0.11, expo-router 58.0.29, @expo/metro-runtime 58.0.16) via `npx expo install --check` | 3×4÷1=12 | L | claude | done 2026-11-02 | doctor 20/20; gate + web check green |
+| 13 | `npm audit --omit=dev`: 12 moderate transitive findings after #12 (was 14 incl. 2 high) — trace which ship in the app bundle vs build tooling; fix only non-breaking | 3×3÷2=4.5 | M | claude | todo | written triage; no `--force` |
 | 14 | Error screen: confirm native behaviour of Try again (web resets the stack to Home) during #10 | 3×3÷1=9 | L | owner → claude | blocked (Xcode) | recorded result |
