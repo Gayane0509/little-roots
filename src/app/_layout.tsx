@@ -1,14 +1,19 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
 
+import { startAudioSession } from '@/lib/audioSession';
 import { configureNotificationHandler } from '@/lib/reminders';
 import { LettersProvider } from '@/state/letters';
 import { ProfilesProvider, useProfiles } from '@/state/profiles';
 import { ProgressProvider } from '@/state/progress';
-import { RecordingsProvider } from '@/state/recordings';
+import { RecordingsProvider, stopWordAudio } from '@/state/recordings';
 import { SettingsProvider } from '@/state/settings';
 
 configureNotificationHandler();
+
+/** Rendered outside the providers by expo-router, so it must not use app context. */
+export { KidErrorBoundary as ErrorBoundary } from '@/features/errors/KidErrorScreen';
 
 function ProfileTree() {
   const { activeId } = useProfiles();
@@ -42,6 +47,7 @@ function ProfileTree() {
 }
 
 export default function RootLayout() {
+  useEffect(() => startAudioSession(stopWordAudio), []);
   return (
     <SettingsProvider>
       <ProfilesProvider>

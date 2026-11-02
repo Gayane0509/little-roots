@@ -6,6 +6,7 @@ import { Alert, Platform, Pressable, SectionList, StyleSheet, Text, View } from 
 import { THEMES } from '@/content/themes';
 import type { Word } from '@/content/types';
 import { useParentGuard } from '@/features/parent/gate';
+import { RECORDING_AUDIO_MODE, restorePlaybackAudioMode } from '@/lib/audioSession';
 import { useArmenianVoiceAvailable } from '@/lib/speech';
 import { canRecordMore, FREE_LIMITS } from '@/lib/entitlements';
 import { useProgressState } from '@/state/progress';
@@ -28,7 +29,7 @@ export default function FamilyVoicesScreen() {
   const recordingRef = useRef<string | null>(null);
 
   useEffect(() => () => {
-    if (recordingRef.current) void recorder.stop().catch(() => {}).finally(() => setAudioModeAsync({ allowsRecording: false }).catch(() => {}));
+    if (recordingRef.current) void recorder.stop().catch(() => {}).finally(() => restorePlaybackAudioMode().catch(() => {}));
   }, [recorder]);
 
   async function start(word: Word) {
@@ -39,14 +40,14 @@ export default function FamilyVoicesScreen() {
     try {
       const permission = await requestRecordingPermissionsAsync();
       if (!permission.granted) { setMessage('Microphone permission is needed to record your voice.'); return; }
-      await setAudioModeAsync({ allowsRecording: true, playsInSilentMode: true });
+      await setAudioModeAsync(RECORDING_AUDIO_MODE);
       await recorder.prepareToRecordAsync();
       recorder.record();
       recordingRef.current = word.id;
       setRecordingId(word.id);
       setMessage(`Recording ${word.en}…`);
     } catch { setMessage('Could not start recording. Please try again.');
-      await setAudioModeAsync({ allowsRecording: false }).catch(() => {});
+      await restorePlaybackAudioMode().catch(() => {});
     } finally { setBusy(false); }
   }
 
@@ -63,7 +64,7 @@ export default function FamilyVoicesScreen() {
     finally {
       recordingRef.current = null;
       setRecordingId(null);
-      await setAudioModeAsync({ allowsRecording: false }).catch(() => {});
+      await restorePlaybackAudioMode().catch(() => {});
       setBusy(false);
     }
   }
