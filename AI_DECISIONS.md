@@ -2,6 +2,9 @@
 
 Durable decisions with reasons. Newest first. Earlier ones are summarized from `PROGRESS.md`.
 
+- 2026-11-04 · Home "Next" marker = the first unlocked theme with a word the child hasn't met (`nextNewTheme`, the same
+  rule the daily lesson uses for new words). Not the review theme: reviews span themes, a marker there would jump
+  around. Static (no bounce) so it guides without competing with the Start button; no marker when all words were met.
 - 2026-11-03 · Web tab titles come from one web-only `<Head>` in the root layout (`src/lib/screenTitle.ts`, keyed by
   path), not per-screen `<Head>`: one place, and `expo-router/head` is never rendered on native (it can drive iOS
   Handoff/activity metadata the app doesn't need). New route files must add a title (guard test).

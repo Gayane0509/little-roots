@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 import type { Theme, Word } from '@/content/types';
-import { buildDailyLesson, isThemeUnlocked, themeProgress } from './lesson';
+import { buildDailyLesson, isThemeUnlocked, nextNewTheme, themeProgress } from './lesson';
 import { scheduleReview } from './srs';
 
 function theme(id: Theme['id'], free: boolean): Theme {
@@ -67,5 +67,28 @@ describe('daily lesson', () => {
     const lesson = buildDailyLesson({ themes: [free, second, theme('colors', true)], words, isPremium: false, now });
     expect(lesson?.newWords).toEqual([]);
     expect(lesson?.reviewWords).toHaveLength(6);
+  });
+});
+
+describe('next new theme (Home "Next" marker)', () => {
+  const now = Date.UTC(2026, 0, 2);
+  const family = theme('family', true);
+  const food = theme('food', true);
+  const animals = theme('animals', false);
+  const seen = (t: Theme) => Object.fromEntries(t.words.map((word) => [word.id, scheduleReview(undefined, word.id, true, now)]));
+
+  it('marks the first unlocked theme with an unmet word, the same one the lesson takes new words from', () => {
+    expect(nextNewTheme([family, food], {}, false)?.id).toBe('family');
+    expect(buildDailyLesson({ themes: [family, food], words: {}, isPremium: false, now })?.theme.id).toBe('family');
+  });
+
+  it('moves on once every word of a theme was met', () => {
+    expect(nextNewTheme([family, food], seen(family), false)?.id).toBe('food');
+  });
+
+  it('skips locked themes unless premium', () => {
+    const words = { ...seen(family), ...seen(food) };
+    expect(nextNewTheme([family, food, animals], words, false)).toBeNull();
+    expect(nextNewTheme([family, food, animals], words, true)?.id).toBe('animals');
   });
 });

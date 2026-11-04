@@ -5,7 +5,7 @@ import { ActivityIndicator, AppState, Pressable, ScrollView, StyleSheet, Text, V
 
 import { ACTIVE_PACK } from '@/content/packs';
 import { ThemeCard } from '@/features/home/ThemeCard';
-import { isThemeUnlocked, themeProgress } from '@/lib/lesson';
+import { isThemeUnlocked, nextNewTheme, themeProgress } from '@/lib/lesson';
 import { currentStreak } from '@/lib/streak';
 import { useProgress } from '@/state/progress';
 import { useProfiles } from '@/state/profiles';
@@ -43,6 +43,7 @@ export default function Home() {
   if (!state.childName) return <Redirect href="/onboarding" />;
 
   const streak = currentStreak(state, now);
+  const nextThemeId = nextNewTheme(ACTIVE_PACK.themes, state.words, state.isPremium)?.id;
 
   return (
     <Screen>
@@ -115,6 +116,7 @@ export default function Home() {
                 learned={learned}
                 total={total}
                 unlocked={isThemeUnlocked(theme, state.isPremium)}
+                isNext={theme.id === nextThemeId}
                 onOpenPress={() => router.push({ pathname: '/theme/[id]', params: { id: theme.id } })}
                 onLockedPress={() =>
                   router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'themes' } })

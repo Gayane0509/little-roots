@@ -2,6 +2,16 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (Home "Next up" marker, #57)
+- claude · The theme the next new words come from gets a small Buddy badge with a "Next" ribbon and a darker border
+  (static, no motion); its screen-reader label starts with "Next up:". One rule, `nextNewTheme` in `src/lib/lesson.ts`,
+  is shared with `buildDailyLesson`, so the marker always matches where "Start today's lesson" takes new words from.
+  No marker once every unlocked word was met.
+- Files: `src/lib/lesson.ts` (+ 3 tests in `lesson.test.ts`), `src/features/home/ThemeCard.tsx`, `src/app/index.tsx`.
+- Checks: tsc ✓, ESLint ✓, Jest 50 suites / 213 tests ✓. Web: exactly one marker (Family, 8/12) at 800 px and
+  375 px; ribbon fits the card; no console errors. No independent review: Codex blocked (#11), small low-risk diff.
+- Commit: see git log ("Home shows where to continue").
+
 ## 2026-11-04 (first-lesson tap hint, #59)
 - claude · A drawn pointing hand (new `point` icon: skin-tone hand, blue cuff, yellow tap ripples) bobs over the
   picture on the first word card of a child's first lesson and disappears on the first tap of the card. "First
