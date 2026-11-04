@@ -2,6 +2,14 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (bigger lesson word picture on tablets, #75)
+- claude · The lesson's word card picture grows 160 → 220 px when the window is ≥ 600 px wide and ≥ 700 px tall (so
+  Next stays on screen); phones unchanged.
+- Files: `src/app/lesson.tsx`.
+- Checks: tsc ✓, ESLint ✓, Jest 59 suites / 245 tests ✓. Web 1024×768: picture 220 px, Next button top at 672 px,
+  no scroll. Lesson left before the end (no progress recorded).
+- Commit: see git log ("Bigger lesson word picture on tablets").
+
 ## 2026-11-04 (drawn lock on the parent gate, #74)
 - claude · The parent gate's 🔐 system emoji (differs per platform) is now the drawn `lock` icon (72 px), hidden from
   screen readers as before. Children see this screen, so it follows the drawn-icons rule (#29/#35).

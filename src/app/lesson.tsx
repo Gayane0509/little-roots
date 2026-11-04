@@ -43,7 +43,10 @@ function ReadyLesson() {
   const { state, recordAnswer, completeLesson } = useProgress();
   const outfit = wornOutfit(state);
   // Wide windows: bigger answer pictures so they fill the wider option cards (#71).
-  const optionArt = useWindowDimensions().width >= WIDE_BREAKPOINT ? 120 : 88;
+  const { width, height } = useWindowDimensions();
+  const optionArt = width >= WIDE_BREAKPOINT ? 120 : 88;
+  // The word card's picture grows on tablets, but only when the window is tall enough to keep Next on screen.
+  const cardArt = width >= WIDE_BREAKPOINT && height >= 700 ? 220 : 160;
   const [lesson] = useState<DailyLesson | null>(() => buildDailyLesson({
     themes: ACTIVE_PACK.themes, words: state.words, isPremium: state.isPremium, now: Date.now(),
   }));
@@ -168,7 +171,7 @@ function ReadyLesson() {
           <Buddy message={line('lesson_tap_card')} outfit={outfit} />
           <Text style={styles.counter}>Word {cardIndex + 1} of {lesson.newWords.length}</Text>
           <Animated.View style={{ width: '100%', opacity: cardEntrance, transform: [{ translateY: cardEntrance.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }] }}><Wiggle wordId={card.id} label={`${card.hy}, ${card.translit}, ${card.en}`} onTap={() => setCardTapped(true)}><View style={styles.wordCard}>
-            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={card.id} emoji={card.emoji} size={160} /></View>
+            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={card.id} emoji={card.emoji} size={cardArt} /></View>
             <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.armenian}>{card.hy}</Text>
             <Text style={styles.translit}>{card.translit}</Text>
             <Text style={styles.english}>{card.en}</Text>
