@@ -12,15 +12,22 @@ const screens = readdirSync('src', { recursive: true })
   .filter((file) => file.endsWith('.tsx') && !file.includes('.test.'))
   .map((file) => `src/${file}`);
 
-// Every button label is plain words; a picture goes through BigButton's drawn `icon` (#100). Keep this list empty.
-const KNOWN: string[] = [];
-
-test('no new label="…" on any screen or component contains an emoji', () => {
+// Every button label is plain words; a picture goes through BigButton's drawn `icon` (#100). Covers label="…" and
+// quoted strings inside label={…} (template literals, ternaries).
+test('no label on any screen or component contains an emoji', () => {
   const offenders = screens.flatMap((file) =>
-    [...readFileSync(file, 'utf8').matchAll(/\blabel="([^"]*)"/g)].filter((m) => EMOJI.test(m[1])).map((m) => `${file.split('\\').join('/')}: ${m[1]}`),
+    [...readFileSync(file, 'utf8').matchAll(/\blabel=(?:"([^"]*)"|\{([^}\n]*)\})/g)]
+      .filter((m) => EMOJI.test(m[1] ?? m[2] ?? ''))
+      .map((m) => `${file}: ${m[0]}`),
   );
-  expect(offenders.filter((o) => !KNOWN.includes(o))).toEqual([]);
-  expect(offenders.length).toBeLessThanOrEqual(KNOWN.length);
+  expect(offenders).toEqual([]);
+});
+
+test('no emoji drawn as a <Text> picture (privacy title, game tick) (#100 review)', () => {
+  const offenders = screens.flatMap((file) =>
+    [...readFileSync(file, 'utf8').matchAll(/<Text\b[^>]*>([^<{]*)<\/Text>/g)].filter((m) => EMOJI.test(m[1])).map((m) => `${file}: ${m[1]}`),
+  );
+  expect(offenders).toEqual([]);
 });
 
 test('the parent report stats show no emoji (streak uses the drawn flame)', () => {

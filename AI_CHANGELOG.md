@@ -33,6 +33,12 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   Files: `src/art/icons.ts`, `src/app/parent/index.tsx`, `src/app/theme/[id].tsx`, `src/ui/noEmojiLabels.test.ts` (KNOWN
   emptied). Checks: `npm run check` ✓ (69 / 282); web 375×812 parent menu + icon contact sheet. Not seen: theme Start button
   (every free theme learned in the test profile). Commit: "Icons: drawn chart, clock, bulb, gear, play replace button emoji (#100)".
+- claude · Reviewer subagent on #99/#100: no blockers; lows fixed — bulb rays get an ink outline (were ~1.2:1 on orange),
+  Privacy title 🔒 → drawn lock, Read/Find right-answer ✅ → new drawn `check` icon, guard widened to `label={…}` strings and
+  emoji-only `<Text>` pictures (fails on the old code), redundant KNOWN list removed. Files: `src/art/icons.ts`,
+  `src/app/parent/privacy.tsx`, `src/features/games/ChoiceGame.tsx`, `src/ui/noEmojiLabels.test.ts`. Checks: `npm run check` ✓
+  (69 / 283); web: Privacy title. Not seen: game tick (test profile used today's 3 games). Remaining emoji by design: WordArt
+  / avatar fallbacks, share text, reminder notification title.
 
 ## 2026-11-04 (22:30 run; lock taken 22:34)
 - claude · #92 sheep (letter sheet, Vo): wool `#FFFFFF` → cream `#FFF3DC`, face + ears → grey `#B8BCC6`, hidden

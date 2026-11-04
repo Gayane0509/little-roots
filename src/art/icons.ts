@@ -2,7 +2,7 @@ import type { ArtXml } from './types';
 
 /** UI icons drawn in the word-art style (STYLE.md), so they look the same on every platform. */
 export type IconName = 'letters' | 'stickers' | 'games' | 'lock' | 'flame' | 'memory' | 'find' | 'read' | 'sprout' | 'voice' | 'point'
-  | 'chart' | 'clock' | 'bulb' | 'gear' | 'play';
+  | 'chart' | 'clock' | 'bulb' | 'gear' | 'play' | 'check';
 
 export const ICONS: Record<IconName, ArtXml> = {
   // Two alphabet blocks; the yellow one carries the first Armenian letter's shape (Ա).
@@ -144,7 +144,8 @@ export const ICONS: Record<IconName, ArtXml> = {
 </svg>`,
   // A glowing light bulb for ideas and tips.
   bulb: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-<path d="M64 4 V14 M18 24 L26 32 M110 24 L102 32 M6 60 H16 M112 60 H122" fill="none" stroke="#FFD23F" stroke-width="6" stroke-linecap="round"/>
+<path d="M64 6 V14 M18 24 L26 32 M110 24 L102 32 M8 60 H16 M112 60 H120" fill="none" stroke="#3A2E39" stroke-width="10" stroke-linecap="round"/>
+<path d="M64 6 V14 M18 24 L26 32 M110 24 L102 32 M8 60 H16 M112 60 H120" fill="none" stroke="#FFD23F" stroke-width="5" stroke-linecap="round"/>
 <g stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
 <path d="M64 20 A36 36 0 0 1 86 84 C82 88 80 92 80 98 H48 C48 92 46 88 42 84 A36 36 0 0 1 64 20 Z" fill="#FFD23F"/>
 <rect x="46" y="98" width="36" height="12" rx="4" fill="#B8BCC6"/>
@@ -168,5 +169,14 @@ export const ICONS: Record<IconName, ArtXml> = {
 <path d="M50 38 L94 64 L50 90 Z" fill="#FFFFFF"/>
 </g>
 <path d="M24 52 Q30 32 50 22" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+</svg>`,
+  // A green tick badge for a right answer.
+  check: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<g stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<circle cx="64" cy="64" r="54" fill="#4CC985"/>
+</g>
+<path d="M38 66 L56 84 L92 46" fill="none" stroke="#3A2E39" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M38 66 L56 84 L92 46" fill="none" stroke="#FFFFFF" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M26 50 Q32 32 50 24" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
 </svg>`,
 };

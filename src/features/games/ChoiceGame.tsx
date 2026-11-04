@@ -11,6 +11,7 @@ import { useProgressActions } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
 import { HINT_AFTER_MISSES, HintPulse } from '@/ui/HintPulse';
+import { Icon } from '@/ui/Icon';
 import { useAutoPlayWord, VoiceButton } from '@/ui/VoiceButton';
 import { WordArt } from '@/ui/WordArt';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing } from '@/ui/tokens';
@@ -182,7 +183,7 @@ export function ChoiceGame({ mode, seenWords, onFinishedChange }: { mode: Mode; 
                 ) : (
                   <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.optionWord}>{option.hy}</Text>
                 )}
-                {isRight ? <View style={styles.check} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Text style={styles.checkText}>✅</Text></View> : null}
+                {isRight ? <View style={styles.check} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Icon name="check" size={32} /></View> : null}
               </Pressable>
               </HintPulse>
             </Animated.View>
@@ -228,7 +229,6 @@ const styles = StyleSheet.create({
   right: { borderColor: colors.success, backgroundColor: '#E3F7EC' },
   optionWord: { fontSize: font.word, fontWeight: '800', color: colors.text, textAlign: 'center', flexShrink: 1 },
   check: { position: 'absolute', top: spacing.xs, right: spacing.sm },
-  checkText: { fontSize: font.heading },
   done: { flexGrow: 1, justifyContent: 'center', gap: spacing.lg },
   back: { marginTop: 'auto' },
 });
