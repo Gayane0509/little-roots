@@ -49,7 +49,8 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
 3. Store billing products; "Made for Kids"/Families settings; public privacy-policy URL; native proofreading
    (including the new Armenian lines for cards, rhyme and Find prompts).
 4. Commits (owner rule, 2026-11-04): each finished task is committed to `main` once `npm run check` passes, one
-   clear commit per task; never failing or half-done work. Never push or pull without asking. Everything up to
+   clear commit per task; never failing or half-done work. After each commit, push `main` to origin (never
+   force-push; if rejected: `git pull --rebase origin main`, `npm run check` again, then push). Everything up to
    9631980 is committed. The hourly `little-roots-daily` task (17:30–01:00) follows the same rule, bans voice features
    other than Family voice, and puts images/design first.
 5. #40 Proposal: release Android build without the INTERNET permission (needs a config plugin + native test).
@@ -61,7 +62,7 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
 Schedule: daily 17:30–01:00 Asia/Yerevan, hourly at half past until 00:30 (local scheduled task "little-roots-daily"). Read this file, `AI_TASKS.md`,
 `AI_DECISIONS.md`, `AI_CHANGELOG.md`; pick the top unblocked task; plan → implement (Codex/Claude on disjoint files)
 → cross-review → `npx tsc --noEmit && npx eslint . && npx jest` → web-preview check → commit the finished task to `main` once `npm run check`
-passes (never push or pull without asking) → update these files. At 01:00 stop starting work; checkpoint.
+passes, then push `main` (never force-push; rejected → pull --rebase, check, push) → update these files. At 01:00 stop starting work; checkpoint.
 
 ## Resume commands
 ```bash
