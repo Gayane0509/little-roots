@@ -1,4 +1,4 @@
-import { getWord, THEMES } from '@/content/themes';
+import { ACTIVE_PACK, getWord } from '@/content/packs';
 import type { Word } from '@/content/types';
 
 /** Returns a number in [0, 1). Injectable so tests are deterministic. */
@@ -25,7 +25,7 @@ export function pickSeenWords(
   resolve: (id: string) => Word | undefined = getWord,
   isPremium = true,
 ): Word[] {
-  const unlocked = new Set(THEMES.filter((theme) => isPremium || theme.free).map((theme) => theme.id));
+  const unlocked = new Set(ACTIVE_PACK.themes.filter((theme) => isPremium || theme.free).map((theme) => theme.id));
   const words = Object.keys(seen)
     .map((id) => resolve(id))
     .filter((word): word is Word => word !== undefined && unlocked.has(word.themeId));

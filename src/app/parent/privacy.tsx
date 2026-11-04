@@ -5,7 +5,7 @@ import { PRIVACY_SECTIONS } from '@/features/parent/privacyText';
 import { goBackOrHome } from '@/lib/navigation';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
-import { colors, font, radius, spacing } from '@/ui/tokens';
+import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing } from '@/ui/tokens';
 
 export default function Privacy() {
   const guard = useParentGuard('/parent/privacy');
@@ -14,7 +14,7 @@ export default function Privacy() {
   return (
     <Screen>
       <ScrollView contentContainerStyle={styles.content}>
-        <View style={styles.titleRow}><View accessible={false} importantForAccessibility="no-hide-descendants" accessibilityElementsHidden><Text style={styles.title}>🔒</Text></View><Text accessibilityRole="header" style={styles.title}>Privacy</Text></View>
+        <View style={styles.titleRow}><View accessible={false} importantForAccessibility="no-hide-descendants" accessibilityElementsHidden><Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.title}>🔒</Text></View><Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} accessibilityRole="header" style={styles.title}>Privacy</Text></View>
         {PRIVACY_SECTIONS.map((section) => (
           <View key={section.heading} style={styles.card}>
             <Text style={styles.heading} accessibilityRole="header">

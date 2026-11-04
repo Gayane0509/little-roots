@@ -1,0 +1,27 @@
+# Smoke: the parent gate blocks a wrong answer, Cancel returns home, the right answer opens the parent area.
+appId: com.littleroots.kids
+name: Parent gate
+tags: [smoke]
+---
+- launchApp:
+    clearState: true
+- runFlow: subflows/onboard.yaml
+- tapOn: "Parents"
+- assertVisible: "Grown-ups only"
+- tapOn: "Answer"
+- inputText: "0"
+- tapOn: "Continue"
+- assertVisible: "Not quite. Try this one."
+- tapOn: "Cancel"
+- assertVisible: "Start today's lesson"
+- tapOn: "Parents"
+# The question reads "12 × 5 = ?" (accessibility label "12 times 5"): multiply the two numbers.
+- copyTextFrom:
+    text: "\\d+ (×|times) \\d+.*"
+- evalScript: ${output.gateAnswer = String(maestro.copiedText.match(/\d+/g).slice(0, 2).reduce((a, b) => a * b, 1))}
+- tapOn: "Answer"
+- inputText: ${output.gateAnswer}
+- tapOn: "Continue"
+# First visit shows the parent introduction; skip it to reach the parent area.
+- tapOn: "Skip introduction"
+- assertVisible: "This week"

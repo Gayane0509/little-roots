@@ -1,0 +1,32 @@
+# Smoke: fresh install → onboarding → first lesson → reward → back home.
+appId: com.littleroots.kids
+name: Onboarding, lesson and reward
+tags: [smoke]
+---
+- launchApp:
+    clearState: true
+- runFlow: subflows/onboard.yaml
+- tapOn: "Start today's lesson"
+- tapOn: "Let's go!"
+# New words: one card at a time.
+- repeat:
+    while:
+      visible: "Word \\d+ of \\d+"
+    times: 12
+    commands:
+      - tapOn: "Next"
+# Picture game: the flow can't read Armenian, so it tries each picture; wrong taps only shake.
+- repeat:
+    while:
+      visible: "Picture \\d+ of \\d+"
+    times: 40
+    commands:
+      - tapOn: { text: "Picture 1 of \\d+: .*", optional: true }
+      - tapOn: { text: "Picture 2 of \\d+: .*", optional: true }
+      - tapOn: { text: "Picture 3 of \\d+: .*", optional: true }
+      - tapOn: { text: "Picture 4 of \\d+: .*", optional: true }
+# Read-along rhyme.
+- tapOn: "Next"
+- assertVisible: "You earned \\d+ stars!"
+- tapOn: "Back home"
+- assertVisible: "Start today's lesson"

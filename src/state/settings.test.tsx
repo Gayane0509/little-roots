@@ -49,7 +49,15 @@ test('loads saved family settings', async () => {
 test('saves changes together', async () => {
   await mount();
   await act(async () => { api.setSoundEffects(false); api.setBuddyLanguage('hy'); await Promise.resolve(); await Promise.resolve(); });
-  expect(JSON.parse(storage.store.value!)).toEqual({ soundEffects: false, buddyLanguage: 'hy', parentIntroSeen: false });
+  expect(JSON.parse(storage.store.value!)).toEqual({ soundEffects: false, haptics: true, buddyLanguage: 'hy', parentIntroSeen: false });
+});
+test('Vibration: on for older saved settings, off once the parent turns it off', async () => {
+  storage.store.value = JSON.stringify({ soundEffects: true, buddyLanguage: 'en' });
+  await mount();
+  expect(api.haptics).toBe(true);
+  await act(async () => { api.setHaptics(false); await Promise.resolve(); await Promise.resolve(); });
+  expect(api.haptics).toBe(false);
+  expect(JSON.parse(storage.store.value!)).toMatchObject({ haptics: false, soundEffects: true });
 });
 test('corrupt values use safe defaults', async () => {
   storage.store.value = '{bad'; await mount();
@@ -62,7 +70,7 @@ test('reports failed save and retries latest settings on the next change', async
   storage.store.failWrite = false;
   await act(async () => { api.setBuddyLanguage('hy'); await Promise.resolve(); await Promise.resolve(); });
   expect(api.saveError).toBe(false);
-  expect(JSON.parse(storage.store.value!)).toEqual({ soundEffects: false, buddyLanguage: 'hy', parentIntroSeen: false });
+  expect(JSON.parse(storage.store.value!)).toEqual({ soundEffects: false, haptics: true, buddyLanguage: 'hy', parentIntroSeen: false });
 });
 test('remembers that the parent intro was seen', async () => {
   await mount();

@@ -14,7 +14,7 @@ import {
 import { parseOfferReason } from '@/features/paywall/offer';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
-import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
+import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 export default function ParentGate() {
   const { next, reason } = useLocalSearchParams<{ next?: string; reason?: string }>();
@@ -56,14 +56,15 @@ export default function ParentGate() {
   return (
     <Screen>
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-        <View accessible={false} importantForAccessibility="no-hide-descendants" accessibilityElementsHidden><Text style={styles.emoji}>🔐</Text></View>
-        <Text accessibilityRole="header" style={styles.title}>Grown-ups only</Text>
+        <View accessible={false} importantForAccessibility="no-hide-descendants" accessibilityElementsHidden><Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.emoji}>🔐</Text></View>
+        <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} accessibilityRole="header" style={styles.title}>Grown-ups only</Text>
         <Text style={styles.hint}>Solve this to continue.</Text>
-        <Text style={styles.question} accessibilityLabel={`${q.a} times ${q.b}`}>
+        <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.question} accessibilityLabel={`${q.a} times ${q.b}`}>
           {q.a} × {q.b} = ?
         </Text>
         <TextInput
           accessibilityLabel="Answer"
+          maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE}
           style={styles.input}
           value={answer}
           onChangeText={(v) => {

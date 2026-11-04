@@ -2,8 +2,17 @@
 
 Little Roots is a phone app (iOS and Android, built with Expo) that teaches young children the language their family
 speaks at home. Armenian is the first language. It is offline, has no ads and no tracking, and keeps every
-grown-up feature behind a parent gate. Live status and history are in `PROGRESS.md`.
+grown-up feature behind a parent gate. Live status: `PROJECT_STATUS.md` (backlog in `AI_TASKS.md`); history of the first sprint: `PROGRESS.md`.
 
+
+> **Update 2026-11-03 — voice removed.** At the owner's request the app is now entirely visual and text-based: no
+> recording, no family voice, no text-to-speech, no say-it-aloud step, no microphone permission. Lessons show pictures,
+> Armenian spelling and transliteration; Listen & find became Find the picture. Mentions of audio, speech and
+> recordings below describe the first sprint. See `AI_DECISIONS.md` (2026-11-03 "No voice").
+>
+> **Update 2026-11-04 — family voice back (owner's decision).** A grown-up records the words behind the parent gate;
+> the app plays that voice wherever the word appears. On-device only; no text-to-speech, speech recognition or AI
+> voices. See `AI_DECISIONS.md` (2026-11-04 "Family voice").
 ## What the app does
 
 **For the child**
@@ -82,19 +91,18 @@ grown-up feature behind a parent gate. Live status and history are in `PROGRESS.
 
 - **Not yet run on a real device or simulator.** Expo SDK 58 needs a newer Xcode than the installed 26.3: the native
   build stops on a Swift 6 error inside an Expo module. Everything was verified in the web preview instead.
-- **Speech:** most phones have no Armenian voice. Until recordings are added, words fall back to the device voice.
 - **Purchases are not connected** to App Store or Play billing.
-- **Second language:** only the Armenian pack exists. Screens still read the Armenian modules directly, and there is
-  no language picker or per-language progress yet.
-- **The share is plain text,** not an image.
+- **Second language:** only the Armenian pack exists. Screens read content through the active pack and progress is
+  stored per language (2026-11-03); a language picker is still missing.
+- **The share is plain text,** not an image (image share is planned after the native test pass).
 - **Armenian rhymes and Buddy phrases** were written without native-speaker proofreading.
 
 ## Owner actions (I could not do these)
 
 1. **Update Xcode,** then run `LANG=en_US.UTF-8 npx expo run:ios` and test on a device, including VoiceOver and
    TalkBack.
-2. **Record the 96 words with a native speaker.** Put the files in `assets/audio/<wordId>.m4a` and run
-   `node scripts/build-audio-manifest.mjs`.
+2. ~~Record the 96 words~~ — bundled recordings stay out; since 2026-11-04 each family records its own words in the app
+   (Parent area → Family voice).
 3. **Create subscription products** (App Store Connect and Play Console, or RevenueCat) and plug them into
    `src/lib/purchases.ts`.
 4. **App Store setup:** choose "Made for Kids" with the right age band, fill in the Play Families form, and host
@@ -106,10 +114,10 @@ grown-up feature behind a parent gate. Live status and history are in `PROGRESS.
 ## Recommended next steps
 
 1. Test on a device after the Xcode update, then do a TestFlight or internal-track beta with 5–10 Armenian families.
-2. Studio recordings, plus recorded Buddy lines (this matters most for quality).
+2. Richer illustrations and animation for every word and theme (the app is now fully visual).
 3. Real billing with a 7-day trial; measure the trial-to-paid rate.
-4. A second language pack (Russian, Georgian or Persian, for diaspora families): wire screens to `ACTIVE_PACK`, store
-   progress per language, and add a picker.
+4. A second language pack (Russian, Georgian or Persian, for diaspora families): screens and progress are ready;
+   add the pack and a language picker.
 5. More content: short stories, songs with music, and a "word of the day" widget.
 6. Optional family sync between parents' phones. This needs a backend and a privacy review, because it is a
    children's app.

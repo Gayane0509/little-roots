@@ -1,0 +1,9 @@
+# Fresh install: name the first child and land on Home.
+appId: com.littleroots.kids
+---
+- assertVisible: "What is your name?"
+- tapOn: "Child's first name"
+- inputText: "Mari"
+- hideKeyboard
+- tapOn: "Let's go!"
+- assertVisible: "Start today's lesson"

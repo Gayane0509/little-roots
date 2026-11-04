@@ -7,7 +7,7 @@ import { getReminder, setReminder, type ReminderSettings } from '@/lib/reminders
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
 import { labelColorOn } from '@/ui/contrast';
-import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
+import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 const PRESETS = [8, 12, 16, 18, 19, 20];
 
@@ -56,7 +56,7 @@ export default function Reminders() {
   return (
     <Screen>
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.title} accessibilityRole="header">Daily reminder</Text>
+        <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.title} accessibilityRole="header">Daily reminder</Text>
         <Text style={styles.body}>A gentle daily reminder for you, the parent — never shown to your child as an ad.</Text>
 
         <View style={styles.card}>

@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
 import { SectionList, StyleSheet, Text, View } from 'react-native';
 import { useMemo, useState } from 'react';
-import { THEMES } from '@/content/themes';
+import { ACTIVE_PACK } from '@/content/packs';
 import { useParentGuard } from '@/features/parent/gate';
 import { fullReport } from '@/features/report/reportData';
 import { canSeeFullReport } from '@/lib/entitlements';
@@ -9,7 +9,7 @@ import { useProgressState } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
 import { WordArt } from '@/ui/WordArt';
-import { colors, font, radius, spacing } from '@/ui/tokens';
+import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing } from '@/ui/tokens';
 
 export default function FullReportScreen() {
   const guard = useParentGuard('/parent/report');
@@ -18,12 +18,12 @@ export default function FullReportScreen() {
   const report = useMemo(() => fullReport(state, now), [state, now]);
   if (guard) return guard;
   if (!canSeeFullReport(state.isPremium)) {
-    return <Screen><View style={styles.center}><Text accessibilityRole="header" style={styles.title}>Full progress</Text><Text style={styles.sub}>See every word your child learns with Premium.</Text><BigButton label="Explore Premium" onPress={() => router.replace({ pathname: '/parent/paywall', params: { reason: 'report' } })} /></View></Screen>;
+    return <Screen><View style={styles.center}><Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} accessibilityRole="header" style={styles.title}>Full progress</Text><Text style={styles.sub}>See every word your child learns with Premium.</Text><BigButton label="Explore Premium" onPress={() => router.replace({ pathname: '/parent/paywall', params: { reason: 'report' } })} /></View></Screen>;
   }
   return <Screen><SectionList sections={report.themes.map((item) => ({ ...item, data: item.words.length ? item.words : [{ word: null, stars: 0 }] }))} keyExtractor={(item, index) => item.word?.id ?? `empty-${index}`} contentContainerStyle={styles.content} stickySectionHeadersEnabled={false}
     ListHeaderComponent={<>
-    <Text accessibilityRole="header" style={styles.title}>Full progress</Text>
-    <Text style={styles.sub}>{report.seenTotal} of {THEMES.reduce((sum, theme) => sum + theme.words.length, 0)} words explored</Text>
+    <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} accessibilityRole="header" style={styles.title}>Full progress</Text>
+    <Text style={styles.sub}>{report.seenTotal} of {ACTIVE_PACK.themes.reduce((sum, theme) => sum + theme.words.length, 0)} words explored</Text>
     <Text accessibilityRole="header" style={styles.heading}>Words learned over 8 weeks</Text>
     <View style={styles.chart}>{report.weeks.map((week) => <View key={week.label} style={styles.week} accessible accessibilityLabel={`${week.label}: ${week.count} words`}>
       <Text style={styles.number}>{week.count}</Text><View style={[styles.bar, { height: Math.max(8, Math.min(100, week.count * 12)) }]} /><Text style={styles.weekLabel}>{week.label}</Text>

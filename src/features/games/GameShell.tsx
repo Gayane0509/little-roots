@@ -1,10 +1,12 @@
 import { router } from 'expo-router';
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
 
 import { goBackOrHome } from '@/lib/navigation';
 import { useBuddyLine } from '@/features/buddy/useBuddyLine';
+import type { IconName } from '@/art/icons';
 import { canPlayGame } from '@/lib/entitlements';
+import { IconTitle } from '@/ui/IconTitle';
 import { gamesPlayedToday, useProgressActions, useProgressState } from '@/state/progress';
 import type { Word } from '@/content/types';
 import { BigButton } from '@/ui/BigButton';
@@ -16,12 +18,13 @@ import { MIN_SEEN_WORDS, pickSeenWords } from './logic';
 
 interface GameShellProps {
   title: string;
+  icon: IconName;
   /** Rendered once progress is loaded and enough words are seen. */
   children: (seenWords: Word[]) => ReactNode;
 }
 
 /** Loading + "finish a lesson first" gate shared by every game screen. */
-export function GameShell({ title, children }: GameShellProps) {
+export function GameShell({ title, icon, children }: GameShellProps) {
   const line = useBuddyLine();
   const { state, ready } = useProgressState();
   const seen = useMemo(() => pickSeenWords(state.words, Math.random, Infinity, undefined, state.isPremium), [state.words, state.isPremium]);
@@ -48,10 +51,10 @@ export function GameShell({ title, children }: GameShellProps) {
     );
   }
 
-  return <AdmittedGame title={title} seen={seen} isPremium={state.isPremium} played={gamesPlayedToday(state)}>{children}</AdmittedGame>;
+  return <AdmittedGame title={title} icon={icon} seen={seen} isPremium={state.isPremium} played={gamesPlayedToday(state)}>{children}</AdmittedGame>;
 }
 
-function AdmittedGame({ title, seen, isPremium, played, children }: { title: string; seen: Word[]; isPremium: boolean; played: number; children: (words: Word[]) => ReactNode }) {
+function AdmittedGame({ title, icon, seen, isPremium, played, children }: { title: string; icon: IconName; seen: Word[]; isPremium: boolean; played: number; children: (words: Word[]) => ReactNode }) {
   const line = useBuddyLine();
   const [admitted] = useState(() => canPlayGame(isPremium, played));
   const { recordGamePlayed } = useProgressActions();
@@ -68,9 +71,7 @@ function AdmittedGame({ title, seen, isPremium, played, children }: { title: str
   }
   return (
     <Screen>
-      <Text style={styles.title} accessibilityRole="header">
-        {title}
-      </Text>
+      <IconTitle icon={icon} text={title} style={styles.title} />
       {children(seen)}
     </Screen>
   );

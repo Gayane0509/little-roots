@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { canAddProfile, canPlayGame, canRecordMore, canSeeFullReport, canTraceLetter, FREE_LIMITS, gamesLeftToday } from './entitlements';
+import { canAddProfile, canPlayGame, canSeeFullReport, canTraceLetter, FREE_LIMITS, gamesLeftToday } from './entitlements';
 
 describe('entitlements', () => {
   it('allows one free child and at most four premium children', () => {
@@ -9,12 +9,6 @@ describe('entitlements', () => {
     expect(canAddProfile(true, 3)).toBe(true);
     expect(canAddProfile(true, 4)).toBe(false);
   });
-  it('limits free recordings and lifts the limit for premium', () => {
-    expect(canRecordMore(false, FREE_LIMITS.recordings - 1)).toBe(true);
-    expect(canRecordMore(false, FREE_LIMITS.recordings)).toBe(false);
-    expect(canRecordMore(true, 500)).toBe(true);
-  });
-
   it('lets free children trace the first letters only', () => {
     expect(canTraceLetter(false, 0)).toBe(true);
     expect(canTraceLetter(false, FREE_LIMITS.tracingLetters - 1)).toBe(true);

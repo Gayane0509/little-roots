@@ -7,6 +7,15 @@ function luminance(hex: string): number {
 }
 
 /** WCAG contrast ratio of two #RRGGBB colors. */
+/** Mixes a #RRGGBB colour toward white; `amount` 0 keeps it, 1 gives white. */
+export function tint(hex: string, amount: number): string {
+  const channel = (i: number) => {
+    const value = parseInt(hex.slice(i, i + 2), 16);
+    return Math.round(value + (255 - value) * amount).toString(16).padStart(2, '0');
+  };
+  return `#${channel(1)}${channel(3)}${channel(5)}`.toUpperCase();
+}
+
 export function contrastRatio(a: string, b: string): number {
   const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
   return (hi + 0.05) / (lo + 0.05);

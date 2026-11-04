@@ -29,5 +29,12 @@ export const font = {
   small: 14,
 } as const;
 
+/** Most that display text (titles, big words, kid button labels) grows with the system text size; body text is uncapped. */
+export const DISPLAY_MAX_FONT_SCALE = 1.5;
+
 /** Minimum touch target for small kids' fingers. */
 export const TOUCH_MIN = 64;
+/** Widest the content column grows on tablets and the web. */
+export const CONTENT_MAX_WIDTH = 720;
+/** Window width from which grids add a third column. */
+export const WIDE_BREAKPOINT = 600;

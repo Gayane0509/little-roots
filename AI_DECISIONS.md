@@ -2,12 +2,97 @@
 
 Durable decisions with reasons. Newest first. Earlier ones are summarized from `PROGRESS.md`.
 
+- 2026-11-03 · Web tab titles come from one web-only `<Head>` in the root layout (`src/lib/screenTitle.ts`, keyed by
+  path), not per-screen `<Head>`: one place, and `expo-router/head` is never rendered on native (it can drive iOS
+  Handoff/activity metadata the app doesn't need). New route files must add a title (guard test).
+
+- 2026-11-03 · Large system text: display text (fontSize ≥ `font.title`: titles, big Armenian words, letter tiles,
+  emoji art, the gate answer field) and kid button labels (`BigButton`, `IconTitle`) grow at most
+  `DISPLAY_MAX_FONT_SCALE` (1.5×) with the system text size (`maxFontSizeMultiplier`); body text scales fully. Emoji
+  that stand in for pixel-sized drawings (`WordArt` fallback) don't scale (`allowFontScaling={false}`), like the SVG art.
+  Reason: at the largest accessibility sizes (~3×) a 44 pt word becomes ~135 pt and overflows fixed cards and buttons,
+  while display text is already large. Guard: `src/ui/displayText.test.ts`.
+
+- 2026-11-03 · Design principles (research: NN/g "Children's UX: physical development", Google "Building for kids",
+  app-quality studies). Child-facing targets as large as the layout allows (aim ≈ 2 cm; never below `TOUCH_MIN`);
+  every tap gets visible feedback; mistakes get a visual hint (highlight/pulse), never text-only; icons and pictures
+  over words for pre-readers; visible progress (stars, stickers, theme progress); simple taps only (no precise drags
+  required, no multi-finger); grown-ups have an active co-play role (reading words aloud themselves). No persuasive
+  dark patterns (no streak-loss guilt, no timers pushing purchases).
+- 2026-11-03 · Haptics go through `src/lib/haptics.ts` only (guard test) and follow the parent's Vibration setting
+  (default on). Feedback is optional: errors are swallowed. Before settings load the default (on) applies, like sound;
+  the startup splash holds until settings load, so children can't tap earlier.
+- 2026-11-04 · **Family voice (owner's decision; replaces "No voice").** The only voice feature allowed: behind the
+  parent gate a grown-up records the app's words one by one (all words of the active language pack), and the app
+  plays that recording wherever the word appears (lesson cards and game rounds, the theme page, Find the picture).
+  Words without a recording stay text and pictures only. Recordings live only on the device
+  (`Paths.document/voice/<child>/`, index `littleroots.voice.v1.<child>.<pack>`), per child and language like
+  progress, are never uploaded, and are deleted with the recording or the child. The microphone permission is
+  requested only from the parent recording screen, never in front of the child (iOS purpose string; Android
+  RECORD_AUDIO no longer blocked). Still banned: speech recognition, voice input, text-to-speech, AI voices or
+  cloning, voice messages, online voice services, a spoken Buddy. Rejected by the owner: AI voice cloning; staying
+  voice-free. Guards: `audioSession.test.ts` now allows recording APIs only in the family-voice files and still bans
+  `expo-speech`/speech recognition anywhere; `storeConfig.test.ts` checks the purpose string. No free-tier limit
+  (the old 5-recording limit is not brought back). Web preview: recordings last until the page reloads (web is not
+  shipped).
+- 2026-11-03 · ~~**No voice**~~ (superseded 2026-11-04 by "Family voice"; its other bans still hold). Original text: The app is entirely visual and text-based: no recording,
+  voice messages, voice input/speech recognition, text-to-speech, word audio or spoken Buddy, no voice buttons/icons,
+  no microphone permission — and no future feature may add any. Removed: family voice (`parent/voices`, recordings
+  state, 5-recording free limit, paywall row), `expo-speech`, `expo-file-system` (direct dep), bundled word audio and
+  the recording kit (#17), the say-it-aloud lesson step, Buddy's replay button, hear-the-letter/word buttons.
+  Listen & find became Find the picture (read the word, tap the picture); the rhyme is a read-along (tap a line to
+  highlight). Kept: short optional sound effects (not voice), now respecting the iOS silent switch
+  (`playsInSilentMode: false`). `expo-audio` stays for effects with `microphonePermission: false`,
+  `recordAudioAndroid: false`; Android also blocks RECORD_AUDIO. No data migration: the app never shipped, so no
+  device holds recordings. Guards: `audioSession.test.ts` (no speech/recording APIs or speaker/mic icons in `src`),
+  `storeConfig.test.ts`. Trade-off accepted by the owner: children learn pronunciation from a grown-up reading
+  with them, helped by the transliteration; the parent intro now says so.
+- 2026-11-03 · ~~Recording kit~~ (superseded the same day by "No voice"; removed): `scripts/words.mjs` imports `src/content/themes.ts` directly (Node 22 strips types, no
+  new dev dependency). `recording-sheet.mjs` writes `assets/audio/RECORDING_SHEET.md`; the manifest script exits 1
+  on a file whose name isn't a word id. `recordingSheet.test.ts` keeps the sheet in sync with the words.
+- 2026-11-03 · CI also runs `npx expo export --platform web` (catches Metro-only breakage). Every `Pressable` must
+  declare `accessibilityRole` + `accessibilityLabel` (`src/ui/pressableA11y.test.ts`).
+- 2026-11-03 · Share card image: use `react-native-view-shot` (SDK 58 curated 6.1.1, MIT, maintained incl. an Expo
+  maintainer, ~216 KB unpacked, no permissions, writes to cache) + `expo-sharing` (RN `Share` can't send files on
+  Android). Native-only; web keeps the text share. Not installed yet: it adds native modules we can't verify until
+  the native build works (task #16 after #10). The image holds the same data as today's text (name, week's words) and
+  is only shared when a parent taps Share — store privacy answers unchanged.
+- 2026-11-03 · Per-language progress: progress/letters keys are `littleroots.{progress,letters}.v1.<child>.<pack>`
+  (`progressKey(id, packId = ACTIVE_PACK.id)`). On every load each child's pre-pack key `….v1.<child>` moves to
+  `.hy` (all data before packs is Armenian): copy first, remove after; if the `.hy` key already holds different data
+  the old record is kept, never deleted; storage errors block the load (retry screen) rather than start a child from
+  empty progress. Child deletion removes the keys of every shipped pack plus the old ones. Runs inside
+  `loadProfiles`, before any progress provider mounts. Dev caveat: a Fast Refresh across this change ran the new
+  key without the migration and reset the web preview's test child (cold starts can't hit this).
+  2026-11-03 22:00: once the copy is confirmed identical, a failed removal of the old key is logged and retried on
+  the next load instead of blocking the app (the data is already safe; review of #7).
+- 2026-11-03 · Content access: screens, features and state read language content only via `@/content/packs`
+  (`ACTIVE_PACK.themes/alphabet/phrases/audio`, `getTheme`, `getWord`, re-exported `Letter`/`Phrase`/`PhraseKey`).
+  `@/content/types` (types) and `@/content/themeArt` (picture per theme, language-neutral) stay importable. Guarded by
+  `src/content/packs/packs.test.ts`.
+- 2026-11-03 · E2E: Maestro flows in `.maestro/` select by visible text/accessibility labels (no testIDs added);
+  `src/lib/maestroFlows.test.ts` fails when a label they use disappears from the source.
+- 2026-11-03 · npm audit (`--omit=dev`, 12 moderate, 0 high): all 12 trace to two advisories — glob 13.0.6
+  (GHSA-3g3m-2fjr-6pw4, AbortSignal timeout bypass) and minimatch 10.2.6 (GHSA-g3hv-75wg-m249, globparts DoS) —
+  reached only through Expo build tooling (`@expo/cli`, `config`, `config-plugins`, `fingerprint`, `metro-config`,
+  `prebuild-config`, `inline-modules`, `local-build-cache-provider`; `expo` and `expo-splash-screen` are flagged as
+  their parents). Web export source maps: neither glob nor minimatch is bundled; the only `@expo/cli` file shipped is
+  Metro's `require` shim. They run at build time on our own project files, not on child input. `npm audit fix` has
+  no non-breaking fix (only `--force` → expo 51); `overrides` to glob 14 / minimatch 11 would be major bumps under
+  Expo's pinned ranges. Accepted; re-check after each `npx expo install --fix`.
+- 2026-11-03 · Startup splash (`src/lib/splash.ts`, `src/features/startup/StartupGate.tsx`): the native splash is held
+  at module scope and hidden once settings + progress have loaded (profiles already render nothing until loaded), so
+  no default state flashes (English buddy, sound on, onboarding redirect, Home spinner). Only the first launch
+  waits; after a profile switch Home's spinner shows as before. Safety timeout 4 s (a stuck splash is worse than a
+  flash); the profile load-error screen and the kid error screen release it at once. Web has no native splash:
+  the gate shows a plain background. Startup time = performance measure `lr:startup` (hold → `lr:providers-ready`).
+  Root `__mocks__/expo-splash-screen.ts` keeps suites that partially mock `react-native` loading.
 - 2026-11-02 · Store config: iOS privacy manifest in `app.json` declares no tracking/collection and the union of the
   required-reason APIs our SDKs declare (Apple doesn't reliably read static-pod manifests). expo-audio
   `enableBackgroundPlayback: false` (no `UIBackgroundModes: audio`, no Android media foreground service); Android blocks
   READ/WRITE_EXTERNAL_STORAGE and SYSTEM_ALERT_WINDOW. Added `expo-asset` (required expo-audio peer; first-party, MIT).
   Guarded by `src/lib/storeConfig.test.ts`.
-- 2026-11-02 · Audio session (`src/lib/audioSession.ts`): set once at startup — `playsInSilentMode: true` (word audio
+- 2026-11-02 · ~~Audio session~~ (superseded 2026-11-03 by "No voice": effects-only session, silent switch respected) (`src/lib/audioSession.ts`): set once at startup — `playsInSilentMode: true` (word audio
   is the lesson; kids' devices are often on silent and parents read "no sound" as broken), `mixWithOthers` (never
   pause a parent's music; cues are short), no background playback, and word audio/TTS stop when the app goes to the
   background (not on `inactive`, so pulling down Control Center doesn't cut a word). Revisit `duckOthers` for word
@@ -26,7 +111,7 @@ Durable decisions with reasons. Newest first. Earlier ones are summarized from `
   native-speaker content (no fake choices in the UI).
 - 2026-10-30 · Contrast: text-only tokens ≥ 4.5:1; BigButton chooses label colour by contrast (`src/ui/contrast.ts`).
 - 2026-10-30 · Production never grants Premium without real billing; paywall shows "Coming soon".
-- 2026-10-30 · Audio priority: family recording → bundled native audio → device TTS.
+- 2026-10-30 · ~~Audio priority: family recording → bundled native audio → device TTS.~~ (superseded 2026-11-03: no voice)
 - 2026-10-30 · Expo Router + React context, no state library; RN Animated; static typed content with tests.
 - 2026-10-30 · Privacy: offline, no accounts/analytics/ads; recordings and progress stay on device; mic only in the
   parent area.

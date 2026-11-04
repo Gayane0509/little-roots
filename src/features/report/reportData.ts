@@ -1,4 +1,4 @@
-import { THEMES } from '@/content/themes';
+import { ACTIVE_PACK } from '@/content/packs';
 import { daysBetween, localDay } from '@/lib/date';
 import type { ProgressState } from '@/state/progress.types';
 
@@ -8,7 +8,7 @@ export function masteryStars(box: number): number {
 
 export function fullReport(state: ProgressState, now: number) {
   const today = localDay(now);
-  const themes = THEMES.map((theme) => {
+  const themes = ACTIVE_PACK.themes.map((theme) => {
     const words = theme.words.flatMap((word) => {
       const progress = state.words[word.id];
       return progress?.seen > 0 ? [{ word, stars: masteryStars(progress.box) }] : [];

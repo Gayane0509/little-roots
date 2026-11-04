@@ -1,6 +1,6 @@
 import { Alert, Platform, Share, StyleSheet, Text, View } from 'react-native';
 
-import { getWord } from '@/content/themes';
+import { getWord } from '@/content/packs';
 import type { Word } from '@/content/types';
 import type { weeklyReport } from '@/lib/report';
 import { BigButton } from '@/ui/BigButton';

@@ -5,18 +5,12 @@
 export const MAX_PROFILES = 4;
 
 export const FREE_LIMITS = {
-  /** Family voice recordings a free family can keep. */
-  recordings: 5,
   profiles: 1,
   /** Letters (in alphabet order) a free child can trace: Ա Բ Գ Դ Ե Զ. */
   tracingLetters: 6,
   /** Game rounds (one finished game) per local day. */
   gamesPerDay: 3,
 } as const;
-
-export function canRecordMore(isPremium: boolean, recordingCount: number): boolean {
-  return isPremium || recordingCount < FREE_LIMITS.recordings;
-}
 
 /** `letterIndex` is the 0-based position in the alphabet. */
 export function canTraceLetter(isPremium: boolean, letterIndex: number): boolean {

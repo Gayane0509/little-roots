@@ -22,7 +22,6 @@ export function validatePack(pack: LanguagePack, reference?: LanguagePack): stri
     if (!phrase.hy.trim() || !phrase.en.trim()) problems.push(`phrase ${key}: empty`);
     if (placeholders(phrase.hy) !== placeholders(phrase.en)) problems.push(`phrase ${key}: placeholders differ`);
   }
-  for (const id of Object.keys(pack.audio)) if (!ids.has(id)) problems.push(`audio ${id}: unknown word`);
   if (pack.alphabet.length === 0) problems.push('empty alphabet');
   if (reference) {
     for (const key of Object.keys(reference.phrases)) if (!(key in pack.phrases)) problems.push(`phrase ${key}: missing`);

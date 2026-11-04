@@ -27,17 +27,18 @@ export const art: ThemeArt = {
 <circle cx="36" cy="80" r="5" fill="#FF9EAA" opacity="0.6"/><circle cx="92" cy="80" r="5" fill="#FF9EAA" opacity="0.6"/>
 </svg>`,
   horse: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-<path d="M40 24 Q14 44 18 74 Q18 100 26 118 L54 116 L50 50 Z" fill="#5A3A2A" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
-<path d="M50 24 L46 4 L66 16 Z" fill="#A0582F" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
-<path d="M64 16 L74 2 L82 24 Z" fill="#A0582F" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
-<path d="M40 30 Q60 10 82 24 Q92 40 108 66 Q124 88 112 106 Q100 118 84 110 Q74 102 68 86 Q60 100 56 118 L30 118 Q34 70 40 30 Z" fill="#A0582F" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
-<path d="M98 82 Q122 90 112 106 Q100 118 84 110 Q88 90 98 82 Z" fill="#D9965B" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
-<path d="M44 28 Q62 12 82 26 Q76 42 62 34 Q56 46 44 40 Q40 34 44 28 Z" fill="#5A3A2A" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
-<circle cx="76" cy="52" r="4.5" fill="#3A2E39"/><circle cx="77.5" cy="50.5" r="1.5" fill="#FFFFFF"/>
-<circle cx="104" cy="92" r="2.8" fill="#3A2E39"/><circle cx="112" cy="96" r="2.8" fill="#3A2E39" opacity="0"/>
-<path d="M92 106 Q100 110 106 104" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
-<circle cx="76" cy="72" r="5.5" fill="#FF9EAA" opacity="0.6"/>
-<path d="M66 40 Q86 46 96 66" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.4"/>
+<path d="M38 34 L42 8 L58 26 Z" fill="#A0582F" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M90 34 L86 8 L70 26 Z" fill="#A0582F" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M43 16 L52 26 L42 28 Z" fill="#D9965B"/><path d="M85 16 L76 26 L86 28 Z" fill="#D9965B"/>
+<path d="M30 60 C30 26 98 26 98 60 C98 74 94 82 92 90 L36 90 C34 82 30 74 30 60 Z" fill="#A0582F" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M50 34 Q46 20 56 16 Q60 8 68 14 Q78 10 80 20 Q88 24 80 34 Q72 28 64 34 Q58 28 50 34 Z" fill="#5A3A2A" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<ellipse cx="64" cy="94" rx="30" ry="22" fill="#D9965B" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="50" cy="60" r="3.5" fill="#3A2E39"/><circle cx="78" cy="60" r="3.5" fill="#3A2E39"/>
+<circle cx="51.5" cy="58.5" r="1.2" fill="#FFFFFF"/><circle cx="79.5" cy="58.5" r="1.2" fill="#FFFFFF"/>
+<ellipse cx="52" cy="90" rx="4" ry="5" fill="#A0582F"/><ellipse cx="76" cy="90" rx="4" ry="5" fill="#A0582F"/>
+<path d="M54 104 Q64 112 74 104" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
+<circle cx="38" cy="74" r="6" fill="#FF9EAA" opacity="0.6"/><circle cx="90" cy="74" r="6" fill="#FF9EAA" opacity="0.6"/>
+<path d="M60 40 Q64 36 68 40 L66 72 Q64 74 62 72 Z" fill="#FFF3DC"/>
+<ellipse cx="44" cy="46" rx="4" ry="9" fill="#FFFFFF" opacity="0.35" transform="rotate(30 44 46)"/>
 </svg>`,
   cow: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
 <path d="M28 30 Q16 12 8 18 Q10 34 34 40 Z" fill="#FFF3DC" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
@@ -53,16 +54,17 @@ export const art: ThemeArt = {
 <path d="M54 102 Q64 108 74 102" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
 </svg>`,
   bird: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-<path d="M18 74 L4 62 L10 90 Z" fill="#2F5DA8" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
-<path d="M54 24 Q52 8 62 8 Q60 16 66 22" fill="none" stroke="#3A2E39" stroke-width="3.5" stroke-linecap="round"/>
-<ellipse cx="62" cy="66" rx="48" ry="44" fill="#4DA3FF" stroke="#3A2E39" stroke-width="3"/>
-<ellipse cx="66" cy="82" rx="30" ry="22" fill="#FFF3DC"/>
-<path d="M92 56 L124 68 L92 80 Z" fill="#FF9F43" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
-<path d="M92 68 L120 68" stroke="#3A2E39" stroke-width="2.5" stroke-linecap="round"/>
-<path d="M20 70 Q30 44 52 62 Q54 84 36 94 Q20 90 20 70 Z" fill="#2F5DA8" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
-<circle cx="76" cy="52" r="4.5" fill="#3A2E39"/>
-<circle cx="82" cy="72" r="5" fill="#FF9EAA" opacity="0.6"/>
-<path d="M30 30 Q40 22 52 26" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.45"/>
+<path d="M62 30 Q56 14 66 12 Q64 22 70 18 Q72 26 66 32 Z" fill="#4DA3FF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<ellipse cx="22" cy="74" rx="10" ry="20" fill="#2F5DA8" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" transform="rotate(25 22 74)"/>
+<ellipse cx="106" cy="74" rx="10" ry="20" fill="#2F5DA8" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" transform="rotate(-25 106 74)"/>
+<path d="M54 108 V118 M48 120 L54 114 L60 120 M74 108 V118 M68 120 L74 114 L80 120" fill="none" stroke="#FF9F43" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="64" cy="70" r="40" fill="#4DA3FF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<ellipse cx="64" cy="88" rx="24" ry="20" fill="#FFF3DC"/>
+<circle cx="50" cy="60" r="3.5" fill="#3A2E39"/><circle cx="78" cy="60" r="3.5" fill="#3A2E39"/>
+<circle cx="51.5" cy="58.5" r="1.2" fill="#FFFFFF"/><circle cx="79.5" cy="58.5" r="1.2" fill="#FFFFFF"/>
+<path d="M56 68 L72 68 L64 80 Z" fill="#FF9F43" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="40" cy="74" r="6" fill="#FF9EAA" opacity="0.6"/><circle cx="88" cy="74" r="6" fill="#FF9EAA" opacity="0.6"/>
+<ellipse cx="44" cy="46" rx="9" ry="4.5" fill="#FFFFFF" opacity="0.4" transform="rotate(-40 44 46)"/>
 </svg>`,
   fish: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
 <path d="M96 64 L122 40 Q128 64 122 88 Z" fill="#FF9F43" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>

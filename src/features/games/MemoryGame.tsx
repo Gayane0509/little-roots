@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { Animated, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
-import * as Haptics from 'expo-haptics';
 
 import type { Word } from '@/content/types';
 import { useBuddyLine } from '@/features/buddy/useBuddyLine';
 import { goBackOrHome } from '@/lib/navigation';
-import { stopSpeaking } from '@/lib/speech';
+import { haptic } from '@/lib/haptics';
 import { playSfx } from '@/lib/sfx';
 import { useSettings } from '@/state/settings';
-import { stopWordAudio, useSpeakWord } from '@/state/recordings';
 import { useProgressActions } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
+import { Confetti } from '@/ui/Confetti';
+import { Icon } from '@/ui/Icon';
 import { WordArt } from '@/ui/WordArt';
 import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
@@ -52,7 +52,7 @@ function FlipCard({ card, open, matched, disabled, onPress, width, height }: {
       style={[styles.cardWrap, { width, minHeight: height }]}
     >
       <Animated.View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[styles.face, styles.back, { transform: [{ perspective: 800 }, { rotateY: backRotate }] }]}>
-        <Text style={styles.backMark}>❓</Text>
+        <Icon name="sprout" size={Math.min(72, width - spacing.sm * 2 - 6, height - spacing.sm * 2 - 6)} />
       </Animated.View>
       <Animated.View
         accessible={false}
@@ -77,8 +77,7 @@ function FlipCard({ card, open, matched, disabled, onPress, width, height }: {
 
 export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
   const line = useBuddyLine();
-  const { soundEffects } = useSettings();
-  const speak = useSpeakWord();
+  const { soundEffects, haptics } = useSettings();
   const { recordGamePlayed } = useProgressActions();
   const { width, height, fontScale } = useWindowDimensions();
   const [deck, setDeck] = useState(() => buildMemoryDeck(seenWords));
@@ -91,8 +90,6 @@ export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
 
   useEffect(() => () => {
     if (timer.current) clearTimeout(timer.current);
-    stopWordAudio();
-    stopSpeaking();
   }, []);
 
   const pairs = deck.length / 2;
@@ -109,7 +106,6 @@ export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
     const t = turn.current;
     if (t.busy || t.flipped.length >= 2 || t.flipped.includes(card.key) || t.matched.includes(card.word.id)) return;
     playSfx('flip', soundEffects);
-    speak(card.word);
     if (t.flipped.length === 0) {
       t.flipped = [card.key];
       setFlipped(t.flipped);
@@ -121,7 +117,7 @@ export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
     setFlipped(t.flipped);
     setMoves((m) => m + 1);
     if (first.word.id === card.word.id) {
-      void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      haptic('success', haptics);
       t.matched = [...t.matched, card.word.id];
       t.flipped = [];
       setMatched(t.matched);
@@ -140,8 +136,6 @@ export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
   const playAgain = () => {
     if (timer.current) clearTimeout(timer.current);
     timer.current = null;
-    stopWordAudio();
-    stopSpeaking();
     recordGamePlayed();
     turn.current = { flipped: [], matched: [], busy: false };
     setDeck(buildMemoryDeck(seenWords));
@@ -153,6 +147,7 @@ export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
   if (won) {
     return (
       <ScrollView contentContainerStyle={styles.win}>
+        <Confetti />
         <Buddy mood="cheer" message={line('game_memory_done', { moves })} />
         <GameDoneActions onPlayAgain={playAgain} />
       </ScrollView>
@@ -200,7 +195,6 @@ const styles = StyleSheet.create({
     borderWidth: 3,
   },
   back: { backgroundColor: colors.primary, borderColor: colors.primaryDark },
-  backMark: { fontSize: 36 },
   front: { backgroundColor: colors.surface, borderColor: colors.border },
   matched: {
     borderColor: colors.success,

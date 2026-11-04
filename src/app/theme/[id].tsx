@@ -1,23 +1,22 @@
 import { Redirect, router, useLocalSearchParams } from 'expo-router';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { themeArtWordId } from '@/content/themeArt';
-import { THEMES } from '@/content/themes';
+import { ACTIVE_PACK } from '@/content/packs';
 import type { Word } from '@/content/types';
 import { isThemeUnlocked, themeProgress } from '@/lib/lesson';
 import { goBackOrHome } from '@/lib/navigation';
 import { useProgress } from '@/state/progress';
-import { useSpeakWord } from '@/state/recordings';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
+import { Wiggle } from '@/ui/Wiggle';
 import { WordArt } from '@/ui/WordArt';
-import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
+import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 export default function ThemeDetail() {
   const { id } = useLocalSearchParams<{ id?: string }>();
   const { state, ready } = useProgress();
-  const speak = useSpeakWord();
-  const theme = THEMES.find((t) => t.id === id);
+  const theme = ACTIVE_PACK.themes.find((t) => t.id === id);
 
   if (!theme) return <Redirect href="/" />;
   if (!ready) return <Screen><Text style={styles.sub}>Loading…</Text></Screen>;
@@ -33,7 +32,7 @@ export default function ThemeDetail() {
         <View style={styles.header}>
           <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={themeArtWordId(theme.id)} emoji={theme.emoji} size={64} /></View>
           <View style={styles.headerTexts}>
-            <Text style={styles.titleHy} accessibilityRole="header">
+            <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.titleHy} accessibilityRole="header">
               {theme.titleHy}
             </Text>
             <Text style={styles.titleEn}>{theme.titleEn}</Text>
@@ -51,7 +50,7 @@ export default function ThemeDetail() {
         <View style={styles.grid}>
           {theme.words.map((word) =>
             state.words[word.id] ? (
-              <SeenCard key={word.id} word={word} onPress={() => speak(word)} />
+              <SeenCard key={word.id} word={word} />
             ) : (
               <UnseenCard key={word.id} />
             ),
@@ -64,29 +63,25 @@ export default function ThemeDetail() {
   );
 }
 
-function SeenCard({ word, onPress }: { word: Word; onPress: () => void }) {
+function SeenCard({ word }: { word: Word }) {
   return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={`${word.hy}, ${word.translit}, ${word.en}`}
-      accessibilityHint="Plays the word"
-      onPress={onPress}
-      style={({ pressed }) => [styles.card, { transform: [{ scale: pressed ? 0.95 : 1 }] }]}
-    >
+    <Wiggle wordId={word.id} label={`${word.hy}, ${word.translit}, ${word.en}`} style={styles.cell}>
+      <View style={styles.card}>
       <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={word.id} emoji={word.emoji} size={84} /></View>
       <Text style={styles.cardHy}>
         {word.hy}
       </Text>
       <Text style={styles.cardTranslit}>{word.translit}</Text>
       <Text style={styles.cardEn}>{word.en}</Text>
-    </Pressable>
+      </View>
+    </Wiggle>
   );
 }
 
 function UnseenCard() {
   return (
-    <View style={[styles.card, styles.unseen]} accessibilityLabel="A new word. Learn it in a lesson!">
-      <Text style={styles.cardEmoji}>❓</Text>
+    <View style={[styles.card, styles.unseen, styles.cell]} accessible accessibilityLabel="A new word. Learn it in a lesson!">
+      <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.mystery}>?</Text>
       <Text style={styles.unseenText}>Learn it in a lesson!</Text>
     </View>
   );
@@ -103,8 +98,9 @@ const styles = StyleSheet.create({
   bar: { height: 14, borderRadius: radius.round, backgroundColor: 'rgba(255,255,255,0.6)', overflow: 'hidden' },
   barFill: { height: 14, borderRadius: radius.round, backgroundColor: colors.success },
   grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: spacing.md },
+  cell: { width: '48%' },
   card: {
-    width: '48%',
+    width: '100%',
     minHeight: TOUCH_MIN * 2.5,
     backgroundColor: colors.surface,
     borderRadius: radius.md,
@@ -113,7 +109,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 2,
   },
-  cardEmoji: { fontSize: 48 },
+  mystery: { fontSize: 56, fontWeight: '800', color: colors.textMuted },
   cardHy: { fontSize: font.heading, fontWeight: '800', color: colors.text, maxWidth: '100%' },
   cardTranslit: { fontSize: font.body, color: colors.primaryText, fontWeight: '700', textAlign: 'center' },
   cardEn: { fontSize: font.small, color: colors.textMuted },

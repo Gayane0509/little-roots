@@ -1,6 +1,8 @@
 import { router, type ErrorBoundaryProps } from 'expo-router';
+import { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { releaseSplash } from '@/lib/splash';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
 import { colors, font, spacing } from '@/ui/tokens';
@@ -12,6 +14,7 @@ interface KidErrorScreenProps {
 
 /** Context-free on purpose: must render even if an app provider is what threw. */
 export function KidErrorScreen({ onRetry, onHome }: KidErrorScreenProps) {
+  useEffect(releaseSplash, []);
   return (
     <Screen>
       <View style={styles.body}>

@@ -67,7 +67,7 @@
       [
         "expo-audio",
         {
-          "microphonePermission": "Allow Little Roots to record a family member saying words, so your child hears a familiar voice. Recordings stay on this device.",
+          "microphonePermission": "Allow Little Roots to record a grown-up saying the app's words, so your child hears them in a familiar voice. Recordings stay on this device and are never uploaded.",
           "enableBackgroundPlayback": false
         }
       ],

@@ -7,7 +7,8 @@ import { canAddProfile, MAX_PROFILES } from '@/lib/entitlements';
 import { AVATAR_WORD_IDS, useProfiles, type AvatarWordId } from '@/state/profiles';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
-import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
+import { selectedA11y } from '@/ui/selectedA11y';
+import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 export default function Children() {
   const guard = useParentGuard('/parent/children');
   const { profiles, isPremium, add, rename, remove } = useProfiles();
@@ -40,9 +41,9 @@ export default function Children() {
     } }]);
   };
   return <Screen><ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-    <Text accessibilityRole="header" style={styles.title}>Children</Text>
+    <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} accessibilityRole="header" style={styles.title}>Children</Text>
     {profiles.map((profile) => <View key={profile.id} style={styles.row}><ProfileAvatar wordId={profile.avatarWordId} size={56} /><Text style={styles.name}>{profile.name}</Text><Pressable accessibilityRole="button" accessibilityLabel={`Edit ${profile.name}`} disabled={busy} accessibilityState={{ disabled: busy }} style={styles.action} onPress={() => start(profile.id)}><Text style={styles.link}>Edit</Text></Pressable>{profiles.length > 1 ? <Pressable accessibilityRole="button" accessibilityLabel={`Delete ${profile.name}`} disabled={busy} accessibilityState={{ disabled: busy }} style={styles.action} onPress={() => confirmDelete(profile.id, profile.name)}><Text style={styles.delete}>Delete</Text></Pressable> : null}</View>)}
-    {editingId ? <View style={styles.editor}><Text accessibilityRole="header" style={styles.heading}>{editingId === 'new' ? 'Add child' : 'Edit child'}</Text><TextInput accessibilityLabel="Child's name" style={styles.input} value={name} onChangeText={setName} maxLength={20} placeholder="First name" autoCorrect={false} /><View style={styles.avatars}>{AVATAR_WORD_IDS.map((id) => <Pressable key={id} accessibilityRole="button" accessibilityLabel={`${id.split('.')[1]} avatar`} accessibilityState={{ selected: avatar === id }} onPress={() => setAvatar(id)} style={[styles.avatar, avatar === id && styles.selected]}><ProfileAvatar wordId={id} size={48} /></Pressable>)}</View><BigButton label="Save child" disabled={busy} onPress={() => void save()} /><BigButton label="Cancel" color={colors.textMuted} onPress={() => setEditingId(null)} /></View> : null}
+    {editingId ? <View style={styles.editor}><Text accessibilityRole="header" style={styles.heading}>{editingId === 'new' ? 'Add child' : 'Edit child'}</Text><TextInput accessibilityLabel="Child's name" style={styles.input} value={name} onChangeText={setName} maxLength={20} placeholder="First name" autoCorrect={false} /><View style={styles.avatars}>{AVATAR_WORD_IDS.map((id) => <Pressable key={id} accessibilityRole="button" accessibilityLabel={`${id.split('.')[1]} avatar`} {...selectedA11y(avatar === id)} onPress={() => setAvatar(id)} style={[styles.avatar, avatar === id && styles.selected]}><ProfileAvatar wordId={id} size={48} /></Pressable>)}</View><BigButton label="Save child" disabled={busy} onPress={() => void save()} /><BigButton label="Cancel" color={colors.textMuted} onPress={() => setEditingId(null)} /></View> : null}
     {profiles.length < MAX_PROFILES && !editingId ? <BigButton label="Add child" onPress={() => canAddProfile(isPremium, profiles.length) ? start(null) : router.push({ pathname: '/parent/paywall', params: { reason: 'children' } })} /> : null}
     <BigButton label="Back to parents" color={colors.textMuted} onPress={() => router.replace('/parent')} />
   </ScrollView></Screen>;

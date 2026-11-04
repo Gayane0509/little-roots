@@ -18,3 +18,5 @@ jobs:
       - run: npx tsc --noEmit
       - run: npx eslint .
       - run: npx jest --ci
+      # Metro-only breakage (import cycles, missing assets) that tsc and Jest don't see.
+      - run: npx expo export --platform web --output-dir dist

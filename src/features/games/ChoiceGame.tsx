@@ -1,34 +1,33 @@
-import * as Haptics from 'expo-haptics';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Animated, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import type { Word } from '@/content/types';
 import { useBuddyLine } from '@/features/buddy/useBuddyLine';
 import { goBackOrHome } from '@/lib/navigation';
-import { stopSpeaking } from '@/lib/speech';
+import { haptic } from '@/lib/haptics';
 import { playSfx } from '@/lib/sfx';
 import { useSettings } from '@/state/settings';
 import { useProgressActions } from '@/state/progress';
-import { stopWordAudio, useSpeakWord } from '@/state/recordings';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
+import { HINT_AFTER_MISSES, HintPulse } from '@/ui/HintPulse';
+import { useAutoPlayWord, VoiceButton } from '@/ui/VoiceButton';
 import { WordArt } from '@/ui/WordArt';
-import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
+import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 import { buildChoiceRounds, type ChoiceRound } from './logic';
 import { GameDoneActions } from './GameDoneActions';
 
-type Mode = 'listen' | 'read';
+/** `find`: read the word, tap its picture. `read`: see the picture, tap its word. */
+type Mode = 'find' | 'read';
 
 const NEXT_DELAY_MS = 1300;
-const PLAY_DELAY_MS = 450;
 
 export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] }) {
   const line = useBuddyLine();
-  const { soundEffects } = useSettings();
+  const { soundEffects, haptics } = useSettings();
   const { recordAnswer, recordGamePlayed } = useProgressActions();
-  const speak = useSpeakWord();
-  const optionCount = mode === 'listen' ? Math.min(4, seenWords.length) : 3;
+  const optionCount = mode === 'find' ? Math.min(4, seenWords.length) : 3;
   const [rounds, setRounds] = useState<ChoiceRound[]>(() => buildChoiceRounds(seenWords, optionCount));
   const [index, setIndex] = useState(0);
   const [wrongIds, setWrongIds] = useState<string[]>([]);
@@ -53,32 +52,22 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
     timers.current = [];
   }, []);
 
-  useEffect(() => () => {
-    clearTimers();
-    stopWordAudio();
-    stopSpeaking();
-  }, [clearTimers]);
+  useEffect(() => () => clearTimers(), [clearTimers]);
 
   useEffect(() => {
     if (rounds.length > 0 && index >= rounds.length) playSfx('reward', soundEffects);
   }, [index, rounds.length, soundEffects]);
 
   const round = rounds[index] as ChoiceRound | undefined;
-  const answerId = round?.answer.id;
-
-  // Listening rounds start by playing the word.
-  useEffect(() => {
-    if (mode !== 'listen' || !round) return;
-    later(() => speak(round.answer), PLAY_DELAY_MS);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- only on a new round
-  }, [mode, answerId, index]);
+  // Find the picture says the word in the family voice, if recorded (AI_DECISIONS 2026-11-04).
+  useAutoPlayWord(mode === 'find' ? round?.answer.id : undefined);
 
   const choose = (option: Word) => {
     if (!round || locked.current || solved) return;
     if (option.id !== round.answer.id) {
       playSfx('try', soundEffects);
       hadWrong.current = true;
-      void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+      haptic('warning', haptics);
       setWrongIds((ids) => (ids.includes(option.id) ? ids : [...ids, option.id]));
       Animated.sequence([
         Animated.timing(shake, { toValue: 8, duration: 60, useNativeDriver: true }),
@@ -93,13 +82,11 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
     recordAnswer(round.answer.id, firstTry);
     if (firstTry) setScore((s) => s + 1);
     setSolved(true);
-    void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    haptic('success', haptics);
     Animated.sequence([
       Animated.spring(bounce, { toValue: 1.15, friction: 4, useNativeDriver: true }),
       Animated.timing(bounce, { toValue: 1, duration: 150, useNativeDriver: true }),
     ]).start();
-    // Read mode keeps the audio back until the child has answered.
-    if (mode === 'read') speak(round.answer);
     later(() => {
       setIndex((i) => i + 1);
       setWrongIds([]);
@@ -111,11 +98,9 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
 
   const playAgain = () => {
     clearTimers();
-    stopWordAudio();
     recordGamePlayed();
     locked.current = false;
     hadWrong.current = false;
-    stopSpeaking();
     setRounds(buildChoiceRounds(seenWords, optionCount));
     setIndex(0);
     setWrongIds([]);
@@ -136,8 +121,8 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
     ? line('game_correct')
     : wrongIds.length > 0
       ? line('game_try_again')
-      : mode === 'listen'
-        ? line('game_listen_prompt')
+      : mode === 'find'
+        ? line('game_find_prompt')
         : line('game_read_prompt');
 
   return (
@@ -145,10 +130,16 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
       <Text style={styles.round} accessibilityLabel={`Round ${index + 1} of ${rounds.length}`}>
         {index + 1} / {rounds.length}
       </Text>
-      <Buddy speak={false} mood={wrongIds.length > 0 && !solved ? 'think' : 'happy'} message={message} size={56} />
+      <Buddy mood={wrongIds.length > 0 && !solved ? 'think' : 'happy'} message={message} size={56} />
 
-      {mode === 'listen' ? (
-        <BigButton label="🔊 Hear it again" onPress={() => speak(round.answer)} disabled={solved} />
+      {mode === 'find' ? (
+        <View style={styles.promptRow}>
+          <View style={styles.wordPrompt} accessible accessibilityRole="text" accessibilityLabel={`Find ${round.answer.hy}, ${round.answer.translit}`}>
+            <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.promptWord}>{round.answer.hy}</Text>
+            <Text style={styles.promptTranslit}>{round.answer.translit}</Text>
+          </View>
+          <VoiceButton wordId={round.answer.id} label={round.answer.translit} />
+        </View>
       ) : (
         <View style={styles.picture} accessible accessibilityRole="image" accessibilityLabel={`Picture of ${round.answer.en}`}>
           <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={round.answer.id} emoji={round.answer.emoji} size={128} /></View>
@@ -156,7 +147,7 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
       )}
 
       <Animated.View
-        style={[styles.options, mode === 'listen' && styles.grid, { transform: [{ translateX: shake }] }]}
+        style={[styles.options, mode === 'find' && styles.grid, { transform: [{ translateX: shake }] }]}
       >
         {round.options.map((option) => {
           const isAnswer = option.id === round.answer.id;
@@ -165,11 +156,12 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
           return (
             <Animated.View
               key={option.id}
-              style={[mode === 'listen' ? styles.gridItem : styles.rowItem, isRight && { transform: [{ scale: bounce }] }]}
+              style={[mode === 'find' ? styles.gridItem : styles.rowItem, isRight && { transform: [{ scale: bounce }] }]}
             >
+              <HintPulse active={!solved && isAnswer && wrongIds.length >= HINT_AFTER_MISSES}>
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel={`${mode === 'listen' ? `Picture choice: ${option.en}` : `Word choice: ${option.hy}`}${isRight ? ', correct' : isWrong ? ', try again' : ''}`}
+                accessibilityLabel={`${mode === 'find' ? `Picture choice: ${option.en}` : `Word choice: ${option.hy}`}${isRight ? ', correct' : isWrong ? ', try again' : ''}`}
                 accessibilityState={{ disabled: solved || isWrong, selected: isRight }}
                 disabled={solved || isWrong}
                 onPress={() => choose(option)}
@@ -180,13 +172,14 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
                   { transform: [{ scale: pressed ? 0.96 : 1 }] },
                 ]}
               >
-                {mode === 'listen' ? (
+                {mode === 'find' ? (
                   <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={option.id} emoji={option.emoji} size={80} /></View>
                 ) : (
-                  <Text style={styles.optionWord}>{option.hy}</Text>
+                  <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.optionWord}>{option.hy}</Text>
                 )}
                 {isRight ? <View style={styles.check} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Text style={styles.checkText}>✅</Text></View> : null}
               </Pressable>
+              </HintPulse>
             </Animated.View>
           );
         })}
@@ -200,6 +193,10 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
 const styles = StyleSheet.create({
   root: { flexGrow: 1, gap: spacing.md },
   round: { fontSize: font.heading, fontWeight: '700', color: colors.textMuted, textAlign: 'center' },
+  promptRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.sm },
+  wordPrompt: { flexShrink: 1, alignItems: 'center', gap: spacing.xs, paddingVertical: spacing.md, paddingHorizontal: spacing.lg, borderRadius: radius.lg, backgroundColor: colors.surface, borderWidth: 2, borderColor: colors.border },
+  promptWord: { fontSize: font.word, fontWeight: '800', color: colors.text, textAlign: 'center' },
+  promptTranslit: { fontSize: font.body, color: colors.textMuted, textAlign: 'center' },
   picture: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -210,8 +207,9 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.lg,
   },
   options: { gap: spacing.md },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
-  gridItem: { width: '48%', marginBottom: spacing.md },
+  // Two columns: the items plus the row gap must fit in 100%, or the grid collapses to one column.
+  grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' },
+  gridItem: { width: '46%' },
   rowItem: { width: '100%' },
   option: {
     minHeight: TOUCH_MIN + 40,

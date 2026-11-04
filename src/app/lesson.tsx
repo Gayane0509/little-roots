@@ -1,47 +1,49 @@
 import { router } from 'expo-router';
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { AccessibilityInfo, Animated, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import * as Haptics from 'expo-haptics';
 
-import { THEMES } from '@/content/themes';
+import { ACTIVE_PACK } from '@/content/packs';
+import { themeArtWordId } from '@/content/themeArt';
 import { useBuddyLine } from '@/features/buddy/useBuddyLine';
 import { freeWordsFinished } from '@/features/paywall/offer';
 import type { Word } from '@/content/types';
 import { gameOptions, shuffled } from '@/features/lesson/game';
 import { initialLessonState, lessonReducer, type Step } from '@/features/lesson/lessonReducer';
 import { buildDailyLesson, type DailyLesson } from '@/lib/lesson';
-import { speakArmenian, stopSpeaking } from '@/lib/speech';
+import { haptic } from '@/lib/haptics';
 import { playSfx } from '@/lib/sfx';
 import { useSettings } from '@/state/settings';
-import { stopWordAudio, useRecordings, useSpeakWord } from '@/state/recordings';
 import { useProgress } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
+import { Confetti } from '@/ui/Confetti';
+import { Icon } from '@/ui/Icon';
+import { HINT_AFTER_MISSES, HintPulse } from '@/ui/HintPulse';
 import { Screen } from '@/ui/Screen';
+import { useAutoPlayWord, VoiceButton } from '@/ui/VoiceButton';
+import { Wiggle } from '@/ui/Wiggle';
 import { WordArt } from '@/ui/WordArt';
-import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
+import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 export default function LessonScreen() {
   const line = useBuddyLine();
   const { ready } = useProgress();
-  const { ready: recordingsReady, loadError, retryLoad } = useRecordings();
   const { ready: settingsReady } = useSettings();
-  if (!ready || !settingsReady || !recordingsReady) return <Screen><Buddy speak={false} message={line('lesson_loading')} />{loadError ? <BigButton label="Retry recordings" onPress={() => void retryLoad()} /> : null}</Screen>;
+  if (!ready || !settingsReady) return <Screen><Buddy message={line('lesson_loading')} /></Screen>;
   return <ReadyLesson />;
 }
 
 function ReadyLesson() {
   const line = useBuddyLine();
-  const { soundEffects } = useSettings();
+  const { soundEffects, haptics } = useSettings();
   const { state, recordAnswer, completeLesson } = useProgress();
   const [lesson] = useState<DailyLesson | null>(() => buildDailyLesson({
-    themes: THEMES, words: state.words, isPremium: state.isPremium, now: Date.now(),
+    themes: ACTIVE_PACK.themes, words: state.words, isPremium: state.isPremium, now: Date.now(),
   }));
   const [showNewSticker] = useState(() => !!lesson?.newWords[0] && !state.stickers.includes(lesson.newWords[0].emoji));
   const [rounds] = useState(() => lesson ? shuffled([...lesson.newWords, ...lesson.reviewWords]) : []);
   const [flow, dispatch] = useReducer(lessonReducer, initialLessonState);
-  const { stepIndex, cardIndex, roundIndex, speakIndex, songLineIndex, firstTryCorrect, hadWrongTap, selectedId, feedbackPending } = flow;
-  const speakWordAudio = useSpeakWord();
+  const { stepIndex, cardIndex, roundIndex, songLineIndex, firstTryCorrect, hadWrongTap, wrongTaps, selectedId, feedbackPending } = flow;
   const completed = useRef(false);
   const answerLocked = useRef(false);
   const wrongThisRound = useRef(false);
@@ -51,28 +53,22 @@ function ReadyLesson() {
   const [cardEntrance] = useState(() => new Animated.Value(0));
   const [burst] = useState(() => new Animated.Value(0));
 
-  useEffect(() => () => { stopSpeaking(); stopWordAudio(); if (feedbackTimer.current) clearTimeout(feedbackTimer.current); }, []);
+  useEffect(() => () => { if (feedbackTimer.current) clearTimeout(feedbackTimer.current); }, []);
 
   const steps = useMemo<Step[]>(() => lesson
-    ? (lesson.newWords.length ? ['hello', 'new', 'game', 'song', 'speak', 'reward'] : ['hello', 'game', 'song', 'reward'])
+    ? (lesson.newWords.length ? ['hello', 'new', 'game', 'song', 'reward'] : ['hello', 'game', 'song', 'reward'])
     : [], [lesson]);
   const options = useMemo(() => rounds[roundIndex] ? gameOptions(rounds[roundIndex]) : [], [rounds, roundIndex]);
   const step = steps[stepIndex];
   const currentRound = rounds[roundIndex];
+  // Family voice (AI_DECISIONS 2026-11-04): each new card and each game round says its word once, if recorded.
+  useAutoPlayWord(step === 'new' ? lesson?.newWords[cardIndex]?.id : step === 'game' ? currentRound?.id : undefined);
 
   useEffect(() => {
-    if (step === 'game' && currentRound) speakWordAudio(currentRound);
-  }, [step, currentRound, speakWordAudio]);
-
-  useEffect(() => {
-    if (step === 'speak' && lesson?.newWords[speakIndex]) speakWordAudio(lesson.newWords[speakIndex]);
-  }, [step, lesson, speakIndex, speakWordAudio]);
-
-  useEffect(() => {
-    if (step !== 'new' && step !== 'speak') return;
+    if (step !== 'new') return;
     cardEntrance.setValue(0);
     Animated.timing(cardEntrance, { toValue: 1, duration: 360, useNativeDriver: true }).start();
-  }, [step, cardIndex, speakIndex, cardEntrance]);
+  }, [step, cardIndex, cardEntrance]);
 
   useEffect(() => {
     if (step !== 'reward') return;
@@ -82,8 +78,6 @@ function ReadyLesson() {
   }, [step, burst, soundEffects]);
 
   function nextStep() {
-    stopSpeaking();
-    stopWordAudio();
     dispatch({ type: 'NEXT_STEP', steps: steps.length, expected: stepIndex });
   }
 
@@ -94,7 +88,7 @@ function ReadyLesson() {
       wrongThisRound.current = true;
       dispatch({ type: 'WRONG', round: roundIndex });
       AccessibilityInfo.announceForAccessibility('Try again. Tap another picture.');
-      void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+      haptic('warning', haptics);
       shake.setValue(0);
       Animated.sequence([
         Animated.timing(shake, { toValue: 8, duration: 60, useNativeDriver: true }),
@@ -118,7 +112,7 @@ function ReadyLesson() {
       });
     }
     AccessibilityInfo.announceForAccessibility('Correct!');
-    void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    haptic('success', haptics);
     successScale.setValue(1);
     Animated.sequence([
       Animated.spring(successScale, { toValue: 1.15, friction: 4, useNativeDriver: true }),
@@ -143,12 +137,11 @@ function ReadyLesson() {
   }
 
   const card = lesson.newWords[cardIndex];
-  const speakWord = lesson.newWords[speakIndex];
   return (
     <Screen>
       <View style={styles.topBar}>
-        <Pressable accessibilityRole="button" accessibilityLabel="Close lesson" onPress={() => { stopSpeaking(); stopWordAudio(); if (router.canGoBack()) router.back(); else router.replace('/'); }} style={styles.close}>
-          <Text style={styles.closeText}>×</Text>
+        <Pressable accessibilityRole="button" accessibilityLabel="Close lesson" onPress={() => { if (router.canGoBack()) router.back(); else router.replace('/'); }} style={styles.close}>
+          <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.closeText}>×</Text>
         </Pressable>
         <View style={styles.dots} accessibilityLabel={`Step ${stepIndex + 1} of ${steps.length}`}>
           {steps.map((item, index) => <View key={item} style={[styles.dot, index <= stepIndex && styles.dotActive]} />)}
@@ -157,38 +150,44 @@ function ReadyLesson() {
 
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         {step === 'hello' && <>
-          <Buddy message={`${state.childName ? line('greeting', { name: state.childName }) : line('greeting_anon')}\n${lesson.newWords.length ? line('lesson_new_words', { count: lesson.newWords.length }) : line('lesson_practice')}`} />
-          <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Text style={styles.heroEmoji}>{lesson.theme.emoji}</Text></View>
-          <Text style={styles.heading} accessibilityRole="header">{lesson.theme.titleEn}</Text>
+          <Buddy message={`${state.childName ? line('greeting', { name: state.childName }) : line('greeting_anon')}\n${lesson.newWords.length ? line(lesson.newWords.length === 1 ? 'lesson_new_word' : 'lesson_new_words', { count: lesson.newWords.length }) : line('lesson_practice')}`} />
+          <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={themeArtWordId(lesson.theme.id)} emoji={lesson.theme.emoji} size={140} /></View>
+          <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.heading} accessibilityRole="header">{lesson.theme.titleEn}</Text>
         </>}
 
         {step === 'new' && card && <>
           <Buddy message={line('lesson_tap_card')} />
           <Text style={styles.counter}>Word {cardIndex + 1} of {lesson.newWords.length}</Text>
-          <Animated.View style={{ width: '100%', opacity: cardEntrance, transform: [{ translateY: cardEntrance.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }] }}><Pressable accessibilityRole="button" accessibilityLabel={`${card.hy}, ${card.translit}, ${card.en}. Hear in Armenian`} onPress={() => speakWordAudio(card)} style={styles.wordCard}>
+          <Animated.View style={{ width: '100%', opacity: cardEntrance, transform: [{ translateY: cardEntrance.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }] }}><Wiggle wordId={card.id} label={`${card.hy}, ${card.translit}, ${card.en}`}><View style={styles.wordCard}>
             <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={card.id} emoji={card.emoji} size={160} /></View>
-            <Text style={styles.armenian}>{card.hy}</Text>
+            <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.armenian}>{card.hy}</Text>
             <Text style={styles.translit}>{card.translit}</Text>
             <Text style={styles.english}>{card.en}</Text>
-          </Pressable></Animated.View>
+          </View></Wiggle></Animated.View>
         </>}
 
         {step === 'game' && currentRound && <>
-          <Buddy speak={false} message={line(hadWrongTap ? 'lesson_good_try' : 'lesson_find_picture')} mood={hadWrongTap ? 'cheer' : 'happy'} />
+          <Buddy message={line(hadWrongTap ? 'lesson_good_try' : 'lesson_find_picture')} mood={hadWrongTap ? 'cheer' : 'happy'} />
           <Text style={styles.counter}>Picture {roundIndex + 1} of {rounds.length}</Text>
-          <Pressable accessibilityRole="button" accessibilityLabel={`Hear ${currentRound.hy} again`} style={styles.prompt} onPress={() => speakWordAudio(currentRound)}>
-            <Text style={styles.promptWord}>🔊 {currentRound.hy}</Text>
-          </Pressable>
+          <View style={styles.promptRow}>
+            <View accessible accessibilityRole="text" accessibilityLabel={`Find ${currentRound.hy}, ${currentRound.translit}`} style={styles.prompt}>
+              <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.promptWord}>{currentRound.hy}</Text>
+              <Text style={styles.promptTranslit}>{currentRound.translit}</Text>
+            </View>
+            <VoiceButton wordId={currentRound.id} label={currentRound.translit} />
+          </View>
           <Animated.View style={[styles.options, { transform: [{ translateX: shake }] }]}>
             {options.map((word, index) => (
               <Animated.View key={word.id} style={{ width: '44%', transform: [{ scale: selectedId === word.id ? successScale : 1 }] }}>
+                <HintPulse active={wrongTaps >= HINT_AFTER_MISSES && word.id === currentRound.id && !feedbackPending}>
                 <Pressable accessibilityRole="button" accessibilityLabel={`Picture ${index + 1} of ${options.length}: ${word.en}${selectedId === word.id ? ', correct' : ''}`}
                   accessibilityState={{ disabled: feedbackPending, selected: selectedId === word.id }}
                   accessibilityHint="Double tap to choose this picture" disabled={feedbackPending}
                   onPress={() => answer(word)} style={[styles.option, selectedId === word.id && styles.optionCorrect]}>
                   <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={word.id} emoji={word.emoji} size={88} /></View>
-                  {selectedId === word.id && <View style={styles.check} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Text style={styles.checkText}>✓</Text></View>}
+                  {selectedId === word.id && <View style={styles.check} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.checkText}>✓</Text></View>}
                 </Pressable>
+                </HintPulse>
               </Animated.View>
             ))}
           </Animated.View>
@@ -196,32 +195,22 @@ function ReadyLesson() {
 
         {step === 'song' && <>
           <Buddy message={line('lesson_song')} />
-          <Text style={styles.heading} accessibilityRole="header">{lesson.song.title}</Text>
+          <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.heading} accessibilityRole="header">{lesson.song.title}</Text>
           {lesson.song.lines.map((line, index) => (
-            <Pressable key={index} accessibilityRole="button" accessibilityLabel={`Hear song line ${index + 1}: ${line.hy}, ${line.en}`} accessibilityState={{ selected: songLineIndex === index }} onPress={() => { dispatch({ type: 'SONG_LINE', index }); stopWordAudio(); speakArmenian(line.hy); }} style={[styles.songLine, songLineIndex === index && styles.songLineActive]}>
+            <Pressable key={index} accessibilityRole="button" accessibilityLabel={`Rhyme line ${index + 1}: ${line.hy}, ${line.en}`} accessibilityState={{ selected: songLineIndex === index }} onPress={() => dispatch({ type: 'SONG_LINE', index })} style={[styles.songLine, songLineIndex === index && styles.songLineActive]}>
               <Text style={styles.songHy}>{line.hy}</Text>
               <Text style={styles.songEn}>{line.en}</Text>
             </Pressable>
           ))}
         </>}
 
-        {step === 'speak' && speakWord && <>
-          <Buddy speak={false} message={line('lesson_say_it')} />
-          <Text style={styles.counter}>Say it {speakIndex + 1} of {lesson.newWords.length}</Text>
-          <Pressable accessibilityRole="button" accessibilityLabel={`${speakWord.hy}, ${speakWord.translit}, ${speakWord.en}. Hear again`} onPress={() => speakWordAudio(speakWord)} style={styles.wordCard}>
-            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={speakWord.id} emoji={speakWord.emoji} size={160} /></View>
-            <Text style={styles.armenian}>{speakWord.hy}</Text>
-            <Text style={styles.translit}>{speakWord.translit}</Text>
-          </Pressable>
-        </>}
 
         {step === 'reward' && <>
+          <Confetti />
           <Buddy message={line('lesson_done')} mood="cheer" />
-          <Animated.View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={{ transform: [{ scale: burst }] }}><Text style={styles.heroEmoji}>⭐</Text></Animated.View>
-          <View style={styles.burst} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">{['✨', '🌟', '✨', '⭐', '✨'].map((item, index) =>
-            <Animated.Text key={index} style={[styles.burstStar, { opacity: burst, transform: [{ translateY: burst.interpolate({ inputRange: [0, 1], outputRange: [12, index % 2 ? -16 : 16] }) }] }]}>{item}</Animated.Text>)}</View>
-          <Text style={styles.heading} accessibilityRole="header">You earned {3 + firstTryCorrect} stars!</Text>
-          {showNewSticker && lesson.newWords[0] && <View style={styles.stickerRow}>
+          <Animated.View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={{ transform: [{ scale: burst }] }}><Icon name="stickers" size={140} /></Animated.View>
+          <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.heading} accessibilityRole="header">You earned {3 + firstTryCorrect} stars!</Text>
+          {showNewSticker && lesson.newWords[0] && <View accessible accessibilityRole="text" accessibilityLabel={`New sticker: ${lesson.newWords[0].en}`} style={styles.stickerRow}>
             <Text style={styles.sticker}>New sticker:</Text>
             <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={lesson.newWords[0].id} emoji={lesson.newWords[0].emoji} size={96} /></View>
           </View>}
@@ -235,9 +224,6 @@ function ReadyLesson() {
           dispatch({ type: 'NEXT_CARD', count: lesson.newWords.length, expected: cardIndex, expectedStep: stepIndex, steps: steps.length });
         }} />}
         {step === 'song' && <BigButton label="Next" onPress={() => { playSfx('tap', soundEffects); nextStep(); }} />}
-        {step === 'speak' && <BigButton label="I said it!" onPress={() => {
-          dispatch({ type: 'NEXT_SPEAK', count: lesson.newWords.length, expected: speakIndex, expectedStep: stepIndex, steps: steps.length });
-        }} />}
         {step === 'reward' && <BigButton label="Back home" onPress={() => router.replace('/')} />}
       </View>}
     </Screen>
@@ -254,21 +240,20 @@ const styles = StyleSheet.create({
   content: { flexGrow: 1, alignItems: 'center', gap: spacing.lg, paddingVertical: spacing.lg },
   centered: { flexGrow: 1, justifyContent: 'center', gap: spacing.xl },
   heading: { color: colors.text, fontSize: font.title, fontWeight: '800', textAlign: 'center' },
-  heroEmoji: { fontSize: 112, textAlign: 'center' },
   counter: { color: colors.textMuted, fontSize: font.body, fontWeight: '700' },
   wordCard: { width: '100%', minHeight: 300, backgroundColor: colors.surface, borderRadius: radius.lg, borderWidth: 2, borderColor: colors.border, alignItems: 'center', justifyContent: 'center', padding: spacing.lg, gap: spacing.sm },
   armenian: { color: colors.text, fontSize: font.word, fontWeight: '800', textAlign: 'center' },
   translit: { color: colors.textMuted, fontSize: font.heading, textAlign: 'center' },
   english: { color: colors.text, fontSize: font.body, textAlign: 'center' },
+  promptRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.sm },
   prompt: { minHeight: TOUCH_MIN, justifyContent: 'center', paddingHorizontal: spacing.lg, borderRadius: radius.md, backgroundColor: colors.surface },
   promptWord: { color: colors.text, fontSize: font.title, fontWeight: '800', textAlign: 'center' },
+  promptTranslit: { color: colors.textMuted, fontSize: font.body, textAlign: 'center' },
   options: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: spacing.md },
   option: { width: '100%', minHeight: 120, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.surface, borderRadius: radius.md, borderWidth: 2, borderColor: colors.border },
   optionCorrect: { borderColor: colors.success, backgroundColor: '#E9F8EF' },
   check: { position: 'absolute', right: spacing.md, top: spacing.sm },
   checkText: { color: colors.successText, fontSize: 34, fontWeight: '800' },
-  burst: { flexDirection: 'row', gap: spacing.sm },
-  burstStar: { fontSize: 28 },
   songLine: { width: '100%', minHeight: TOUCH_MIN, justifyContent: 'center', padding: spacing.md, backgroundColor: colors.surface, borderRadius: radius.md, borderWidth: 2, borderColor: colors.border },
   songLineActive: { borderColor: colors.primary, backgroundColor: '#FFF0DF' },
   songHy: { color: colors.text, fontSize: font.heading, fontWeight: '700', textAlign: 'center' },

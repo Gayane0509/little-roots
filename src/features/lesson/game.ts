@@ -1,4 +1,4 @@
-import { getTheme, THEMES } from '@/content/themes';
+import { ACTIVE_PACK, getTheme } from '@/content/packs';
 import type { Word } from '@/content/types';
 
 export function shuffled<T>(items: T[]): T[] {
@@ -17,7 +17,7 @@ export function gameOptions(answer: Word): Word[] {
   const home = getTheme(answer.themeId);
   const candidates = [
     ...shuffled(home.words),
-    ...shuffled(THEMES.filter((theme) => theme.id !== answer.themeId).flatMap((theme) => theme.words)),
+    ...shuffled(ACTIVE_PACK.themes.filter((theme) => theme.id !== answer.themeId).flatMap((theme) => theme.words)),
   ];
   for (const word of candidates) {
     if (selected.length === 4) break;

@@ -9,7 +9,7 @@ import { useProgress } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
 import { Screen } from '@/ui/Screen';
-import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
+import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 export default function Paywall() {
   const { reason } = useLocalSearchParams<{ reason?: string }>();
@@ -36,7 +36,7 @@ export default function Paywall() {
   if (guard) return guard;
   return <Screen><ScrollView contentContainerStyle={styles.content}>
     <Buddy mood="cheer" message="More little discoveries together" size={76} />
-    <Text accessibilityRole="header" style={styles.title}>{offerHeadline(reason)}</Text>
+    <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} accessibilityRole="header" style={styles.title}>{offerHeadline(reason)}</Text>
     <Text style={styles.sub}>Choose what fits your family. Learning stays on this device.</Text>
     <View style={styles.table}>
       {comparison.map((row) => <View key={row.feature} style={styles.tableRow} accessible accessibilityLabel={`${row.feature}. Free: ${row.free}. Premium: ${row.premium}`}><Text style={styles.feature}>{row.feature}</Text><View style={styles.cells}><Text style={styles.column}>Free: {row.free}</Text><Text style={styles.column}>Premium: {row.premium}</Text></View></View>)}

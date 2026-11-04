@@ -1,13 +1,21 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Pressable, Text, View } from 'react-native';
+import { ACTIVE_PACK, PACKS } from '@/content/packs';
 import { canAddProfile, MAX_PROFILES } from '@/lib/entitlements';
+import { releaseSplash } from '@/lib/splash';
+import { deleteChildVoiceFiles, voiceKey } from '@/lib/voiceFiles';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
 export const PROFILES_KEY = 'littleroots.profiles.v1';
 export const LEGACY_PROGRESS_KEY = 'littleroots.progress.v1';
 export const LEGACY_LETTERS_KEY = 'littleroots.letters.v1';
-export const progressKey = (id: string) => `${LEGACY_PROGRESS_KEY}.${id}`;
-export const lettersKey = (id: string) => `${LEGACY_LETTERS_KEY}.${id}`;
+/** Per child and per language pack (AI_DECISIONS 2026-11-03 "Per-language progress"). */
+export const progressKey = (id: string, packId: string = ACTIVE_PACK.id) => `${LEGACY_PROGRESS_KEY}.${id}.${packId}`;
+export const lettersKey = (id: string, packId: string = ACTIVE_PACK.id) => `${LEGACY_LETTERS_KEY}.${id}.${packId}`;
+/** Per-child keys from before language packs; everything saved under them is Armenian. */
+export const unscopedProgressKey = (id: string) => `${LEGACY_PROGRESS_KEY}.${id}`;
+export const unscopedLettersKey = (id: string) => `${LEGACY_LETTERS_KEY}.${id}`;
+const FIRST_PACK_ID = 'hy';
 export const AVATAR_WORD_IDS = ['family.child', 'family.sister', 'family.brother', 'animals.cat', 'animals.rabbit', 'animals.bear'] as const;
 export type AvatarWordId = (typeof AVATAR_WORD_IDS)[number];
 export interface ChildProfile { id: string; name: string; avatarWordId: AvatarWordId }
@@ -39,12 +47,39 @@ export function parseProfiles(raw: string | null): ProfileData {
 async function removeLegacyKeys(): Promise<void> {
   await Promise.allSettled([AsyncStorage.removeItem(LEGACY_PROGRESS_KEY), AsyncStorage.removeItem(LEGACY_LETTERS_KEY)]);
 }
+/** Every key a child's data can live under, in all shipped languages. */
+function childKeys(id: string): string[] {
+  return [unscopedProgressKey(id), unscopedLettersKey(id), ...PACKS.flatMap((pack) => [progressKey(id, pack.id), lettersKey(id, pack.id), voiceKey(id, pack.id)])];
+}
+async function removeChildData(id: string): Promise<void> {
+  for (const key of childKeys(id)) await AsyncStorage.removeItem(key);
+  deleteChildVoiceFiles(id); // Family voice recordings (AI_DECISIONS 2026-11-04).
+}
+/**
+ * Moves a pre-pack per-child record to its Armenian key. Copy first, remove after, so a crash in between only
+ * leaves an identical copy. If the per-language key already holds something else, the old record is never
+ * deleted (it is kept until the child is removed). Storage errors propagate so the app shows the retry screen
+ * instead of starting this child from empty progress.
+ */
+async function moveToPackKey(from: string, to: string): Promise<void> {
+  const old = await AsyncStorage.getItem(from);
+  if (old === null) return;
+  const current = await AsyncStorage.getItem(to);
+  if (current === null) await AsyncStorage.setItem(to, old);
+  else if (current !== old) { if (__DEV__) console.warn(`Kept ${from}: ${to} already holds different data.`); return; }
+  // The data is safe under `to` now: a failed cleanup must not keep the family on the retry screen.
+  // The next load sees an identical copy and tries the removal again.
+  try { await AsyncStorage.removeItem(from); } catch (error) { if (__DEV__) console.warn(`Could not remove ${from}; retrying next load.`, error); }
+}
+async function migrateToPackKeys(data: ProfileData): Promise<void> {
+  for (const { id } of data.profiles) {
+    await moveToPackKey(unscopedProgressKey(id), progressKey(id, FIRST_PACK_ID));
+    await moveToPackKey(unscopedLettersKey(id), lettersKey(id, FIRST_PACK_ID));
+  }
+}
 async function purgePendingDeletes(data: ProfileData): Promise<ProfileData> {
   if (!data.pendingDeletes.length) return data;
-  for (const id of data.pendingDeletes) {
-    await AsyncStorage.removeItem(progressKey(id));
-    await AsyncStorage.removeItem(lettersKey(id));
-  }
+  for (const id of data.pendingDeletes) await removeChildData(id);
   const clean = { ...data, pendingDeletes: [] };
   await AsyncStorage.setItem(PROFILES_KEY, JSON.stringify(clean));
   return clean;
@@ -55,6 +90,7 @@ export async function loadProfiles(): Promise<ProfileData> {
   const existing = await AsyncStorage.getItem(PROFILES_KEY);
   if (existing !== null) {
     const data = await purgePendingDeletes(parseProfiles(existing));
+    await migrateToPackKeys(data);
     await removeLegacyKeys();
     return data;
   }
@@ -71,9 +107,9 @@ export async function loadProfiles(): Promise<ProfileData> {
     isPremium: __DEV__ && legacy?.isPremium === true, pendingDeletes: [] };
   if (oldProgress !== null) {
     const profileProgress = legacy ? JSON.stringify({ ...legacy, childName: undefined, isPremium: undefined }) : oldProgress;
-    await AsyncStorage.setItem(progressKey(id), profileProgress);
+    await AsyncStorage.setItem(progressKey(id, FIRST_PACK_ID), profileProgress);
   }
-  if (oldLetters !== null) await AsyncStorage.setItem(lettersKey(id), oldLetters);
+  if (oldLetters !== null) await AsyncStorage.setItem(lettersKey(id, FIRST_PACK_ID), oldLetters);
   await AsyncStorage.setItem(PROFILES_KEY, JSON.stringify(next));
   await removeLegacyKeys();
   return next;
@@ -110,6 +146,7 @@ export function ProfilesProvider({ children }: { children: ReactNode }) {
     catch { if (mounted.current) { setLoadError(true); setError(true); setReady(true); } }
   }, []);
   useEffect(() => { void Promise.resolve().then(reload); }, [reload]);
+  useEffect(() => { if (loadError) releaseSplash(); }, [loadError]);
   const enqueue = useCallback(<T,>(step: () => Promise<T>): Promise<T> => {
     const result = mutationQueue.current.then(step);
     mutationQueue.current = result.then(() => {}, () => {});
@@ -160,8 +197,7 @@ export function ProfilesProvider({ children }: { children: ReactNode }) {
         pendingDeletes: [...current.pendingDeletes, id] };
       await persist(withPending);
       committed = true;
-      await AsyncStorage.removeItem(progressKey(id));
-      await AsyncStorage.removeItem(lettersKey(id));
+      await removeChildData(id);
       await persist({ ...withPending, pendingDeletes: withPending.pendingDeletes.filter((pending) => pending !== id) });
     } finally {
       if (!committed || !dataRef.current.pendingDeletes.includes(id)) deletingIds.current.delete(id);
@@ -175,7 +211,7 @@ export function ProfilesProvider({ children }: { children: ReactNode }) {
   }), [enqueue, flushAll, persist]);
   const api = useMemo<ProfilesApi>(() => ({ ...data, active: data.profiles.find((p) => p.id === data.activeId) ?? null,
     ready, error, add, rename, remove, switchTo, setPremium, mayWrite, registerFlush }), [data, ready, error, add, rename, remove, switchTo, setPremium, mayWrite, registerFlush]);
-  return <Context.Provider value={api}>{loadError ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 }}><Text>Could not load family data.</Text><Pressable accessibilityRole="button" onPress={() => void reload()}><Text>Try again</Text></Pressable></View> : ready ? children : null}</Context.Provider>;
+  return <Context.Provider value={api}>{loadError ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 }}><Text>Could not load family data.</Text><Pressable accessibilityRole="button" accessibilityLabel="Try again" onPress={() => void reload()}><Text>Try again</Text></Pressable></View> : ready ? children : null}</Context.Provider>;
 }
 export function useProfiles(): ProfilesApi {
   const context = useContext(Context);

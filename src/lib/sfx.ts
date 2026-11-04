@@ -20,7 +20,7 @@ export const SFX_REPEAT_WINDOW_MS = 120;
 const players: Partial<Record<SfxName, Player>> = {};
 const lastPlayedAt: Partial<Record<SfxName, number>> = {};
 
-/** Fire and forget. Separate players let short cues mix with family voice and TTS. */
+/** Fire and forget. One player per cue, so different cues can overlap. */
 export function playSfx(name: SfxName, enabled = true): void {
   if (!enabled) return;
   const now = Date.now();

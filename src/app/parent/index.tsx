@@ -2,7 +2,7 @@ import { Redirect, router, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { Alert, AppState, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { getWord, THEMES } from '@/content/themes';
+import { ACTIVE_PACK, getWord } from '@/content/packs';
 import { canSeeFullReport } from '@/lib/entitlements';
 import { WordArt } from '@/ui/WordArt';
 import type { Word } from '@/content/types';
@@ -16,7 +16,7 @@ import { useProfiles } from '@/state/profiles';
 import { useSettings } from '@/state/settings';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
-import { colors, font, radius, spacing } from '@/ui/tokens';
+import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing } from '@/ui/tokens';
 import { StorageErrorBanner } from '@/features/storage/StorageErrorBanner';
 import { WeeklyShareCard } from '@/features/report/WeeklyShareCard';
 
@@ -41,10 +41,10 @@ export default function ParentArea() {
   const report = weeklyReport(state, now);
 
   const practice = toWords(report.practiceWordIds.length > 0 ? report.practiceWordIds : report.newWordIds);
-  const teaserWords = practice.length >= 3 ? practice.slice(0, 3) : THEMES[0].words.slice(0, 3);
+  const teaserWords = practice.length >= 3 ? practice.slice(0, 3) : ACTIVE_PACK.themes[0].words.slice(0, 3);
 
   const confirmReset = () =>
-    Alert.alert('Reset progress?', `This resets ${active?.name ?? 'your child'}'s words, stars, stickers and traced letters on this device. Family recordings and other children are kept.`, [
+    Alert.alert('Reset progress?', `This resets ${active?.name ?? 'your child'}'s words, stars, stickers and traced letters on this device. Other children are kept.`, [
       { text: 'Cancel', style: 'cancel' },
       {
         text: 'Reset',
@@ -64,7 +64,7 @@ export default function ParentArea() {
   return (
     <Screen>
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-        <Text accessibilityRole="header" style={styles.title}>Parents</Text>
+        <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} accessibilityRole="header" style={styles.title}>Parents</Text>
         <StorageErrorBanner />
 
         <Text accessibilityRole="header" style={styles.heading}>This week</Text>
@@ -92,6 +92,10 @@ export default function ParentArea() {
         </View> : null}
         <BigButton label="📈 Full progress" onPress={() => router.push(canSeeFullReport(state.isPremium) ? '/parent/report' : { pathname: '/parent/paywall', params: { reason: 'report' } })} />
 
+        <Text accessibilityRole="header" style={styles.heading}>Family voice</Text>
+        <Text style={styles.body}>Record the words in your own voice so {active?.name ?? 'your child'} hears them in the app. Recordings stay on this device.</Text>
+        <BigButton label="Record words" icon="voice" color={colors.primary} onPress={() => router.push('/parent/voice')} />
+
         <Text accessibilityRole="header" style={styles.heading}>Children</Text>
         <BigButton label="Manage children" onPress={() => router.push('/parent/children')} />
         <Text accessibilityRole="header" style={styles.heading}>Subscription</Text>
@@ -101,10 +105,6 @@ export default function ParentArea() {
           color={colors.success}
           onPress={() => router.push('/parent/paywall')}
         />
-
-        <Text accessibilityRole="header" style={styles.heading}>Family voice</Text>
-        <Text style={styles.body}>Record words in your own voice so your child hears family.</Text>
-        <BigButton label="🎙️ Family voice" color={colors.success} onPress={() => router.push('/parent/voices')} />
 
         {Platform.OS !== 'web' ? (
           <>
@@ -134,7 +134,7 @@ export default function ParentArea() {
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <View style={styles.stat} accessible accessibilityLabel={`${label}: ${value}`}>
-      <Text style={styles.statValue}>{value}</Text>
+      <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.statValue}>{value}</Text>
       <Text style={styles.statLabel}>{label}</Text>
     </View>
   );

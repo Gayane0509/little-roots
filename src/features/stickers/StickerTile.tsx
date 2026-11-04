@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { WordArt } from '@/ui/WordArt';
-import { colors, radius, TOUCH_MIN } from '@/ui/tokens';
+import { colors, DISPLAY_MAX_FONT_SCALE, radius, TOUCH_MIN } from '@/ui/tokens';
+
+import { stickerLabel } from './stickerArt';
 
 interface StickerTileProps {
   emoji: string | null;
@@ -29,9 +31,9 @@ export function StickerTile({ emoji, index, wordId }: StickerTileProps) {
   }
 
   return (
-    <Pressable accessibilityRole="button" accessibilityLabel={`Sticker ${emoji}`} onPress={bounce} style={styles.slot}>
+    <Pressable accessibilityRole="button" accessibilityLabel={stickerLabel(emoji, wordId)} onPress={bounce} style={styles.slot}>
       <Animated.View style={[styles.tile, styles.filled, { transform: [{ scale }] }]}>
-        {wordId ? <WordArt wordId={wordId} emoji={emoji} size={76} /> : <Text style={styles.emoji}>{emoji}</Text>}
+        {wordId ? <WordArt wordId={wordId} emoji={emoji} size={76} /> : <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.emoji}>{emoji}</Text>}
       </Animated.View>
     </Pressable>
   );

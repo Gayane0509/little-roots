@@ -1,10 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { lettersKey, useOptionalProfiles } from './profiles';
-import { ALPHABET } from '@/content/alphabet';
+import { ACTIVE_PACK } from '@/content/packs';
 
 const KEY = 'littleroots.letters.v1';
-const validLetters = new Set(ALPHABET.map((letter) => letter.upper));
+const validLetters = new Set(ACTIVE_PACK.alphabet.map((letter) => letter.upper));
 interface LettersValue { traced: Set<string>; saveError: boolean; markTraced: (letter: string) => void; resetTraced: () => void }
 const noop = () => {};
 const fallback: LettersValue = { traced: new Set(), saveError: false, markTraced: noop, resetTraced: noop };

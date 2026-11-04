@@ -1,15 +1,12 @@
-import { useEffect, useState } from 'react';
-import * as Haptics from 'expo-haptics';
+import { useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { router } from 'expo-router';
 
-import type { Letter } from '@/content/alphabet';
-import { THEMES } from '@/content/themes';
-import { ALPHABET } from '@/content/alphabet';
+import { ACTIVE_PACK, type Letter } from '@/content/packs';
 import { useBuddyLine } from '@/features/buddy/useBuddyLine';
 import { canTraceLetter } from '@/lib/entitlements';
 import { useProgressState } from '@/state/progress';
-import { speakArmenian, stopSpeaking } from '@/lib/speech';
+import { haptic } from '@/lib/haptics';
 import { playSfx } from '@/lib/sfx';
 import { useSettings } from '@/state/settings';
 import { BigButton } from '@/ui/BigButton';
@@ -18,7 +15,7 @@ import { Buddy } from '@/ui/Buddy';
 import { useTracedLetters } from '@/state/letters';
 import { TraceCanvas } from './TraceCanvas';
 import { isTraceGoodEnough } from './tracing';
-import { colors, font, radius, spacing } from '@/ui/tokens';
+import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing } from '@/ui/tokens';
 
 interface LetterDetailProps {
   letter: Letter | null;
@@ -28,15 +25,14 @@ interface LetterDetailProps {
 /** Bottom sheet with one letter: huge upper+lower case, name, sound and an example word. */
 export function LetterDetail({ letter, onClose }: LetterDetailProps) {
   const line = useBuddyLine();
-  const { soundEffects } = useSettings();
+  const { soundEffects, haptics } = useSettings();
   const [tracing, setTracing] = useState(false);
   const [drawing, setDrawing] = useState(false);
   const [feedback, setFeedback] = useState<'success' | 'retry' | null>(null);
   const { traced, markTraced } = useTracedLetters();
   const { state } = useProgressState();
-  useEffect(() => () => stopSpeaking(), []);
-  const close = () => { stopSpeaking(); setDrawing(false); setTracing(false); setFeedback(null); onClose(); };
-  const exampleWord = letter && THEMES.flatMap((theme) => theme.words).find((word) => word.hy === letter.example.hy);
+  const close = () => { setDrawing(false); setTracing(false); setFeedback(null); onClose(); };
+  const exampleWord = letter && ACTIVE_PACK.themes.flatMap((theme) => theme.words).find((word) => word.hy === letter.example.hy);
   return (
     <Modal visible={letter !== null} transparent animationType="slide" onRequestClose={close}>
       <View style={styles.backdrop}>
@@ -46,48 +42,37 @@ export function LetterDetail({ letter, onClose }: LetterDetailProps) {
             <ScrollView scrollEnabled={!drawing} contentContainerStyle={styles.content}>
               {tracing ? (
                 <>
-                  <Text style={styles.name} accessibilityRole="header">Trace {letter.name}</Text>
+                  <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.name} accessibilityRole="header">Trace {letter.name}</Text>
                   <View style={styles.feedback}>
                     {feedback === 'success' ? <Buddy mood="cheer" message={line('tracing_success')} size={48} /> : null}
                     {feedback === 'retry' ? <Text style={styles.sound}>{line('tracing_retry')}</Text> : null}
                   </View>
                   <TraceCanvas key={letter.upper} upper={letter.upper} lower={letter.lower} onDrawingChange={setDrawing} onEdit={() => setFeedback(null)} onDone={(score) => {
-                    if (!canTraceLetter(state.isPremium, ALPHABET.findIndex((item) => item.upper === letter.upper))) return;
-                    if (isTraceGoodEnough(score)) { if (!traced.has(letter.upper)) { markTraced(letter.upper); void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {}); } playSfx('star', soundEffects); setFeedback('success'); }
+                    if (!canTraceLetter(state.isPremium, ACTIVE_PACK.alphabet.findIndex((item) => item.upper === letter.upper))) return;
+                    if (isTraceGoodEnough(score)) { if (!traced.has(letter.upper)) { markTraced(letter.upper); haptic('success', haptics); } playSfx('star', soundEffects); setFeedback('success'); }
                     else setFeedback('retry');
                   }} />
                   <BigButton label="Back to letter" color={colors.textMuted} onPress={() => { setTracing(false); setFeedback(null); }} />
                 </>
               ) : <>
-              <Text style={styles.letters} accessibilityLabel={`Letter ${letter.name}`}>
+              <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.letters} accessibilityLabel={`Letter ${letter.name}`}>
                 {letter.upper} {letter.lower}
               </Text>
-              <Text style={styles.name} accessibilityRole="header">{letter.name}</Text>
+              <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.name} accessibilityRole="header">{letter.name}</Text>
               <Text style={styles.sound}>Sounds like: {letter.sound}</Text>
 
               <View style={styles.example} accessibilityLabel={`${letter.example.hy}, ${letter.example.translit}, ${letter.example.en}`}>
-                <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">{exampleWord ? <WordArt wordId={exampleWord.id} emoji={letter.example.emoji} size={70} /> : <Text style={styles.exampleEmoji}>{letter.example.emoji}</Text>}</View>
+                <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">{exampleWord ? <WordArt wordId={exampleWord.id} emoji={letter.example.emoji} size={70} /> : <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.exampleEmoji}>{letter.example.emoji}</Text>}</View>
                 <View style={styles.exampleTexts}>
-                  <Text style={styles.exampleHy}>{letter.example.hy}</Text>
+                  <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.exampleHy}>{letter.example.hy}</Text>
                   <Text style={styles.exampleSub}>
                     {letter.example.translit} · {letter.example.en}
                   </Text>
                 </View>
               </View>
 
-              <BigButton
-                label="🔊 Hear the letter"
-                onPress={() => speakArmenian(letter.lower)}
-                accessibilityHint={`Says the letter ${letter.name}`}
-              />
-              <BigButton
-                label="🔊 Hear the word"
-                color={colors.success}
-                onPress={() => speakArmenian(letter.example.hy)}
-                accessibilityHint={`Says ${letter.example.en} in Armenian`}
-              />
-              <BigButton label={canTraceLetter(state.isPremium, ALPHABET.findIndex((item) => item.upper === letter.upper)) ? '✏️ Trace it' : '🔒 Unlock tracing'} onPress={() => {
-                if (canTraceLetter(state.isPremium, ALPHABET.findIndex((item) => item.upper === letter.upper))) { setTracing(true); setFeedback(null); }
+              <BigButton {...(canTraceLetter(state.isPremium, ACTIVE_PACK.alphabet.findIndex((item) => item.upper === letter.upper)) ? { label: 'Trace it' } : { label: 'Unlock tracing', icon: 'lock' as const })} onPress={() => {
+                if (canTraceLetter(state.isPremium, ACTIVE_PACK.alphabet.findIndex((item) => item.upper === letter.upper))) { setTracing(true); setFeedback(null); }
                 else { close(); router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'letters' } }); }
               }} accessibilityHint={`Practice writing ${letter.name}`} />
               <BigButton label="Close" color={colors.textMuted} onPress={close} />

@@ -3,7 +3,7 @@ import { Redirect, router, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, AppState, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { THEMES } from '@/content/themes';
+import { ACTIVE_PACK } from '@/content/packs';
 import { ThemeCard } from '@/features/home/ThemeCard';
 import { isThemeUnlocked, themeProgress } from '@/lib/lesson';
 import { currentStreak } from '@/lib/streak';
@@ -13,6 +13,7 @@ import { ProfileAvatar } from '@/features/profiles/ProfileAvatar';
 import { useBuddyLine } from '@/features/buddy/useBuddyLine';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
+import { Icon } from '@/ui/Icon';
 import { freeWordsFinished } from '@/features/paywall/offer';
 import { Screen } from '@/ui/Screen';
 import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
@@ -48,12 +49,14 @@ export default function Home() {
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.topRow}>
           <View style={styles.stats}>
-            <Text style={styles.stat} accessibilityLabel={`${streak} day streak`}>
-              🔥 {streak}
-            </Text>
-            <Text style={styles.stat} accessibilityLabel={`${state.stars} stars`}>
-              ⭐ {state.stars}
-            </Text>
+            <View style={styles.statRow} accessible accessibilityLabel={`${streak} day streak`}>
+              <Icon name="flame" size={30} />
+              <Text style={styles.stat}>{streak}</Text>
+            </View>
+            <View style={styles.statRow} accessible accessibilityLabel={`${state.stars} stars`}>
+              <Icon name="stickers" size={30} />
+              <Text style={styles.stat}>{state.stars}</Text>
+            </View>
           </View>
           <Pressable
             accessibilityRole="button"
@@ -79,7 +82,7 @@ export default function Home() {
             onPress={() => router.push('/letters')}
             style={[styles.tile, { backgroundColor: '#CDE7FF' }]}
           >
-            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Text style={styles.tileEmoji}>🔤</Text></View>
+            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Icon name="letters" size={60} /></View>
             <Text style={styles.tileLabel}>Letters</Text>
           </Pressable>
           <Pressable
@@ -88,7 +91,7 @@ export default function Home() {
             onPress={() => router.push('/stickers')}
             style={[styles.tile, { backgroundColor: '#FFE9A8' }]}
           >
-            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Text style={styles.tileEmoji}>⭐</Text></View>
+            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Icon name="stickers" size={60} /></View>
             <Text style={styles.tileLabel}>Stickers</Text>
           </Pressable>
           <Pressable
@@ -97,13 +100,13 @@ export default function Home() {
             onPress={() => router.push('/games')}
             style={[styles.tile, { backgroundColor: '#CAFFBF' }]}
           >
-            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Text style={styles.tileEmoji}>🎮</Text></View>
+            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Icon name="games" size={60} /></View>
             <Text style={styles.tileLabel}>Games</Text>
           </Pressable>
         </View>
 
         <View style={styles.grid}>
-          {THEMES.map((theme) => {
+          {ACTIVE_PACK.themes.map((theme) => {
             const { learned, total } = themeProgress(theme, state.words);
             return (
               <ThemeCard
@@ -133,6 +136,7 @@ const styles = StyleSheet.create({
   content: { gap: spacing.lg, paddingBottom: spacing.xl },
   topRow: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: spacing.sm },
   stats: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md, flexShrink: 1 },
+  statRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs },
   stat: { fontSize: font.heading, fontWeight: '800', color: colors.text },
   parents: {
     minHeight: TOUCH_MIN,
@@ -157,7 +161,6 @@ const styles = StyleSheet.create({
     gap: spacing.xs,
     padding: spacing.md,
   },
-  tileEmoji: { fontSize: 36 },
   tileLabel: { fontSize: font.heading, fontWeight: '800', color: colors.text },
   grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: spacing.md },
 });

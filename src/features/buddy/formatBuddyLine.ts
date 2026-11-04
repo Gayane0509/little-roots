@@ -1,4 +1,4 @@
-import type { Phrase } from '@/content/phrases';
+import type { Phrase } from '@/content/packs';
 
 export type BuddyVars = Record<string, string | number | undefined>;
 

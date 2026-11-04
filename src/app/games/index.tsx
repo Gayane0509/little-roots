@@ -3,19 +3,22 @@ import { router, useFocusEffect, type Href } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { gamesLeftToday } from '@/lib/entitlements';
 import { gamesPlayedToday, useProgressState } from '@/state/progress';
+import type { IconName } from '@/art/icons';
 import { Buddy } from '@/ui/Buddy';
+import { Icon } from '@/ui/Icon';
+import { IconTitle } from '@/ui/IconTitle';
 import { AppState, Pressable, ScrollView, StyleSheet, Text } from 'react-native';
 
 import { useBuddyLine } from '@/features/buddy/useBuddyLine';
 import { goBackOrHome } from '@/lib/navigation';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
-import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
+import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
-const GAMES: { href: Href; emoji: string; title: string; sub: string; color: string }[] = [
-  { href: '/games/memory', emoji: '🧠', title: 'Memory match', sub: 'Find the pairs', color: '#FFD6A5' },
-  { href: '/games/listen', emoji: '👂', title: 'Listen & find', sub: 'Hear it, tap the picture', color: '#CDE7FF' },
-  { href: '/games/read', emoji: '📖', title: 'Read it', sub: 'For readers: pick the word', color: '#CAFFBF' },
+const GAMES: { href: Href; icon: IconName; title: string; sub: string; color: string }[] = [
+  { href: '/games/memory', icon: 'memory', title: 'Memory match', sub: 'Find the pairs', color: '#FFD6A5' },
+  { href: '/games/find', icon: 'find', title: 'Find the picture', sub: 'Read the word, tap its picture', color: '#CDE7FF' },
+  { href: '/games/read', icon: 'read', title: 'Read it', sub: 'For readers: pick the word', color: '#CAFFBF' },
 ];
 
 export default function Games() {
@@ -27,7 +30,7 @@ export default function Games() {
   return (
     <Screen>
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.title} accessibilityRole="header">🎮 Games</Text>
+        <IconTitle icon="games" text="Games" style={styles.title} />
         {left !== null ? <Text style={styles.count}>3 games a day · {left} left today</Text> : <Text style={styles.count}>Unlimited games</Text>}
         {left === 0 ? <><Buddy message={line('games_done_today')} /><BigButton label="Grown-ups: unlimited games" onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'games' } })} /></> : null}
         {GAMES.map((game) => (
@@ -41,8 +44,8 @@ export default function Games() {
             disabled={left === 0}
             style={({ pressed }) => [styles.card, { backgroundColor: game.color, transform: [{ scale: pressed ? 0.97 : 1 }] }]}
           >
-            <Text style={styles.emoji}>{game.emoji}</Text>
-            <Text style={styles.cardTitle}>{game.title}</Text>
+            <Icon name={game.icon} size={56} />
+            <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.cardTitle}>{game.title}</Text>
             <Text style={styles.cardSub}>{game.sub}</Text>
           </Pressable>
         ))}
@@ -64,7 +67,6 @@ const styles = StyleSheet.create({
     padding: spacing.md,
     gap: spacing.xs,
   },
-  emoji: { fontSize: 48 },
   cardTitle: { fontSize: font.title, fontWeight: '800', color: colors.text },
   cardSub: { fontSize: font.body, fontWeight: '600', color: colors.textMuted },
 });

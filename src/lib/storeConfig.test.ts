@@ -14,6 +14,17 @@ test('the app never plays audio in the background (no iOS background mode, no An
   expect(audio?.[1].enableBackgroundPlayback).toBe(false);
   expect(audio?.[1].enableBackgroundRecording).not.toBe(true);
 });
+test('microphone only for family voice: a purpose string that says recordings stay on the device', () => {
+  // AI_DECISIONS 2026-11-04 "Family voice": the parent records words; nothing is uploaded.
+  const audio = expo.plugins.find((plugin): plugin is [string, Record<string, unknown>] => Array.isArray(plugin) && plugin[0] === 'expo-audio');
+  const purpose = audio?.[1].microphonePermission;
+  expect(typeof purpose).toBe('string');
+  expect(purpose).toMatch(/record/i);
+  expect(purpose).toMatch(/stay on this device/);
+  expect(purpose).toMatch(/never uploaded/);
+  expect(audio?.[1].recordAudioAndroid).not.toBe(false);
+  expect(expo.android.blockedPermissions).not.toContain('android.permission.RECORD_AUDIO');
+});
 test('unused storage and overlay permissions are blocked; no extra permissions are requested', () => {
   expect(expo.android.blockedPermissions).toEqual(expect.arrayContaining([
     'android.permission.READ_EXTERNAL_STORAGE', 'android.permission.WRITE_EXTERNAL_STORAGE', 'android.permission.SYSTEM_ALERT_WINDOW',

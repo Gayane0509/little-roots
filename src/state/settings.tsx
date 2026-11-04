@@ -3,16 +3,17 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 
 const KEY = 'littleroots.settings.v1';
 type BuddyLanguage = 'en' | 'hy';
-type Settings = { soundEffects: boolean; buddyLanguage: BuddyLanguage; parentIntroSeen: boolean };
+type Settings = { soundEffects: boolean; haptics: boolean; buddyLanguage: BuddyLanguage; parentIntroSeen: boolean };
 type SettingsApi = Settings & {
   ready: boolean;
   saveError: boolean;
   setSoundEffects(value: boolean): void;
+  setHaptics(value: boolean): void;
   setBuddyLanguage(value: BuddyLanguage): void;
   setParentIntroSeen(value: boolean): void;
 };
-const defaults: Settings = { soundEffects: true, buddyLanguage: 'en', parentIntroSeen: false };
-const fallback: SettingsApi = { ...defaults, ready: true, saveError: false, setSoundEffects: () => {}, setBuddyLanguage: () => {}, setParentIntroSeen: () => {} };
+const defaults: Settings = { soundEffects: true, haptics: true, buddyLanguage: 'en', parentIntroSeen: false };
+const fallback: SettingsApi = { ...defaults, ready: true, saveError: false, setSoundEffects: () => {}, setHaptics: () => {}, setBuddyLanguage: () => {}, setParentIntroSeen: () => {} };
 const Context = createContext<SettingsApi | null>(null);
 
 function parse(raw: string | null): Settings {
@@ -23,6 +24,7 @@ function parse(raw: string | null): Settings {
     const saved = value as Record<string, unknown>;
     return {
       soundEffects: typeof saved.soundEffects === 'boolean' ? saved.soundEffects : true,
+      haptics: typeof saved.haptics === 'boolean' ? saved.haptics : true,
       buddyLanguage: saved.buddyLanguage === 'hy' ? 'hy' : 'en',
       parentIntroSeen: saved.parentIntroSeen === true,
     };
@@ -66,9 +68,10 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     void writeQueue.current.catch(() => {});
   }, [ready]);
   const setSoundEffects = useCallback((value: boolean) => update({ soundEffects: value }), [update]);
+  const setHaptics = useCallback((value: boolean) => update({ haptics: value }), [update]);
   const setBuddyLanguage = useCallback((value: BuddyLanguage) => update({ buddyLanguage: value }), [update]);
   const setParentIntroSeen = useCallback((value: boolean) => update({ parentIntroSeen: value }), [update]);
-  const api = useMemo(() => ({ ...settings, ready, saveError, setSoundEffects, setBuddyLanguage, setParentIntroSeen }), [settings, ready, saveError, setSoundEffects, setBuddyLanguage, setParentIntroSeen]);
+  const api = useMemo(() => ({ ...settings, ready, saveError, setSoundEffects, setHaptics, setBuddyLanguage, setParentIntroSeen }), [settings, ready, saveError, setSoundEffects, setHaptics, setBuddyLanguage, setParentIntroSeen]);
   return <Context.Provider value={api}>{children}</Context.Provider>;
 }
 

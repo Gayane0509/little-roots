@@ -1,6 +1,6 @@
 # Little Roots — Privacy Policy
 
-Effective date: 2026-10-30
+Effective date: 2026-11-04
 
 ## The short version
 
@@ -10,7 +10,7 @@ Little Roots collects nothing and sends nothing. Everything the app knows stays 
 
 - Your child's first name, so the app can greet them.
 - Learning progress: which words were learned, stars, stickers and lesson days.
-- Optional family voice recordings, only if a parent records them.
+- Family voice recordings, if a grown-up makes them: short audio files of the app's words, one per word.
 
 This information is never uploaded, shared or sold.
 
@@ -20,14 +20,20 @@ This information is never uploaded, shared or sold.
 - No third-party SDKs that collect data.
 - The app does not need an internet connection to teach words.
 
-## Microphone
+## Microphone and family voice
 
-The microphone is used only inside the parent area, and only when a parent presses record for a family voice recording. Recordings stay on this device.
+The microphone is used only when a grown-up taps Record in Parent area → Family voice, to record the app's words in
+their own voice. The app asks for microphone access there, never in front of the child. Recordings are saved only on
+this device and played back in the app wherever that word appears. They are never uploaded, shared or analysed.
+There is no speech recognition, no text-to-speech and no AI voice. Other sounds are short, optional effects (for
+example a chime for a right answer), which a parent can turn off in Settings.
 
 ## How to delete your data
 
-- Parent area, Reset progress: deletes the name, words, stars and stickers.
-- Parent area, Family voice: delete any recording.
+- Parent area, Reset progress: resets the active child's words, stars, stickers and traced letters. The child's name stays.
+- Parent area, Children: deleting a child removes their profile, learning progress, traced letters and family voice
+  recordings.
+- Parent area, Family voice: delete any single recording. Reset progress keeps recordings.
 - Delete the app: removes everything stored on the device.
 
 ## Contact

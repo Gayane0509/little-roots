@@ -20,18 +20,18 @@ export const art: ThemeArt = {
 <path d="M20 44 L10 32 M40 30 L34 16 M64 24 L64 8 M88 30 L94 16 M108 44 L118 32" stroke="#3A2E39" stroke-width="3.5" stroke-linecap="round"/>
 </svg>`,
   nose: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-<g transform="translate(4 0) scale(0.94)">
-<ellipse cx="22" cy="68" rx="9" ry="12" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3.5"/>
-<ellipse cx="106" cy="68" rx="9" ry="12" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3.5"/>
-<circle cx="64" cy="66" r="46" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3.5"/>
-<path d="M18 62 Q14 14 64 14 Q114 14 110 62 Q96 38 80 34 Q64 44 44 34 Q28 40 18 62 Z" fill="#5A3A2A" stroke="#3A2E39" stroke-width="3.5" stroke-linejoin="round"/>
-<circle cx="44" cy="64" r="4" fill="#3A2E39"/><circle cx="84" cy="64" r="4" fill="#3A2E39"/>
-<path d="M54 102 Q64 108 74 102" fill="none" stroke="#3A2E39" stroke-width="3.5" stroke-linecap="round"/>
-<path d="M64 66 C58 76 52 84 54 89 C56 94 72 94 74 89 C76 84 70 76 64 66 Z" fill="#F4A08E" stroke="#3A2E39" stroke-width="3.5" stroke-linejoin="round"/>
-<ellipse cx="60" cy="82" rx="3" ry="4" fill="#FFFFFF" opacity="0.6"/>
-</g>
-<path d="M8 120 L24 106 M24 106 L16 106 M24 106 L24 114" fill="none" stroke="#FFB020" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M120 120 L104 106 M104 106 L112 106 M104 106 L104 114" fill="none" stroke="#FFB020" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<ellipse cx="22" cy="68" rx="9" ry="12" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3"/>
+<ellipse cx="106" cy="68" rx="9" ry="12" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3"/>
+<circle cx="64" cy="66" r="46" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3"/>
+<path d="M18 62 Q14 14 64 14 Q114 14 110 62 Q96 38 80 34 Q64 44 44 34 Q28 40 18 62 Z" fill="#5A3A2A" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="64" cy="76" r="22" fill="#FFD23F" opacity="0.55"/>
+<circle cx="44" cy="62" r="3.5" fill="#3A2E39"/><circle cx="84" cy="62" r="3.5" fill="#3A2E39"/>
+<path d="M64 60 Q58 76 52 84 Q48 92 57 92 Q61 90 64 92 Q67 90 71 92 Q80 92 76 84 Q70 76 64 60 Z" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="58" cy="85" r="2.2" fill="#3A2E39"/><circle cx="70" cy="85" r="2.2" fill="#3A2E39"/>
+<ellipse cx="64" cy="72" rx="2.5" ry="5" fill="#FFFFFF" opacity="0.5"/>
+<circle cx="34" cy="82" r="6" fill="#FF9EAA" opacity="0.6"/><circle cx="94" cy="82" r="6" fill="#FF9EAA" opacity="0.6"/>
+<path d="M52 100 Q64 108 76 100" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
+<path d="M34 28 Q44 20 56 20" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.4"/>
 </svg>`,
   mouth: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
 <ellipse cx="64" cy="64" rx="56" ry="46" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3"/>
@@ -62,16 +62,17 @@ export const art: ThemeArt = {
 <path d="M60 82 Q67 88 74 82" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
 </svg>`,
   foot: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-<circle cx="30" cy="40" r="13" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3"/>
-<circle cx="52" cy="26" r="10" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3"/>
-<circle cx="72" cy="22" r="9" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3"/>
-<circle cx="89" cy="27" r="8" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3"/>
-<circle cx="102" cy="38" r="7" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3"/>
-<path d="M18 62 Q16 44 40 40 Q64 34 90 42 Q112 46 110 72 Q108 92 92 104 Q86 120 64 120 Q42 120 36 102 Q20 88 18 62 Z" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
-<path d="M30 54 Q34 50 42 50" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.45"/>
-<circle cx="48" cy="70" r="4" fill="#3A2E39"/><circle cx="80" cy="70" r="4" fill="#3A2E39"/>
-<circle cx="38" cy="82" r="5" fill="#FF9EAA" opacity="0.6"/><circle cx="90" cy="82" r="5" fill="#FF9EAA" opacity="0.6"/>
-<path d="M55 82 Q64 92 73 82" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
+<circle cx="40" cy="30" r="11" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="59" cy="22" r="8" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="75" cy="24" r="7" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="88" cy="31" r="6" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="97" cy="42" r="5.5" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M30 54 Q28 38 52 38 Q86 36 94 54 Q98 72 88 94 Q78 118 56 116 Q36 114 38 94 Q40 76 30 54 Z" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<ellipse cx="40" cy="27" rx="5" ry="3.5" fill="#FF8FB1"/><ellipse cx="59" cy="20" rx="3.5" ry="2.5" fill="#FF8FB1"/>
+<ellipse cx="75" cy="22" rx="3" ry="2.2" fill="#FF8FB1"/><ellipse cx="88" cy="29" rx="2.5" ry="2" fill="#FF8FB1"/>
+<ellipse cx="97" cy="40" rx="2.2" ry="1.8" fill="#FF8FB1"/>
+<circle cx="54" cy="70" r="3.5" fill="#3A2E39"/><circle cx="76" cy="70" r="3.5" fill="#3A2E39"/>
+<path d="M56 82 Q65 90 74 82" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
+<circle cx="46" cy="80" r="5.5" fill="#FF9EAA" opacity="0.6"/><circle cx="84" cy="80" r="5.5" fill="#FF9EAA" opacity="0.6"/>
+<ellipse cx="44" cy="56" rx="4" ry="9" fill="#FFFFFF" opacity="0.4" transform="rotate(-20 44 56)"/>
 </svg>`,
   tooth: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
 <path d="M64 24 Q50 8 34 14 Q10 22 16 56 Q20 76 30 92 Q34 120 46 116 Q54 112 56 90 Q64 82 72 90 Q74 112 82 116 Q94 120 98 92 Q108 76 112 56 Q118 22 94 14 Q78 8 64 24 Z" fill="#FFFFFF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>

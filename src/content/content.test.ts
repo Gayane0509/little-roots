@@ -1,5 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
-import { THEMES, getTheme, getWord } from './themes';
+import { getTheme, getWord } from './packs';
+import { THEMES } from './themes';
 
 describe('content', () => {
   const all = THEMES.flatMap((t) => t.words);

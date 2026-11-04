@@ -8,6 +8,7 @@ import { goBackOrHome } from '@/lib/navigation';
 import { useProgress } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
+import { IconTitle } from '@/ui/IconTitle';
 import { Screen } from '@/ui/Screen';
 import { colors, font, spacing } from '@/ui/tokens';
 
@@ -22,7 +23,7 @@ export default function Stickers() {
   return (
     <Screen>
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.title}>⭐ Sticker book</Text>
+        <IconTitle icon="stickers" text="Sticker book" style={styles.title} />
         {stickers.length === 0 ? (
           <Buddy mood="think" message={line('stickers_empty')} />
         ) : (

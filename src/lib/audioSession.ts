@@ -1,35 +1,27 @@
 import { setAudioModeAsync, type AudioMode } from 'expo-audio';
-import { AppState } from 'react-native';
 
 /**
- * Playback session for the whole app (see AI_DECISIONS 2026-11-02 "Audio session").
- * Words are the lesson itself, so they play even with the iOS silent switch on; we mix with other apps
- * instead of pausing a parent's music, and never keep playing in the background.
- * The parent voices screen switches recording on and back off on top of this.
+ * Playback session for the whole app: short optional effects and family-voice word recordings (AI_DECISIONS
+ * 2026-11-04 "Family voice"). They respect the iOS silent switch, mix with a parent's music instead of pausing it
+ * and never play in the background. Only the parent recording screen switches to `RECORDING_AUDIO_MODE`, and
+ * restores this mode when it stops.
  */
 export const PLAYBACK_AUDIO_MODE: AudioMode = {
-  playsInSilentMode: true,
+  playsInSilentMode: false,
   interruptionMode: 'mixWithOthers',
   allowsRecording: false,
   shouldPlayInBackground: false,
   shouldRouteThroughEarpiece: false,
 };
-/**
- * iOS rebuilds the whole mode on every call and fills omitted fields with native defaults (`playsInSilentMode`
- * false), so a partial `{ allowsRecording: false }` would let the silent switch mute words again.
- * Always pass one of these complete modes.
- */
-export const RECORDING_AUDIO_MODE: AudioMode = { ...PLAYBACK_AUDIO_MODE, allowsRecording: true };
 
-export function restorePlaybackAudioMode(): Promise<void> {
-  return setAudioModeAsync(PLAYBACK_AUDIO_MODE);
+/** Sets the playback session once at startup. iOS rebuilds the whole mode on each call, so always pass a full mode. */
+export function startAudioSession(): void {
+  void setAudioModeAsync(PLAYBACK_AUDIO_MODE).catch(() => { /* Sound effects are optional. */ });
 }
 
-/** Sets the playback session once and stops speech/word audio when the app goes to the background. */
-export function startAudioSession(stopAudio: () => void): () => void {
-  void restorePlaybackAudioMode().catch(() => { /* Sound is optional; defaults still play. */ });
-  const subscription = AppState.addEventListener('change', (status) => {
-    if (status === 'background') stopAudio();
-  });
-  return () => subscription.remove();
+/** Parent recording screen only, while a word is being recorded. */
+export const RECORDING_AUDIO_MODE: AudioMode = { ...PLAYBACK_AUDIO_MODE, playsInSilentMode: true, allowsRecording: true, interruptionMode: 'doNotMix' };
+
+export async function restorePlaybackAudioMode(): Promise<void> {
+  await setAudioModeAsync(PLAYBACK_AUDIO_MODE).catch(() => { /* Sound is optional. */ });
 }

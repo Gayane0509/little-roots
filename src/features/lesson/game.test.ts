@@ -2,13 +2,13 @@ import { describe, expect, it, jest } from '@jest/globals';
 import type { Word } from '@/content/types';
 import { gameOptions } from './game';
 
-jest.mock('@/content/themes', () => {
+jest.mock('@/content/packs', () => {
   const word = (id: string, themeId: string, emoji: string) => ({ id, themeId, emoji, en: id, hy: id, translit: id });
   const themes = [
     { id: 'family', words: [word('family.a', 'family', '🍎'), word('family.same', 'family', '🍎'), word('family.b', 'family', '🍌')] },
     { id: 'food', words: [word('food.a', 'food', '🥛'), word('food.b', 'food', '🍞'), word('food.c', 'food', '🧀')] },
   ];
-  return { THEMES: themes, getTheme: (id: string) => themes.find((theme) => theme.id === id) };
+  return { ACTIVE_PACK: { themes }, getTheme: (id: string) => themes.find((theme) => theme.id === id) };
 });
 
 describe('picture choices', () => {

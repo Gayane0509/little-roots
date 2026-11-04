@@ -80,9 +80,9 @@ export const art: ThemeArt = {
 <circle cx="28" cy="82" r="24" fill="#FFFFFF" fill-opacity="0.35" stroke="#3A2E39" stroke-width="5"/>
 <circle cx="100" cy="82" r="24" fill="#FFFFFF" fill-opacity="0.35" stroke="#3A2E39" stroke-width="5"/>
 <polyline points="28,82 48,46 88,46 100,82" fill="none" stroke="#3A2E39" stroke-width="10"/>
-<polyline points="48,46 60,82 88,46 M28,82 60,82" fill="none" stroke="#3A2E39" stroke-width="10"/>
+<path d="M48 46 L60 82 L88 46 M28 82 L60 82" fill="none" stroke="#3A2E39" stroke-width="10"/>
 <polyline points="88,46 84,28 98,28" fill="none" stroke="#3A2E39" stroke-width="8"/>
-<polyline points="48,46 60,82 88,46 M28,82 60,82" fill="none" stroke="#F25C54" stroke-width="4"/>
+<path d="M48 46 L60 82 L88 46 M28 82 L60 82" fill="none" stroke="#F25C54" stroke-width="4"/>
 <polyline points="28,82 48,46 88,46 100,82" fill="none" stroke="#F25C54" stroke-width="4"/>
 <polyline points="88,46 84,28 98,28" fill="none" stroke="#B8BCC6" stroke-width="3"/>
 <line x1="38" y1="38" x2="56" y2="38" stroke="#3A2E39" stroke-width="9"/>

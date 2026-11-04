@@ -1,8 +1,10 @@
 import { act, useEffect, type ReactNode } from 'react';
 import { beforeEach, afterEach, expect, jest, test } from '@jest/globals';
+import * as FileSystem from 'expo-file-system';
+import { voiceFile, voiceKey } from '@/lib/voiceFiles';
 import { LettersProvider, useTracedLetters } from './letters';
 import { ProgressProvider, useProgress } from './progress';
-import { LEGACY_LETTERS_KEY, LEGACY_PROGRESS_KEY, PROFILES_KEY, ProfilesProvider, lettersKey, loadProfiles, parseProfiles, progressKey, useProfiles } from './profiles';
+import { LEGACY_LETTERS_KEY, LEGACY_PROGRESS_KEY, PROFILES_KEY, ProfilesProvider, lettersKey, loadProfiles, parseProfiles, progressKey, unscopedLettersKey, unscopedProgressKey, useProfiles } from './profiles';
 
 jest.mock('react-native', () => ({ View: 'div', Text: 'span', Pressable: 'button', AppState: { addEventListener: () => ({ remove: () => {} }) } }));
 jest.mock('@react-native-async-storage/async-storage', () => {
@@ -175,7 +177,7 @@ test('free limit rejects another child without changing the active profile', asy
   expect(profiles.profiles).toHaveLength(1);
   expect(profiles.activeId).toBe(activeId);
 });
-test('parent add keeps active child, deletion removes both keys, and last child is protected', async () => {
+test('parent add keeps active child, deletion removes its keys and voice recordings, and last child is protected', async () => {
   await mount();
   await act(async () => { await profiles.add('Ani', 'family.child'); await profiles.setPremium(true); });
   const aniId = profiles.activeId!;
@@ -184,10 +186,17 @@ test('parent add keeps active child, deletion removes both keys, and last child 
   expect(profiles.activeId).toBe(aniId);
   const aramId = profiles.profiles.find((p) => p.name === 'Aram')!.id;
   await act(async () => { await profiles.switchTo(aramId); progress.recordAnswer('food.apple', true); letters.markTraced('Բ'); });
+  // Family voice recordings of the deleted child go with it; the other child's stay.
+  const files = (FileSystem as unknown as { files: Set<string> }).files;
+  storage.store.set(voiceKey(aramId), JSON.stringify({ 'food.apple': 'hy-food_apple-1.m4a' }));
+  files.add(voiceFile(aramId, 'hy-food_apple-1.m4a').uri);
+  files.add(voiceFile(aniId, 'hy-family_mom-1.m4a').uri);
   await act(async () => { await profiles.remove(aramId); });
   expect(profiles.activeId).toBe(aniId);
   expect(storage.store.has(progressKey(aramId))).toBe(false);
   expect(storage.store.has(lettersKey(aramId))).toBe(false);
+  expect(storage.store.has(voiceKey(aramId))).toBe(false);
+  expect([...files]).toEqual([voiceFile(aniId, 'hy-family_mom-1.m4a').uri]);
   await act(async () => { await profiles.remove(aniId); });
   expect(profiles.profiles).toHaveLength(1);
   expect(profiles.activeId).toBe(aniId);
@@ -232,4 +241,90 @@ test('failed letters read retries pending marks before switching', async () => {
   await act(async () => { await profiles.switchTo('child-2'); });
   expect(storage.store.get(lettersKey('child-1'))).toContain('Ա');
   expect(profiles.activeId).toBe('child-2');
+});
+
+const family = (...ids: string[]) => JSON.stringify({ profiles: ids.map((id) => ({ id, name: id, avatarWordId: 'family.child' })), activeId: ids[0], isPremium: true, pendingDeletes: [] });
+test('per-child records move to Armenian per-language keys on load', async () => {
+  storage.store.set(PROFILES_KEY, family('child-1', 'child-2'));
+  storage.store.set(unscopedProgressKey('child-1'), '{"stars":8}');
+  storage.store.set(unscopedLettersKey('child-1'), '["Ա"]');
+  storage.store.set(unscopedProgressKey('child-2'), '{"stars":3}');
+  await loadProfiles();
+  expect(progressKey('child-1')).toBe('littleroots.progress.v1.child-1.hy');
+  expect(lettersKey('child-1')).toBe('littleroots.letters.v1.child-1.hy');
+  expect(storage.store.get(progressKey('child-1', 'hy'))).toBe('{"stars":8}');
+  expect(storage.store.get(lettersKey('child-1', 'hy'))).toBe('["Ա"]');
+  expect(storage.store.get(progressKey('child-2', 'hy'))).toBe('{"stars":3}');
+  expect(storage.store.has(lettersKey('child-2', 'hy'))).toBe(false);
+  for (const key of [unscopedProgressKey('child-1'), unscopedLettersKey('child-1'), unscopedProgressKey('child-2')]) expect(storage.store.has(key)).toBe(false);
+  const migrated = new Map(storage.store);
+  await loadProfiles();
+  expect(storage.store).toEqual(migrated);
+});
+test('the migrated app shows the same progress for the child', async () => {
+  storage.store.set(PROFILES_KEY, family('child-1'));
+  storage.store.set(unscopedProgressKey('child-1'), JSON.stringify({ stars: 8 }));
+  storage.store.set(unscopedLettersKey('child-1'), '["Ա"]');
+  await mount();
+  expect(progress.state.stars).toBe(8);
+  expect(letters.traced.has('Ա')).toBe(true);
+});
+test('an interrupted migration (identical copy) drops the old key', async () => {
+  storage.store.set(PROFILES_KEY, family('child-1'));
+  storage.store.set(unscopedProgressKey('child-1'), '{"stars":8}');
+  storage.store.set(progressKey('child-1', 'hy'), '{"stars":8}');
+  await loadProfiles();
+  expect(storage.store.get(progressKey('child-1', 'hy'))).toBe('{"stars":8}');
+  expect(storage.store.has(unscopedProgressKey('child-1'))).toBe(false);
+});
+test('a conflicting per-language record never causes the old record to be deleted', async () => {
+  const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+  storage.store.set(PROFILES_KEY, family('child-1'));
+  storage.store.set(unscopedProgressKey('child-1'), '{"stars":8}');
+  storage.store.set(progressKey('child-1', 'hy'), '{"stars":0}');
+  await loadProfiles();
+  expect(storage.store.get(progressKey('child-1', 'hy'))).toBe('{"stars":0}');
+  expect(storage.store.get(unscopedProgressKey('child-1'))).toBe('{"stars":8}');
+  warn.mockRestore();
+});
+test('a failed cleanup after a safe copy does not block the load; the next load removes the old key', async () => {
+  const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+  storage.store.set(PROFILES_KEY, family('child-1'));
+  storage.store.set(unscopedProgressKey('child-1'), '{"stars":8}');
+  storage.failed.removeKey = unscopedProgressKey('child-1');
+  await loadProfiles();
+  expect(storage.store.get(progressKey('child-1', 'hy'))).toBe('{"stars":8}');
+  expect(storage.store.get(unscopedProgressKey('child-1'))).toBe('{"stars":8}');
+  storage.failed.removeKey = '';
+  await loadProfiles();
+  expect(storage.store.has(unscopedProgressKey('child-1'))).toBe(false);
+  warn.mockRestore();
+});
+test('a conflicting per-language letters record keeps the old letters record', async () => {
+  const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+  storage.store.set(PROFILES_KEY, family('child-1'));
+  storage.store.set(unscopedLettersKey('child-1'), '["a"]');
+  storage.store.set(lettersKey('child-1', 'hy'), '[]');
+  await loadProfiles();
+  expect(storage.store.get(lettersKey('child-1', 'hy'))).toBe('[]');
+  expect(storage.store.get(unscopedLettersKey('child-1'))).toBe('["a"]');
+  warn.mockRestore();
+});
+test('a failed migration write blocks the load and keeps the old record for retry', async () => {
+  storage.store.set(PROFILES_KEY, family('child-1'));
+  storage.store.set(unscopedProgressKey('child-1'), '{"stars":8}');
+  storage.failed.key = progressKey('child-1', 'hy');
+  await expect(loadProfiles()).rejects.toThrow('write failed');
+  expect(storage.store.get(unscopedProgressKey('child-1'))).toBe('{"stars":8}');
+  storage.failed.key = '';
+  await loadProfiles();
+  expect(storage.store.get(progressKey('child-1', 'hy'))).toBe('{"stars":8}');
+});
+test('deleting a child also removes old per-child keys', async () => {
+  storage.store.set(PROFILES_KEY, JSON.stringify({ ...JSON.parse(family('child-1')), pendingDeletes: ['child-2'] }));
+  storage.store.set(unscopedProgressKey('child-2'), 'old');
+  storage.store.set(progressKey('child-2', 'hy'), 'new');
+  storage.store.set(lettersKey('child-2', 'hy'), 'new');
+  await loadProfiles();
+  expect([...storage.store.keys()].filter((key) => key.includes('child-2'))).toEqual([]);
 });

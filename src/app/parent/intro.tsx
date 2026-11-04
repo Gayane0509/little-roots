@@ -7,7 +7,7 @@ import { INTRO_STEPS } from '@/features/parent/introSteps';
 import { useSettings } from '@/state/settings';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
-import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
+import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 export default function ParentIntroScreen() {
   const guard = useParentGuard('/parent/intro');
@@ -47,8 +47,8 @@ export default function ParentIntroScreen() {
         </View>
 
         <View style={styles.card}>
-          {step.emoji ? <View accessible={false} importantForAccessibility="no-hide-descendants" accessibilityElementsHidden><Text style={styles.emoji}>{step.emoji}</Text></View> : null}
-          <Text style={styles.title} accessibilityRole="header">{step.title}</Text>
+          {step.emoji ? <View accessible={false} importantForAccessibility="no-hide-descendants" accessibilityElementsHidden><Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.emoji}>{step.emoji}</Text></View> : null}
+          <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.title} accessibilityRole="header">{step.title}</Text>
           <Text style={styles.body}>{step.body}</Text>
           {step.id === 'daily-reminder' && Platform.OS === 'web' ? (
             <Text style={styles.note}>Daily reminders are available in the phone app.</Text>

@@ -1,4 +1,4 @@
-export const PRIVACY_EFFECTIVE = '2026-10-30';
+export const PRIVACY_EFFECTIVE = '2026-11-04';
 export const PRIVACY_CONTACT = 'gayane.demirchyan94@gmail.com';
 
 export interface PrivacySection {
@@ -19,7 +19,7 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     paragraphs: [
       "Your child's first name, so the app can greet them.",
       'Learning progress: which words were learned, stars, stickers and lesson days.',
-      'Optional family voice recordings, only if a parent records them.',
+      'Family voice recordings, if a grown-up makes them: short audio files of the app’s words, one per word.',
       'This information is never uploaded, shared or sold.',
     ],
   },
@@ -32,17 +32,19 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     ],
   },
   {
-    heading: 'Microphone',
+    heading: 'Microphone and family voice',
     paragraphs: [
-      'The microphone is used only inside the parent area, and only when a parent presses record for a family voice recording. Recordings stay on this device.',
+      'The microphone is used only when a grown-up taps Record in Parent area, Family voice, to record the app’s words in their own voice. The app asks for microphone access there, never in front of your child.',
+      'Recordings are saved only on this device and played back in the app. They are never uploaded, shared or analysed. There is no speech recognition, no text-to-speech and no AI voice.',
+      'Delete one recording in Family voice, or all of a child’s recordings by deleting the child.',
     ],
   },
   {
     heading: 'How to delete your data',
     paragraphs: [
-      'Parent area, Reset progress: resets the active child’s words, stars, stickers and traced letters. The child’s name and family recordings stay.',
-      'Parent area, Children: deleting a child removes their profile, learning progress and traced letters.',
-      'Parent area, Family voice: delete any recording.',
+      'Parent area, Reset progress: resets the active child’s words, stars, stickers and traced letters. The child’s name stays.',
+      'Parent area, Children: deleting a child removes their profile, learning progress, traced letters and family voice recordings.',
+      'Parent area, Family voice: delete any recording. Reset progress keeps recordings.',
       'Delete the app: removes everything stored on the device.',
     ],
   },

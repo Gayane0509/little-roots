@@ -9,7 +9,8 @@ import { ProfileAvatar } from '@/features/profiles/ProfileAvatar';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
 import { Screen } from '@/ui/Screen';
-import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
+import { selectedA11y } from '@/ui/selectedA11y';
+import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 export default function Onboarding() {
   const line = useBuddyLine();
@@ -36,7 +37,7 @@ export default function Onboarding() {
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
           <Buddy mood="cheer" message={line('onboarding_intro')} />
-          <Text accessibilityRole="header" style={styles.question}>What is your name?</Text>
+          <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} accessibilityRole="header" style={styles.question}>What is your name?</Text>
           <TextInput
             accessibilityLabel="Child's first name"
             style={styles.input}
@@ -50,7 +51,7 @@ export default function Onboarding() {
             onSubmitEditing={() => void finish(name)}
           />
           <Text style={styles.note}>Choose your picture</Text>
-          <View style={styles.avatars}>{AVATAR_WORD_IDS.map((id) => <Pressable key={id} accessibilityRole="button" accessibilityLabel={`${id.split('.')[1]} avatar`} accessibilityState={{ selected: avatar === id }} onPress={() => setAvatar(id)} style={[styles.avatar, avatar === id && styles.selected]}><ProfileAvatar wordId={id} size={48} /></Pressable>)}</View>
+          <View style={styles.avatars}>{AVATAR_WORD_IDS.map((id) => <Pressable key={id} accessibilityRole="button" accessibilityLabel={`${id.split('.')[1]} avatar`} {...selectedA11y(avatar === id)} onPress={() => setAvatar(id)} style={[styles.avatar, avatar === id && styles.selected]}><ProfileAvatar wordId={id} size={64} /></Pressable>)}</View>
           <Text style={styles.note}>Stays on this device only.</Text>
           <BigButton label="Let's go!" disabled={busy} onPress={() => void finish(name)} />
           <BigButton label="Skip" color={colors.textMuted} disabled={busy} onPress={() => void finish('')} />
@@ -74,8 +75,9 @@ const styles = StyleSheet.create({
     fontSize: font.heading,
     color: colors.text,
   },
-  avatars: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
-  avatar: { minWidth: 64, minHeight: 64, alignItems: 'center', justifyContent: 'center', borderRadius: radius.md, borderWidth: 2, borderColor: colors.border },
-  selected: { borderColor: colors.success },
+  // Six pictures as a 3 × 2 grid of big targets (no lone picture on a second row).
+  avatars: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: spacing.md },
+  avatar: { width: '31%', aspectRatio: 1, alignItems: 'center', justifyContent: 'center', borderRadius: radius.md, borderWidth: 3, borderColor: colors.border, backgroundColor: colors.surface },
+  selected: { borderColor: colors.success, borderWidth: 4, backgroundColor: '#E9F8EF' },
   note: { fontSize: font.small, color: colors.textMuted },
 });

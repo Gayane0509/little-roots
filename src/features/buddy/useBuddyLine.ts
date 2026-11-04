@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
 
-import { PHRASES, type PhraseKey } from '@/content/phrases';
+import { ACTIVE_PACK, type PhraseKey } from '@/content/packs';
 import { useSettings } from '@/state/settings';
 import { formatBuddyLine, type BuddyVars } from './formatBuddyLine';
 
 export function useBuddyLine() {
   const { buddyLanguage } = useSettings();
-  return useCallback((key: PhraseKey, vars?: BuddyVars) => formatBuddyLine(PHRASES[key], buddyLanguage, vars), [buddyLanguage]);
+  return useCallback((key: PhraseKey, vars?: BuddyVars) => formatBuddyLine(ACTIVE_PACK.phrases[key], buddyLanguage, vars), [buddyLanguage]);
 }

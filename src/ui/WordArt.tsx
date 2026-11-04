@@ -17,7 +17,7 @@ export const WordArt = memo(function WordArt({ wordId, emoji, size }: WordArtPro
   const xml = getWordArt(wordId);
   if (!xml) {
     return (
-      <Text style={{ fontSize: size * 0.8, lineHeight: size }} accessible={false}>
+      <Text style={{ fontSize: size * 0.8, lineHeight: size }} accessible={false} allowFontScaling={false}>
         {emoji}
       </Text>
     );

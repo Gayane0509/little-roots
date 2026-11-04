@@ -363,15 +363,3 @@ export const THEMES: Theme[] = [
     },
   },
 ];
-
-export function getTheme(id: ThemeId): Theme {
-  const theme = THEMES.find((t) => t.id === id);
-  if (!theme) throw new Error(`Unknown theme: ${id}`);
-  return theme;
-}
-
-const WORDS_BY_ID = new Map<string, Word>(THEMES.flatMap((t) => t.words).map((w) => [w.id, w]));
-
-export function getWord(id: string): Word | undefined {
-  return WORDS_BY_ID.get(id);
-}
