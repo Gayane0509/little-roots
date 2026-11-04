@@ -2,7 +2,7 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-04 (21:30 run)
+## 2026-11-04 (21:30 run; lock taken 21:34)
 - claude · #85 review (reviewer subagent): no blockers. Low 1 (tight rhyme gap also on 700–859 px tall tablets) is
   intended — the fit depends on height and `artSizes.test.ts` already pins 1024×768 → `songGap: sm`; low 2 (812 px
   threshold has little slack) → recorded as unverified on device (#10). No code change.
@@ -45,6 +45,10 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   orange action (fits kids-store guidance against pushing purchases at children). Files: `src/app/index.tsx`,
   `src/features/home/homeOrder.test.ts`. Checks: `npm run check` — 65 suites / 268 tests ✓; web 375×667 screenshot.
   Commit: see git log.
+- claude · #90/#91 review (reviewer subagent): no defects; white on `textMuted` 4.98:1 (AA); nits kept (free-done
+  Buddy line has no name by design; source-regex guard tests; intro WordArt fallback guarded by its test). Web 1024×768
+  Home checked. Durable decisions added to AI_DECISIONS.md (short-window rule, grown-up prompts secondary, no emoji
+  pictures). Run checkpoint: everything up to this notes commit pushed; preview data restored except Ben marked traced.
 
 ## 2026-11-04 (20:30 run)
 - claude · #80 Hills scene crop on wide screens: clouds moved down (art top y = 22), `sceneHeight` keeps the
