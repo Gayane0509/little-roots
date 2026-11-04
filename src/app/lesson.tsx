@@ -221,13 +221,15 @@ function ReadyLesson() {
           <Buddy message={line('lesson_done')} mood="proud" outfit={outfit} />
           <Animated.View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={{ transform: [{ scale: burst }] }}><Icon name="stickers" size={art.reward} /></Animated.View>
           <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.heading} accessibilityRole="header">You earned {3 + firstTryCorrect} stars!</Text>
-          {showNewSticker && lesson.newWords[0] && <View accessible accessibilityRole="text" accessibilityLabel={`New sticker: ${lesson.newWords[0].en}`} style={styles.stickerRow}>
+          {showNewSticker && lesson.newWords[0] && <View style={[styles.rewardRows, art.rewardRowsSideBySide && styles.rewardRowsSideBySide]}>
+          <View accessible accessibilityRole="text" accessibilityLabel={`New sticker: ${lesson.newWords[0].en}`} style={styles.stickerRow}>
             <Text style={styles.sticker}>New sticker:</Text>
             <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={lesson.newWords[0].id} emoji={lesson.newWords[0].emoji} size={art.sticker} /></View>
-          </View>}
+          </View>
           {newOutfit && <View accessible accessibilityRole="text" accessibilityLabel={`New for ${BUDDY_NAME.en}: ${OUTFIT_LABEL[newOutfit].toLowerCase()}. Dress up ${BUDDY_NAME.en} in the sticker book.`} style={styles.stickerRow}>
             <Text style={styles.sticker}>New for {BUDDY_NAME.hy}:</Text>
-            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={styles.newOutfit}><OutfitPortrait outfit={newOutfit} /></View>
+            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[styles.newOutfit, { width: art.sticker, height: art.sticker }]}><OutfitPortrait outfit={newOutfit} /></View>
+          </View>}
           </View>}
         </>}
       </ScrollView>
@@ -274,7 +276,9 @@ const styles = StyleSheet.create({
   songHy: { color: colors.text, fontSize: font.heading, fontWeight: '700', textAlign: 'center' },
   songEn: { color: colors.textMuted, fontSize: font.small, textAlign: 'center' },
   sticker: { color: colors.text, fontSize: font.heading, fontWeight: '700' },
-  newOutfit: { width: 96, height: 96, alignItems: 'center', justifyContent: 'center' },
+  newOutfit: { alignItems: 'center', justifyContent: 'center' },
   stickerRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
+  rewardRows: { alignItems: 'center', gap: spacing.lg },
+  rewardRowsSideBySide: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', columnGap: spacing.xl },
   footer: { paddingVertical: spacing.md },
 });

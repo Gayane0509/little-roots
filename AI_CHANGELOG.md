@@ -18,6 +18,11 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   bigger would push the third answer off a 768-tall iPad). Checks: `npm run check` — Jest 62 suites / 258 tests ✓;
   web export ✓; web 375×667 Read + Find, 1024×768 Read. Fast-refresh-only console errors during the edit (import
   added after the call); none on fresh loads. Preview test data (games-today count) restored afterwards.
+- reviewer subagent on #83: no findings.
+- claude · #82 Reward with a new outfit fits tablets: sticker + outfit side by side from 600 px; big art with an
+  outfit only from 768 px. Files: `src/app/lesson.tsx`, `src/features/lesson/artSizes{,.test}.ts`. Checks:
+  `npm run check` — Jest 62 suites / 258 tests ✓; web (preview profile temporarily premium to reach the crown
+  unlock, restored after): 375×812, 600×800, 768×1024, 1024×768 all without scroll.
 
 ## 2026-11-04 (profile picker on tablets, #79)
 - claude · From 600 px the "Who is learning?" cards are 3 a row (31 %, near-square) with 120 px avatars (was 2 long
