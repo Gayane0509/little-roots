@@ -32,6 +32,18 @@ and Play Console (nothing is submitted by agents). Public policy text stays in `
   Children, which also deletes that child's recordings) or uninstall.
 - Encryption in transit: not applicable (nothing is transmitted).
 
+## Age rating (draft, 2026-11-04)
+- Apple now asks more age-rating questions (including in-app controls and age assurance) and shows content labels on the
+  product page. Facts for the answers: no violence, scary, mature or gambling content; no user-generated content shared
+  between users (family voice recordings stay on the device and are heard only on it); no chat, messaging or web
+  browsing; no external links for children. In-app controls: the parent gate guards settings, family voice, reminders,
+  sharing and the paywall. Age assurance: none (no accounts, nothing age-restricted); the Declared Age Range API is not
+  needed. Expected result: 4+ in the Kids Category (age band chosen by the owner).
+- Google Play (IARC questionnaire): same facts; expected "Everyone" / PEGI 3. Play's 2026 Families changes (anonymous
+  chat apps, Contacts permission) don't apply: no chat, no contacts access.
+- Owner to confirm the exact questions on the forms when submitting; this draft was written from Apple's and Google's
+  developer pages, not from the live forms.
+
 ## Owner to confirm
 1. Families policy: target age groups and teacher-approved status. The app uses the microphone (parent-only family
    voice, on-device): confirm Play's Families/permissions declaration describes it as a parent feature and that audio

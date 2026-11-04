@@ -2,6 +2,16 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (research: store rules + learning evidence, #64/#65)
+- claude · Research only, no app code. Apple: expanded age-rating questions and content-control labels, Declared Age
+  Range API (not needed: no accounts). Google Play: 2026 Families changes target anonymous chat apps and Contacts
+  permission (not applicable). Learning: spaced retrieval helps preschool word learning, including recognising the word
+  in new pictures → idea #65. Age-rating facts drafted in `STORE_PRIVACY_ANSWERS.md`.
+- Sources: developer.apple.com/kids, support.google.com/googleplay/android-developer/answer/9893335,
+  pubmed.ncbi.nlm.nih.gov/2010724.
+- Files: `STORE_PRIVACY_ANSWERS.md`, `AI_TASKS.md`. Checks: `npm run check` ✓ (docs only).
+- Commit: see git log ("Research: age-rating draft").
+
 ## 2026-11-04 (second rhymes for Family and Food, #62)
 - claude · Themes can carry more rhymes (`moreSongs`); each rhyme lists the words it uses (`wordIds`) and the lesson
   shows the one that uses most of that lesson's words, ties keeping the first rhyme. Family gets "Together" (baby,
