@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
-import { AccessibilityInfo, Animated, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { AccessibilityInfo, Animated, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
 import { ACTIVE_PACK } from '@/content/packs';
 import { themeArtWordId } from '@/content/themeArt';
@@ -27,7 +27,7 @@ import { TapHint } from '@/ui/TapHint';
 import { useAutoPlayWord, VoiceButton } from '@/ui/VoiceButton';
 import { Wiggle } from '@/ui/Wiggle';
 import { WordArt } from '@/ui/WordArt';
-import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
+import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN, WIDE_BREAKPOINT } from '@/ui/tokens';
 
 export default function LessonScreen() {
   const line = useBuddyLine();
@@ -42,6 +42,8 @@ function ReadyLesson() {
   const { soundEffects, haptics } = useSettings();
   const { state, recordAnswer, completeLesson } = useProgress();
   const outfit = wornOutfit(state);
+  // Wide windows: bigger answer pictures so they fill the wider option cards (#71).
+  const optionArt = useWindowDimensions().width >= WIDE_BREAKPOINT ? 120 : 88;
   const [lesson] = useState<DailyLesson | null>(() => buildDailyLesson({
     themes: ACTIVE_PACK.themes, words: state.words, isPremium: state.isPremium, now: Date.now(),
   }));
@@ -192,7 +194,7 @@ function ReadyLesson() {
                   accessibilityState={{ disabled: feedbackPending, selected: selectedId === word.id }}
                   accessibilityHint="Double tap to choose this picture" disabled={feedbackPending}
                   onPress={() => answer(word)} style={[styles.option, selectedId === word.id && styles.optionCorrect]}>
-                  <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={word.id} emoji={word.emoji} size={88} /></View>
+                  <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={word.id} emoji={word.emoji} size={optionArt} /></View>
                   {selectedId === word.id && <View style={styles.check} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.checkText}>✓</Text></View>}
                 </Pressable>
                 </HintPulse>

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Animated, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Animated, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
 import type { Word } from '@/content/types';
 import { useBuddyLine } from '@/features/buddy/useBuddyLine';
@@ -13,7 +13,7 @@ import { Buddy } from '@/ui/Buddy';
 import { HINT_AFTER_MISSES, HintPulse } from '@/ui/HintPulse';
 import { useAutoPlayWord, VoiceButton } from '@/ui/VoiceButton';
 import { WordArt } from '@/ui/WordArt';
-import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
+import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN, WIDE_BREAKPOINT } from '@/ui/tokens';
 
 import { buildChoiceRounds, type ChoiceRound } from './logic';
 import { GameDoneActions } from './GameDoneActions';
@@ -27,6 +27,8 @@ export function ChoiceGame({ mode, seenWords, onFinishedChange }: { mode: Mode; 
   const line = useBuddyLine();
   const { soundEffects, haptics } = useSettings();
   const { recordAnswer, recordGamePlayed } = useProgressActions();
+  // Wide windows: bigger answer pictures so they fill the wider option cards (#71).
+  const optionArt = useWindowDimensions().width >= WIDE_BREAKPOINT ? 112 : 80;
   const optionCount = mode === 'find' ? Math.min(4, seenWords.length) : 3;
   const [rounds, setRounds] = useState<ChoiceRound[]>(() => buildChoiceRounds(seenWords, optionCount));
   const [index, setIndex] = useState(0);
@@ -175,7 +177,7 @@ export function ChoiceGame({ mode, seenWords, onFinishedChange }: { mode: Mode; 
                 ]}
               >
                 {mode === 'find' ? (
-                  <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={option.id} emoji={option.emoji} size={80} /></View>
+                  <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={option.id} emoji={option.emoji} size={optionArt} /></View>
                 ) : (
                   <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.optionWord}>{option.hy}</Text>
                 )}

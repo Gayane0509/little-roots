@@ -2,6 +2,13 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (bigger answer pictures on wide screens, #71)
+- claude · From 600 px the lesson's answer pictures grow 88 → 120 px and the Find game's 80 → 112 px.
+- Files: `src/app/lesson.tsx`, `src/features/games/ChoiceGame.tsx`.
+- Checks: tsc ✓, ESLint ✓, Jest 58 suites / 241 tests ✓. Web: lesson round at 1024×768 (4 options fit). Find game not
+  replayed (free-game limit reached for today in the preview). Test child's data restored afterwards.
+- Commit: see git log ("Bigger answer pictures on wide screens").
+
 ## 2026-11-04 (emoji-free spoken button labels, #70)
 - claude · `BigButton` gives screen readers the label without decorative emoji or ▶ (`ui/spokenLabel`); the visible
   text keeps them. Affects Parent home buttons and the theme page's "▶ Start a lesson".
