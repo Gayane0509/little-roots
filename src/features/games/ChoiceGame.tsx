@@ -13,8 +13,9 @@ import { Buddy } from '@/ui/Buddy';
 import { HINT_AFTER_MISSES, HintPulse } from '@/ui/HintPulse';
 import { useAutoPlayWord, VoiceButton } from '@/ui/VoiceButton';
 import { WordArt } from '@/ui/WordArt';
-import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN, WIDE_BREAKPOINT } from '@/ui/tokens';
+import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing } from '@/ui/tokens';
 
+import { choiceLayout } from './choiceLayout';
 import { buildChoiceRounds, type ChoiceRound } from './logic';
 import { GameDoneActions } from './GameDoneActions';
 
@@ -27,8 +28,7 @@ export function ChoiceGame({ mode, seenWords, onFinishedChange }: { mode: Mode; 
   const line = useBuddyLine();
   const { soundEffects, haptics } = useSettings();
   const { recordAnswer, recordGamePlayed } = useProgressActions();
-  // Wide windows: bigger answer pictures so they fill the wider option cards (#71).
-  const optionArt = useWindowDimensions().width >= WIDE_BREAKPOINT ? 112 : 80;
+  const layout = choiceLayout(useWindowDimensions());
   const optionCount = mode === 'find' ? Math.min(4, seenWords.length) : 3;
   const [rounds, setRounds] = useState<ChoiceRound[]>(() => buildChoiceRounds(seenWords, optionCount));
   const [index, setIndex] = useState(0);
@@ -145,8 +145,8 @@ export function ChoiceGame({ mode, seenWords, onFinishedChange }: { mode: Mode; 
           <VoiceButton wordId={round.answer.id} label={round.answer.translit} />
         </View>
       ) : (
-        <View style={styles.picture} accessible accessibilityRole="image" accessibilityLabel={`Picture of ${round.answer.en}`}>
-          <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={round.answer.id} emoji={round.answer.emoji} size={128} /></View>
+        <View style={[styles.picture, { paddingVertical: layout.picturePadding }]} accessible accessibilityRole="image" accessibilityLabel={`Picture of ${round.answer.en}`}>
+          <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={round.answer.id} emoji={round.answer.emoji} size={layout.pictureArt} /></View>
         </View>
       )}
 
@@ -171,13 +171,14 @@ export function ChoiceGame({ mode, seenWords, onFinishedChange }: { mode: Mode; 
                 onPress={() => choose(option)}
                 style={({ pressed }) => [
                   styles.option,
+                  { minHeight: layout.optionMinHeight },
                   isWrong && styles.wrong,
                   isRight && styles.right,
                   { transform: [{ scale: pressed ? 0.96 : 1 }] },
                 ]}
               >
                 {mode === 'find' ? (
-                  <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={option.id} emoji={option.emoji} size={optionArt} /></View>
+                  <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={option.id} emoji={option.emoji} size={layout.optionArt} /></View>
                 ) : (
                   <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.optionWord}>{option.hy}</Text>
                 )}
@@ -208,7 +209,6 @@ const styles = StyleSheet.create({
     borderRadius: radius.lg,
     borderWidth: 3,
     borderColor: colors.border,
-    paddingVertical: spacing.lg,
   },
   options: { gap: spacing.md },
   // Two columns: the items plus the row gap must fit in 100%, or the grid collapses to one column.
@@ -216,7 +216,6 @@ const styles = StyleSheet.create({
   gridItem: { width: '46%' },
   rowItem: { width: '100%' },
   option: {
-    minHeight: TOUCH_MIN + 40,
     borderRadius: radius.md,
     borderWidth: 3,
     borderColor: colors.border,

@@ -13,6 +13,11 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   (pre-existing ~21 px overflow with an outfit row at 1024×768).
 - reviewer subagent on #80 + #81: no blocking findings; 3 low fixed (threshold tests, "~980 px" wording + 979 test,
   path guard fails on non-absolute commands). Checks: `npm run check` — Jest 61 suites / 255 tests ✓.
+- claude · #83 Read game fits short phones: `src/features/games/choiceLayout{,.test}.ts`, `ChoiceGame.tsx` uses it
+  (compact picture + rows below 760 px tall). Also checked: Read game at 1024×768 fits (picture kept at 128 px —
+  bigger would push the third answer off a 768-tall iPad). Checks: `npm run check` — Jest 62 suites / 258 tests ✓;
+  web export ✓; web 375×667 Read + Find, 1024×768 Read. Fast-refresh-only console errors during the edit (import
+  added after the call); none on fresh loads. Preview test data (games-today count) restored afterwards.
 
 ## 2026-11-04 (profile picker on tablets, #79)
 - claude · From 600 px the "Who is learning?" cards are 3 a row (31 %, near-square) with 120 px avatars (was 2 long
