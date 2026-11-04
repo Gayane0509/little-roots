@@ -34,6 +34,12 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   `src/features/letters/{exampleArt,exampleArt.test,LetterDetail}.ts(x)`. Checks: `npm run check` — tsc, ESLint, Jest
   65 suites / 266 tests ✓ (first run caught a direct `@/content/alphabet` import → now via `@/content/packs`); web 375×812:
   Ben shows the drawn duck, no console errors. Commit: see git log.
+- claude · #88/#89 review (reviewer subagent): no actionable defects (score uses the real canvas size, remount on size
+  change, no `letters` theme-id collision, SVG subset respected).
+- claude · #90 Parent intro: the five steps' emoji replaced with the app's drawn art (Buddy waving, read, voice,
+  clock, sprout; 96 px). Files: `src/features/parent/introSteps{,.test}.ts`, `src/app/parent/intro.tsx`. Checks: `npm
+  run check` — tsc, ESLint, Jest 65 suites / 267 tests ✓; web 375×667: all 5 steps (through the parent gate), no
+  console errors. Commit: see git log.
 
 ## 2026-11-04 (20:30 run)
 - claude · #80 Hills scene crop on wide screens: clouds moved down (art top y = 22), `sceneHeight` keeps the

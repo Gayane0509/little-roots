@@ -35,7 +35,7 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
 - 2026-11-04: **Family voice (#60, owner's top priority; replaces "No voice")** — parent records words on
   Parent → Family voice; played on lesson cards/rounds, theme page, Find; on-device only, per child + language; mic
   asked only there. Web-verified; native check #61 blocked on Xcode.
-- Checks (2026-11-04, after #89): `npm run check` — tsc, ESLint, Jest 65 suites / 266 tests; web export ✓ (after #83); expo-doctor 20/20 (after #77).
+- Checks (2026-11-04, after #89): `npm run check` — tsc, ESLint, Jest 65 suites / 267 tests; web export ✓ (after #83); expo-doctor 20/20 (after #77).
 - Checks (working tree, 2026-11-04 00:05): tsc, ESLint, Jest 46 suites / 189 tests; expo-doctor 20/20 (last run 2026-11-03).
 - 2026-11-04: #52 picture pass (4 redraws, bike fix), #53 Family + Food grow to 12 words with new drawings (104 words), #54 clearer parent weekly report, #59 first-lesson tap hint.
 - 2026-11-04 17:30 run: #57 Home "Next up" marker (Buddy badge + "Next" ribbon on the theme new words come from;
@@ -61,8 +61,9 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
   (375×667) sweep → #86 Home lesson button above the grown-up card, #87 onboarding "Let's go!" on screen (+ 320 px
   avatar follow-up), #88 letter tracing canvas capped by height so Done stays in the sheet; Memory, parent gate,
   profiles fit; Letters/Stickers/theme/Games scroll as lists. #89 drawn pictures for the 18 letter examples that showed
-  emoji (done; snake/football/rose redrawn after a contact-sheet check). Reviewer subagents on #85 and #86/#87: no blockers.
-- Next unblocked: review #88/#89 diffs (not yet reviewed); tablet check of the tracing sheet (1024×768 →
+  emoji (done; snake/football/rose redrawn after a contact-sheet check); #90 parent intro emoji → drawn art. Reviewer
+  on #88/#89: no defects. Reviewer subagents on #85 and #86/#87: no blockers.
+- Next unblocked: Home free-words-finished state shows two Buddies (low design nit, not logged as done); tablet check of the tracing sheet (1024×768 →
   335 px canvas); #49 (1.5), #65 idea (1.5); then research. Native: #10/#14/#16/#39/#50/#61 check.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 

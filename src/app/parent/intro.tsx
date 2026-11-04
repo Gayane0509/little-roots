@@ -6,8 +6,13 @@ import { useParentGuard } from '@/features/parent/gate';
 import { INTRO_STEPS } from '@/features/parent/introSteps';
 import { useSettings } from '@/state/settings';
 import { BigButton } from '@/ui/BigButton';
+import { Buddy } from '@/ui/Buddy';
+import { Icon } from '@/ui/Icon';
 import { Screen } from '@/ui/Screen';
+import { WordArt } from '@/ui/WordArt';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
+
+const INTRO_PICTURE = 96;
 
 export default function ParentIntroScreen() {
   const guard = useParentGuard('/parent/intro');
@@ -47,7 +52,9 @@ export default function ParentIntroScreen() {
         </View>
 
         <View style={styles.card}>
-          {step.emoji ? <View accessible={false} importantForAccessibility="no-hide-descendants" accessibilityElementsHidden><Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.emoji}>{step.emoji}</Text></View> : null}
+          <View style={styles.picture} accessible={false} importantForAccessibility="no-hide-descendants" accessibilityElementsHidden>
+            {step.picture.kind === 'buddy' ? <Buddy mood="wave" size={INTRO_PICTURE} /> : step.picture.kind === 'icon' ? <Icon name={step.picture.name} size={INTRO_PICTURE} /> : <WordArt wordId={step.picture.wordId} emoji="" size={INTRO_PICTURE} />}
+          </View>
           <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.title} accessibilityRole="header">{step.title}</Text>
           <Text style={styles.body}>{step.body}</Text>
           {step.id === 'daily-reminder' && Platform.OS === 'web' ? (
@@ -75,7 +82,7 @@ const styles = StyleSheet.create({
   dot: { width: spacing.sm, height: spacing.sm, borderRadius: radius.round, backgroundColor: colors.border },
   activeDot: { backgroundColor: colors.primary, width: spacing.lg },
   card: { gap: spacing.md, padding: spacing.lg, borderRadius: radius.md, backgroundColor: colors.surface },
-  emoji: { fontSize: font.word, textAlign: 'center' },
+  picture: { alignItems: 'center' },
   title: { color: colors.text, fontSize: font.title, fontWeight: '800' },
   body: { color: colors.text, fontSize: font.body },
   note: { color: colors.textMuted, fontSize: font.body },
