@@ -2,6 +2,14 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (emoji-free spoken button labels, #70)
+- claude · `BigButton` gives screen readers the label without decorative emoji or ▶ (`ui/spokenLabel`); the visible
+  text keeps them. Affects Parent home buttons and the theme page's "▶ Start a lesson".
+- Files: `src/ui/spokenLabel.ts` (+ test), `src/ui/BigButton.tsx`.
+- Checks: tsc ✓, ESLint ✓, Jest 58 suites / 241 tests ✓. Web: theme button `aria-label` "Start a lesson". Parent area
+  at 320 px: no horizontal overflow (checked through the gate).
+- Commit: see git log ("Emoji-free spoken button labels").
+
 ## 2026-11-04 (theme page fits wide screens, #69; iPad orientation finding, #68)
 - claude · Theme page shows 3 word cards a row with 120 px pictures from 600 px (phones keep 2 a row, 84 px).
   Research: on iPad the app rotates (Expo adds every iPad orientation unless `requireFullScreen`); landscape layouts

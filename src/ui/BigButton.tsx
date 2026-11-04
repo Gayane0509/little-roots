@@ -7,6 +7,7 @@ import { useSettings } from '@/state/settings';
 import { labelColorOn } from './contrast';
 import { Icon } from './Icon';
 import { selectedA11y } from './selectedA11y';
+import { spokenLabel } from './spokenLabel';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from './tokens';
 
 interface BigButtonProps {
@@ -28,7 +29,7 @@ export function BigButton({ label, onPress, color = colors.primary, disabled, st
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={label}
+      accessibilityLabel={spokenLabel(label)}
       accessibilityHint={accessibilityHint}
       accessibilityState={{ disabled: !!disabled }}
       {...(selected === undefined ? null : selectedA11y(selected))}
