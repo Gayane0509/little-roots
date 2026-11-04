@@ -158,7 +158,7 @@ function ReadyLesson() {
         </View>
       </View>
 
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={[styles.content, { gap: art.gap, paddingVertical: art.gap }]} showsVerticalScrollIndicator={false}>
         {step === 'hello' && <>
           <Buddy message={`${state.childName ? line('greeting', { name: state.childName }) : line('greeting_anon')}\n${lesson.newWords.length ? line(lesson.newWords.length === 1 ? 'lesson_new_word' : 'lesson_new_words', { count: lesson.newWords.length }) : line('lesson_practice')}`} outfit={outfit} />
           <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={themeArtWordId(lesson.theme.id)} emoji={lesson.theme.emoji} size={140} /></View>
@@ -208,7 +208,7 @@ function ReadyLesson() {
           <Buddy message={line('lesson_song')} outfit={outfit} />
           <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.heading} accessibilityRole="header">{lesson.song.title}</Text>
           {lesson.song.lines.map((line, index) => (
-            <Pressable key={index} accessibilityRole="button" accessibilityLabel={`Rhyme line ${index + 1}: ${line.hy}, ${line.en}`} accessibilityState={{ selected: songLineIndex === index }} onPress={() => dispatch({ type: 'SONG_LINE', index })} style={[styles.songLine, songLineIndex === index && styles.songLineActive]}>
+            <Pressable key={index} accessibilityRole="button" accessibilityLabel={`Rhyme line ${index + 1}: ${line.hy}, ${line.en}`} accessibilityState={{ selected: songLineIndex === index }} onPress={() => dispatch({ type: 'SONG_LINE', index })} style={[styles.songLine, { padding: art.songLinePadding }, songLineIndex === index && styles.songLineActive]}>
               <Text style={styles.songHy}>{line.hy}</Text>
               <Text style={styles.songEn}>{line.en}</Text>
             </Pressable>
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
   dots: { flex: 1, flexDirection: 'row', justifyContent: 'center', gap: spacing.sm, paddingRight: TOUCH_MIN },
   dot: { width: 12, height: 12, borderRadius: radius.round, backgroundColor: colors.border },
   dotActive: { backgroundColor: colors.primary },
-  content: { flexGrow: 1, alignItems: 'center', gap: spacing.lg, paddingVertical: spacing.lg },
+  content: { flexGrow: 1, alignItems: 'center' },
   centered: { flexGrow: 1, justifyContent: 'center', gap: spacing.xl },
   heading: { color: colors.text, fontSize: font.title, fontWeight: '800', textAlign: 'center' },
   counter: { color: colors.textMuted, fontSize: font.body, fontWeight: '700' },
@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
   optionCorrect: { borderColor: colors.success, backgroundColor: '#E9F8EF' },
   check: { position: 'absolute', right: spacing.md, top: spacing.sm },
   checkText: { color: colors.successText, fontSize: 34, fontWeight: '800' },
-  songLine: { width: '100%', minHeight: TOUCH_MIN, justifyContent: 'center', padding: spacing.md, backgroundColor: colors.surface, borderRadius: radius.md, borderWidth: 2, borderColor: colors.border },
+  songLine: { width: '100%', minHeight: TOUCH_MIN, justifyContent: 'center', backgroundColor: colors.surface, borderRadius: radius.md, borderWidth: 2, borderColor: colors.border },
   songLineActive: { borderColor: colors.primary, backgroundColor: '#FFF0DF' },
   songHy: { color: colors.text, fontSize: font.heading, fontWeight: '700', textAlign: 'center' },
   songEn: { color: colors.textMuted, fontSize: font.small, textAlign: 'center' },

@@ -1,26 +1,30 @@
 import { expect, test } from '@jest/globals';
 
-import { lessonArtSizes, REWARD_BIG_WITH_OUTFIT_FROM } from './artSizes';
+import { spacing } from '@/ui/tokens';
+
+import { LESSON_COMPACT_BELOW, lessonArtSizes, REWARD_BIG_WITH_OUTFIT_FROM } from './artSizes';
 
 test('phones keep the small pictures', () => {
-  expect(lessonArtSizes(375, 812, false)).toEqual({ option: 88, card: 160, reward: 140, sticker: 96, rewardRowsSideBySide: false });
+  expect(lessonArtSizes(375, 812, false)).toEqual({ option: 88, card: 160, reward: 140, sticker: 96, rewardRowsSideBySide: false, gap: spacing.lg, songLinePadding: spacing.md });
 });
 
 test('tall tablets get bigger pictures, a bigger reward and the sticker + outfit side by side', () => {
-  expect(lessonArtSizes(1024, 768, false)).toEqual({ option: 120, card: 220, reward: 180, sticker: 128, rewardRowsSideBySide: true });
+  expect(lessonArtSizes(1024, 768, false)).toEqual({ option: 120, card: 220, reward: 180, sticker: 128, rewardRowsSideBySide: true, gap: spacing.lg, songLinePadding: spacing.md });
 });
 
-
-test('wide but short windows grow only the answer pictures', () => {
-  expect(lessonArtSizes(1024, 600, false)).toEqual({ option: 120, card: 160, reward: 140, sticker: 96, rewardRowsSideBySide: true });
+test('short windows (iPhone SE, landscape) get the compact lesson; wide ones keep the big answer pictures', () => {
+  expect(lessonArtSizes(375, 667, false)).toEqual({ option: 88, card: 104, reward: 104, sticker: 80, rewardRowsSideBySide: false, gap: spacing.sm, songLinePadding: spacing.sm });
+  expect(lessonArtSizes(1024, 600, false)).toMatchObject({ option: 120, card: 104, reward: 104, sticker: 80, gap: spacing.sm });
+  expect(lessonArtSizes(375, LESSON_COMPACT_BELOW - 1, false).gap).toBe(spacing.sm);
+  expect(lessonArtSizes(375, LESSON_COMPACT_BELOW, false)).toMatchObject({ card: 160, gap: spacing.lg });
 });
 
 test('the thresholds are 600 px wide and 700 px tall, inclusive', () => {
   expect(lessonArtSizes(599, 900, false).option).toBe(88);
   expect(lessonArtSizes(599, 900, false).rewardRowsSideBySide).toBe(false);
   expect(lessonArtSizes(600, 900, false).option).toBe(120);
-  expect(lessonArtSizes(600, 699, false).card).toBe(160);
-  expect(lessonArtSizes(600, 700, false)).toEqual({ option: 120, card: 220, reward: 180, sticker: 128, rewardRowsSideBySide: true });
+  expect(lessonArtSizes(600, 699, false).card).toBe(104);
+  expect(lessonArtSizes(600, 700, false)).toMatchObject({ option: 120, card: 220, reward: 180, sticker: 128, rewardRowsSideBySide: true });
 });
 
 test('a reward with a new outfit gets the big art only where the side-by-side row fits', () => {

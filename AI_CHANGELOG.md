@@ -23,6 +23,10 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   outfit only from 768 px. Files: `src/app/lesson.tsx`, `src/features/lesson/artSizes{,.test}.ts`. Checks:
   `npm run check` — Jest 62 suites / 258 tests ✓; web (preview profile temporarily premium to reach the crown
   unlock, restored after): 375×812, 600×800, 768×1024, 1024×768 all without scroll.
+- reviewer subagent on #82: no findings.
+- claude · #84 Compact lesson on short phones (< 700 px tall). Files: `src/app/lesson.tsx`,
+  `src/features/lesson/artSizes{,.test}.ts`. Checks: `npm run check` — Jest 62 suites / 258 tests ✓; web 375×667
+  every step (rhyme 13 px over, noted), 375×812 unchanged. Logged #85 (rhyme at 375×812, pre-existing).
 
 ## 2026-11-04 (profile picker on tablets, #79)
 - claude · From 600 px the "Who is learning?" cards are 3 a row (31 %, near-square) with 120 px avatars (was 2 long
