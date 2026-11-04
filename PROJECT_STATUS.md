@@ -44,7 +44,8 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
   #64 store-rule research (age-rating draft, no app change); #63 hills behind game finish screens.
 - 2026-11-04 18:30 run: #58 Buddy dress-up (hat / glasses / crown unlocked by stickers; picker on Stickers; worn on
   Home + lesson; reviewer subagent findings fixed; web 320 / 375 / 1024 px). #66 sticker book fits wide screens (4 columns ≥ 600 px,
-  art scales with tile); #67 lesson reward shows a newly unlocked outfit (web-checked 5 → 6 stickers).
+  art scales with tile); #67 lesson reward shows a newly unlocked outfit (web-checked 5 → 6 stickers); #68 iPad rotates to landscape
+  (finding, owner decision; landscape layouts fit at 1024×768). Screen sweep at 320 px: no horizontal overflow.
 - Next unblocked: #49 (1.5), #65 idea (1.5); research for new scored tasks. Native:
   #10/#14/#16/#39/#50/#61 check.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
@@ -61,7 +62,8 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
    9631980 is committed. The hourly `little-roots-daily` task (17:30–01:00) follows the same rule, bans voice features
    other than Family voice, and puts images/design first.
 5. #40 Proposal: release Android build without the INTERNET permission (needs a config plugin + native test).
-6. #47 Proposal: migration treats an empty-default `.hy` record as missing so a kept old record is shown (stored-data
+6. #68 Decision: keep iPad rotation (recommended) or set `ios.requireFullScreen: true` (portrait-only iPad, no Split View).
+7. #47 Proposal: migration treats an empty-default `.hy` record as missing so a kept old record is shown (stored-data
    contract change).
 (No bundled native-speaker recordings: since 2026-11-04 each family records its own words in Family voice.)
 

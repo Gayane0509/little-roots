@@ -140,3 +140,9 @@ Durable decisions with reasons. Newest first. Earlier ones are summarized from `
   only while the sticker count still unlocks it, so a progress reset takes the outfit off too.
 - Rules live in `src/lib/outfits.ts` (ui and state may import lib, never features).
 
+## 2026-11-04 — iPad orientation (#68, finding; owner to confirm)
+- With `supportsTablet: true` and no `ios.requireFullScreen`, Expo adds all iPad orientations (Apple's multitasking
+  rule), so iPads rotate; phones stay portrait. Layouts are checked at 1024×768 on web. No change made: switching to
+  `requireFullScreen: true` is store-critical config and needs the owner. Sources: expo/fyi "ipad-requires-fullscreen",
+  `@expo/config-plugins` RequiresFullScreen.
+
