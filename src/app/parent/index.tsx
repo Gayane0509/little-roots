@@ -116,7 +116,7 @@ export default function ParentArea() {
           {teaserWords.map((word) => <View key={word.id} style={styles.teaserRow}><WordArt wordId={word.id} emoji={word.emoji} size={32} /><Text style={styles.body}>{word.hy} · {word.en}</Text></View>)}
           <Text style={styles.muted}>Sample preview · more words and mastery details with Premium…</Text>
         </View> : null}
-        <BigButton label="📈 Full progress" onPress={() => router.push(canSeeFullReport(state.isPremium) ? '/parent/report' : { pathname: '/parent/paywall', params: { reason: 'report' } })} />
+        <BigButton label="Full progress" icon="chart" onPress={() => router.push(canSeeFullReport(state.isPremium) ? '/parent/report' : { pathname: '/parent/paywall', params: { reason: 'report' } })} />
 
         <Text accessibilityRole="header" style={styles.heading}>Family voice</Text>
         <Text style={styles.body}>Record the words in your own voice so {active?.name ?? 'your child'} hears them in the app. Recordings stay on this device.</Text>
@@ -136,19 +136,19 @@ export default function ParentArea() {
           <>
             <Text accessibilityRole="header" style={styles.heading}>Daily reminder</Text>
             <Text style={styles.body}>A gentle reminder for you to do the daily lesson together.</Text>
-            <BigButton label="⏰ Reminder" color={colors.primary} onPress={() => router.push('/parent/reminders')} />
+            <BigButton label="Reminder" icon="clock" color={colors.primary} onPress={() => router.push('/parent/reminders')} />
           </>
         ) : null}
 
         <Text accessibilityRole="header" style={styles.heading}>Getting started</Text>
-        <BigButton label="💡 How Little Roots works" color={colors.primary} onPress={() => router.push({ pathname: '/parent/intro', params: { replay: '1' } })} />
+        <BigButton label="How Little Roots works" icon="bulb" color={colors.primary} onPress={() => router.push({ pathname: '/parent/intro', params: { replay: '1' } })} />
 
         <Text accessibilityRole="header" style={styles.heading}>Settings</Text>
-        <BigButton label="⚙️ Sound & Buddy language" color={colors.primary} onPress={() => router.push('/parent/settings')} />
+        <BigButton label="Sound & Buddy language" icon="gear" color={colors.primary} onPress={() => router.push('/parent/settings')} />
 
         <Text accessibilityRole="header" style={styles.heading}>Privacy</Text>
         <Text style={styles.body}>All progress is stored only on this device. No accounts, no ads, no tracking.</Text>
-        <BigButton label="🔒 Privacy" color={colors.textMuted} onPress={() => router.push('/parent/privacy')} />
+        <BigButton label="Privacy" icon="lock" color={colors.textMuted} onPress={() => router.push('/parent/privacy')} />
 
         <BigButton label="Reset progress" color={colors.danger} onPress={confirmReset} />
         <BigButton label="Back to home" color={colors.textMuted} onPress={() => router.replace('/')} />

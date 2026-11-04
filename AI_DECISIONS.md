@@ -12,6 +12,8 @@ Durable decisions with reasons. Newest first. Earlier ones are summarized from `
 - 2026-11-04 · **No emoji pictures (#89, #90).** Every picture a child or parent sees is drawn art in the house style;
   alphabet examples outside the themes live in `src/art/words/letters.ts` (art id `letters.<english_slug>`), and a test
   fails if a letter example has no drawing. Emoji stay only as the `WordArt` fallback and in Buddy's speech text.
+  Since #99/#100 button labels are plain words (a picture goes through BigButton `icon`), guarded by
+  `src/ui/noEmojiLabels.test.ts`; shared text messages (weekly share) may keep emoji.
 - 2026-11-04 · **Second rhymes (#62).** A theme may have `moreSongs`; each rhyme lists the `wordIds` it uses and the
   lesson shows the rhyme that uses most of its words (ties keep `song`, so themes with one rhyme are unchanged). The
   validator checks song ids are unique, belong to the theme and list only that theme's words. New rhymes: Family

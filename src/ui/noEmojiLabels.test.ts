@@ -12,15 +12,8 @@ const screens = readdirSync('src', { recursive: true })
   .filter((file) => file.endsWith('.tsx') && !file.includes('.test.'))
   .map((file) => `src/${file}`);
 
-// Known leftovers, to be replaced by drawn icons in #100. Remove an entry when its button changes; never add one.
-const KNOWN = [
-  'src/app/parent/index.tsx: 📈 Full progress',
-  'src/app/parent/index.tsx: ⏰ Reminder',
-  'src/app/parent/index.tsx: 💡 How Little Roots works',
-  'src/app/parent/index.tsx: ⚙️ Sound & Buddy language',
-  'src/app/parent/index.tsx: 🔒 Privacy',
-  'src/app/theme/[id].tsx: ▶ Start a lesson',
-];
+// Every button label is plain words; a picture goes through BigButton's drawn `icon` (#100). Keep this list empty.
+const KNOWN: string[] = [];
 
 test('no new label="…" on any screen or component contains an emoji', () => {
   const offenders = screens.flatMap((file) =>

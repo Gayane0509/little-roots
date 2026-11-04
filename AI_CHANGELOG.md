@@ -28,6 +28,11 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   `src/app/parent/index.tsx`, `src/features/report/WeeklyShareCard.tsx`, new `src/ui/noEmojiLabels.test.ts`. Checks: `npm run
   check` ✓ (69 suites / 282 tests); guard fails on old code; web 1024×768 parent report. Remaining button emoji → #100.
   Commit: "Parent report: drawn streak flame, plain share label (#99)".
+- claude · #100 last emoji buttons → drawn icons: new `chart`, `clock`, `bulb`, `gear`, `play` icons (house style, art
+  SVG rules); parent menu (Full progress, Reminder, How it works, Settings, Privacy → `lock`) and theme "Start a lesson".
+  Files: `src/art/icons.ts`, `src/app/parent/index.tsx`, `src/app/theme/[id].tsx`, `src/ui/noEmojiLabels.test.ts` (KNOWN
+  emptied). Checks: `npm run check` ✓ (69 / 282); web 375×812 parent menu + icon contact sheet. Not seen: theme Start button
+  (every free theme learned in the test profile). Commit: "Icons: drawn chart, clock, bulb, gear, play replace button emoji (#100)".
 
 ## 2026-11-04 (22:30 run; lock taken 22:34)
 - claude · #92 sheep (letter sheet, Vo): wool `#FFFFFF` → cream `#FFF3DC`, face + ears → grey `#B8BCC6`, hidden

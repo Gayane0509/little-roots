@@ -50,7 +50,7 @@ export default function ThemeDetail() {
           <View style={[styles.barFill, { width: `${total === 0 ? 0 : (learned / total) * 100}%` }]} />
         </View>
 
-        {learned < total ? <BigButton label="▶ Start a lesson" onPress={() => router.push('/lesson')} /> : null}
+        {learned < total ? <BigButton label="Start a lesson" icon="play" onPress={() => router.push('/lesson')} /> : null}
         <View style={styles.grid}>
           {theme.words.map((word) =>
             state.words[word.id] ? (

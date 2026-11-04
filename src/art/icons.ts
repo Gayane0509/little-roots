@@ -1,7 +1,8 @@
 import type { ArtXml } from './types';
 
 /** UI icons drawn in the word-art style (STYLE.md), so they look the same on every platform. */
-export type IconName = 'letters' | 'stickers' | 'games' | 'lock' | 'flame' | 'memory' | 'find' | 'read' | 'sprout' | 'voice' | 'point';
+export type IconName = 'letters' | 'stickers' | 'games' | 'lock' | 'flame' | 'memory' | 'find' | 'read' | 'sprout' | 'voice' | 'point'
+  | 'chart' | 'clock' | 'bulb' | 'gear' | 'play';
 
 export const ICONS: Record<IconName, ArtXml> = {
   // Two alphabet blocks; the yellow one carries the first Armenian letter's shape (Ա).
@@ -116,5 +117,56 @@ export const ICONS: Record<IconName, ArtXml> = {
 <rect x="42" y="106" width="48" height="16" rx="5" fill="#4DA3FF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
 <path d="M38 20 Q34 10 40 2 M78 20 Q82 10 76 2" fill="none" stroke="#FFD23F" stroke-width="5" stroke-linecap="round"/>
 <path d="M54 22 Q54 16 58 15" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+</svg>`,
+  // A progress card with three rising bars and an up arrow.
+  chart: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<g stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<rect x="12" y="14" width="104" height="100" rx="16" fill="#FFFFFF"/>
+<rect x="26" y="74" width="18" height="28" rx="4" fill="#4DA3FF"/>
+<rect x="55" y="58" width="18" height="44" rx="4" fill="#4CC985"/>
+<rect x="84" y="40" width="18" height="62" rx="4" fill="#FF9F43"/>
+</g>
+<path d="M26 56 L52 38 L66 46 L92 24 M80 24 H92 V36" fill="none" stroke="#F25C54" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M20 30 Q22 22 30 20" fill="none" stroke="#B8BCC6" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+</svg>`,
+  // A round alarm clock with two bells.
+  clock: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<g stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<path d="M18 40 A20 20 0 0 1 46 14 Z" fill="#FFD23F"/>
+<path d="M110 40 A20 20 0 0 0 82 14 Z" fill="#FFD23F"/>
+<path d="M36 106 L28 118 M92 106 L100 118" fill="none" stroke-width="6"/>
+<circle cx="64" cy="70" r="46" fill="#F25C54"/>
+<circle cx="64" cy="70" r="34" fill="#FFFFFF"/>
+</g>
+<path d="M64 46 V70 L80 80" fill="none" stroke="#3A2E39" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="64" cy="70" r="5" fill="#3A2E39"/>
+<path d="M30 52 Q36 40 48 34" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+</svg>`,
+  // A glowing light bulb for ideas and tips.
+  bulb: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<path d="M64 4 V14 M18 24 L26 32 M110 24 L102 32 M6 60 H16 M112 60 H122" fill="none" stroke="#FFD23F" stroke-width="6" stroke-linecap="round"/>
+<g stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<path d="M64 20 A36 36 0 0 1 86 84 C82 88 80 92 80 98 H48 C48 92 46 88 42 84 A36 36 0 0 1 64 20 Z" fill="#FFD23F"/>
+<rect x="46" y="98" width="36" height="12" rx="4" fill="#B8BCC6"/>
+<rect x="50" y="110" width="28" height="12" rx="6" fill="#B8BCC6"/>
+</g>
+<path d="M56 98 V78 L64 70 L72 78 V98" fill="none" stroke="#FF9F43" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M44 52 Q46 38 58 32" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.6"/>
+</svg>`,
+  // A friendly settings gear.
+  gear: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<g stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<polygon points="100.9,55.0 115.4,56.2 115.4,71.8 100.9,73.0 96.5,83.7 105.9,94.9 94.9,105.9 83.7,96.5 73.0,100.9 71.8,115.4 56.2,115.4 55.0,100.9 44.3,96.5 33.1,105.9 22.1,94.9 31.5,83.7 27.1,73.0 12.6,71.8 12.6,56.2 27.1,55.0 31.5,44.3 22.1,33.1 33.1,22.1 44.3,31.5 55.0,27.1 56.2,12.6 71.8,12.6 73.0,27.1 83.7,31.5 94.9,22.1 105.9,33.1 96.5,44.3" fill="#9B6BFF"/>
+<circle cx="64" cy="64" r="16" fill="#FFFFFF"/>
+</g>
+<path d="M40 44 Q46 34 58 30" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+</svg>`,
+  // A round green play button for starting a lesson.
+  play: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<g stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<circle cx="64" cy="64" r="54" fill="#4CC985"/>
+<path d="M50 38 L94 64 L50 90 Z" fill="#FFFFFF"/>
+</g>
+<path d="M24 52 Q30 32 50 22" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
 </svg>`,
 };
