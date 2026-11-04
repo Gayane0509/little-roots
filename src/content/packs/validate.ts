@@ -16,7 +16,14 @@ export function validatePack(pack: LanguagePack, reference?: LanguagePack): stri
       if (word.themeId !== theme.id || !word.id.startsWith(`${theme.id}.`)) problems.push(`${word.id}: wrong theme`);
       if (![word.hy, word.translit, word.en].every((text) => text.trim())) problems.push(`${word.id}: empty text`);
     }
-    if (theme.song.lines.length === 0 || theme.song.lines.some((line) => !line.hy.trim() || !line.en.trim())) problems.push(`${theme.id}: empty song line`);
+    const songs = [theme.song, ...(theme.moreSongs ?? [])];
+    if (new Set(songs.map((song) => song.id)).size !== songs.length) problems.push(`${theme.id}: duplicate song ids`);
+    for (const song of songs) {
+      if (song.themeId !== theme.id) problems.push(`${song.id}: wrong theme`);
+      if (song.lines.length === 0 || song.lines.some((line) => !line.hy.trim() || !line.en.trim())) problems.push(`${theme.id}: empty song line`);
+      const unknown = (song.wordIds ?? []).filter((id) => !theme.words.some((word) => word.id === id));
+      if (unknown.length > 0) problems.push(`${song.id}: unknown word ids ${unknown.join(', ')}`);
+    }
   }
   for (const [key, phrase] of Object.entries(pack.phrases)) {
     if (!phrase.hy.trim() || !phrase.en.trim()) problems.push(`phrase ${key}: empty`);

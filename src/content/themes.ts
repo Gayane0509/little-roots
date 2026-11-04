@@ -39,6 +39,7 @@ export const THEMES: Theme[] = [
       id: 'family.song',
       themeId: 'family',
       title: 'My family',
+      wordIds: ['family.mom', 'family.dad', 'family.grandma', 'family.grandpa', 'family.brother', 'family.sister', 'family.family'],
       lines: [
         { hy: 'Մայրիկս և հայրիկս ինձ սիրում են։', translit: 'Mayriks yev hayriks indz sirum en.', en: 'My mom and dad love me.' },
         { hy: 'Տատիկս և պապիկս ինձ սիրում են։', translit: 'Tatiks yev papiks indz sirum en.', en: 'My grandma and grandpa love me.' },
@@ -46,6 +47,20 @@ export const THEMES: Theme[] = [
         { hy: 'Մեր ընտանիքը շատ սիրուն է։', translit: 'Mer əntanikə shat sirun e.', en: 'Our family is very lovely.' },
       ],
     },
+    moreSongs: [
+      {
+        id: 'family.song2',
+        themeId: 'family',
+        title: 'Together',
+        wordIds: ['family.baby', 'family.uncle', 'family.aunt', 'family.friend'],
+        lines: [
+          { hy: 'Նորածինը քնած է։', translit: 'Noratsinə knats e.', en: 'The baby is asleep.' },
+          { hy: 'Քեռին ու մորաքույրը գալիս են։', translit: 'Kerin u morakuyrə galis en.', en: 'Uncle and aunt are coming.' },
+          { hy: 'Ընկերս ինձ հետ խաղում է։', translit: 'Ənkers indz het khaghum e.', en: 'My friend plays with me.' },
+          { hy: 'Միասին ուրախ ենք։', translit: 'Miasin urakh enk.', en: 'Together we are happy.' },
+        ],
+      },
+    ],
   },
   {
     id: 'food',
@@ -72,6 +87,7 @@ export const THEMES: Theme[] = [
       id: 'food.song',
       themeId: 'food',
       title: 'Yummy food',
+      wordIds: ['food.bread', 'food.apple', 'food.milk', 'food.water'],
       lines: [
         { hy: 'Ես հաց եմ ուտում։', translit: 'Yes hats em utum.', en: 'I eat bread.' },
         { hy: 'Ես խնձոր եմ ուտում։', translit: 'Yes khndzor em utum.', en: 'I eat an apple.' },
@@ -79,6 +95,20 @@ export const THEMES: Theme[] = [
         { hy: 'Ես ջուր եմ խմում։', translit: 'Yes jur em khmum.', en: 'I drink water.' },
       ],
     },
+    moreSongs: [
+      {
+        id: 'food.song2',
+        themeId: 'food',
+        title: 'Colourful food',
+        wordIds: ['food.apricot', 'food.grapes', 'food.carrot', 'food.tomato'],
+        lines: [
+          { hy: 'Ծիրանը քաղցր է։', translit: 'Tsiranə kaghtsr e.', en: 'The apricot is sweet.' },
+          { hy: 'Խաղողը կլոր է։', translit: 'Khaghoghə klor e.', en: 'Grapes are round.' },
+          { hy: 'Գազարը նարնջագույն է։', translit: 'Gazarə narnjaguyn e.', en: 'The carrot is orange.' },
+          { hy: 'Լոլիկը կարմիր է։', translit: 'Lolikə karmir e.', en: 'The tomato is red.' },
+        ],
+      },
+    ],
   },
   {
     id: 'animals',

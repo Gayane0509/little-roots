@@ -2,6 +2,12 @@
 
 Durable decisions with reasons. Newest first. Earlier ones are summarized from `PROGRESS.md`.
 
+- 2026-11-04 · **Second rhymes (#62).** A theme may have `moreSongs`; each rhyme lists the `wordIds` it uses and the
+  lesson shows the rhyme that uses most of its words (ties keep `song`, so themes with one rhyme are unchanged). The
+  validator checks song ids are unique, belong to the theme and list only that theme's words. New rhymes: Family
+  "Together" (baby, uncle, aunt, friend), Food "Colourful food" (apricot, grapes, carrot, tomato). **Needs native
+  proofreading:** Նորածինը քնած է։ · Քեռին ու մորաքույրը գալիս են։ · Ընկերս ինձ հետ խաղում է։ · Միասին ուրախ ենք։ ·
+  Ծիրանը քաղցր է։ · Խաղողը կլոր է։ · Գազարը նարնջագույն է։ · Լոլիկը կարմիր է։ (and their transliterations).
 - 2026-11-04 · Scene backdrops (`src/art/scenes.ts`) only on calm screens (Home, lesson reward), never behind words or
   game choices. Pale tints with no outlines so they read as background; any fill must keep `colors.text` ≥ 4.5:1
   (test). Static: no parallax or drifting clouds (battery, reduce motion, attention on content).

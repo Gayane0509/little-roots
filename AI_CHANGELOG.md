@@ -2,6 +2,18 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (second rhymes for Family and Food, #62)
+- claude · Themes can carry more rhymes (`moreSongs`); each rhyme lists the words it uses (`wordIds`) and the lesson
+  shows the one that uses most of that lesson's words, ties keeping the first rhyme. Family gets "Together" (baby,
+  uncle, aunt, friend), Food "Colourful food" (apricot, grapes, carrot, tomato). The pack validator now checks every
+  rhyme (unique id, own theme, known word ids, no empty line). Armenian lines listed in AI_DECISIONS for proofreading.
+- Files: `src/content/types.ts`, `src/content/themes.ts`, `src/content/packs/validate.ts` (+ 2 tests in
+  `packs.test.ts`), `src/lib/lesson.ts` (`pickSong`, + 2 tests in `lesson.test.ts`).
+- Checks: tsc ✓, ESLint ✓, Jest 53 suites / 223 tests ✓. Web: a Food lesson (bread, milk, apple) still shows "Yummy
+  food" with its 4 lines; the new-rhyme path is covered by unit tests only (the preview child hasn't reached words
+  9–12).
+- Commit: see git log ("Second rhymes").
+
 ## 2026-11-04 (Buddy poses and idle blink, #56)
 - claude · Արջուկ gets three new poses in the same style: `wave` (raised paw + motion lines) greets on Home, `point`
   (arm out, eyes following) on the lesson's "Find the picture", `proud` (happy closed eyes, two gold stars) on the lesson

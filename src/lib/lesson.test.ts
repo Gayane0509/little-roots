@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 import type { Theme, Word } from '@/content/types';
-import { buildDailyLesson, isThemeUnlocked, nextNewTheme, themeProgress } from './lesson';
+import { buildDailyLesson, isThemeUnlocked, nextNewTheme, pickSong, themeProgress } from './lesson';
 import { scheduleReview } from './srs';
 
 function theme(id: Theme['id'], free: boolean): Theme {
@@ -92,3 +92,26 @@ describe('next new theme (Home "Next" marker)', () => {
     expect(nextNewTheme([family, food, animals], words, true)?.id).toBe('animals');
   });
 });
+
+describe('rhyme choice', () => {
+  const now = Date.UTC(2026, 0, 2);
+  const base = theme('family', true);
+  const first = { ...base.song, wordIds: ['family.0', 'family.1'] };
+  const second = { ...base.song, id: 'family.song2', wordIds: ['family.2', 'family.3'] };
+  const withTwo: Theme = { ...base, song: first, moreSongs: [second] };
+
+  it('picks the rhyme that uses most of the lesson words; ties keep the first rhyme', () => {
+    expect(pickSong(withTwo, ['family.2', 'family.3'])).toBe(second);
+    expect(pickSong(withTwo, ['family.0', 'family.3'])).toBe(first);
+    expect(pickSong(withTwo, [])).toBe(first);
+    expect(pickSong(base, ['family.2'])).toBe(base.song);
+  });
+
+  it('a lesson with the newer words gets the newer rhyme', () => {
+    const words = Object.fromEntries(['family.0', 'family.1'].map((id) => [id, scheduleReview(undefined, id, true, now)]));
+    const lesson = buildDailyLesson({ themes: [withTwo], words, isPremium: false, now });
+    expect(lesson?.newWords.map((word) => word.id)).toEqual(['family.2', 'family.3']);
+    expect(lesson?.song).toBe(second);
+  });
+});
+

@@ -35,13 +35,13 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
 - 2026-11-04: **Family voice (#60, owner's top priority; replaces "No voice")** — parent records words on
   Parent → Family voice; played on lesson cards/rounds, theme page, Find; on-device only, per child + language; mic
   asked only there. Web-verified; native check #61 blocked on Xcode.
-- Checks (2026-11-04, after #56): `npm run check` — tsc, ESLint, Jest 53 suites / 219 tests.
+- Checks (2026-11-04, after #62): `npm run check` — tsc, ESLint, Jest 53 suites / 223 tests.
 - Checks (working tree, 2026-11-04 00:05): tsc, ESLint, Jest 46 suites / 189 tests; expo-doctor 20/20 (last run 2026-11-03).
 - 2026-11-04: #52 picture pass (4 redraws, bike fix), #53 Family + Food grow to 12 words with new drawings (104 words), #54 clearer parent weekly report, #59 first-lesson tap hint.
 - 2026-11-04 17:30 run: #57 Home "Next up" marker (Buddy badge + "Next" ribbon on the theme new words come from;
   web-checked 375 + 800 px); #55 soft hills scene behind Home and the lesson reward (web-checked 375 + 1024 px); #56 Buddy wave/point/proud
-  poses + idle blink (web-checked).
-- Next unblocked: #62 rhymes (4.5, Armenian needs proofreading), #58 dress-up (4), #63 more scenes (3). Native:
+  poses + idle blink (web-checked); #62 second rhymes for Family + Food (Armenian → proofreading list).
+- Next unblocked: #58 dress-up (4), #63 more scenes (3), #49 (1.5). Native:
   #10/#14/#16/#39/#50/#61 check.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
@@ -50,7 +50,7 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
 2. Codex CLI: configured models are rejected for this ChatGPT account → set a supported model in
    `~/.codex/config.toml` (AI_TASKS #11). Until then Claude subagents implement and review.
 3. Store billing products; "Made for Kids"/Families settings; public privacy-policy URL; native proofreading
-   (including the new Armenian lines for cards, rhyme and Find prompts).
+   (including the new Armenian lines for cards, rhyme and Find prompts, and the two #62 rhymes).
 4. Commits (owner rule, 2026-11-04): each finished task is committed to `main` once `npm run check` passes, one
    clear commit per task; never failing or half-done work. After each commit, push `main` to origin (never
    force-push; if rejected: `git pull --rebase origin main`, `npm run check` again, then push). Everything up to

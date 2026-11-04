@@ -31,6 +31,13 @@ export function nextNewTheme(themes: Theme[], words: WordProgressMap, isPremium:
   return themes.find((theme) => isThemeUnlocked(theme, isPremium) && theme.words.some((word) => !words[word.id])) ?? null;
 }
 
+/** The theme's rhyme that uses most of the lesson's words; ties keep the theme's first rhyme. */
+export function pickSong(theme: Theme, lessonWordIds: readonly string[]): Song {
+  const ids = new Set(lessonWordIds);
+  const score = (song: Song) => (song.wordIds ?? []).filter((id) => ids.has(id)).length;
+  return [theme.song, ...(theme.moreSongs ?? [])].reduce((best, song) => (score(song) > score(best) ? song : best));
+}
+
 export function buildDailyLesson({ themes, words, isPremium, now, newCount = 3, maxReviews }: BuildDailyLessonArgs): DailyLesson | null {
   const unlocked = themes.filter((theme) => isThemeUnlocked(theme, isPremium));
   const unlockedWords = new Map(unlocked.flatMap((theme) => theme.words.map((word) => [word.id, word] as const)));
@@ -52,5 +59,5 @@ export function buildDailyLesson({ themes, words, isPremium, now, newCount = 3, 
     .filter((word): word is Word => word !== undefined)
     .slice(0, Math.max(0, Math.min(maxReviews ?? (reviewOnly ? 6 : 4), reviewOnly ? 6 : Infinity)));
   if (newWords.length === 0 && reviewWords.length === 0) return null;
-  return { theme, newWords, reviewWords, song: theme.song };
+  return { theme, newWords, reviewWords, song: pickSong(theme, [...newWords, ...reviewWords].map((word) => word.id)) };
 }

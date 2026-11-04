@@ -36,6 +36,8 @@ export interface Song {
   themeId: ThemeId;
   title: string;
   lines: SongLine[];
+  /** Word ids the rhyme uses; the lesson shows the rhyme that uses most of its words. */
+  wordIds?: string[];
 }
 
 export interface Theme {
@@ -49,4 +51,6 @@ export interface Theme {
   free: boolean;
   words: Word[];
   song: Song;
+  /** Further rhymes for the theme (e.g. using words added later). */
+  moreSongs?: Song[];
 }
