@@ -2,6 +2,13 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (23:30 run; lock taken 23:34)
+- claude · #94 tracing canvas leaves room for the screen-reader "Mark as traced" button: `traceCanvasSize` gets a
+  `markButton` flag (`TRACE_MARK_BUTTON_CHROME = TOUCH_MIN + spacing.md`), screen-reader state lifted to `TraceCanvas`.
+  Files: `src/features/letters/{tracing.ts,TraceCanvas.tsx,tracing.test.ts}`. Checks: `npm run check` — tsc, ESLint,
+  Jest 66 suites / 270 tests ✓; web 1024×768 + 375×812: Clear/Done inside the window; reviewer subagent: no blockers.
+  Commit: "Letters: tracing canvas leaves room for Mark as traced (#94)".
+
 ## 2026-11-04 (22:30 run; lock taken 22:34)
 - claude · #92 sheep (letter sheet, Vo): wool `#FFFFFF` → cream `#FFF3DC`, face + ears → grey `#B8BCC6`, hidden
   opacity-0 path replaced by a white highlight (STYLE.md palette). File: `src/art/words/letters.ts`. Checks: `npm run

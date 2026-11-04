@@ -1,4 +1,4 @@
-import { spacing } from '@/ui/tokens';
+import { spacing, TOUCH_MIN } from '@/ui/tokens';
 
 export interface TracePoint { x: number; y: number }
 export type TraceStroke = TracePoint[];
@@ -37,15 +37,19 @@ export function isTraceGoodEnough(score: number): boolean { return score >= 0.5;
 
 /** Sheet height around the canvas while tracing (padding, title, feedback slot, prompt, toggles, gaps, Clear/Done). */
 export const TRACE_SHEET_CHROME = 356;
+/** Extra sheet height when a screen reader is on: the "Mark as traced" BigButton (TOUCH_MIN tall) plus its gap (#94). */
+export const TRACE_MARK_BUTTON_CHROME = TOUCH_MIN + spacing.md;
 /** The canvas never shrinks below this for the height cap, so very short windows scroll instead. */
 export const TRACE_MIN_SIZE = 200;
 
 /**
  * Side of the square trace canvas: as wide as the sheet allows (max 356), and on short windows small enough that the
  * whole letter and Clear/Done fit in the sheet (90 % of the window), because the sheet can't scroll while drawing (#88).
+ * `markButton`: the screen-reader "Mark as traced" button is shown too, so the canvas leaves room for it (#94).
  */
-export function traceCanvasSize(width: number, height: number): number {
+export function traceCanvasSize(width: number, height: number, markButton = false): number {
   const byWidth = Math.min(width - spacing.lg * 2 - 4, 356);
-  const byHeight = Math.max(TRACE_MIN_SIZE, Math.floor(height * 0.9) - TRACE_SHEET_CHROME);
+  const chrome = TRACE_SHEET_CHROME + (markButton ? TRACE_MARK_BUTTON_CHROME : 0);
+  const byHeight = Math.max(TRACE_MIN_SIZE, Math.floor(height * 0.9) - chrome);
   return Math.min(byWidth, byHeight);
 }

@@ -30,13 +30,19 @@ function pathFor(points: TraceStroke): string {
 
 export function TraceCanvas(props: Props) {
   const { width, height } = useWindowDimensions();
-  const size = traceCanvasSize(width, height);
-  return <TraceCanvasInner key={size} size={size} {...props} />;
+  const [screenReaderEnabled, setScreenReaderEnabled] = useState(false);
+  useEffect(() => {
+    let active = true;
+    void AccessibilityInfo.isScreenReaderEnabled().then((enabled) => { if (active) setScreenReaderEnabled(enabled); }).catch(() => {});
+    const subscription = AccessibilityInfo.addEventListener('screenReaderChanged', setScreenReaderEnabled);
+    return () => { active = false; subscription.remove(); };
+  }, []);
+  const size = traceCanvasSize(width, height, screenReaderEnabled);
+  return <TraceCanvasInner key={size} size={size} screenReaderEnabled={screenReaderEnabled} {...props} />;
 }
 
-function TraceCanvasInner({ size, upper, lower, onDone, onDrawingChange, onEdit }: Props & { size: number }) {
+function TraceCanvasInner({ size, screenReaderEnabled, upper, lower, onDone, onDrawingChange, onEdit }: Props & { size: number; screenReaderEnabled: boolean }) {
   const [useUpper, setUseUpper] = useState(true);
-  const [screenReaderEnabled, setScreenReaderEnabled] = useState(false);
   const [finished, setFinished] = useState<TraceStroke[]>([]);
   const [version, setVersion] = useState(0);
   const active = useRef<TraceStroke>([]);
@@ -48,12 +54,6 @@ function TraceCanvasInner({ size, upper, lower, onDone, onDrawingChange, onEdit 
   const cancelFrame = () => { if (pendingFrame.current !== null) { cancelAnimationFrame(pendingFrame.current); pendingFrame.current = null; } };
   const clear = () => { cancelFrame(); active.current = []; setFinished([]); setVersion((v) => v + 1); edit.current?.(); };
   useEffect(() => { drawingChange.current = onDrawingChange; edit.current = onEdit; }, [onDrawingChange, onEdit]);
-  useEffect(() => {
-    let active = true;
-    void AccessibilityInfo.isScreenReaderEnabled().then((enabled) => { if (active) setScreenReaderEnabled(enabled); }).catch(() => {});
-    const subscription = AccessibilityInfo.addEventListener('screenReaderChanged', setScreenReaderEnabled);
-    return () => { active = false; subscription.remove(); };
-  }, []);
   useEffect(() => () => { if (pendingFrame.current !== null) cancelAnimationFrame(pendingFrame.current); drawingChange.current?.(false); }, []);
   const responder = useMemo(() => PanResponder.create({
     onStartShouldSetPanResponderCapture: () => true,
