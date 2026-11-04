@@ -40,6 +40,11 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   clock, sprout; 96 px). Files: `src/features/parent/introSteps{,.test}.ts`, `src/app/parent/intro.tsx`. Checks: `npm
   run check` — tsc, ESLint, Jest 65 suites / 267 tests ✓; web 375×667: all 5 steps (through the parent gate), no
   console errors. Commit: see git log.
+- claude · #91 Home, free words finished: one Buddy (cheer, says the free-words-finished line instead of the greeting),
+  the extra card removed, "Ask a grown-up for 80 more words" in the secondary grey so "Start today's lesson" is the one
+  orange action (fits kids-store guidance against pushing purchases at children). Files: `src/app/index.tsx`,
+  `src/features/home/homeOrder.test.ts`. Checks: `npm run check` — 65 suites / 268 tests ✓; web 375×667 screenshot.
+  Commit: see git log.
 
 ## 2026-11-04 (20:30 run)
 - claude · #80 Hills scene crop on wide screens: clouds moved down (art top y = 22), `sceneHeight` keeps the

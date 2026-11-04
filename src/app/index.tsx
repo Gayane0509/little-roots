@@ -48,6 +48,7 @@ export default function Home() {
   const streak = currentStreak(state, now);
   const nextThemeId = nextNewTheme(ACTIVE_PACK.themes, state.words, state.isPremium)?.id;
 
+  const freeDone = !state.isPremium && freeWordsFinished(state);
   return (
     <Screen scene="hills">
       <ScrollView contentContainerStyle={[styles.content, { paddingBottom: sceneHeight(width) }]}>
@@ -73,12 +74,13 @@ export default function Home() {
         </View>
 
         {active ? <Pressable accessibilityRole="button" accessibilityLabel={`Switch child, current child ${active.name}`} onPress={() => router.push('/profiles')} style={styles.profile}><View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><ProfileAvatar wordId={active.avatarWordId} size={56} /></View><Text style={styles.profileName}>{active.name} ▾</Text></Pressable> : null}
-        <Buddy mood="wave" outfit={wornOutfit(state)} message={line('greeting', { name: state.childName })} />
+        {/* One Buddy: once the free words are finished it says so instead of the greeting (#91). */}
+        <Buddy mood={freeDone ? 'cheer' : 'wave'} outfit={wornOutfit(state)} message={freeDone ? line('free_words_finished') : line('greeting', { name: state.childName })} />
 
         {/* The child's lesson comes before the grown-up card so it stays above the fold on short phones (#86). */}
         <BigButton label="Start today's lesson" onPress={() => router.push('/lesson')} style={styles.start} />
 
-        {!state.isPremium && freeWordsFinished(state) ? <View style={styles.freeDone}><Buddy mood="cheer" message={line('free_words_finished')} /><BigButton label="Ask a grown-up for 80 more words" onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'themes' } })} /></View> : null}
+        {freeDone ? <BigButton label="Ask a grown-up for 80 more words" color={colors.textMuted} onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'themes' } })} /> : null}
 
         <View style={styles.tiles}>
           <Pressable
@@ -137,7 +139,6 @@ export default function Home() {
 const styles = StyleSheet.create({
   profile: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, alignSelf: 'flex-start', minHeight: TOUCH_MIN, padding: spacing.sm, borderRadius: radius.md, backgroundColor: colors.surface },
   profileName: { color: colors.text, fontSize: font.heading, fontWeight: '800' },
-  freeDone: { gap: spacing.md, padding: spacing.md, backgroundColor: colors.surface, borderRadius: radius.md },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   content: { gap: spacing.lg, paddingBottom: spacing.xl },
   topRow: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: spacing.sm },
