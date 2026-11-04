@@ -2,6 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AppState } from 'react-native';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
+import type { BuddyOutfit } from '@/art/buddy';
+import { isBuddyOutfit, stickersNeeded } from '@/lib/outfits';
 import { daysBetween, localDay } from '@/lib/date';
 import { scheduleReview } from '@/lib/srs';
 import type { WordProgress, WordProgressMap } from '@/lib/srs.types';
@@ -72,6 +74,7 @@ export function parseProgress(raw: string | null, now: number = Date.now()): Pro
       stickers: Array.isArray(value.stickers) ? value.stickers.filter((sticker): sticker is string => typeof sticker === 'string') : defaults.stickers,
       gamesToday: isRecord(value.gamesToday) && typeof value.gamesToday.day === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value.gamesToday.day) && typeof value.gamesToday.count === 'number' && Number.isSafeInteger(value.gamesToday.count) && value.gamesToday.count >= 0
         ? { day: value.gamesToday.day, count: value.gamesToday.count } : defaults.gamesToday,
+      buddyOutfit: isBuddyOutfit(value.buddyOutfit) ? value.buddyOutfit : undefined,
       // The purchase flow is a stub. A saved dev toggle cannot unlock production content.
       isPremium: __DEV__ && typeof value.isPremium === 'boolean' ? value.isPremium : false,
     };
@@ -86,6 +89,11 @@ export function gamesPlayedToday(state: ProgressState, now: number = Date.now())
 
 export function applyRecordGamePlayed(previous: ProgressState, now: number): ProgressState {
   return { ...previous, gamesToday: { day: localDay(now), count: gamesPlayedToday(previous, now) + 1 } };
+}
+
+export function applySetBuddyOutfit(previous: ProgressState, outfit: BuddyOutfit | null): ProgressState {
+  if (outfit === null) return { ...previous, buddyOutfit: undefined };
+  return stickersNeeded(outfit, previous.stickers.length) === 0 ? { ...previous, buddyOutfit: outfit } : previous;
 }
 
 export function applyRecordAnswer(previous: ProgressState, wordId: string, correct: boolean, now: number): ProgressState {
@@ -242,6 +250,9 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     const now = Date.now();
     update((previous) => applyRecordGamePlayed(previous, now));
   }, [update]);
+  const setBuddyOutfit = useCallback<ProgressApi['setBuddyOutfit']>((outfit) => {
+    update((previous) => applySetBuddyOutfit(previous, outfit));
+  }, [update]);
   const setPremium = useCallback<ProgressApi['setPremium']>((value) => {
     if (profiles) void profiles.setPremium(value);
     else update((previous) => ({ ...previous, isPremium: __DEV__ ? value : false }));
@@ -257,8 +268,8 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   }, [flush, load]);
 
   const actions = useMemo<ProgressActions>(() => ({
-    setChildName, recordAnswer, completeLesson, recordGamePlayed, setPremium, reset, retryStorage,
-  }), [setChildName, recordAnswer, completeLesson, recordGamePlayed, setPremium, reset, retryStorage]);
+    setChildName, recordAnswer, completeLesson, recordGamePlayed, setBuddyOutfit, setPremium, reset, retryStorage,
+  }), [setChildName, recordAnswer, completeLesson, recordGamePlayed, setBuddyOutfit, setPremium, reset, retryStorage]);
   const registerFlush = profiles?.registerFlush;
   useEffect(() => registerFlush?.('progress', async () => { await flush(); if (profileId && !mayWrite?.(profileId)) return; if (saveFailed.current || loadFailed.current) throw new Error('Progress is not saved'); }), [registerFlush, flush, profileId, mayWrite]);
   const visibleState = useMemo(() => profiles ? { ...state, childName: profiles.active?.name ?? '', isPremium: profiles.isPremium } : state, [state, profiles]);

@@ -133,3 +133,10 @@ Durable decisions with reasons. Newest first. Earlier ones are summarized from `
 - 2026-10-30 · Expo Router + React context, no state library; RN Animated; static typed content with tests.
 - 2026-10-30 · Privacy: offline, no accounts/analytics/ads; recordings and progress stay on device; mic only in the
   parent area.
+
+## 2026-11-04 — Buddy dress-up (#58)
+- Items: party hat (3 stickers), glasses (6), crown (10). Not a scarf: the base bear already wears an orange scarf.
+- Stored as optional `ProgressState.buddyOutfit`; no migration (absent = none, unknown ids dropped). A pick is shown
+  only while the sticker count still unlocks it, so a progress reset takes the outfit off too.
+- Rules live in `src/lib/outfits.ts` (ui and state may import lib, never features).
+

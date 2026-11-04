@@ -1,3 +1,4 @@
+import type { BuddyOutfit } from '@/art/buddy';
 import type { WordProgressMap } from '@/lib/srs.types';
 
 export interface LessonRecord {
@@ -18,6 +19,8 @@ export interface ProgressState {
   stickers: string[];
   isPremium: boolean;
   gamesToday?: { day: string; count: number };
+  /** Dress-up item the child picked for Buddy (#58); absent = none. */
+  buddyOutfit?: BuddyOutfit;
 }
 
 export interface LessonSummary {
@@ -38,6 +41,8 @@ export interface ProgressApi {
   recordAnswer(wordId: string, correct: boolean): void;
   completeLesson(summary: LessonSummary): void;
   recordGamePlayed(): void;
+  /** Dress Buddy in an unlocked item, or `null` to take it off. Locked items are ignored. */
+  setBuddyOutfit(outfit: BuddyOutfit | null): void;
   /** Paywall stub: flips premium on/off until real purchases are wired. */
   setPremium(value: boolean): void;
   reset(): void;

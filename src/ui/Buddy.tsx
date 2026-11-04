@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 
-import { BUDDY_ART, BUDDY_BLINK, type BuddyMood } from '@/art/buddy';
+import { BUDDY_ART, BUDDY_BLINK, BUDDY_OUTFIT_ART, type BuddyMood, type BuddyOutfit } from '@/art/buddy';
+import { OUTFIT_LABEL } from '@/lib/outfits';
 import { colors, font, radius, spacing } from './tokens';
 import { useReduceMotion } from './useReduceMotion';
 import { useScreenFocused } from './useScreenFocused';
@@ -17,10 +18,12 @@ interface BuddyProps {
   message?: string;
   mood?: BuddyMood;
   size?: number;
+  /** Dress-up item the child earned (#58); drawn above the blink so glasses stay on. */
+  outfit?: BuddyOutfit;
 }
 
 /** The child's friend who guides every lesson. Text only: Buddy never speaks (AI_DECISIONS 2026-11-04 "Family voice" keeps a spoken Buddy banned). */
-export function Buddy({ message, mood = 'happy', size = 72 }: BuddyProps) {
+export function Buddy({ message, mood = 'happy', size = 72, outfit }: BuddyProps) {
   const [bounce] = useState(() => new Animated.Value(0));
   const [lids] = useState(() => new Animated.Value(0));
   const blinkXml = BUDDY_BLINK[mood];
@@ -53,9 +56,10 @@ export function Buddy({ message, mood = 'happy', size = 72 }: BuddyProps) {
 
   return (
     <View style={styles.row}>
-      <Animated.View accessible accessibilityRole="image" accessibilityLabel={BUDDY_NAME.en} style={{ width: size, height: size, transform: [{ translateY: bounce }] }}>
+      <Animated.View accessible accessibilityRole="image" accessibilityLabel={outfit ? `${BUDDY_NAME.en} wearing ${OUTFIT_LABEL[outfit].toLowerCase()}` : BUDDY_NAME.en} style={{ width: size, height: size, transform: [{ translateY: bounce }] }}>
         <SvgXml xml={BUDDY_ART[mood]} width={size} height={size} />
         {blinkXml ? <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, { opacity: lids }]}><SvgXml xml={blinkXml} width={size} height={size} /></Animated.View> : null}
+        {outfit ? <View pointerEvents="none" style={StyleSheet.absoluteFill}><SvgXml xml={BUDDY_OUTFIT_ART[outfit][mood]} width={size} height={size} /></View> : null}
       </Animated.View>
       {message ? <View style={styles.bubble}><Text style={styles.message}>{message}</Text></View> : null}
     </View>

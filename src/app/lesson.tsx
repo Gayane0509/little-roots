@@ -12,6 +12,7 @@ import { initialLessonState, lessonReducer, type Step } from '@/features/lesson/
 import { shouldShowTapHint } from '@/features/lesson/tapHint';
 import { buildDailyLesson, type DailyLesson } from '@/lib/lesson';
 import { haptic } from '@/lib/haptics';
+import { wornOutfit } from '@/lib/outfits';
 import { playSfx } from '@/lib/sfx';
 import { useSettings } from '@/state/settings';
 import { useProgress } from '@/state/progress';
@@ -39,6 +40,7 @@ function ReadyLesson() {
   const line = useBuddyLine();
   const { soundEffects, haptics } = useSettings();
   const { state, recordAnswer, completeLesson } = useProgress();
+  const outfit = wornOutfit(state);
   const [lesson] = useState<DailyLesson | null>(() => buildDailyLesson({
     themes: ACTIVE_PACK.themes, words: state.words, isPremium: state.isPremium, now: Date.now(),
   }));
@@ -153,13 +155,13 @@ function ReadyLesson() {
 
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         {step === 'hello' && <>
-          <Buddy message={`${state.childName ? line('greeting', { name: state.childName }) : line('greeting_anon')}\n${lesson.newWords.length ? line(lesson.newWords.length === 1 ? 'lesson_new_word' : 'lesson_new_words', { count: lesson.newWords.length }) : line('lesson_practice')}`} />
+          <Buddy message={`${state.childName ? line('greeting', { name: state.childName }) : line('greeting_anon')}\n${lesson.newWords.length ? line(lesson.newWords.length === 1 ? 'lesson_new_word' : 'lesson_new_words', { count: lesson.newWords.length }) : line('lesson_practice')}`} outfit={outfit} />
           <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={themeArtWordId(lesson.theme.id)} emoji={lesson.theme.emoji} size={140} /></View>
           <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.heading} accessibilityRole="header">{lesson.theme.titleEn}</Text>
         </>}
 
         {step === 'new' && card && <>
-          <Buddy message={line('lesson_tap_card')} />
+          <Buddy message={line('lesson_tap_card')} outfit={outfit} />
           <Text style={styles.counter}>Word {cardIndex + 1} of {lesson.newWords.length}</Text>
           <Animated.View style={{ width: '100%', opacity: cardEntrance, transform: [{ translateY: cardEntrance.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }] }}><Wiggle wordId={card.id} label={`${card.hy}, ${card.translit}, ${card.en}`} onTap={() => setCardTapped(true)}><View style={styles.wordCard}>
             <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={card.id} emoji={card.emoji} size={160} /></View>
@@ -171,7 +173,7 @@ function ReadyLesson() {
         </>}
 
         {step === 'game' && currentRound && <>
-          <Buddy message={line(hadWrongTap ? 'lesson_good_try' : 'lesson_find_picture')} mood={hadWrongTap ? 'cheer' : 'point'} />
+          <Buddy message={line(hadWrongTap ? 'lesson_good_try' : 'lesson_find_picture')} mood={hadWrongTap ? 'cheer' : 'point'} outfit={outfit} />
           <Text style={styles.counter}>Picture {roundIndex + 1} of {rounds.length}</Text>
           <View style={styles.promptRow}>
             <View accessible accessibilityRole="text" accessibilityLabel={`Find ${currentRound.hy}, ${currentRound.translit}`} style={styles.prompt}>
@@ -198,7 +200,7 @@ function ReadyLesson() {
         </>}
 
         {step === 'song' && <>
-          <Buddy message={line('lesson_song')} />
+          <Buddy message={line('lesson_song')} outfit={outfit} />
           <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.heading} accessibilityRole="header">{lesson.song.title}</Text>
           {lesson.song.lines.map((line, index) => (
             <Pressable key={index} accessibilityRole="button" accessibilityLabel={`Rhyme line ${index + 1}: ${line.hy}, ${line.en}`} accessibilityState={{ selected: songLineIndex === index }} onPress={() => dispatch({ type: 'SONG_LINE', index })} style={[styles.songLine, songLineIndex === index && styles.songLineActive]}>
@@ -211,7 +213,7 @@ function ReadyLesson() {
 
         {step === 'reward' && <>
           <Confetti />
-          <Buddy message={line('lesson_done')} mood="proud" />
+          <Buddy message={line('lesson_done')} mood="proud" outfit={outfit} />
           <Animated.View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={{ transform: [{ scale: burst }] }}><Icon name="stickers" size={140} /></Animated.View>
           <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.heading} accessibilityRole="header">You earned {3 + firstTryCorrect} stars!</Text>
           {showNewSticker && lesson.newWords[0] && <View accessible accessibilityRole="text" accessibilityLabel={`New sticker: ${lesson.newWords[0].en}`} style={styles.stickerRow}>

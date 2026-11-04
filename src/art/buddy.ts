@@ -79,3 +79,31 @@ export const BUDDY_ART = Object.fromEntries(BUDDY_MOODS.map((mood) => [mood, bea
 export const BUDDY_BLINK = Object.fromEntries(
   BUDDY_MOODS.flatMap((mood) => { const xml = lids(mood); return xml ? [[mood, xml] as const] : []; }),
 ) as Partial<Record<BuddyMood, string>>;
+
+/** Dress-up items a child earns with stickers (#58). The base bear already wears an orange scarf, so no scarf. */
+export type BuddyOutfit = 'hat' | 'glasses' | 'crown';
+export const BUDDY_OUTFITS: readonly BuddyOutfit[] = ['hat', 'glasses', 'crown'];
+
+/** Where the glasses sit: over the open eyes, or the usual eye line for closed/uneven eyes. */
+function eyeLine(mood: BuddyMood): readonly [number, number] {
+  return OPEN_EYES[mood] ?? [49, 79];
+}
+
+function outfit(item: BuddyOutfit, mood: BuddyMood): string {
+  if (item === 'hat') {
+    // A striped party hat resting on top of the head, between the ears.
+    return `<path d="M50 29 L64 6 L78 29 Q64 34 50 29Z" fill="#4DA3FF" ${outline}/><path d="M56 20 Q64 23 72 20 M60 13 Q64 15 68 13" fill="none" stroke="#FFD23F" stroke-width="3" stroke-linecap="round"/><circle cx="64" cy="7" r="5" fill="#FF8FB1" ${outline}/>`;
+  }
+  if (item === 'glasses') {
+    const [left, right] = eyeLine(mood);
+    const frame = (x: number) => `<circle cx="${x}" cy="${EYE_Y}" r="10" fill="#FFFFFF" fill-opacity="0.18" stroke="#9B6BFF" stroke-width="3.5"/>`;
+    return `${frame(left)}${frame(right)}<path d="M${left + 10} ${EYE_Y - 1} Q64 ${EYE_Y - 5} ${right - 10} ${EYE_Y - 1}" fill="none" stroke="#9B6BFF" stroke-width="3.5" stroke-linecap="round"/>`;
+  }
+  // A small golden crown with three gems.
+  return `<path d="M46 29 L44 9 L54 18 L64 5 L74 18 L84 9 L82 29 Q64 34 46 29Z" fill="#FFD23F" ${outline}/><circle cx="54" cy="25" r="2.8" fill="#F25C54"/><circle cx="64" cy="26" r="2.8" fill="#4DA3FF"/><circle cx="74" cy="25" r="2.8" fill="#4CC985"/>`;
+}
+
+/** Outfit overlays, drawn above Buddy (and above the blink lids so glasses stay on during a blink). */
+export const BUDDY_OUTFIT_ART = Object.fromEntries(BUDDY_OUTFITS.map((item) => [item, Object.fromEntries(
+  BUDDY_MOODS.map((mood) => [mood, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">${outfit(item, mood)}</svg>`]),
+)])) as Record<BuddyOutfit, Record<BuddyMood, string>>;

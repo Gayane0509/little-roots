@@ -2,6 +2,20 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (Buddy dress-up, #58)
+- claude · Stickers unlock dress-up items for Արջուկ: party hat at 3 stickers, glasses at 6, crown at 10. The child
+  picks one (or "No dress-up") on the Stickers screen; Buddy wears it on Home and in the lesson. Locked tiles show a
+  lock and the stickers still needed. Stored as optional `buddyOutfit` (per child + language like all progress).
+- Files: `src/art/buddy.ts` (+ test), `src/lib/outfits.ts` (+ test), `src/features/stickers/OutfitPicker.tsx`
+  (+ render test), `src/state/progress.tsx`, `progress.types.ts` (+ test), `src/ui/Buddy.tsx`, `src/app/stickers.tsx`,
+  `src/app/index.tsx`, `src/app/lesson.tsx`.
+- Review: reviewer subagent (Codex still blocked, #11) → picker tiles under 64 px at 320 px (fixed: 2×2 grid below
+  360 px, portrait scales with tile) and hat pom-pom clipped by the viewBox (fixed: hat lowered). Stored data: no
+  findings (older saves load unchanged; reset clears the outfit).
+- Checks: tsc ✓, ESLint ✓, Jest 56 suites / 234 tests ✓. Web: Stickers at 320 / 375 / 1024 px, picking the hat saves
+  `buddyOutfit: "hat"` and Home Buddy wears it; contact sheet of 7 poses × 3 outfits; no console errors.
+- Commit: see git log ("Buddy dress-up").
+
 ## 2026-11-04 (hills scene on game finish screens, #63)
 - claude · Find, Read and Memory report when they show their finish screen (`onFinishedChange`); `GameShell` then
   draws the hills scene behind it, and removes it on Play again. Play screens stay plain.

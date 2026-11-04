@@ -1,7 +1,7 @@
 import { act, createElement, useEffect, type ReactNode } from 'react';
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import type { ProgressState } from './progress.types';
-import { ProgressProvider, applyCompleteLesson, applyRecordAnswer, applyRecordGamePlayed, gamesPlayedToday, parseProgress, useProgress } from './progress';
+import { ProgressProvider, applyCompleteLesson, applyRecordAnswer, applyRecordGamePlayed, applySetBuddyOutfit, gamesPlayedToday, parseProgress, useProgress } from './progress';
 
 jest.mock('react-native', () => {
   const listeners = new Set();
@@ -216,5 +216,26 @@ describe('daily game usage', () => {
     const second = applyRecordGamePlayed(first, noon(2));
     expect(gamesPlayedToday(second, noon(2))).toBe(1);
     expect(parseProgress(JSON.stringify(second), noon(2)).gamesToday).toEqual(second.gamesToday);
+  });
+
+  it('keeps only a known Buddy outfit; older saves load with none', () => {
+    const old = parseProgress(JSON.stringify({ stars: 4, stickers: ['a'] }));
+    expect(old.buddyOutfit).toBeUndefined();
+    expect(old.stars).toBe(4);
+    expect(parseProgress(JSON.stringify({ buddyOutfit: 'crown' })).buddyOutfit).toBe('crown');
+    expect(parseProgress(JSON.stringify({ buddyOutfit: 'scarf' })).buddyOutfit).toBeUndefined();
+    expect(parseProgress(JSON.stringify({ buddyOutfit: 7 })).buddyOutfit).toBeUndefined();
+  });
+
+  it('dresses Buddy only in an unlocked outfit and can take it off', () => {
+    const base = parseProgress(null);
+    const two = { ...base, stickers: ['a', 'b'] };
+    expect(applySetBuddyOutfit(two, 'hat')).toBe(two);
+    const three = { ...base, stickers: ['a', 'b', 'c'] };
+    const dressed = applySetBuddyOutfit(three, 'hat');
+    expect(dressed.buddyOutfit).toBe('hat');
+    expect(applySetBuddyOutfit(dressed, 'glasses').buddyOutfit).toBe('hat');
+    expect(applySetBuddyOutfit(dressed, null).buddyOutfit).toBeUndefined();
+    expect(parseProgress(JSON.stringify(dressed)).buddyOutfit).toBe('hat');
   });
 });
