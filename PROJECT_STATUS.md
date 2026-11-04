@@ -35,7 +35,7 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
 - 2026-11-04: **Family voice (#60, owner's top priority; replaces "No voice")** — parent records words on
   Parent → Family voice; played on lesson cards/rounds, theme page, Find; on-device only, per child + language; mic
   asked only there. Web-verified; native check #61 blocked on Xcode.
-- Checks (2026-11-04, after #58): `npm run check` — tsc, ESLint, Jest 56 suites / 234 tests.
+- Checks (2026-11-04, after #66): `npm run check` — tsc, ESLint, Jest 57 suites / 237 tests.
 - Checks (working tree, 2026-11-04 00:05): tsc, ESLint, Jest 46 suites / 189 tests; expo-doctor 20/20 (last run 2026-11-03).
 - 2026-11-04: #52 picture pass (4 redraws, bike fix), #53 Family + Food grow to 12 words with new drawings (104 words), #54 clearer parent weekly report, #59 first-lesson tap hint.
 - 2026-11-04 17:30 run: #57 Home "Next up" marker (Buddy badge + "Next" ribbon on the theme new words come from;
@@ -43,8 +43,9 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
   poses + idle blink (web-checked); #62 second rhymes for Family + Food (Armenian → proofreading list);
   #64 store-rule research (age-rating draft, no app change); #63 hills behind game finish screens.
 - 2026-11-04 18:30 run: #58 Buddy dress-up (hat / glasses / crown unlocked by stickers; picker on Stickers; worn on
-  Home + lesson; reviewer subagent findings fixed; web 320 / 375 / 1024 px). New #66 (sticker book on wide screens).
-- Next unblocked: #66 (12), #49 (1.5), #65 idea (1.5). Native:
+  Home + lesson; reviewer subagent findings fixed; web 320 / 375 / 1024 px). #66 sticker book fits wide screens (4 columns ≥ 600 px,
+  art scales with tile).
+- Next unblocked: #49 (1.5), #65 idea (1.5); research for new scored tasks. Native:
   #10/#14/#16/#39/#50/#61 check.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 

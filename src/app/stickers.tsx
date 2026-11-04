@@ -1,7 +1,8 @@
 
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
 import { OutfitPicker } from '@/features/stickers/OutfitPicker';
+import { stickerGrid, stickerSlots } from '@/features/stickers/stickerGrid';
 import { StickerTile } from '@/features/stickers/StickerTile';
 import { wordIdForSticker } from '@/features/stickers/stickerArt';
 import { useBuddyLine } from '@/features/buddy/useBuddyLine';
@@ -14,14 +15,13 @@ import { IconTitle } from '@/ui/IconTitle';
 import { Screen } from '@/ui/Screen';
 import { colors, font, radius, spacing } from '@/ui/tokens';
 
-const MIN_SLOTS = 24;
-
 export default function Stickers() {
   const line = useBuddyLine();
   const { state, setBuddyOutfit } = useProgress();
   const worn = wornOutfit(state);
   const stickers = state.stickers;
-  const slots = Math.max(MIN_SLOTS, Math.ceil(stickers.length / 3) * 3);
+  const grid = stickerGrid(useWindowDimensions().width);
+  const slots = stickerSlots(stickers.length, grid.columns);
 
   return (
     <Screen>
@@ -43,7 +43,7 @@ export default function Stickers() {
         </View>
         <View style={styles.grid}>
           {Array.from({ length: slots }, (_, i) => (
-            <StickerTile key={i} emoji={stickers[i] ?? null} index={i} wordId={stickers[i] ? wordIdForSticker(stickers[i]) : undefined} />
+            <StickerTile key={i} emoji={stickers[i] ?? null} index={i} wordId={stickers[i] ? wordIdForSticker(stickers[i]) : undefined} width={grid.tileWidth} artSize={grid.artSize} />
           ))}
         </View>
         <BigButton label="Back" color={colors.textMuted} onPress={goBackOrHome} />

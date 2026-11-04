@@ -2,6 +2,13 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (sticker book fits wide screens, #66)
+- claude · The sticker book uses 4 columns from 600 px and sizes each drawing from its tile (78 %, 60–140 px), so
+  stickers no longer sit small in big empty cards on tablets; rows stay whole.
+- Files: `src/features/stickers/stickerGrid.ts` (+ test), `StickerTile.tsx`, `src/app/stickers.tsx`.
+- Checks: tsc ✓, ESLint ✓, Jest 57 suites / 237 tests ✓. Web: 320 / 375 / 1024 px; no console errors.
+- Commit: see git log ("Sticker book fits wide screens").
+
 ## 2026-11-04 (Buddy dress-up, #58)
 - claude · Stickers unlock dress-up items for Արջուկ: party hat at 3 stickers, glasses at 6, crown at 10. The child
   picks one (or "No dress-up") on the Stickers screen; Buddy wears it on Home and in the lesson. Locked tiles show a
