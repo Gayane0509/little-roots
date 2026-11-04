@@ -158,7 +158,7 @@ function ReadyLesson() {
         </View>
       </View>
 
-      <ScrollView contentContainerStyle={[styles.content, { gap: art.gap, paddingVertical: art.gap }]} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={[styles.content, { gap: step === 'song' ? art.songGap : art.gap, paddingVertical: art.gap }]} showsVerticalScrollIndicator={false}>
         {step === 'hello' && <>
           <Buddy message={`${state.childName ? line('greeting', { name: state.childName }) : line('greeting_anon')}\n${lesson.newWords.length ? line(lesson.newWords.length === 1 ? 'lesson_new_word' : 'lesson_new_words', { count: lesson.newWords.length }) : line('lesson_practice')}`} outfit={outfit} />
           <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={themeArtWordId(lesson.theme.id)} emoji={lesson.theme.emoji} size={140} /></View>

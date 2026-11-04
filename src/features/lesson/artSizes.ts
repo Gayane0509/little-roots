@@ -4,10 +4,14 @@ export type LessonArtSizes = {
   option: number; card: number; reward: number; sticker: number; rewardRowsSideBySide: boolean;
   /** Gap and vertical padding of the step content, and the rhyme lines' padding (tighter on short windows). */
   gap: number; songLinePadding: number;
+  /** The rhyme step's gap: 4 lines + Buddy's bubble overflow a 375×812 phone with the regular gap (#85). */
+  songGap: number;
 };
 
 /** Windows shorter than this (iPhone SE 375×667) get the compact lesson (#84): the word card, rhyme and reward overflowed. */
 export const LESSON_COMPACT_BELOW = 700;
+/** Windows shorter than this use the tight gap on the rhyme step. */
+export const SONG_TIGHT_BELOW = 860;
 
 /**
  * Picture sizes in the lesson. Answer pictures grow on any wide window so they fill the wider option cards (#71). The
@@ -21,7 +25,7 @@ export const REWARD_BIG_WITH_OUTFIT_FROM = 768;
 
 export function lessonArtSizes(width: number, height: number, hasNewOutfit: boolean): LessonArtSizes {
   const wide = width >= WIDE_BREAKPOINT;
-  const tallTablet = wide && height >= 700;
+  const tallTablet = wide && height >= LESSON_COMPACT_BELOW;
   const bigReward = tallTablet && (!hasNewOutfit || width >= REWARD_BIG_WITH_OUTFIT_FROM);
   const compact = height < LESSON_COMPACT_BELOW;
   return {
@@ -32,5 +36,6 @@ export function lessonArtSizes(width: number, height: number, hasNewOutfit: bool
     rewardRowsSideBySide: wide,
     gap: compact ? spacing.sm : spacing.lg,
     songLinePadding: compact ? spacing.sm : spacing.md,
+    songGap: height < SONG_TIGHT_BELOW ? spacing.sm : spacing.lg,
   };
 }

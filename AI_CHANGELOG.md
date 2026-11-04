@@ -27,6 +27,10 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
 - claude · #84 Compact lesson on short phones (< 700 px tall). Files: `src/app/lesson.tsx`,
   `src/features/lesson/artSizes{,.test}.ts`. Checks: `npm run check` — Jest 62 suites / 258 tests ✓; web 375×667
   every step (rhyme 13 px over, noted), 375×812 unchanged. Logged #85 (rhyme at 375×812, pre-existing).
+- reviewer subagent on #84: no findings (nit fixed: `tallTablet` reuses `LESSON_COMPACT_BELOW`).
+- claude · #85 Rhyme step fits 375×812: tight gap on that step below 860 px tall. Files: `src/app/lesson.tsx`,
+  `src/features/lesson/artSizes{,.test}.ts`. Checks: `npm run check` — Jest 62 suites / 259 tests ✓; web 375×812
+  rhyme 620/620, 375×667 unchanged (488/475).
 
 ## 2026-11-04 (profile picker on tablets, #79)
 - claude · From 600 px the "Who is learning?" cards are 3 a row (31 %, near-square) with 120 px avatars (was 2 long
