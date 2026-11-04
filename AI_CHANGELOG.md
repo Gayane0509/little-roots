@@ -2,6 +2,16 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (Expo SDK 58 patch updates, #77)
+- claude · `npx expo install --fix`: expo 58.0.23, expo-router 58.0.30, expo-asset 58.0.20, expo-constants 58.0.15,
+  expo-linking 58.0.16, expo-notifications 58.1.8, expo-splash-screen 58.0.13, @expo/metro-runtime 58.0.17,
+  react-native-safe-area-context 5.11.1, jest-expo 58.0.14 (dev).
+- Files: `package.json`, `package-lock.json`.
+- Checks: tsc ✓, ESLint ✓, Jest 60 suites / 248 tests ✓; expo-doctor 20/20 (was 19/20); `expo export --platform web`
+  ✓; `npm audit --omit=dev` 8 → 5 moderate, 0 high. Web (fresh server): Home, theme page, lesson render, no console
+  errors (resolve errors seen only from the old server while packages were being replaced). Native not built (#10).
+- Commit: see git log ("Expo SDK 58 patch updates").
+
 ## 2026-11-04 (Family voice list two a row on tablets, #76)
 - claude · Parent → Family voice showed one full-width row per word (104 words) on tablets; from 600 px it now shows
   two words a row (`SectionList` rows of pairs via new `lib/chunk`, a spacer keeps an odd last word half-width).
