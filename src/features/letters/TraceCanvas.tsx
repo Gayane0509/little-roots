@@ -6,7 +6,7 @@ import Svg, { Path, Text as SvgText } from 'react-native-svg';
 import { BigButton } from '@/ui/BigButton';
 import { colors, radius, spacing } from '@/ui/tokens';
 import type { TraceStroke } from './tracing';
-import { traceScore } from './tracing';
+import { traceCanvasSize, traceScore } from './tracing';
 
 interface Props {
   upper: string; lower: string;
@@ -29,8 +29,8 @@ function pathFor(points: TraceStroke): string {
 }
 
 export function TraceCanvas(props: Props) {
-  const { width } = useWindowDimensions();
-  const size = Math.min(width - spacing.lg * 2 - 4, 356);
+  const { width, height } = useWindowDimensions();
+  const size = traceCanvasSize(width, height);
   return <TraceCanvasInner key={size} size={size} {...props} />;
 }
 

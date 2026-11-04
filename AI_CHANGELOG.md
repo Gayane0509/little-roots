@@ -21,6 +21,12 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   order test reads source text (fails loudly on a rename: kept); onboarding wiring has no render test (kept: pure
   helper tested, web-checked). Files: `src/features/profiles/onboardingLayout{,.test}.ts`. Checks: `npm run check` ✓
   (64 suites / 263 tests). Commit: see git log.
+- claude · #88 Letter tracing fits short phones: canvas side = min(width cap, 90 % of the height − 356 px sheet chrome,
+  floor 200). 375×667: 323 → 244, the whole letter is in the sheet (333–577) and Clear/Done take the slot at 595–659
+  when no screen reader is on (web always reports one, so the preview also shows "Mark as traced" and Done scrolls
+  there); 375×812 unchanged (323). Files: `src/features/letters/{tracing,tracing.test,TraceCanvas}.ts(x)`. Checks:
+  `npm run check` ✓; web: traced Ben at 375×667 → "Wonderful tracing!", 2 of 39 traced (preview data only). Not
+  verified on device (#10). Commit: see git log.
 
 ## 2026-11-04 (20:30 run)
 - claude · #80 Hills scene crop on wide screens: clouds moved down (art top y = 22), `sceneHeight` keeps the

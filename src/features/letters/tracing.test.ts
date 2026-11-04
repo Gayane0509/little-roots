@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals';
-import { isTraceGoodEnough, traceScore } from './tracing';
+import { isTraceGoodEnough, TRACE_MIN_SIZE, traceCanvasSize, traceScore } from './tracing';
 
 const point = (x: number, y: number) => ({ x, y });
 test('empty, one dot, invalid size, and off-canvas ink score zero', () => {
@@ -18,4 +18,13 @@ test('a reasonable central letter-shaped trace is enough', () => {
 test('filling nearly every cell is a scribble, not a trace', () => {
   const scribble = Array.from({ length: 6 }, (_, row) => [point(42, 42 + row * 20), point(158, 42 + row * 20)]);
   expect(traceScore(scribble, 200)).toBe(0);
+});
+
+test('the trace canvas keeps its width-based size on tall phones and shrinks on short ones so Done stays in the sheet', () => {
+  expect(traceCanvasSize(375, 812)).toBe(323);
+  expect(traceCanvasSize(375, 667)).toBe(244);
+  expect(traceCanvasSize(1024, 1366)).toBe(356);
+  expect(traceCanvasSize(1024, 768)).toBe(335);
+  expect(traceCanvasSize(375, 400)).toBe(TRACE_MIN_SIZE);
+  expect(traceCanvasSize(320, 568)).toBe(TRACE_MIN_SIZE);
 });
