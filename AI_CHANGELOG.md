@@ -2,6 +2,14 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (profile picker on tablets, #79)
+- claude · From 600 px the "Who is learning?" cards are 3 a row (31 %, near-square) with 120 px avatars (was 2 long
+  flat cards, 82 px). Phones unchanged.
+- Files: `src/app/profiles.tsx`.
+- Checks: tsc ✓, ESLint ✓, Jest 60 suites / 248 tests ✓. Web 1024×768: card 223×224 px, avatar 120 px. No profile
+  switched.
+- Commit: see git log ("Profile picker fits tablets").
+
 ## 2026-11-04 (onboarding avatars fill their tiles on tablets, #78)
 - claude · Onboarding's avatar pictures stayed 64 px in 223 px tiles at 1024 px (29 % of the tile). From 600 px the
   picture is 60 % of the tile (≤ 140 px), as on phones. Phones unchanged (64 px in 106 px tiles).
