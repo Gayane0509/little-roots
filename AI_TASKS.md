@@ -1,7 +1,7 @@
 # AI task backlog — Little Roots
 
 Score = impact (1–5) × confidence (1–5) ÷ effort (1–5); risk L/M/H. Owner: codex | claude | owner. Codex is unavailable until the owner fixes its model config (row 11).
-Status: todo · doing · waiting-capacity · blocked · done. One owner per task; disjoint files when parallel.
+Status: todo · doing · waiting-capacity · blocked · done. Done tasks are committed to `main` (one commit per task) once `npm run check` passes; never pushed without asking. One owner per task; disjoint files when parallel.
 
 | # | Task | Score | Risk | Owner | Status | Acceptance |
 |---|------|-------|------|-------|--------|------------|
