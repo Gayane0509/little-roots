@@ -2,6 +2,17 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (Family voice list two a row on tablets, #76)
+- claude · Parent → Family voice showed one full-width row per word (104 words) on tablets; from 600 px it now shows
+  two words a row (`SectionList` rows of pairs via new `lib/chunk`, a spacer keeps an odd last word half-width).
+  Phones unchanged (one a row). Recording logic untouched.
+- Files: `src/app/parent/voice.tsx`, `src/lib/chunk.ts` (+ test).
+- Checks: tsc ✓, ESLint ✓, Jest 60 suites / 248 tests ✓ (incl. the recording-file source guard). Web: 1024×768 →
+  Record buttons side by side (316 px each), no overflow; 375 px → one a row (307 px), no console errors. Not checked:
+  a recorded word's Record/Play/Delete wrap at half width (needs a web mic grant; buttons wrap 2 + 1 by their 120 px
+  min width).
+- Commit: see git log ("Family voice list two a row on tablets").
+
 ## 2026-11-04 (bigger lesson word picture on tablets, #75)
 - claude · The lesson's word card picture grows 160 → 220 px when the window is ≥ 600 px wide and ≥ 700 px tall (so
   Next stays on screen); phones unchanged.

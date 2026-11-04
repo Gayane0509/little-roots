@@ -1,20 +1,21 @@
 import { RecordingPresets, requestRecordingPermissionsAsync, setAudioModeAsync, useAudioRecorder } from 'expo-audio';
 import { router } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Linking, Platform, Pressable, ScrollView, SectionList, StyleSheet, Text, View } from 'react-native';
+import { Linking, Platform, Pressable, ScrollView, SectionList, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
 import { ACTIVE_PACK } from '@/content/packs';
 import { themeArtWordId } from '@/content/themeArt';
 import type { ThemeId, Word } from '@/content/types';
 import { useParentGuard } from '@/features/parent/gate';
 import { RECORDING_AUDIO_MODE, restorePlaybackAudioMode } from '@/lib/audioSession';
+import { chunk } from '@/lib/chunk';
 import { useFamilyVoice } from '@/state/familyVoice';
 import { useProfiles } from '@/state/profiles';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
 import { selectedA11y } from '@/ui/selectedA11y';
 import { WordArt } from '@/ui/WordArt';
-import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
+import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN, WIDE_BREAKPOINT } from '@/ui/tokens';
 
 /** Words are short; a forgotten Stop never leaves the microphone open. */
 const MAX_RECORDING_MS = 5000;
@@ -42,9 +43,11 @@ export default function FamilyVoiceScreen() {
 
   const allWords = useMemo(() => ACTIVE_PACK.themes.flatMap((theme) => theme.words), []);
   const recordedCount = allWords.filter((word) => voice.uris[word.id]).length;
+  // Tablets show two words a row so the 100+ word list is half as long.
+  const columns = useWindowDimensions().width >= WIDE_BREAKPOINT ? 2 : 1;
   const sections = useMemo(() => ACTIVE_PACK.themes
     .filter((theme) => filter === 'all' || theme.id === filter)
-    .map((theme) => ({ key: theme.id, title: theme.titleEn, data: theme.words })), [filter]);
+    .map((theme) => ({ key: theme.id, title: theme.titleEn, data: chunk(theme.words, columns) })), [filter, columns]);
 
   // Leaving the screen mid-recording stops the microphone and discards that take.
   useEffect(() => () => {
@@ -114,7 +117,7 @@ export default function FamilyVoiceScreen() {
     <Screen>
       <SectionList
         sections={sections}
-        keyExtractor={(word) => word.id}
+        keyExtractor={(row) => row.map((word) => word.id).join('+')}
         stickySectionHeadersEnabled={false}
         contentContainerStyle={styles.content}
         ListHeaderComponent={<View style={styles.header}>
@@ -142,47 +145,54 @@ export default function FamilyVoiceScreen() {
           {permissionDenied && Platform.OS !== 'web' && <BigButton label="Open Settings" color={colors.textMuted} onPress={() => { void Linking.openSettings(); }} />}
         </View>}
         renderSectionHeader={({ section }) => <Text accessibilityRole="header" style={styles.section}>{section.title}</Text>}
-        renderItem={({ item: word }) => {
-          const recorded = !!voice.uris[word.id];
-          const isRecording = recordingId === word.id;
-          const othersBusy = busy || (!!recordingId && !isRecording);
-          return (
-            <View style={[styles.row, isRecording && styles.rowRecording]}>
-              <View style={styles.word}>
-                <View accessible={false} importantForAccessibility="no-hide-descendants" accessibilityElementsHidden><WordArt wordId={word.id} emoji={word.emoji} size={56} /></View>
-                <View style={styles.wordText}>
-                  <Text style={styles.hy}>{word.hy}</Text>
-                  <Text style={styles.translit}>{word.translit} · {word.en}</Text>
-                  <Text style={[styles.status, recorded && styles.statusDone]}>{isRecording ? 'Recording…' : recorded ? 'Recorded' : 'Not recorded yet'}</Text>
-                </View>
-              </View>
-              {confirmDeleteId === word.id ? (
-                <View style={styles.buttons}>
-                  <Text style={styles.confirm}>Delete this recording?</Text>
-                  <BigButton label="Delete" color={colors.danger} onPress={() => { void remove(word); }} style={styles.button} />
-                  <BigButton label="Keep" color={colors.textMuted} onPress={() => setConfirmDeleteId(null)} style={styles.button} />
-                </View>
-              ) : (
-                <View style={styles.buttons}>
-                  <BigButton
-                    label={isRecording ? `Stop recording ${word.translit}` : `${recorded ? 'Re-record' : 'Record'} ${word.translit}`}
-                    color={isRecording ? colors.danger : colors.primary}
-                    onPress={() => { if (isRecording) void stop(); else void start(word); }}
-                    disabled={othersBusy || !voice.ready}
-                    style={styles.button}
-                  />
-                  {recorded && !isRecording && <>
-                    <BigButton label={`Play ${word.translit}`} color={colors.success} onPress={() => { voice.play(word.id); }} disabled={othersBusy} style={styles.button} />
-                    <BigButton label={`Delete ${word.translit}`} color={colors.textMuted} onPress={() => setConfirmDeleteId(word.id)} disabled={othersBusy} style={styles.button} />
-                  </>}
-                </View>
-              )}
-            </View>
-          );
-        }}
+        renderItem={({ item: row }) => (
+          <View style={styles.rowGroup}>
+            {row.map(renderWord)}
+            {row.length < columns && <View style={styles.cell} />}
+          </View>
+        )}
       />
     </Screen>
   );
+
+  function renderWord(word: Word) {
+        const recorded = !!voice.uris[word.id];
+        const isRecording = recordingId === word.id;
+        const othersBusy = busy || (!!recordingId && !isRecording);
+        return (
+          <View key={word.id} style={[styles.row, styles.cell, isRecording && styles.rowRecording]}>
+            <View style={styles.word}>
+              <View accessible={false} importantForAccessibility="no-hide-descendants" accessibilityElementsHidden><WordArt wordId={word.id} emoji={word.emoji} size={56} /></View>
+              <View style={styles.wordText}>
+                <Text style={styles.hy}>{word.hy}</Text>
+                <Text style={styles.translit}>{word.translit} · {word.en}</Text>
+                <Text style={[styles.status, recorded && styles.statusDone]}>{isRecording ? 'Recording…' : recorded ? 'Recorded' : 'Not recorded yet'}</Text>
+              </View>
+            </View>
+            {confirmDeleteId === word.id ? (
+              <View style={styles.buttons}>
+                <Text style={styles.confirm}>Delete this recording?</Text>
+                <BigButton label="Delete" color={colors.danger} onPress={() => { void remove(word); }} style={styles.button} />
+                <BigButton label="Keep" color={colors.textMuted} onPress={() => setConfirmDeleteId(null)} style={styles.button} />
+              </View>
+            ) : (
+              <View style={styles.buttons}>
+                <BigButton
+                  label={isRecording ? `Stop recording ${word.translit}` : `${recorded ? 'Re-record' : 'Record'} ${word.translit}`}
+                  color={isRecording ? colors.danger : colors.primary}
+                  onPress={() => { if (isRecording) void stop(); else void start(word); }}
+                  disabled={othersBusy || !voice.ready}
+                  style={styles.button}
+                />
+                {recorded && !isRecording && <>
+                  <BigButton label={`Play ${word.translit}`} color={colors.success} onPress={() => { voice.play(word.id); }} disabled={othersBusy} style={styles.button} />
+                  <BigButton label={`Delete ${word.translit}`} color={colors.textMuted} onPress={() => setConfirmDeleteId(word.id)} disabled={othersBusy} style={styles.button} />
+                </>}
+              </View>
+            )}
+          </View>
+        );
+  }
 }
 
 function FilterChip({ label, selected, onPress, artWordId, emoji }: { label: string; selected: boolean; onPress(): void; artWordId?: string; emoji?: string }) {
@@ -213,6 +223,8 @@ const styles = StyleSheet.create({
   chipTextSelected: { color: '#FFFFFF' },
   message: { color: colors.text, fontSize: font.body, fontWeight: '600' },
   section: { color: colors.text, fontSize: font.heading, fontWeight: '800', marginTop: spacing.sm },
+  rowGroup: { flexDirection: 'row', gap: spacing.md },
+  cell: { flex: 1 },
   row: { padding: spacing.md, gap: spacing.sm, borderRadius: radius.md, backgroundColor: colors.surface, borderWidth: 2, borderColor: 'transparent' },
   rowRecording: { borderColor: colors.danger },
   word: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
