@@ -1,7 +1,7 @@
 
 import { Redirect, router, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, AppState, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, AppState, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
 import { ACTIVE_PACK } from '@/content/packs';
 import { ThemeCard } from '@/features/home/ThemeCard';
@@ -16,12 +16,14 @@ import { Buddy } from '@/ui/Buddy';
 import { Icon } from '@/ui/Icon';
 import { freeWordsFinished } from '@/features/paywall/offer';
 import { Screen } from '@/ui/Screen';
+import { sceneHeight } from '@/ui/SceneBackdrop';
 import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 export default function Home() {
   const line = useBuddyLine();
   const { state, ready } = useProgress();
   const { active } = useProfiles();
+  const { width } = useWindowDimensions();
   const [now, setNow] = useState(() => Date.now());
   useFocusEffect(useCallback(() => setNow(Date.now()), []));
   useEffect(() => {
@@ -46,8 +48,8 @@ export default function Home() {
   const nextThemeId = nextNewTheme(ACTIVE_PACK.themes, state.words, state.isPremium)?.id;
 
   return (
-    <Screen>
-      <ScrollView contentContainerStyle={styles.content}>
+    <Screen scene="hills">
+      <ScrollView contentContainerStyle={[styles.content, { paddingBottom: sceneHeight(width) }]}>
         <View style={styles.topRow}>
           <View style={styles.stats}>
             <View style={styles.statRow} accessible accessibilityLabel={`${streak} day streak`}>

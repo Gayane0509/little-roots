@@ -25,6 +25,7 @@ jest.mock('react-native-safe-area-context', () => {
   return { SafeAreaView: ({ children }: { children?: ReactNode }) => React.createElement('main', null, children) };
 });
 jest.mock('@/ui/Icon', () => ({ Icon: () => null }));
+jest.mock('@/ui/SceneBackdrop', () => ({ SceneBackdrop: () => null }));
 jest.mock('@/state/settings', () => ({ useSettings: () => ({ haptics: true }) }));
 const mockCalls: string[] = [];
 jest.mock('expo-router', () => ({ router: { replace: (path: string) => { mockCalls.push(`replace ${path}`); } } }));

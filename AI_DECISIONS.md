@@ -2,6 +2,9 @@
 
 Durable decisions with reasons. Newest first. Earlier ones are summarized from `PROGRESS.md`.
 
+- 2026-11-04 · Scene backdrops (`src/art/scenes.ts`) only on calm screens (Home, lesson reward), never behind words or
+  game choices. Pale tints with no outlines so they read as background; any fill must keep `colors.text` ≥ 4.5:1
+  (test). Static: no parallax or drifting clouds (battery, reduce motion, attention on content).
 - 2026-11-04 · Home "Next" marker = the first unlocked theme with a word the child hasn't met (`nextNewTheme`, the same
   rule the daily lesson uses for new words). Not the review theme: reviews span themes, a marker there would jump
   around. Static (no bounce) so it guides without competing with the Start button; no marker when all words were met.

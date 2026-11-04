@@ -141,7 +141,7 @@ function ReadyLesson() {
 
   const card = lesson.newWords[cardIndex];
   return (
-    <Screen>
+    <Screen scene={step === 'reward' ? 'hills' : undefined}>
       <View style={styles.topBar}>
         <Pressable accessibilityRole="button" accessibilityLabel="Close lesson" onPress={() => { if (router.canGoBack()) router.back(); else router.replace('/'); }} style={styles.close}>
           <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.closeText}>×</Text>

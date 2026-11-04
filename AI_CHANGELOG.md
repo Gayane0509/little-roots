@@ -2,6 +2,19 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (scene backdrop on Home and the lesson reward, #55)
+- claude · A soft hills scene (cloud, tree, flowers; pale palette tints, no outlines) is drawn along the bottom of Home
+  and the lesson reward, behind everything (no touch, hidden from screen readers, static). Height = 30% of the window
+  width, capped at 240; `xMidYMax slice` keeps the bottom on wide screens. Home's scroll content is padded by that
+  height so the last theme cards rest above the hills. Lesson, game and word screens stay plain.
+- Files: `src/art/scenes.ts` (+ `scenes.test.ts`: SVG rules, `colors.text` ≥ 4.5:1 on every fill),
+  `src/ui/SceneBackdrop.tsx` (+ `SceneBackdrop.test.ts`), `src/ui/Screen.tsx` (`scene` prop), `src/app/index.tsx`,
+  `src/app/lesson.tsx`, `src/features/errors/KidErrorScreen.test.tsx` (stubs the backdrop like it stubs `Icon`).
+- Checks: tsc ✓, ESLint ✓, Jest 52 suites / 216 tests ✓. Web: Home at 375 px (top and scrolled to the end) and
+  1024 px; a full lesson run to the reward at 375 px; no app console errors (only Chrome's "vibrate blocked" for scripted
+  clicks). Device rendering of `preserveAspectRatio` on SvgXml not checked (#10).
+- Commit: see git log ("Soft hills scene").
+
 ## 2026-11-04 (Home "Next up" marker, #57)
 - claude · The theme the next new words come from gets a small Buddy badge with a "Next" ribbon and a darker border
   (static, no motion); its screen-reader label starts with "Next up:". One rule, `nextNewTheme` in `src/lib/lesson.ts`,
