@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-04 23:55 (+04). Updated at the end of every session._
+_Updated: 2026-11-05 00:40 (+04). Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -35,7 +35,7 @@ _Updated: 2026-11-04 23:55 (+04). Updated at the end of every session._
 - 2026-11-04: **Family voice (#60, owner's top priority; replaces "No voice")** — parent records words on
   Parent → Family voice; played on lesson cards/rounds, theme page, Find; on-device only, per child + language; mic
   asked only there. Web-verified; native check #61 blocked on Xcode.
-- Checks (2026-11-04 23:54, after #100 review): `npm run check` — tsc, ESLint, Jest 69 suites / 283 tests; (after #93: 66 / 269); web export ✓ (after #83); expo-doctor 20/20 (after #77).
+- Checks (2026-11-05 00:35, unchanged code; 2026-11-04 23:54, after #100 review): `npm run check` — tsc, ESLint, Jest 69 suites / 283 tests; (after #93: 66 / 269); web export ✓ (after #83); expo-doctor 20/20 (after #77).
 - Checks (working tree, 2026-11-04 00:05): tsc, ESLint, Jest 46 suites / 189 tests; expo-doctor 20/20 (last run 2026-11-03).
 - 2026-11-04: #52 picture pass (4 redraws, bike fix), #53 Family + Food grow to 12 words with new drawings (104 words), #54 clearer parent weekly report, #59 first-lesson tap hint.
 - 2026-11-04 17:30 run: #57 Home "Next up" marker (Buddy badge + "Next" ribbon on the theme new words come from;
@@ -72,8 +72,10 @@ _Updated: 2026-11-04 23:55 (+04). Updated at the end of every session._
   after the child's button on 4 more kid screens, #98 Games cards dimmed when today's games are used up, #99/#100 last UI
   emoji → drawn icons (flame, chart, clock, bulb, gear, play, lock, new check) + guard test. Reviewer subagents on every
   diff: no blockers; lows fixed. Expo deps up to date (`expo install --check`).
-- Next unblocked: see the game right-answer tick and theme "Start a lesson" icon on screen (need a fresh test child / a new
-  day: today's test profile has all free themes learned and 0 games left); research new scored tasks (backlog left is
+- 2026-11-05 00:30 run (short: last hour; Codex still blocked #11; Claude 5-hour 18 %, weekly 59 %): #100 icons seen on
+  screen in a clean origin (127.0.0.1:8095, 375×812): theme "Start a lesson" drawn play icon and the Find game right-answer
+  tick; no console errors. `npm run check` green (69 suites / 283 tests). Finding → #101.
+- Next unblocked: #101 Find/Read answer pictures fill tall phones; research new scored tasks (backlog left is
   low-score: #49 1.5, #65 1.5). Native: #10/#14/#16/#39/#50/#61 check (VoiceOver: #94 canvas size).
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 

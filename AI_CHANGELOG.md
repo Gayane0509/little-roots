@@ -2,6 +2,12 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-05 (00:30 run; lock taken 00:34)
+- claude · Verification only, no code change: in a clean origin (127.0.0.1:8095, 375×812) the theme "Start a lesson" button shows the
+  drawn play icon (#100) and a right answer in Find shows the drawn tick; no console errors. New task #101 (Find answer pictures
+  on tall phones). Files: `PROJECT_STATUS.md`, `AI_TASKS.md`, `AI_CHANGELOG.md`. Checks: `npm run check` — tsc, ESLint, Jest
+  69 suites / 283 tests ✓. Commit: "Notes: 00:30 run checkpoint".
+
 ## 2026-11-04 (23:30 run; lock taken 23:34)
 - claude · #94 tracing canvas leaves room for the screen-reader "Mark as traced" button: `traceCanvasSize` gets a
   `markButton` flag (`TRACE_MARK_BUTTON_CHROME = TOUCH_MIN + spacing.md`), screen-reader state lifted to `TraceCanvas`.
