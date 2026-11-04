@@ -8,7 +8,7 @@ export const SCENE_ART_TOP = 22;
 const VIEWBOX = { width: 400, height: 120 };
 
 /**
- * Backdrop height for a window width: about a third of the width, at most 240 — except on screens wider than 800,
+ * Backdrop height for a window width: about a third of the width, at most 240 — except on screens wider than ~980,
  * where 240 would crop the clouds; there it grows just enough to keep the crop above `SCENE_ART_TOP`.
  */
 export function sceneHeight(width: number): number {

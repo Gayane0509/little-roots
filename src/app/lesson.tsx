@@ -7,6 +7,7 @@ import { themeArtWordId } from '@/content/themeArt';
 import { useBuddyLine } from '@/features/buddy/useBuddyLine';
 import { freeWordsFinished } from '@/features/paywall/offer';
 import type { Word } from '@/content/types';
+import { lessonArtSizes } from '@/features/lesson/artSizes';
 import { gameOptions, shuffled } from '@/features/lesson/game';
 import { initialLessonState, lessonReducer, type Step } from '@/features/lesson/lessonReducer';
 import { shouldShowTapHint } from '@/features/lesson/tapHint';
@@ -27,7 +28,7 @@ import { TapHint } from '@/ui/TapHint';
 import { useAutoPlayWord, VoiceButton } from '@/ui/VoiceButton';
 import { Wiggle } from '@/ui/Wiggle';
 import { WordArt } from '@/ui/WordArt';
-import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN, WIDE_BREAKPOINT } from '@/ui/tokens';
+import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 export default function LessonScreen() {
   const line = useBuddyLine();
@@ -42,16 +43,13 @@ function ReadyLesson() {
   const { soundEffects, haptics } = useSettings();
   const { state, recordAnswer, completeLesson } = useProgress();
   const outfit = wornOutfit(state);
-  // Wide windows: bigger answer pictures so they fill the wider option cards (#71).
   const { width, height } = useWindowDimensions();
-  const optionArt = width >= WIDE_BREAKPOINT ? 120 : 88;
-  // The word card's picture grows on tablets, but only when the window is tall enough that the card needn't scroll.
-  const cardArt = width >= WIDE_BREAKPOINT && height >= 700 ? 220 : 160;
   const [lesson] = useState<DailyLesson | null>(() => buildDailyLesson({
     themes: ACTIVE_PACK.themes, words: state.words, isPremium: state.isPremium, now: Date.now(),
   }));
   const [showNewSticker] = useState(() => !!lesson?.newWords[0] && !state.stickers.includes(lesson.newWords[0].emoji));
   const [newOutfit] = useState(() => showNewSticker ? outfitUnlockedBy(state.stickers.length, state.stickers.length + 1) : undefined);
+  const art = lessonArtSizes(width, height, !!newOutfit);
   const [rounds] = useState(() => lesson ? shuffled([...lesson.newWords, ...lesson.reviewWords]) : []);
   const [flow, dispatch] = useReducer(lessonReducer, initialLessonState);
   const { stepIndex, cardIndex, roundIndex, songLineIndex, firstTryCorrect, hadWrongTap, wrongTaps, selectedId, feedbackPending } = flow;
@@ -171,7 +169,7 @@ function ReadyLesson() {
           <Buddy message={line('lesson_tap_card')} outfit={outfit} />
           <Text style={styles.counter}>Word {cardIndex + 1} of {lesson.newWords.length}</Text>
           <Animated.View style={{ width: '100%', opacity: cardEntrance, transform: [{ translateY: cardEntrance.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }] }}><Wiggle wordId={card.id} label={`${card.hy}, ${card.translit}, ${card.en}`} onTap={() => setCardTapped(true)}><View style={styles.wordCard}>
-            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={card.id} emoji={card.emoji} size={cardArt} /></View>
+            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={card.id} emoji={card.emoji} size={art.card} /></View>
             <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.armenian}>{card.hy}</Text>
             <Text style={styles.translit}>{card.translit}</Text>
             <Text style={styles.english}>{card.en}</Text>
@@ -197,7 +195,7 @@ function ReadyLesson() {
                   accessibilityState={{ disabled: feedbackPending, selected: selectedId === word.id }}
                   accessibilityHint="Double tap to choose this picture" disabled={feedbackPending}
                   onPress={() => answer(word)} style={[styles.option, selectedId === word.id && styles.optionCorrect]}>
-                  <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={word.id} emoji={word.emoji} size={optionArt} /></View>
+                  <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={word.id} emoji={word.emoji} size={art.option} /></View>
                   {selectedId === word.id && <View style={styles.check} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.checkText}>✓</Text></View>}
                 </Pressable>
                 </HintPulse>
@@ -221,11 +219,11 @@ function ReadyLesson() {
         {step === 'reward' && <>
           <Confetti />
           <Buddy message={line('lesson_done')} mood="proud" outfit={outfit} />
-          <Animated.View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={{ transform: [{ scale: burst }] }}><Icon name="stickers" size={140} /></Animated.View>
+          <Animated.View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={{ transform: [{ scale: burst }] }}><Icon name="stickers" size={art.reward} /></Animated.View>
           <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.heading} accessibilityRole="header">You earned {3 + firstTryCorrect} stars!</Text>
           {showNewSticker && lesson.newWords[0] && <View accessible accessibilityRole="text" accessibilityLabel={`New sticker: ${lesson.newWords[0].en}`} style={styles.stickerRow}>
             <Text style={styles.sticker}>New sticker:</Text>
-            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={lesson.newWords[0].id} emoji={lesson.newWords[0].emoji} size={96} /></View>
+            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={lesson.newWords[0].id} emoji={lesson.newWords[0].emoji} size={art.sticker} /></View>
           </View>}
           {newOutfit && <View accessible accessibilityRole="text" accessibilityLabel={`New for ${BUDDY_NAME.en}: ${OUTFIT_LABEL[newOutfit].toLowerCase()}. Dress up ${BUDDY_NAME.en} in the sticker book.`} style={styles.stickerRow}>
             <Text style={styles.sticker}>New for {BUDDY_NAME.hy}:</Text>

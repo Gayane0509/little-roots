@@ -4,10 +4,15 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
 
 ## 2026-11-04 (20:30 run)
 - claude · #80 Hills scene crop on wide screens: clouds moved down (art top y = 22), `sceneHeight` keeps the
-  `slice` crop above `SCENE_ART_TOP` past 800 px (1024 → 251, 1366 → 335; phones unchanged). Files:
+  `slice` crop above `SCENE_ART_TOP` (grows past 240 only above ~980 px: 1024 → 251, 1366 → 335; phones unchanged). Files:
   `src/art/scenes.ts`, `src/ui/SceneBackdrop{,.test}.tsx/ts`. Checks: `npm run check` — tsc, ESLint, Jest
   60 suites / 250 tests ✓; web: lesson reward at 375, 1024×768, 1366×1024, Home at 1024; no console errors.
   Codex still unavailable (#11).
+- claude · #81 Bigger reward star (180) and new sticker (128) on ≥ 600×700 windows unless a new-outfit row shows;
+  lesson art sizes moved to `src/features/lesson/artSizes{,.test}.ts`; `src/app/lesson.tsx` uses it. Logged #82
+  (pre-existing ~21 px overflow with an outfit row at 1024×768).
+- reviewer subagent on #80 + #81: no blocking findings; 3 low fixed (threshold tests, "~980 px" wording + 979 test,
+  path guard fails on non-absolute commands). Checks: `npm run check` — Jest 61 suites / 255 tests ✓.
 
 ## 2026-11-04 (profile picker on tablets, #79)
 - claude · From 600 px the "Who is learning?" cards are 3 a row (31 %, near-square) with 120 px avatars (was 2 long
