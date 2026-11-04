@@ -2,6 +2,14 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (theme page fits wide screens, #69; iPad orientation finding, #68)
+- claude · Theme page shows 3 word cards a row with 120 px pictures from 600 px (phones keep 2 a row, 84 px).
+  Research: on iPad the app rotates (Expo adds every iPad orientation unless `requireFullScreen`); landscape layouts
+  fit at 1024×768; owner decision logged (#68), no config change.
+- Files: `src/app/theme/[id].tsx`; notes.
+- Checks: tsc ✓, ESLint ✓, Jest 57 suites / 238 tests ✓. Web: Food theme at 375 + 1024 px.
+- Commit: see git log ("Theme page fits wide screens").
+
 ## 2026-11-04 (lesson reward announces a new outfit, #67)
 - claude · When a lesson's new sticker unlocks a dress-up item, the reward screen adds "New for Արջուկ:" with Buddy
   wearing it; the screen reader hears "New for Little Bear: glasses. Dress up Little Bear in the sticker book."
