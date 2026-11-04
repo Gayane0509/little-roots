@@ -35,7 +35,7 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
 - 2026-11-04: **Family voice (#60, owner's top priority; replaces "No voice")** — parent records words on
   Parent → Family voice; played on lesson cards/rounds, theme page, Find; on-device only, per child + language; mic
   asked only there. Web-verified; native check #61 blocked on Xcode.
-- Checks (2026-11-04, after #70): `npm run check` — tsc, ESLint, Jest 58 suites / 241 tests.
+- Checks (2026-11-04, after #79): `npm run check` — tsc, ESLint, Jest 60 suites / 248 tests; expo-doctor 20/20; web export ✓.
 - Checks (working tree, 2026-11-04 00:05): tsc, ESLint, Jest 46 suites / 189 tests; expo-doctor 20/20 (last run 2026-11-03).
 - 2026-11-04: #52 picture pass (4 redraws, bike fix), #53 Family + Food grow to 12 words with new drawings (104 words), #54 clearer parent weekly report, #59 first-lesson tap hint.
 - 2026-11-04 17:30 run: #57 Home "Next up" marker (Buddy badge + "Next" ribbon on the theme new words come from;
@@ -47,9 +47,13 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
   art scales with tile); #67 lesson reward shows a newly unlocked outfit (web-checked 5 → 6 stickers); #68 iPad rotates to landscape
   (finding, owner decision; landscape layouts fit at 1024×768). Screen sweep at 320 px: no horizontal overflow. #69 theme page 3 a row on wide screens. #70 BigButton
   labels spoken without emoji. Parent area at 320 px: no overflow. #71 bigger answer pictures on wide screens.
-- Next unblocked: Memory game + Letters on wide screens (same fit check as #66/#69/#71), Parent gate's 🔐 emoji →
-  drawn lock (cosmetic), #49 (1.5), #65 idea (1.5); then research for new scored tasks. Native:
-  #10/#14/#16/#39/#50/#61 check.
+- 2026-11-04 19:30 run: wide-screen sweep → #72 Memory board bug fixed (was 2 columns / scrolling at 1024 px; now
+  4×3 sized from the content column), #73 Letters 6 a row, #74 drawn lock on the parent gate, #75 bigger lesson
+  picture on tablets, #76 Family voice two a row on tablets, #77 Expo SDK 58 patch updates (doctor 20/20, audit 8 → 5
+  moderate), #78 onboarding avatars fill their tiles, #79 profile picker 3 a row. Reviewer subagent on #72–#75: no
+  blocking findings (comment fixed; web-only scrollbar slack noted, not fixed).
+- Next unblocked: #49 (1.5), #65 idea (1.5); lesson reward + Read game at 1024 px not yet re-checked (need a finished
+  lesson / free game in the preview); then research for new scored tasks. Native: #10/#14/#16/#39/#50/#61 check.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Blockers (owner)
@@ -61,7 +65,7 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
 4. Commits (owner rule, 2026-11-04): each finished task is committed to `main` once `npm run check` passes, one
    clear commit per task; never failing or half-done work. After each commit, push `main` to origin (never
    force-push; if rejected: `git pull --rebase origin main`, `npm run check` again, then push). Everything up to
-   9631980 is committed. The hourly `little-roots-daily` task (17:30–01:00) follows the same rule, bans voice features
+   637d44d is committed and pushed. The hourly `little-roots-daily` task (17:30–01:00) follows the same rule, bans voice features
    other than Family voice, and puts images/design first.
 5. #40 Proposal: release Android build without the INTERNET permission (needs a config plugin + native test).
 6. #68 Decision: keep iPad rotation (recommended) or set `ios.requireFullScreen: true` (portrait-only iPad, no Split View).

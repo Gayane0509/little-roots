@@ -146,3 +146,9 @@ Durable decisions with reasons. Newest first. Earlier ones are summarized from `
   `requireFullScreen: true` is store-critical config and needs the owner. Sources: expo/fyi "ipad-requires-fullscreen",
   `@expo/config-plugins` RequiresFullScreen.
 
+## 2026-11-04 — Wide-screen layout rule (#66–#79)
+- From `WIDE_BREAKPOINT` (600 px window width) grids add columns and pictures grow with their tiles; phones (< 600 px)
+  keep their exact sizes. Size grids from the content column (`min(width − 2·spacing.md, CONTENT_MAX_WIDTH)`), never
+  the raw window width: the window-based Memory board wrapped to 2 columns at 1024 px (#72).
+- Parent-only screens get the same treatment only where a list is long (Family voice, #76); stat cards stay as is.
+
