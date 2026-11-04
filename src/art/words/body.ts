@@ -37,7 +37,6 @@ export const art: ThemeArt = {
 <ellipse cx="64" cy="64" rx="56" ry="46" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3"/>
 <circle cx="14" cy="76" r="0" fill="none"/>
 <circle cx="24" cy="76" r="7" fill="#FF9EAA" opacity="0.6"/><circle cx="104" cy="76" r="7" fill="#FF9EAA" opacity="0.6"/>
-<path d="M62 34 Q64 38 66 34" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round" opacity="0"/>
 <path d="M24 58 Q64 56 104 58 Q100 110 64 110 Q28 110 24 58 Z" fill="#F25C54" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
 <path d="M28 60 Q64 58 100 60 Q100 74 94 78 Q64 70 34 78 Q28 74 28 60 Z" fill="#FFFFFF" stroke="#3A2E39" stroke-width="2.5" stroke-linejoin="round"/>
 <path d="M44 108 Q64 80 84 108 Q64 114 44 108 Z" fill="#FF8FB1" stroke="#3A2E39" stroke-width="2.5" stroke-linejoin="round"/>
@@ -80,6 +79,5 @@ export const art: ThemeArt = {
 <circle cx="48" cy="54" r="4" fill="#3A2E39"/><circle cx="80" cy="54" r="4" fill="#3A2E39"/>
 <circle cx="38" cy="66" r="5" fill="#FF9EAA" opacity="0.7"/><circle cx="90" cy="66" r="5" fill="#FF9EAA" opacity="0.7"/>
 <path d="M54 64 Q64 76 74 64" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
-<path d="M104 14 L104 28 M97 21 L111 21" stroke="#FFD23F" stroke-width="4" stroke-linecap="round" opacity="0"/>
 </svg>`,
 };

@@ -6,7 +6,6 @@ export const art: ThemeArt = {
 <path d="M98 30 Q120 30 118 66 Q116 90 100 88 Q88 80 88 50 Z" fill="#A0582F" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
 <ellipse cx="64" cy="64" rx="40" ry="42" fill="#D9965B" stroke="#3A2E39" stroke-width="3"/>
 <ellipse cx="64" cy="82" rx="22" ry="17" fill="#FFF3DC" stroke="#3A2E39" stroke-width="3"/>
-<path d="M44 48 Q44 36 56 34 Q64 40 64 56 Q48 56 44 48 Z" fill="#A0582F" opacity="0"/>
 <circle cx="48" cy="56" r="4" fill="#3A2E39"/><circle cx="80" cy="56" r="4" fill="#3A2E39"/>
 <ellipse cx="64" cy="72" rx="8" ry="6" fill="#3A2E39"/>
 <path d="M64 78 L64 86 M64 86 Q56 94 50 86 M64 86 Q72 94 78 86" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
@@ -72,7 +71,6 @@ export const art: ThemeArt = {
 <path d="M50 96 Q64 116 80 94 Z" fill="#F25C54" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
 <ellipse cx="58" cy="64" rx="50" ry="36" fill="#FF9F43" stroke="#3A2E39" stroke-width="3"/>
 <path d="M78 34 Q90 64 78 94" fill="none" stroke="#F25C54" stroke-width="4" stroke-linecap="round"/>
-<path d="M60 40 Q70 64 60 88" fill="none" stroke="#F25C54" stroke-width="4" stroke-linecap="round" opacity="0"/>
 <circle cx="32" cy="58" r="8" fill="#FFFFFF" stroke="#3A2E39" stroke-width="2.5"/>
 <circle cx="31" cy="58" r="4.5" fill="#3A2E39"/>
 <path d="M12 72 Q18 80 26 74" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
@@ -89,9 +87,7 @@ export const art: ThemeArt = {
 <circle cx="46" cy="78" r="4.5" fill="#3A2E39"/><circle cx="82" cy="78" r="4.5" fill="#3A2E39"/>
 <ellipse cx="64" cy="90" rx="6" ry="4.5" fill="#FF8FB1" stroke="#3A2E39" stroke-width="2.5"/>
 <path d="M64 94 L64 100 M64 100 Q57 108 51 101 M64 100 Q71 108 77 101" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
-<rect x="59" y="102" width="10" height="9" rx="2" fill="#FFFFFF" stroke="#3A2E39" stroke-width="2.5" opacity="0"/>
 <circle cx="36" cy="92" r="5.5" fill="#FF9EAA" opacity="0.6"/><circle cx="92" cy="92" r="5.5" fill="#FF9EAA" opacity="0.6"/>
-<path d="M32 70 L10 66 M32 80 L10 84 M96 70 L118 66 M96 80 L118 84" stroke="#B8BCC6" stroke-width="2.5" stroke-linecap="round" opacity="0"/>
 </svg>`,
   bear: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
 <circle cx="26" cy="30" r="17" fill="#A0582F" stroke="#3A2E39" stroke-width="3"/>

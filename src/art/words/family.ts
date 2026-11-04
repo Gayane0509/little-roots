@@ -61,7 +61,6 @@ export const art: ThemeArt = {
 <circle cx="64" cy="58" r="25" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
 <path d="M39 54 Q40 30 64 30 Q88 30 89 54 Q76 48 64 38 Q52 48 39 54 Z" fill="#FF9F43" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
 <path d="M22 62 L32 66 L26 74 Z M106 62 L96 66 L102 74 Z" fill="#FF8FB1" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
-<path d="M14 66 L26 70 L20 80 Z M114 66 L102 70 L108 80 Z" fill="#FF8FB1" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" opacity="0"/>
 <circle cx="54" cy="60" r="3.5" fill="#3A2E39"/><circle cx="74" cy="60" r="3.5" fill="#3A2E39"/>
 <circle cx="48" cy="69" r="4.5" fill="#FF9EAA" opacity="0.6"/><circle cx="80" cy="69" r="4.5" fill="#FF9EAA" opacity="0.6"/>
 <path d="M56 69 Q64 77 72 69" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>

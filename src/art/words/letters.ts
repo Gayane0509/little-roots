@@ -52,7 +52,6 @@ export const art: ThemeArt = {
 </svg>`,
   ship_s_wheel: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
 <path d="M64 8 L64 120 M8 64 L120 64 M24 24 L104 104 M104 24 L24 104" stroke="#A0582F" stroke-width="9" stroke-linecap="round"/>
-<path d="M64 8 L64 120 M8 64 L120 64 M24 24 L104 104 M104 24 L24 104" stroke="#3A2E39" stroke-width="3" stroke-linecap="round" opacity="0"/>
 <circle cx="64" cy="64" r="38" fill="none" stroke="#3A2E39" stroke-width="16" stroke-linecap="round"/>
 <circle cx="64" cy="64" r="38" fill="none" stroke="#D9965B" stroke-width="10"/>
 <circle cx="64" cy="8" r="6" fill="#A0582F" stroke="#3A2E39" stroke-width="3"/><circle cx="64" cy="120" r="6" fill="#A0582F" stroke="#3A2E39" stroke-width="3"/>
@@ -159,7 +158,6 @@ export const art: ThemeArt = {
 <path d="M98 52 Q122 46 120 62 Q116 76 94 68 Z" fill="#FFFFFF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
 <path d="M32 62 C32 30 96 30 96 62 C96 76 92 90 86 100 L42 100 C36 90 32 76 32 62 Z" fill="#FFFFFF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
 <ellipse cx="64" cy="88" rx="22" ry="17" fill="#D9965B" stroke="#3A2E39" stroke-width="3"/>
-<path d="M64 102 L64 120 Q58 124 54 118 Q58 114 64 112" fill="#FFF3DC" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" opacity="0"/>
 <path d="M60 102 Q64 118 68 102 Z" fill="#FFFFFF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
 <circle cx="50" cy="62" r="3.5" fill="#3A2E39"/><circle cx="78" cy="62" r="3.5" fill="#3A2E39"/>
 <circle cx="58" cy="84" r="2.5" fill="#3A2E39"/><circle cx="70" cy="84" r="2.5" fill="#3A2E39"/>
@@ -177,7 +175,6 @@ export const art: ThemeArt = {
 <path d="M54 96 L66 96 M54 106 L66 106" stroke="#3A2E39" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
 <circle cx="48" cy="52" r="3.5" fill="#3A2E39"/><circle cx="80" cy="52" r="3.5" fill="#3A2E39"/>
 <circle cx="38" cy="66" r="5" fill="#FF9EAA" opacity="0.6"/><circle cx="90" cy="66" r="5" fill="#FF9EAA" opacity="0.6"/>
-<path d="M84 76 Q92 82 100 76" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round" opacity="0"/>
 <path d="M42 30 Q50 20 62 18" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.45"/>
 </svg>`,
   snake: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">

@@ -35,7 +35,7 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
 - 2026-11-04: **Family voice (#60, owner's top priority; replaces "No voice")** — parent records words on
   Parent → Family voice; played on lesson cards/rounds, theme page, Find; on-device only, per child + language; mic
   asked only there. Web-verified; native check #61 blocked on Xcode.
-- Checks (2026-11-04, after #89): `npm run check` — tsc, ESLint, Jest 65 suites / 268 tests; web export ✓ (after #83); expo-doctor 20/20 (after #77).
+- Checks (2026-11-04, after #93): `npm run check` — tsc, ESLint, Jest 66 suites / 269 tests; web export ✓ (after #83); expo-doctor 20/20 (after #77).
 - Checks (working tree, 2026-11-04 00:05): tsc, ESLint, Jest 46 suites / 189 tests; expo-doctor 20/20 (last run 2026-11-03).
 - 2026-11-04: #52 picture pass (4 redraws, bike fix), #53 Family + Food grow to 12 words with new drawings (104 words), #54 clearer parent weekly report, #59 first-lesson tap hint.
 - 2026-11-04 17:30 run: #57 Home "Next up" marker (Buddy badge + "Next" ribbon on the theme new words come from;
@@ -65,8 +65,8 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
   on #88/#89: no defects. Reviewer subagents on #85 and #86/#87: no blockers.
 - #91 Home free-words-finished: one Buddy, grown-up button secondary. Reviewer on #90/#91: no defects.
 - 2026-11-04 22:30 run (short: Claude 5-hour limit at 70 %, Codex still blocked #11): #92 sheep recoloured (cream wool,
-  grey face; web-checked); #93 logged (hidden opacity-0 SVG shapes).
-- Next unblocked: #93 (10); research new scored tasks (backlog left is low-score: #49, #65); tablet check of the tracing sheet (1024×768 →
+  grey face; web-checked); #93 12 hidden opacity-0 SVG shapes removed + guard test. Stopped early to keep Claude capacity.
+- Next unblocked: research new scored tasks (backlog left is low-score: #49, #65); tablet check of the tracing sheet (1024×768 →
   335 px canvas); #49 (1.5), #65 idea (1.5); then research. Native: #10/#14/#16/#39/#50/#61 check.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 

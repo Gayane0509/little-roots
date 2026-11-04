@@ -5,7 +5,10 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
 ## 2026-11-04 (22:30 run; lock taken 22:34)
 - claude · #92 sheep (letter sheet, Vo): wool `#FFFFFF` → cream `#FFF3DC`, face + ears → grey `#B8BCC6`, hidden
   opacity-0 path replaced by a white highlight (STYLE.md palette). File: `src/art/words/letters.ts`. Checks: `npm run
-  check` — tsc, ESLint, Jest 65 suites / 268 tests ✓; web 375×812 Vo sheet screenshot, no console errors. Commit: see git log ("Sheep: cream wool…").
+  check` — tsc, ESLint, Jest 65 suites / 268 tests ✓; web 375×812 Vo sheet screenshot, no console errors. Commit 50eec77.
+- claude · #93 removed 12 invisible (`opacity="0"`) SVG elements from `src/art/words/{animals,letters,body,food,family,clothes}.ts`;
+  new guard `src/art/hiddenShapes.test.ts` (checked to fail before the removal). Checks: `npm run check` — tsc, ESLint, Jest
+  66 suites / 269 tests ✓; web Family + Food theme pages, Vo sheet: unchanged, no console errors. Commit: "Art: drop hidden shapes… (#93)".
 
 ## 2026-11-04 (21:30 run; lock taken 21:34)
 - claude · #85 review (reviewer subagent): no blockers. Low 1 (tight rhyme gap also on 700–859 px tall tablets) is
