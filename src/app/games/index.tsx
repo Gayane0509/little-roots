@@ -7,9 +7,10 @@ import type { IconName } from '@/art/icons';
 import { Buddy } from '@/ui/Buddy';
 import { Icon } from '@/ui/Icon';
 import { IconTitle } from '@/ui/IconTitle';
-import { AppState, Pressable, ScrollView, StyleSheet, Text } from 'react-native';
+import { AppState, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions } from 'react-native';
 
 import { useBuddyLine } from '@/features/buddy/useBuddyLine';
+import { gameCardIconSize } from '@/features/games/gameListLayout';
 import { goBackOrHome } from '@/lib/navigation';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
@@ -26,6 +27,7 @@ export default function Games() {
   const { state } = useProgressState();
   const [now, setNow] = useState(() => Date.now());
   useFocusEffect(useCallback(() => { setNow(Date.now()); const sub = AppState.addEventListener('change', (status) => { if (status === 'active') setNow(Date.now()); }); return () => sub.remove(); }, []));
+  const iconSize = gameCardIconSize(useWindowDimensions().width);
   const left = gamesLeftToday(state.isPremium, gamesPlayedToday(state, now));
   return (
     <Screen>
@@ -44,7 +46,7 @@ export default function Games() {
             disabled={left === 0}
             style={({ pressed }) => [styles.card, { backgroundColor: game.color, transform: [{ scale: pressed ? 0.97 : 1 }] }]}
           >
-            <Icon name={game.icon} size={56} />
+            <Icon name={game.icon} size={iconSize} />
             <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.cardTitle}>{game.title}</Text>
             <Text style={styles.cardSub}>{game.sub}</Text>
           </Pressable>

@@ -12,6 +12,9 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   `src/features/letters/LetterDetail.tsx`. Checks: `npm run check` — tsc, ESLint, Jest 66 / 270 ✓; web 1024×768 sheet +
   tracing view, 375×812 unchanged; no console errors after reload (one HMR-only error between edits). Commit: "Letters:
   sheet keeps the content width on tablets (#95)".
+- claude · #96 Games list pictures 56 → 88 px from 600 px wide. Files: `src/features/games/gameListLayout{,.test}.ts`,
+  `src/app/games/index.tsx`. Checks: `npm run check` ✓ (67 suites / 271 tests); web 1024×768 + 375×812 (HMR-only console
+  errors between edits, none after reload). Commit: "Games: bigger game pictures on tablets (#96)".
 
 ## 2026-11-04 (22:30 run; lock taken 22:34)
 - claude · #92 sheep (letter sheet, Vo): wool `#FFFFFF` → cream `#FFF3DC`, face + ears → grey `#B8BCC6`, hidden
