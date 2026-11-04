@@ -13,17 +13,19 @@ import { Buddy } from '@/ui/Buddy';
 import { Confetti } from '@/ui/Confetti';
 import { Icon } from '@/ui/Icon';
 import { WordArt } from '@/ui/WordArt';
-import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
+import { colors, font, radius, spacing } from '@/ui/tokens';
 
 import { buildMemoryDeck, type MemoryCard } from './logic';
+import { memoryLayout } from './memoryLayout';
 import { GameDoneActions } from './GameDoneActions';
 
 const MISMATCH_DELAY_MS = 900;
 
-function FlipCard({ card, open, matched, disabled, onPress, width, height }: {
+function FlipCard({ card, open, matched, disabled, onPress, width, height, artSize }: {
   card: MemoryCard;
   width: number;
   height: number;
+  artSize: number;
   open: boolean;
   matched: boolean;
   disabled: boolean;
@@ -52,7 +54,7 @@ function FlipCard({ card, open, matched, disabled, onPress, width, height }: {
       style={[styles.cardWrap, { width, minHeight: height }]}
     >
       <Animated.View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[styles.face, styles.back, { transform: [{ perspective: 800 }, { rotateY: backRotate }] }]}>
-        <Icon name="sprout" size={Math.min(72, width - spacing.sm * 2 - 6, height - spacing.sm * 2 - 6)} />
+        <Icon name="sprout" size={artSize} />
       </Animated.View>
       <Animated.View
         accessible={false}
@@ -66,7 +68,7 @@ function FlipCard({ card, open, matched, disabled, onPress, width, height }: {
         ]}
       >
         {card.kind === 'emoji' ? (
-          <WordArt wordId={card.word.id} emoji={card.word.emoji} size={Math.min(72, width - spacing.sm * 2 - 6, height - spacing.sm * 2 - 6)} />
+          <WordArt wordId={card.word.id} emoji={card.word.emoji} size={artSize} />
         ) : (
           <Text style={styles.hy}>{card.word.hy}</Text>
         )}
@@ -79,7 +81,6 @@ export function MemoryGame({ seenWords, onFinishedChange }: { seenWords: Word[];
   const line = useBuddyLine();
   const { soundEffects, haptics } = useSettings();
   const { recordGamePlayed } = useProgressActions();
-  const { width, height, fontScale } = useWindowDimensions();
   const [deck, setDeck] = useState(() => buildMemoryDeck(seenWords));
   const [flipped, setFlipped] = useState<string[]>([]);
   const [matched, setMatched] = useState<string[]>([]);
@@ -97,11 +98,7 @@ export function MemoryGame({ seenWords, onFinishedChange }: { seenWords: Word[];
   useEffect(() => { if (won) playSfx('reward', soundEffects); }, [won, soundEffects]);
   useEffect(() => { onFinishedChange?.(won); }, [won, onFinishedChange]);
 
-  const gap = spacing.sm;
-  const cardW = Math.max(TOUCH_MIN, Math.floor((width - spacing.md * 2 - gap * 2) / 3) - 1);
-  // Height budget: title, moves, back button and padding take roughly 300px.
-  const rows = Math.ceil(deck.length / 3) || 1;
-  const cardH = Math.ceil(Math.max(TOUCH_MIN + 16, Math.min(Math.round(cardW * 1.1), Math.floor((height - 300) / rows) - gap)) * Math.max(1, fontScale));
+  const { cardWidth, cardHeight, artSize, gap } = memoryLayout(useWindowDimensions(), deck.length);
 
   const flip = (card: MemoryCard) => {
     const t = turn.current;
@@ -163,8 +160,9 @@ export function MemoryGame({ seenWords, onFinishedChange }: { seenWords: Word[];
           <FlipCard
             key={card.key}
             card={card}
-            width={cardW}
-            height={cardH}
+            width={cardWidth}
+            height={cardHeight}
+            artSize={artSize}
             open={flipped.includes(card.key) || matched.includes(card.word.id)}
             matched={matched.includes(card.word.id)}
             disabled={false}

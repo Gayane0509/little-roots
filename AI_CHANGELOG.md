@@ -2,6 +2,16 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (memory board fits wide screens, #72)
+- claude · Bug: Memory card widths came from the window, not the 720 px content column, so at 1024×768 only 2 cards
+  fit a row (6 rows of flat 324×109 cards, board scrolled). New `memoryLayout` sizes cards from the content column;
+  from 600 px the board has 4 columns and 120 px pictures. Phones unchanged (3 columns, 72 px pictures).
+- Files: `src/features/games/memoryLayout.ts` (+ test), `src/features/games/MemoryGame.tsx`.
+- Checks: tsc ✓, ESLint ✓, Jest 59 suites / 245 tests ✓. Web: 1024×768 → 12 cards in 4×3 (173×148 px, 120 px art,
+  no scroll); 375×812 → 3 columns, 108×119 px, 72 px art (as before). Test child's game count reset for the check
+  and restored afterwards.
+- Commit: see git log ("Memory board fits wide screens").
+
 ## 2026-11-04 (bigger answer pictures on wide screens, #71)
 - claude · From 600 px the lesson's answer pictures grow 88 → 120 px and the Find game's 80 → 112 px.
 - Files: `src/app/lesson.tsx`, `src/features/games/ChoiceGame.tsx`.
