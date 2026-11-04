@@ -2,6 +2,14 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (onboarding avatars fill their tiles on tablets, #78)
+- claude · Onboarding's avatar pictures stayed 64 px in 223 px tiles at 1024 px (29 % of the tile). From 600 px the
+  picture is 60 % of the tile (≤ 140 px), as on phones. Phones unchanged (64 px in 106 px tiles).
+- Files: `src/app/onboarding.tsx`.
+- Checks: tsc ✓, ESLint ✓, Jest 60 suites / 248 tests ✓. Web: 1024×768 → 134 px pictures in 223 px tiles; 375 px →
+  64 / 106 px; no overflow, no console errors. Onboarding not submitted (no profile created).
+- Commit: see git log ("Onboarding avatars fill their tiles on tablets").
+
 ## 2026-11-04 (Expo SDK 58 patch updates, #77)
 - claude · `npx expo install --fix`: expo 58.0.23, expo-router 58.0.30, expo-asset 58.0.20, expo-constants 58.0.15,
   expo-linking 58.0.16, expo-notifications 58.1.8, expo-splash-screen 58.0.13, @expo/metro-runtime 58.0.17,
