@@ -1,7 +1,7 @@
 import type { ArtXml } from './types';
 
 /** UI icons drawn in the word-art style (STYLE.md), so they look the same on every platform. */
-export type IconName = 'letters' | 'stickers' | 'games' | 'lock' | 'flame' | 'memory' | 'find' | 'read' | 'sprout' | 'voice';
+export type IconName = 'letters' | 'stickers' | 'games' | 'lock' | 'flame' | 'memory' | 'find' | 'read' | 'sprout' | 'voice' | 'point';
 
 export const ICONS: Record<IconName, ArtXml> = {
   // Two alphabet blocks; the yellow one carries the first Armenian letter's shape (Ա).
@@ -107,5 +107,14 @@ export const ICONS: Record<IconName, ArtXml> = {
 <path d="M98 44 Q108 62 98 80" fill="none" stroke="#4DA3FF" stroke-width="7" stroke-linecap="round"/>
 <path d="M108 30 Q126 62 108 94" fill="none" stroke="#4DA3FF" stroke-width="6" stroke-linecap="round" opacity="0.7"/>
 <path d="M28 42 Q34 36 42 38" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+</svg>`,
+  // Tap hint: a pointing hand with two tap ripples (teaches the tap in a child's first lesson).
+  point: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<g fill="#3A2E39" stroke="#3A2E39" stroke-width="6" stroke-linejoin="round"><rect x="48" y="12" width="20" height="66" rx="10"/><rect x="66" y="50" width="16" height="26" rx="8"/><rect x="80" y="56" width="14" height="24" rx="7"/><ellipse cx="38" cy="80" rx="10" ry="17" transform="rotate(-30 38 80)"/><rect x="36" y="58" width="60" height="54" rx="22"/></g>
+<g fill="#F6C9A0"><rect x="48" y="12" width="20" height="66" rx="10"/><rect x="66" y="50" width="16" height="26" rx="8"/><rect x="80" y="56" width="14" height="24" rx="7"/><ellipse cx="38" cy="80" rx="10" ry="17" transform="rotate(-30 38 80)"/><rect x="36" y="58" width="60" height="54" rx="22"/></g>
+<path d="M66 52 V66 M80 58 V70" fill="none" stroke="#3A2E39" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+<rect x="42" y="106" width="48" height="16" rx="5" fill="#4DA3FF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round"/>
+<path d="M38 20 Q34 10 40 2 M78 20 Q82 10 76 2" fill="none" stroke="#FFD23F" stroke-width="5" stroke-linecap="round"/>
+<path d="M54 22 Q54 16 58 15" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
 </svg>`,
 };

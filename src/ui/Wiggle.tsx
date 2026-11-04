@@ -13,7 +13,7 @@ import { useReduceMotion } from './useReduceMotion';
  * gets feedback). With a `wordId` that has a family-voice recording, the tap plays the word in that voice instead of
  * the tap sound (AI_DECISIONS 2026-11-04). A button role is required for taps to register on the web.
  */
-export function Wiggle({ children, label, style, wordId }: { children: ReactNode; label: string; style?: StyleProp<ViewStyle>; wordId?: string }) {
+export function Wiggle({ children, label, style, wordId, onTap }: { children: ReactNode; label: string; style?: StyleProp<ViewStyle>; wordId?: string; onTap?: () => void }) {
   const reduceMotion = useReduceMotion();
   const { soundEffects } = useSettings();
   const voice = useFamilyVoice();
@@ -21,6 +21,7 @@ export function Wiggle({ children, label, style, wordId }: { children: ReactNode
   const [turn] = useState(() => new Animated.Value(0));
   const running = useRef(false);
   const wiggle = () => {
+    onTap?.();
     if (!(hasVoice && wordId && voice.play(wordId))) playSfx('tap', soundEffects);
     if (reduceMotion || running.current) return;
     running.current = true;

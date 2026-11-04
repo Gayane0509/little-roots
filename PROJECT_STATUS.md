@@ -35,10 +35,10 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
 - 2026-11-04: **Family voice (#60, owner's top priority; replaces "No voice")** — parent records words on
   Parent → Family voice; played on lesson cards/rounds, theme page, Find; on-device only, per child + language; mic
   asked only there. Web-verified; native check #61 blocked on Xcode.
-- Checks (2026-11-04, after #54): `npm run check` — tsc, ESLint, Jest 48 suites / 205 tests.
+- Checks (2026-11-04, after #59): `npm run check` — tsc, ESLint, Jest 50 suites / 210 tests.
 - Checks (working tree, 2026-11-04 00:05): tsc, ESLint, Jest 46 suites / 189 tests; expo-doctor 20/20 (last run 2026-11-03).
-- 2026-11-04: #52 picture pass (4 redraws, bike fix), #53 Family + Food grow to 12 words with new drawings (104 words), #54 clearer parent weekly report.
-- Next unblocked: #59 first-lesson tap hint, then #57/#62/#55/#56/#58 by score. Native:
+- 2026-11-04: #52 picture pass (4 redraws, bike fix), #53 Family + Food grow to 12 words with new drawings (104 words), #54 clearer parent weekly report, #59 first-lesson tap hint.
+- Next unblocked: #57 "Next up" marker, then #55/#56/#62/#58 by score. Native:
   #10/#14/#16/#39/#50/#61 check.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 

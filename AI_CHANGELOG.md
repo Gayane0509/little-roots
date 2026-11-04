@@ -2,6 +2,16 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (first-lesson tap hint, #59)
+- claude · A drawn pointing hand (new `point` icon: skin-tone hand, blue cuff, yellow tap ripples) bobs over the
+  picture on the first word card of a child's first lesson and disappears on the first tap of the card. "First
+  lesson" = no finished lesson in that child's progress, so each child sees it once and nothing new is stored. Reduce
+  motion → a still hand. Decorative only (hidden from screen readers, no touch target).
+- Files: `src/ui/TapHint.tsx` (+ render test), `src/features/lesson/tapHint.ts` (+ test), `src/art/icons.ts`,
+  `src/ui/Wiggle.tsx` (`onTap`), `src/app/lesson.tsx`.
+- Checks: `npm run check` ✓ (50 suites / 210 tests). Web: new child on a fresh origin → hand on the first card at
+  375 and 768 px, gone after a tap, no console errors. Committed.
+
 ## 2026-11-04 (parent weekly report, #54)
 - claude · Parents → This week now opens with one plain sentence ("Mari learned on 4 of 7 days and met 6 new words.
   Try the 3 words below together."; separate lines for a quiet week and for not started). New "New this week" grid

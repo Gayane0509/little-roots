@@ -9,6 +9,7 @@ import { freeWordsFinished } from '@/features/paywall/offer';
 import type { Word } from '@/content/types';
 import { gameOptions, shuffled } from '@/features/lesson/game';
 import { initialLessonState, lessonReducer, type Step } from '@/features/lesson/lessonReducer';
+import { shouldShowTapHint } from '@/features/lesson/tapHint';
 import { buildDailyLesson, type DailyLesson } from '@/lib/lesson';
 import { haptic } from '@/lib/haptics';
 import { playSfx } from '@/lib/sfx';
@@ -20,6 +21,7 @@ import { Confetti } from '@/ui/Confetti';
 import { Icon } from '@/ui/Icon';
 import { HINT_AFTER_MISSES, HintPulse } from '@/ui/HintPulse';
 import { Screen } from '@/ui/Screen';
+import { TapHint } from '@/ui/TapHint';
 import { useAutoPlayWord, VoiceButton } from '@/ui/VoiceButton';
 import { Wiggle } from '@/ui/Wiggle';
 import { WordArt } from '@/ui/WordArt';
@@ -51,6 +53,7 @@ function ReadyLesson() {
   const [shake] = useState(() => new Animated.Value(0));
   const [successScale] = useState(() => new Animated.Value(1));
   const [cardEntrance] = useState(() => new Animated.Value(0));
+  const [cardTapped, setCardTapped] = useState(false);
   const [burst] = useState(() => new Animated.Value(0));
 
   useEffect(() => () => { if (feedbackTimer.current) clearTimeout(feedbackTimer.current); }, []);
@@ -158,11 +161,12 @@ function ReadyLesson() {
         {step === 'new' && card && <>
           <Buddy message={line('lesson_tap_card')} />
           <Text style={styles.counter}>Word {cardIndex + 1} of {lesson.newWords.length}</Text>
-          <Animated.View style={{ width: '100%', opacity: cardEntrance, transform: [{ translateY: cardEntrance.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }] }}><Wiggle wordId={card.id} label={`${card.hy}, ${card.translit}, ${card.en}`}><View style={styles.wordCard}>
+          <Animated.View style={{ width: '100%', opacity: cardEntrance, transform: [{ translateY: cardEntrance.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }] }}><Wiggle wordId={card.id} label={`${card.hy}, ${card.translit}, ${card.en}`} onTap={() => setCardTapped(true)}><View style={styles.wordCard}>
             <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={card.id} emoji={card.emoji} size={160} /></View>
             <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.armenian}>{card.hy}</Text>
             <Text style={styles.translit}>{card.translit}</Text>
             <Text style={styles.english}>{card.en}</Text>
+            <TapHint visible={shouldShowTapHint(state, cardIndex, cardTapped)} />
           </View></Wiggle></Animated.View>
         </>}
 
