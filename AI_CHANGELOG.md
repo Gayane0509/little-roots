@@ -8,6 +8,10 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   Files: `src/features/letters/{tracing.ts,TraceCanvas.tsx,tracing.test.ts}`. Checks: `npm run check` — tsc, ESLint,
   Jest 66 suites / 270 tests ✓; web 1024×768 + 375×812: Clear/Done inside the window; reviewer subagent: no blockers.
   Commit: "Letters: tracing canvas leaves room for Mark as traced (#94)".
+- claude · #95 letter sheet keeps the 720 px content column on tablets (centred) instead of full-width buttons. File:
+  `src/features/letters/LetterDetail.tsx`. Checks: `npm run check` — tsc, ESLint, Jest 66 / 270 ✓; web 1024×768 sheet +
+  tracing view, 375×812 unchanged; no console errors after reload (one HMR-only error between edits). Commit: "Letters:
+  sheet keeps the content width on tablets (#95)".
 
 ## 2026-11-04 (22:30 run; lock taken 22:34)
 - claude · #92 sheep (letter sheet, Vo): wool `#FFFFFF` → cream `#FFF3DC`, face + ears → grey `#B8BCC6`, hidden

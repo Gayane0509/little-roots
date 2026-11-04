@@ -16,7 +16,7 @@ import { useTracedLetters } from '@/state/letters';
 import { letterExampleArtId } from './exampleArt';
 import { TraceCanvas } from './TraceCanvas';
 import { isTraceGoodEnough } from './tracing';
-import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing } from '@/ui/tokens';
+import { colors, CONTENT_MAX_WIDTH, DISPLAY_MAX_FONT_SCALE, font, radius, spacing } from '@/ui/tokens';
 
 interface LetterDetailProps {
   letter: Letter | null;
@@ -89,7 +89,11 @@ export function LetterDetail({ letter, onClose }: LetterDetailProps) {
 const styles = StyleSheet.create({
   backdrop: { flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(43,45,66,0.45)' },
   dismiss: { flex: 1 },
+  // On tablets the sheet keeps the app's content width, centred, instead of stretching buttons across the screen (#95).
   sheet: {
+    width: '100%',
+    maxWidth: CONTENT_MAX_WIDTH,
+    alignSelf: 'center',
     maxHeight: '90%',
     backgroundColor: colors.background,
     borderTopLeftRadius: radius.lg,
