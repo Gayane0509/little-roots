@@ -35,7 +35,7 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
 - 2026-11-04: **Family voice (#60, owner's top priority; replaces "No voice")** — parent records words on
   Parent → Family voice; played on lesson cards/rounds, theme page, Find; on-device only, per child + language; mic
   asked only there. Web-verified; native check #61 blocked on Xcode.
-- Checks (2026-11-04, after #79): `npm run check` — tsc, ESLint, Jest 60 suites / 248 tests; expo-doctor 20/20; web export ✓.
+- Checks (2026-11-04, after #85): `npm run check` — tsc, ESLint, Jest 62 suites / 259 tests; web export ✓ (after #83); expo-doctor 20/20 (after #77).
 - Checks (working tree, 2026-11-04 00:05): tsc, ESLint, Jest 46 suites / 189 tests; expo-doctor 20/20 (last run 2026-11-03).
 - 2026-11-04: #52 picture pass (4 redraws, bike fix), #53 Family + Food grow to 12 words with new drawings (104 words), #54 clearer parent weekly report, #59 first-lesson tap hint.
 - 2026-11-04 17:30 run: #57 Home "Next up" marker (Buddy badge + "Next" ribbon on the theme new words come from;
@@ -52,8 +52,13 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
   picture on tablets, #76 Family voice two a row on tablets, #77 Expo SDK 58 patch updates (doctor 20/20, audit 8 → 5
   moderate), #78 onboarding avatars fill their tiles, #79 profile picker 3 a row. Reviewer subagent on #72–#75: no
   blocking findings (comment fixed; web-only scrollbar slack noted, not fixed).
-- Next unblocked: #49 (1.5), #65 idea (1.5); lesson reward + Read game at 1024 px not yet re-checked (need a finished
-  lesson / free game in the preview); then research for new scored tasks. Native: #10/#14/#16/#39/#50/#61 check.
+- 2026-11-04 20:30 run: #80 hills scene no longer crops its clouds past ~980 px wide; #81 bigger reward star/sticker
+  on tablets; #82 new sticker + outfit side by side on tablets; #83 Read game fits iPhone SE (third answer was below
+  the fold); #84 compact lesson below 700 px tall (card, rhyme, reward overflowed at 375×667); #85 rhyme fits 375×812.
+  Reviewer subagents on every diff (#80/#81: 3 low fixed; #82/#83: none; #84: nit fixed; #85 not separately reviewed,
+  same helper). Lesson reward + Read game at 1024 px now checked.
+- Next unblocked: review #85 diff; short-phone (375×667) sweep of the remaining screens (Home, Letters, Stickers,
+  Memory, parent area) — only lesson + Find/Read checked so far; #49 (1.5), #65 idea (1.5); then research. Native: #10/#14/#16/#39/#50/#61 check.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Blockers (owner)
@@ -65,7 +70,7 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
 4. Commits (owner rule, 2026-11-04): each finished task is committed to `main` once `npm run check` passes, one
    clear commit per task; never failing or half-done work. After each commit, push `main` to origin (never
    force-push; if rejected: `git pull --rebase origin main`, `npm run check` again, then push). Everything up to
-   637d44d is committed and pushed. The hourly `little-roots-daily` task (17:30–01:00) follows the same rule, bans voice features
+   94543c7 is committed and pushed. The hourly `little-roots-daily` task (17:30–01:00) follows the same rule, bans voice features
    other than Family voice, and puts images/design first.
 5. #40 Proposal: release Android build without the INTERNET permission (needs a config plugin + native test).
 6. #68 Decision: keep iPad rotation (recommended) or set `ios.requireFullScreen: true` (portrait-only iPad, no Split View).
