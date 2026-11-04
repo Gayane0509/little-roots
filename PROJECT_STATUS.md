@@ -42,7 +42,7 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
   web-checked 375 + 800 px); #55 soft hills scene behind Home and the lesson reward (web-checked 375 + 1024 px); #56 Buddy wave/point/proud
   poses + idle blink (web-checked); #62 second rhymes for Family + Food (Armenian → proofreading list);
   #64 store-rule research (age-rating draft, no app change); #63 hills behind game finish screens.
-- Next unblocked: #58 dress-up (4, plan it first: stored per child + language), #49 (1.5), #65 idea (1.5). Native:
+- Next unblocked: #58 dress-up (4; plan in AI_TASKS, implement + reviewer subagent next run), #49 (1.5), #65 idea (1.5). Native:
   #10/#14/#16/#39/#50/#61 check.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
