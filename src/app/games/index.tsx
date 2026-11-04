@@ -44,7 +44,7 @@ export default function Games() {
             onPress={() => { if (left !== 0) router.push(game.href); }}
             accessibilityState={{ disabled: left === 0 }}
             disabled={left === 0}
-            style={({ pressed }) => [styles.card, { backgroundColor: game.color, transform: [{ scale: pressed ? 0.97 : 1 }] }]}
+            style={({ pressed }) => [styles.card, { backgroundColor: game.color, transform: [{ scale: pressed ? 0.97 : 1 }] }, left === 0 && styles.cardResting]}
           >
             <Icon name={game.icon} size={iconSize} />
             <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.cardTitle}>{game.title}</Text>
@@ -69,6 +69,8 @@ const styles = StyleSheet.create({
     padding: spacing.md,
     gap: spacing.xs,
   },
+  // Out of games for today: the cards can't be opened, so they look resting rather than tappable (#98).
+  cardResting: { opacity: 0.5 },
   cardTitle: { fontSize: font.title, fontWeight: '800', color: colors.text },
   cardSub: { fontSize: font.body, fontWeight: '600', color: colors.textMuted },
 });

@@ -21,3 +21,10 @@ test.each([
   expect(source.indexOf(child)).toBeGreaterThan(-1);
   expect(source.indexOf(child)).toBeLessThan(source.indexOf(grownUp));
 });
+
+test('Games list: with no games left the disabled cards are dimmed, not full colour (#98)', () => {
+  const source = readFileSync('src/app/games/index.tsx', 'utf8');
+  expect(source).toContain('left === 0 && styles.cardResting');
+  expect(source).toMatch(/cardResting: \{ opacity: 0\.5 \}/);
+  expect(source).toContain('accessibilityState={{ disabled: left === 0 }}');
+});

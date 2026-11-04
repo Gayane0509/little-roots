@@ -19,6 +19,9 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   finish screens. Files: `src/app/lesson.tsx`, `src/app/games/index.tsx`, `src/features/games/{GameShell,GameDoneActions}.tsx`,
   new `src/features/games/grownUpPrompts.test.ts`. Checks: `npm run check` ✓ (68 suites / 279 tests); guard fails on old
   code; web 375×812 out-of-games screens. Commit: "Kid screens: grown-up prompts grey, after the child's button (#97)".
+- claude · #98 Games list: disabled game cards dimmed (opacity 0.5) when no games are left today. Files:
+  `src/app/games/index.tsx`, `src/features/games/grownUpPrompts.test.ts`. Checks: `npm run check` ✓ (68 / 280); web 375×812.
+  Commit: "Games: dim the cards when today's games are used up (#98)".
 
 ## 2026-11-04 (22:30 run; lock taken 22:34)
 - claude · #92 sheep (letter sheet, Vo): wool `#FFFFFF` → cream `#FFF3DC`, face + ears → grey `#B8BCC6`, hidden
