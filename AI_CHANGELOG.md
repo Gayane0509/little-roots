@@ -15,6 +15,10 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
 - claude · #96 Games list pictures 56 → 88 px from 600 px wide. Files: `src/features/games/gameListLayout{,.test}.ts`,
   `src/app/games/index.tsx`. Checks: `npm run check` ✓ (67 suites / 271 tests); web 1024×768 + 375×812 (HMR-only console
   errors between edits, none after reload). Commit: "Games: bigger game pictures on tablets (#96)".
+- claude · #97 grown-up upgrade buttons grey and below the child's action on the lesson, Games list, game shell and game
+  finish screens. Files: `src/app/lesson.tsx`, `src/app/games/index.tsx`, `src/features/games/{GameShell,GameDoneActions}.tsx`,
+  new `src/features/games/grownUpPrompts.test.ts`. Checks: `npm run check` ✓ (68 suites / 279 tests); guard fails on old
+  code; web 375×812 out-of-games screens. Commit: "Kid screens: grown-up prompts grey, after the child's button (#97)".
 
 ## 2026-11-04 (22:30 run; lock taken 22:34)
 - claude · #92 sheep (letter sheet, Vo): wool `#FFFFFF` → cream `#FFF3DC`, face + ears → grey `#B8BCC6`, hidden

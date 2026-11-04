@@ -17,11 +17,10 @@ export function GameDoneActions({ onPlayAgain }: { onPlayAgain: () => void }) {
     {canReplay ? <BigButton label="Play again" color={colors.success} onPress={() => {
       // Check the current entitlement again when the button is pressed.
       if (canReplayGame(state.isPremium, gamesPlayedToday(state))) onPlayAgain();
-    }} /> : <>
-      <Buddy message={line('games_done_today')} />
-      <BigButton label="Grown-ups: unlimited games" onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'games' } })} />
-    </>}
-    <BigButton label="Back" color={colors.textMuted} onPress={goBackOrHome} />
+    }} /> : <Buddy message={line('games_done_today')} />}
+    {/* Out of games, Back is the child's one orange action and the grown-up prompt is grey, below it (#97). */}
+    <BigButton label="Back" color={canReplay ? colors.textMuted : undefined} onPress={goBackOrHome} />
+    {canReplay ? null : <BigButton label="Grown-ups: unlimited games" color={colors.textMuted} onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'games' } })} />}
   </View>;
 }
 

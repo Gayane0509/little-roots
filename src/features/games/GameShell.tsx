@@ -66,8 +66,8 @@ function AdmittedGame({ title, icon, seen, isPremium, played, children }: { titl
   if (!admitted) {
     return <Screen><ScrollView contentContainerStyle={styles.locked}>
       <Buddy mood="happy" message={line('games_done_today')} />
-      <BigButton label="Grown-ups: unlimited games" onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'games' } })} />
-      <BigButton label="Back" color={colors.textMuted} onPress={goBackOrHome} />
+      <BigButton label="Back" onPress={goBackOrHome} />
+      <BigButton label="Grown-ups: unlimited games" color={colors.textMuted} onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'games' } })} />
     </ScrollView></Screen>;
   }
   return (

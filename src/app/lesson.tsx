@@ -136,11 +136,14 @@ function ReadyLesson() {
   }
 
   if (lesson === null) {
+    const freeDone = !state.isPremium && freeWordsFinished(state);
     return (
       <Screen>
         <ScrollView contentContainerStyle={styles.centered}>
-          {!state.isPremium && freeWordsFinished(state) ? <><Buddy mood="cheer" message={line('free_words_finished')} /><BigButton label="Ask a grown-up for 80 more words" onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'themes' } })} /></> : <Buddy message={line('all_caught_up')} />}
+          {/* The child's button is the one orange action; the grown-up prompt is grey, below it (#97, AI_DECISIONS). */}
+          {freeDone ? <Buddy mood="cheer" message={line('free_words_finished')} /> : <Buddy message={line('all_caught_up')} />}
           <BigButton label="Back home" onPress={() => router.replace('/')} />
+          {freeDone ? <BigButton label="Ask a grown-up for 80 more words" color={colors.textMuted} onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'themes' } })} /> : null}
         </ScrollView>
       </Screen>
     );

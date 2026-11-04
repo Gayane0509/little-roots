@@ -34,7 +34,7 @@ export default function Games() {
       <ScrollView contentContainerStyle={styles.content}>
         <IconTitle icon="games" text="Games" style={styles.title} />
         {left !== null ? <Text style={styles.count}>3 games a day · {left} left today</Text> : <Text style={styles.count}>Unlimited games</Text>}
-        {left === 0 ? <><Buddy message={line('games_done_today')} /><BigButton label="Grown-ups: unlimited games" onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'games' } })} /></> : null}
+        {left === 0 ? <><Buddy message={line('games_done_today')} /><BigButton label="Grown-ups: unlimited games" color={colors.textMuted} onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'games' } })} /></> : null}
         {GAMES.map((game) => (
           <Pressable
             key={game.title}
