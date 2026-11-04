@@ -2,6 +2,13 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (20:30 run)
+- claude · #80 Hills scene crop on wide screens: clouds moved down (art top y = 22), `sceneHeight` keeps the
+  `slice` crop above `SCENE_ART_TOP` past 800 px (1024 → 251, 1366 → 335; phones unchanged). Files:
+  `src/art/scenes.ts`, `src/ui/SceneBackdrop{,.test}.tsx/ts`. Checks: `npm run check` — tsc, ESLint, Jest
+  60 suites / 250 tests ✓; web: lesson reward at 375, 1024×768, 1366×1024, Home at 1024; no console errors.
+  Codex still unavailable (#11).
+
 ## 2026-11-04 (profile picker on tablets, #79)
 - claude · From 600 px the "Who is learning?" cards are 3 a row (31 %, near-square) with 120 px avatars (was 2 long
   flat cards, 82 px). Phones unchanged.

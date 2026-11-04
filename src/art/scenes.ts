@@ -3,14 +3,15 @@ import type { ArtXml } from './types';
 /**
  * Soft scene backdrops drawn behind a screen's bottom edge (Home, lesson reward). Same flat style as the word art, but
  * no outlines and only pale tints so they stay quiet behind cards and text (`colors.text` keeps ≥ 4.5:1 on every fill).
- * Wide viewBox; drawn with `xMidYMax slice`, so the top may crop on tablets and nothing important sits above y = 24.
+ * Wide viewBox; drawn with `xMidYMax slice`. `sceneHeight` keeps the crop above y = 22 on any width, so nothing (clouds
+ * included) starts above y = 22.
  */
 export const SCENES = {
   hills: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120">
   <g fill="#FFFFFF">
-    <ellipse cx="140" cy="30" rx="22" ry="9"/>
-    <ellipse cx="158" cy="24" rx="14" ry="10"/>
-    <ellipse cx="124" cy="27" rx="10" ry="7"/>
+    <ellipse cx="140" cy="38" rx="22" ry="9"/>
+    <ellipse cx="158" cy="32" rx="14" ry="10"/>
+    <ellipse cx="124" cy="35" rx="10" ry="7"/>
   </g>
   <path d="M0 70 C60 42 130 44 190 62 C250 80 320 42 400 54 L400 120 L0 120 Z" fill="#EAF6DC"/>
   <rect x="316" y="44" width="8" height="16" rx="3" fill="#EAD7C2"/>
