@@ -22,3 +22,8 @@ export function unlockedOutfits(stickerCount: number): BuddyOutfit[] {
 export function wornOutfit(state: { buddyOutfit?: BuddyOutfit; stickers: readonly string[] }): BuddyOutfit | undefined {
   return state.buddyOutfit && stickersNeeded(state.buddyOutfit, state.stickers.length) === 0 ? state.buddyOutfit : undefined;
 }
+
+/** The outfit a lesson's new sticker unlocks, if the count crosses a threshold (for the reward screen). */
+export function outfitUnlockedBy(stickersBefore: number, stickersAfter: number): BuddyOutfit | undefined {
+  return BUDDY_OUTFITS.find((outfit) => stickersNeeded(outfit, stickersBefore) > 0 && stickersNeeded(outfit, stickersAfter) === 0);
+}

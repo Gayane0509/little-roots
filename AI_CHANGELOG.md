@@ -2,6 +2,15 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (lesson reward announces a new outfit, #67)
+- claude · When a lesson's new sticker unlocks a dress-up item, the reward screen adds "New for Արջուկ:" with Buddy
+  wearing it; the screen reader hears "New for Little Bear: glasses. Dress up Little Bear in the sticker book."
+- Files: `src/lib/outfits.ts` (+ test), `src/app/lesson.tsx`, `src/features/stickers/OutfitPicker.tsx` (exports
+  `OutfitPortrait`).
+- Checks: tsc ✓, ESLint ✓, Jest 57 suites / 238 tests ✓. Web (375 px): 5 → 6 stickers shows the glasses row; 6 → 7
+  shows none. Test child's data restored afterwards.
+- Commit: see git log ("Lesson reward announces a new outfit").
+
 ## 2026-11-04 (sticker book fits wide screens, #66)
 - claude · The sticker book uses 4 columns from 600 px and sizes each drawing from its tile (78 %, 60–140 px), so
   stickers no longer sit small in big empty cards on tablets; rows stay whole.

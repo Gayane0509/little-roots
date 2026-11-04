@@ -10,14 +10,15 @@ import type { Word } from '@/content/types';
 import { gameOptions, shuffled } from '@/features/lesson/game';
 import { initialLessonState, lessonReducer, type Step } from '@/features/lesson/lessonReducer';
 import { shouldShowTapHint } from '@/features/lesson/tapHint';
+import { OutfitPortrait } from '@/features/stickers/OutfitPicker';
 import { buildDailyLesson, type DailyLesson } from '@/lib/lesson';
 import { haptic } from '@/lib/haptics';
-import { wornOutfit } from '@/lib/outfits';
+import { OUTFIT_LABEL, outfitUnlockedBy, wornOutfit } from '@/lib/outfits';
 import { playSfx } from '@/lib/sfx';
 import { useSettings } from '@/state/settings';
 import { useProgress } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
-import { Buddy } from '@/ui/Buddy';
+import { Buddy, BUDDY_NAME } from '@/ui/Buddy';
 import { Confetti } from '@/ui/Confetti';
 import { Icon } from '@/ui/Icon';
 import { HINT_AFTER_MISSES, HintPulse } from '@/ui/HintPulse';
@@ -45,6 +46,7 @@ function ReadyLesson() {
     themes: ACTIVE_PACK.themes, words: state.words, isPremium: state.isPremium, now: Date.now(),
   }));
   const [showNewSticker] = useState(() => !!lesson?.newWords[0] && !state.stickers.includes(lesson.newWords[0].emoji));
+  const [newOutfit] = useState(() => showNewSticker ? outfitUnlockedBy(state.stickers.length, state.stickers.length + 1) : undefined);
   const [rounds] = useState(() => lesson ? shuffled([...lesson.newWords, ...lesson.reviewWords]) : []);
   const [flow, dispatch] = useReducer(lessonReducer, initialLessonState);
   const { stepIndex, cardIndex, roundIndex, songLineIndex, firstTryCorrect, hadWrongTap, wrongTaps, selectedId, feedbackPending } = flow;
@@ -220,6 +222,10 @@ function ReadyLesson() {
             <Text style={styles.sticker}>New sticker:</Text>
             <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={lesson.newWords[0].id} emoji={lesson.newWords[0].emoji} size={96} /></View>
           </View>}
+          {newOutfit && <View accessible accessibilityRole="text" accessibilityLabel={`New for ${BUDDY_NAME.en}: ${OUTFIT_LABEL[newOutfit].toLowerCase()}. Dress up ${BUDDY_NAME.en} in the sticker book.`} style={styles.stickerRow}>
+            <Text style={styles.sticker}>New for {BUDDY_NAME.hy}:</Text>
+            <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={styles.newOutfit}><OutfitPortrait outfit={newOutfit} /></View>
+          </View>}
         </>}
       </ScrollView>
 
@@ -265,6 +271,7 @@ const styles = StyleSheet.create({
   songHy: { color: colors.text, fontSize: font.heading, fontWeight: '700', textAlign: 'center' },
   songEn: { color: colors.textMuted, fontSize: font.small, textAlign: 'center' },
   sticker: { color: colors.text, fontSize: font.heading, fontWeight: '700' },
+  newOutfit: { width: 96, height: 96, alignItems: 'center', justifyContent: 'center' },
   stickerRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   footer: { paddingVertical: spacing.md },
 });

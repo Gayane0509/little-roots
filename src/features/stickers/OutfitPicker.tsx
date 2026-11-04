@@ -17,7 +17,7 @@ interface OutfitPickerProps {
 export const OUTFIT_TWO_COLUMNS_BELOW = 360;
 
 /** Buddy portrait wearing `outfit` (or nothing), drawn without motion. */
-function Portrait({ outfit }: { outfit: BuddyOutfit | null }) {
+export function OutfitPortrait({ outfit }: { outfit: BuddyOutfit | null }) {
   return (
     <View style={styles.portrait} accessible={false} pointerEvents="none">
       <SvgXml xml={BUDDY_ART.happy} width="100%" height="100%" />
@@ -40,7 +40,7 @@ export function OutfitPicker({ stickerCount, worn, onPick }: OutfitPickerProps) 
         if (needed > 0) {
           return (
             <View key={outfit} style={[styles.tile, column, styles.locked]} accessible accessibilityLabel={`${name}, locked: ${needed} more ${needed === 1 ? 'sticker' : 'stickers'}`}>
-              <View style={styles.dim}><Portrait outfit={outfit} /></View>
+              <View style={styles.dim}><OutfitPortrait outfit={outfit} /></View>
               <View style={styles.lockBadge} accessible={false}><Icon name="lock" size={26} /></View>
               <View style={styles.need} accessible={false}>
                 <Icon name="stickers" size={18} />
@@ -58,7 +58,7 @@ export function OutfitPicker({ stickerCount, worn, onPick }: OutfitPickerProps) 
             onPress={() => onPick(outfit)}
             style={[styles.tile, column, selected && styles.selected]}
           >
-            <Portrait outfit={outfit} />
+            <OutfitPortrait outfit={outfit} />
           </Pressable>
         );
       })}
