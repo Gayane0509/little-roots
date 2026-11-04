@@ -13,6 +13,7 @@ import {
 } from '@/features/parent/gate';
 import { parseOfferReason } from '@/features/paywall/offer';
 import { BigButton } from '@/ui/BigButton';
+import { Icon } from '@/ui/Icon';
 import { Screen } from '@/ui/Screen';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
@@ -56,7 +57,7 @@ export default function ParentGate() {
   return (
     <Screen>
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-        <View accessible={false} importantForAccessibility="no-hide-descendants" accessibilityElementsHidden><Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.emoji}>🔐</Text></View>
+        <View style={styles.lock} accessible={false} importantForAccessibility="no-hide-descendants" accessibilityElementsHidden><Icon name="lock" size={72} /></View>
         <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} accessibilityRole="header" style={styles.title}>Grown-ups only</Text>
         <Text style={styles.hint}>Solve this to continue.</Text>
         <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.question} accessibilityLabel={`${q.a} times ${q.b}`}>
@@ -94,7 +95,7 @@ export default function ParentGate() {
 
 const styles = StyleSheet.create({
   content: { gap: spacing.lg, paddingVertical: spacing.lg, alignItems: 'stretch' },
-  emoji: { fontSize: 64, textAlign: 'center' },
+  lock: { alignItems: 'center' },
   title: { fontSize: font.title, fontWeight: '800', color: colors.text, textAlign: 'center' },
   hint: { fontSize: font.body, color: colors.textMuted, textAlign: 'center' },
   question: { fontSize: 48, fontWeight: '800', color: colors.primaryText, textAlign: 'center' },

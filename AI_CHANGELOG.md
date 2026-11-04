@@ -2,6 +2,13 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (drawn lock on the parent gate, #74)
+- claude · The parent gate's 🔐 system emoji (differs per platform) is now the drawn `lock` icon (72 px), hidden from
+  screen readers as before. Children see this screen, so it follows the drawn-icons rule (#29/#35).
+- Files: `src/app/parent-gate.tsx`.
+- Checks: tsc ✓, ESLint ✓, Jest 59 suites / 245 tests ✓. Web: gate at 375 px shows the drawn lock, layout unchanged.
+- Commit: see git log ("Drawn lock on the parent gate").
+
 ## 2026-11-04 (letters grid on wide screens, #73)
 - claude · From 600 px the Letters page shows 6 near-square tiles a row (was 4 long flat ones) with bigger letters
   (46 / 30 px, was 34 / 22): 7 rows instead of 10 at 1024 px. Phones unchanged. The lowercase letter now caps its
