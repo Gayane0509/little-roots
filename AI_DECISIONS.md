@@ -22,6 +22,12 @@ Durable decisions with reasons. Newest first. Earlier ones are summarized from `
 - 2026-11-03 · Haptics go through `src/lib/haptics.ts` only (guard test) and follow the parent's Vibration setting
   (default on). Feedback is optional: errors are swallowed. Before settings load the default (on) applies, like sound;
   the startup splash holds until settings load, so children can't tap earlier.
+- 2026-11-04 · **More words (#53).** Free themes (Family, Food) grow from 8 to 12 words, so a family without
+  Premium gets more to learn; paid themes stay at 8 for now. Existing ids unchanged; new ids `family.baby/friend/uncle/aunt`,
+  `food.apricot/grapes/carrot/tomato`, each with a drawing in STYLE.md. Children who finished a theme simply get its new
+  words in the next lesson. **Needs native proofreading:** նորածին (noratsin, baby — or a warmer word such as
+  փոքրիկ?), ընկեր (ənker, friend), քեռի (keri, uncle — mother's brother; father's brother is հորեղբայր), մորաքույր
+  (morakuyr, aunt — mother's sister; father's sister is հորաքույր), ծիրան, խաղող, գազար, լոլիկ.
 - 2026-11-04 · **Family voice (owner's decision; replaces "No voice").** The only voice feature allowed: behind the
   parent gate a grown-up records the app's words one by one (all words of the active language pack), and the app
   plays that recording wherever the word appears (lesson cards and game rounds, the theme page, Find the picture).

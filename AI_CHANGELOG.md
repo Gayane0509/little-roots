@@ -2,6 +2,15 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (more words, #53)
+- claude · Family and Food (the free themes) grow from 8 to 12 words: baby, friend, uncle, aunt; apricot, grapes,
+  carrot, tomato. Each has a new drawing in the house style (people share the family look; food has faces). Ids of
+  existing words unchanged; Family voice count now "of 104". Proofreading list in AI_DECISIONS. Rhymes → #62.
+- Files: `src/content/themes.ts`, `src/art/words/{family,food}.ts`, `src/content/content.test.ts` (12 in free
+  themes), `src/features/report/reportData.test.ts` (mastery derived from theme size).
+- Checks: `npm run check` ✓ (202 tests). Web: new cards in a Family lesson at 375 px; all 8 drawings on the Family
+  voice list at 768 px; no console errors. Committed.
+
 ## 2026-11-04 (picture quality, #52)
 - claude · Reviewed all 96 word pictures side by side (contact sheet). Most already follow STYLE.md; redrew the
   weakest in the same style: horse (friendly front face with mane and blaze, was a realistic side head), bird (round

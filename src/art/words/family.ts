@@ -94,4 +94,48 @@ export const art: ThemeArt = {
 <circle cx="59" cy="88" r="2.4" fill="#3A2E39"/><circle cx="69" cy="88" r="2.4" fill="#3A2E39"/>
 <path d="M60 93 Q64 97 68 93" fill="none" stroke="#3A2E39" stroke-width="2.5" stroke-linecap="round"/>
 </svg>`,
+  baby: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<path d="M22 122 Q22 86 64 86 Q106 86 106 122 Z" fill="#FFD23F" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M40 104 Q64 96 88 104" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+<circle cx="64" cy="54" r="32" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M60 22 Q56 12 66 12 Q72 14 68 20" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="52" cy="52" r="3.5" fill="#3A2E39"/><circle cx="76" cy="52" r="3.5" fill="#3A2E39"/><circle cx="44" cy="64" r="5" fill="#FF9EAA" opacity="0.6"/><circle cx="84" cy="64" r="5" fill="#FF9EAA" opacity="0.6"/>
+<circle cx="64" cy="70" r="7" fill="#4DA3FF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="64" cy="70" r="2.5" fill="#FFFFFF"/>
+<path d="M42 34 Q50 26 60 26" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.4"/>
+</svg>`,
+  friend: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<path d="M8 122 Q8 88 36 88 Q60 88 60 122 Z" fill="#4CC985" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M68 122 Q68 88 92 88 Q120 88 120 122 Z" fill="#FF9F43" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M50 104 Q64 96 78 104" fill="none" stroke="#F6C9A0" stroke-width="9" stroke-linecap="round"/>
+<circle cx="64" cy="100" r="7" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="35" cy="56" r="22" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M13 54 Q12 30 35 30 Q58 30 57 54 Q48 42 35 40 Q22 42 13 54 Z" fill="#5A3A2A" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="28" cy="58" r="3.5" fill="#3A2E39"/><circle cx="42" cy="58" r="3.5" fill="#3A2E39"/><circle cx="22" cy="66" r="4" fill="#FF9EAA" opacity="0.6"/><circle cx="48" cy="66" r="4" fill="#FF9EAA" opacity="0.6"/><path d="M29 66 Q35 73 41 66" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
+<circle cx="93" cy="56" r="22" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M71 56 Q70 30 93 30 Q116 30 115 56 L118 80 L108 78 Q106 46 93 42 Q80 46 78 78 L68 80 Z" fill="#A0582F" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="86" cy="58" r="3.5" fill="#3A2E39"/><circle cx="100" cy="58" r="3.5" fill="#3A2E39"/><circle cx="80" cy="66" r="4" fill="#FF9EAA" opacity="0.6"/><circle cx="106" cy="66" r="4" fill="#FF9EAA" opacity="0.6"/><path d="M87 66 Q93 73 99 66" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
+<path d="M64 34 Q48 24 52 16 Q56 10 64 18 Q72 10 76 16 Q80 24 64 34 Z" fill="#F25C54" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>`,
+  uncle: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<path d="M22 122 Q22 88 64 88 Q106 88 106 122 Z" fill="#2F9E57" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M50 88 Q64 98 78 88" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M44 104 H84 M44 112 H84" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+<circle cx="64" cy="54" r="26" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M38 56 Q38 86 64 88 Q90 86 90 56 Q86 70 76 72 Q64 64 52 72 Q42 70 38 56 Z" fill="#3A2E39"/>
+<path d="M37 50 Q34 24 64 24 Q94 24 91 50 Q84 38 64 36 Q44 38 37 50 Z" fill="#3A2E39" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="54" cy="54" r="3.5" fill="#3A2E39"/><circle cx="74" cy="54" r="3.5" fill="#3A2E39"/>
+<circle cx="46" cy="62" r="4" fill="#FF9EAA" opacity="0.6"/><circle cx="82" cy="62" r="4" fill="#FF9EAA" opacity="0.6"/>
+<path d="M56 74 Q64 80 72 74" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+</svg>`,
+  aunt: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<path d="M26 122 Q26 88 64 88 Q102 88 102 122 Z" fill="#9B6BFF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M50 88 Q64 100 78 88" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="64" cy="98" r="4" fill="#FFD23F" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="40" cy="38" r="12" fill="#3A2E39"/><circle cx="88" cy="38" r="12" fill="#3A2E39"/>
+<circle cx="64" cy="22" r="13" fill="#3A2E39"/>
+<circle cx="64" cy="56" r="25" fill="#F6C9A0" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M39 54 Q36 28 64 28 Q92 28 89 54 Q80 40 64 40 Q48 40 39 54 Z" fill="#3A2E39" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="39" cy="66" r="3.5" fill="#FFD23F" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="89" cy="66" r="3.5" fill="#FFD23F" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="54" cy="58" r="3.5" fill="#3A2E39"/><circle cx="74" cy="58" r="3.5" fill="#3A2E39"/><circle cx="48" cy="67" r="4.5" fill="#FF9EAA" opacity="0.6"/><circle cx="80" cy="67" r="4.5" fill="#FF9EAA" opacity="0.6"/><path d="M56 67 Q64 75 72 67" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
+</svg>`,
 };

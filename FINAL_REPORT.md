@@ -19,7 +19,7 @@ grown-up feature behind a parent gate. Live status: `PROJECT_STATUS.md` (backlog
 - **Daily lesson (5–10 minutes):** Buddy says hello, teaches 3 new words with pictures and audio, plays a quick game,
   shares a short rhyme, asks the child to say the words aloud, and gives a sticker at the end.
 - **Spaced review:** each word moves through 5 levels and comes back after 1, 3, 7, 14 and 30 days.
-- **Content:** 12 themes with 96 words, each with its own hand-drawn picture in one style.
+- **Content:** 12 themes with 96 words (104 since 2026-11-04: Family and Food have 12 each), each with its own hand-drawn picture in one style.
 - **Alphabet:** all 39 letters, with finger tracing and a score for each trace.
 - **Games:** Memory match, Listen & find, Read it.
 - **Sticker book and streaks.**

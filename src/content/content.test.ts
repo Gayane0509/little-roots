@@ -26,9 +26,9 @@ describe('content', () => {
     expect(new Set(all.map((w) => w.id)).size).toBe(all.length);
   });
 
-  it('has 8 words per theme with prefixed ids and a 4-line song', () => {
+  it('has 8 words per theme (12 in the free themes) with prefixed ids and a 4-line song', () => {
     for (const t of THEMES) {
-      expect(t.words).toHaveLength(8);
+      expect(t.words).toHaveLength(t.free ? 12 : 8);
       expect(t.song.lines).toHaveLength(4);
       for (const w of t.words) {
         expect(w.themeId).toBe(t.id);

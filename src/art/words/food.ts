@@ -72,4 +72,35 @@ export const art: ThemeArt = {
 <circle cx="44" cy="94" r="4.5" fill="#FF9EAA" opacity="0.7"/><circle cx="84" cy="94" r="4.5" fill="#FF9EAA" opacity="0.7"/>
 <path d="M57 93 Q64 101 71 93" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
 </svg>`,
+  apricot: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<path d="M64 26 Q64 16 72 10" fill="none" stroke="#3A2E39" stroke-width="4" stroke-linecap="round"/>
+<path d="M70 20 Q86 6 104 16 Q90 32 70 20 Z" fill="#4CC985" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="64" cy="72" r="46" fill="#FF9F43" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M64 28 Q52 70 64 116" fill="none" stroke="#D9965B" stroke-width="3" stroke-linecap="round"/>
+<circle cx="88" cy="56" r="10" fill="#F25C54" opacity="0.25"/>
+<path d="M32 56 Q30 44 40 36" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.45"/>
+<circle cx="48" cy="74" r="3.5" fill="#3A2E39"/><circle cx="80" cy="74" r="3.5" fill="#3A2E39"/><circle cx="40" cy="84" r="5" fill="#FF9EAA" opacity="0.6"/><circle cx="88" cy="84" r="5" fill="#FF9EAA" opacity="0.6"/><path d="M56 84 Q64 92 72 84" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
+</svg>`,
+  grapes: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<path d="M64 26 Q62 14 70 8" fill="none" stroke="#A0582F" stroke-width="5" stroke-linecap="round"/>
+<path d="M66 18 Q50 4 30 14 Q44 32 66 18 Z" fill="#4CC985" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="44" cy="40" r="13" fill="#9B6BFF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="64" cy="36" r="13" fill="#9B6BFF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="84" cy="40" r="13" fill="#9B6BFF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="34" cy="60" r="13" fill="#9B6BFF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="54" cy="58" r="13" fill="#9B6BFF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="74" cy="58" r="13" fill="#9B6BFF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="94" cy="60" r="13" fill="#9B6BFF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="44" cy="80" r="13" fill="#9B6BFF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="64" cy="78" r="13" fill="#9B6BFF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="84" cy="80" r="13" fill="#9B6BFF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="54" cy="98" r="13" fill="#9B6BFF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="74" cy="98" r="13" fill="#9B6BFF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="64" cy="114" r="13" fill="#9B6BFF" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="40" cy="36" r="3" fill="#FFFFFF" opacity="0.45"/><circle cx="60" cy="32" r="3" fill="#FFFFFF" opacity="0.45"/><circle cx="80" cy="36" r="3" fill="#FFFFFF" opacity="0.45"/><circle cx="30" cy="56" r="3" fill="#FFFFFF" opacity="0.45"/><circle cx="90" cy="56" r="3" fill="#FFFFFF" opacity="0.45"/><circle cx="40" cy="76" r="3" fill="#FFFFFF" opacity="0.45"/><circle cx="80" cy="76" r="3" fill="#FFFFFF" opacity="0.45"/><circle cx="50" cy="94" r="3" fill="#FFFFFF" opacity="0.45"/><circle cx="70" cy="94" r="3" fill="#FFFFFF" opacity="0.45"/>
+<circle cx="64" cy="66" r="20" fill="#9B6BFF"/>
+<circle cx="56" cy="64" r="3.5" fill="#3A2E39"/><circle cx="72" cy="64" r="3.5" fill="#3A2E39"/><circle cx="50" cy="72" r="4" fill="#FF9EAA" opacity="0.6"/><circle cx="78" cy="72" r="4" fill="#FF9EAA" opacity="0.6"/><path d="M59 72 Q64 78 69 72" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
+</svg>`,
+  carrot: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<path d="M58 30 Q44 12 50 6 Q62 14 64 28 Q68 6 80 6 Q82 20 70 32 Q86 18 96 24 Q88 38 70 36 Z" fill="#4CC985" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M40 40 Q64 26 88 40 Q90 60 74 92 Q66 110 62 122 Q56 112 52 92 Q38 60 40 40 Z" fill="#FF9F43" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M44 66 H54 M76 78 H84 M56 100 H64" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
+<path d="M50 46 Q46 56 48 64" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.45"/>
+<circle cx="56" cy="54" r="3.5" fill="#3A2E39"/><circle cx="74" cy="54" r="3.5" fill="#3A2E39"/><circle cx="50" cy="62" r="4" fill="#FF9EAA" opacity="0.6"/><circle cx="80" cy="62" r="4" fill="#FF9EAA" opacity="0.6"/><path d="M59 62 Q65 69 71 62" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
+</svg>`,
+  tomato: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<path d="M64 30 Q14 30 14 74 Q14 118 64 118 Q114 118 114 74 Q114 30 64 30 Z" fill="#F25C54" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M64 34 L54 22 L60 34 L42 30 L56 40 L48 46 L64 40 L80 46 L72 40 L86 30 L68 34 L74 22 Z" fill="#4CC985" stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M64 26 V14" fill="none" stroke="#2F9E57" stroke-width="5" stroke-linecap="round"/>
+<path d="M28 64 Q28 52 38 46" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.45"/>
+<circle cx="50" cy="76" r="3.5" fill="#3A2E39"/><circle cx="78" cy="76" r="3.5" fill="#3A2E39"/><circle cx="42" cy="86" r="5" fill="#FF9EAA" opacity="0.6"/><circle cx="86" cy="86" r="5" fill="#FF9EAA" opacity="0.6"/><path d="M56 86 Q64 94 72 86" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
+</svg>`,
 };

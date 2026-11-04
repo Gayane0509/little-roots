@@ -30,6 +30,10 @@ export const THEMES: Theme[] = [
       ['sister', 'քույր', 'kuyr', 'sister', '👧'],
       ['child', 'երեխա', 'yerekha', 'child', '🧒'],
       ['family', 'ընտանիք', 'əntanik', 'family', '👨‍👩‍👧‍👦'],
+      ['baby', 'նորածին', 'noratsin', 'baby', '👶'],
+      ['friend', 'ընկեր', 'ənker', 'friend', '🧑‍🤝‍🧑'],
+      ['uncle', 'քեռի', 'keri', 'uncle', '🧔'],
+      ['aunt', 'մորաքույր', 'morakuyr', 'aunt', '👩‍🦱'],
     ]),
     song: {
       id: 'family.song',
@@ -59,6 +63,10 @@ export const THEMES: Theme[] = [
       ['water', 'ջուր', 'jur', 'water', '💧'],
       ['banana', 'բանան', 'banan', 'banana', '🍌'],
       ['pear', 'տանձ', 'tandz', 'pear', '🍐'],
+      ['apricot', 'ծիրան', 'tsiran', 'apricot', '🍑'],
+      ['grapes', 'խաղող', 'khaghogh', 'grapes', '🍇'],
+      ['carrot', 'գազար', 'gazar', 'carrot', '🥕'],
+      ['tomato', 'լոլիկ', 'lolik', 'tomato', '🍅'],
     ]),
     song: {
       id: 'food.song',
