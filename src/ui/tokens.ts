@@ -38,3 +38,5 @@ export const TOUCH_MIN = 64;
 export const CONTENT_MAX_WIDTH = 720;
 /** Window width from which grids add a third column. */
 export const WIDE_BREAKPOINT = 600;
+/** Windows shorter than this (iPhone SE 375×667, phone landscape) get compact spacing on screens that should fit without scrolling. */
+export const SHORT_WINDOW_BELOW = 700;

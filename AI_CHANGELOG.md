@@ -11,6 +11,11 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   Files: `src/app/index.tsx`, `src/features/home/homeOrder.test.ts`. Checks: `npm run check` — tsc, ESLint, Jest
   63 suites / 260 tests ✓; web 375×667 screenshot, no console errors. Short-phone sweep: Letters, Stickers, theme
   page, Games list scroll as lists (expected); Memory/Find showed the daily-limit gate; profiles fit. Commit: see git log.
+- claude · #87 Onboarding on short phones: below 700 px tall the gap tightens (24 → 16) and avatar tiles become 5:4, so
+  "Let's go!" is on screen at 375×667 (533–597, was 624–688 in a 635 px area; Skip still scrolls). New token
+  `SHORT_WINDOW_BELOW` shared with the lesson. Files: `src/app/onboarding.tsx`, `src/features/profiles/onboardingLayout{,.test}.ts`,
+  `src/ui/tokens.ts`, `src/features/lesson/artSizes.ts`. Checks: `npm run check` — tsc, ESLint, Jest 64 suites / 262
+  tests ✓; web 375×667 screenshot + 375×812 unchanged; Memory board at 375×667 fits (no change). Commit: see git log.
 
 ## 2026-11-04 (20:30 run)
 - claude · #80 Hills scene crop on wide screens: clouds moved down (art top y = 22), `sceneHeight` keeps the

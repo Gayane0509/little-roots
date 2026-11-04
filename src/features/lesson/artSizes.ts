@@ -1,4 +1,4 @@
-import { spacing, WIDE_BREAKPOINT } from '@/ui/tokens';
+import { SHORT_WINDOW_BELOW, spacing, WIDE_BREAKPOINT } from '@/ui/tokens';
 
 export type LessonArtSizes = {
   option: number; card: number; reward: number; sticker: number; rewardRowsSideBySide: boolean;
@@ -9,7 +9,7 @@ export type LessonArtSizes = {
 };
 
 /** Windows shorter than this (iPhone SE 375×667) get the compact lesson (#84): the word card, rhyme and reward overflowed. */
-export const LESSON_COMPACT_BELOW = 700;
+export const LESSON_COMPACT_BELOW = SHORT_WINDOW_BELOW;
 /** Windows shorter than this use the tight gap on the rhyme step. */
 export const SONG_TIGHT_BELOW = 860;
 

@@ -5,21 +5,21 @@ import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleShee
 
 import { AVATAR_WORD_IDS, useProfiles, type AvatarWordId } from '@/state/profiles';
 import { useBuddyLine } from '@/features/buddy/useBuddyLine';
+import { onboardingLayout } from '@/features/profiles/onboardingLayout';
 import { ProfileAvatar } from '@/features/profiles/ProfileAvatar';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
 import { Screen } from '@/ui/Screen';
 import { selectedA11y } from '@/ui/selectedA11y';
-import { colors, CONTENT_MAX_WIDTH, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN, WIDE_BREAKPOINT } from '@/ui/tokens';
+import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 export default function Onboarding() {
   const line = useBuddyLine();
   const { add } = useProfiles();
   const [avatar, setAvatar] = useState<AvatarWordId>('family.child');
   const [busy, setBusy] = useState(false);
-  const { width } = useWindowDimensions();
-  // Avatar tiles are 31 % of the content column; on wide windows the picture grows with the tile (phones keep 64).
-  const avatarArt = width >= WIDE_BREAKPOINT ? Math.min(140, Math.round(Math.min(width - spacing.md * 2, CONTENT_MAX_WIDTH) * 0.31 * 0.6)) : 64;
+  const { width, height } = useWindowDimensions();
+  const layout = onboardingLayout(width, height);
   const busyRef = useRef(false);
   const mounted = useRef(true);
   useEffect(() => { mounted.current = true; return () => { mounted.current = false; }; }, []);
@@ -38,7 +38,7 @@ export default function Onboarding() {
   return (
     <Screen>
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+        <ScrollView contentContainerStyle={[styles.content, { gap: layout.gap }]} keyboardShouldPersistTaps="handled">
           <Buddy mood="cheer" message={line('onboarding_intro')} />
           <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} accessibilityRole="header" style={styles.question}>What is your name?</Text>
           <TextInput
@@ -54,7 +54,7 @@ export default function Onboarding() {
             onSubmitEditing={() => void finish(name)}
           />
           <Text style={styles.note}>Choose your picture</Text>
-          <View style={styles.avatars}>{AVATAR_WORD_IDS.map((id) => <Pressable key={id} accessibilityRole="button" accessibilityLabel={`${id.split('.')[1]} avatar`} {...selectedA11y(avatar === id)} onPress={() => setAvatar(id)} style={[styles.avatar, avatar === id && styles.selected]}><ProfileAvatar wordId={id} size={avatarArt} /></Pressable>)}</View>
+          <View style={styles.avatars}>{AVATAR_WORD_IDS.map((id) => <Pressable key={id} accessibilityRole="button" accessibilityLabel={`${id.split('.')[1]} avatar`} {...selectedA11y(avatar === id)} onPress={() => setAvatar(id)} style={[styles.avatar, { aspectRatio: layout.avatarAspectRatio }, avatar === id && styles.selected]}><ProfileAvatar wordId={id} size={layout.avatarArt} /></Pressable>)}</View>
           <Text style={styles.note}>Stays on this device only.</Text>
           <BigButton label="Let's go!" disabled={busy} onPress={() => void finish(name)} />
           <BigButton label="Skip" color={colors.textMuted} disabled={busy} onPress={() => void finish('')} />
@@ -66,7 +66,7 @@ export default function Onboarding() {
 
 const styles = StyleSheet.create({
   flex: { flex: 1 },
-  content: { gap: spacing.lg, paddingVertical: spacing.lg },
+  content: { paddingVertical: spacing.lg },
   question: { fontSize: font.title, fontWeight: '800', color: colors.text },
   input: {
     minHeight: TOUCH_MIN,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   },
   // Six pictures as a 3 × 2 grid of big targets (no lone picture on a second row).
   avatars: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: spacing.md },
-  avatar: { width: '31%', aspectRatio: 1, alignItems: 'center', justifyContent: 'center', borderRadius: radius.md, borderWidth: 3, borderColor: colors.border, backgroundColor: colors.surface },
+  avatar: { width: '31%', alignItems: 'center', justifyContent: 'center', borderRadius: radius.md, borderWidth: 3, borderColor: colors.border, backgroundColor: colors.surface },
   selected: { borderColor: colors.success, borderWidth: 4, backgroundColor: '#E9F8EF' },
   note: { fontSize: font.small, color: colors.textMuted },
 });
