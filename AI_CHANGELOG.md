@@ -2,6 +2,11 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (22:30 run; lock taken 22:34)
+- claude · #92 sheep (letter sheet, Vo): wool `#FFFFFF` → cream `#FFF3DC`, face + ears → grey `#B8BCC6`, hidden
+  opacity-0 path replaced by a white highlight (STYLE.md palette). File: `src/art/words/letters.ts`. Checks: `npm run
+  check` — tsc, ESLint, Jest 65 suites / 268 tests ✓; web 375×812 Vo sheet screenshot, no console errors. Commit: see git log ("Sheep: cream wool…").
+
 ## 2026-11-04 (21:30 run; lock taken 21:34)
 - claude · #85 review (reviewer subagent): no blockers. Low 1 (tight rhyme gap also on 700–859 px tall tablets) is
   intended — the fit depends on height and `artSizes.test.ts` already pins 1024×768 → `songGap: sm`; low 2 (812 px

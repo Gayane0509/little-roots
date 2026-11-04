@@ -64,8 +64,9 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
   emoji (done; snake/football/rose redrawn after a contact-sheet check); #90 parent intro emoji → drawn art. Reviewer
   on #88/#89: no defects. Reviewer subagents on #85 and #86/#87: no blockers.
 - #91 Home free-words-finished: one Buddy, grown-up button secondary. Reviewer on #90/#91: no defects.
-- Next unblocked: research new scored tasks (backlog left is low-score: #49, #65); idea: sheep picture is white on a
-  white tile (outline only) — consider cream wool; tablet check of the tracing sheet (1024×768 →
+- 2026-11-04 22:30 run (short: Claude 5-hour limit at 70 %, Codex still blocked #11): #92 sheep recoloured (cream wool,
+  grey face; web-checked); #93 logged (hidden opacity-0 SVG shapes).
+- Next unblocked: #93 (10); research new scored tasks (backlog left is low-score: #49, #65); tablet check of the tracing sheet (1024×768 →
   335 px canvas); #49 (1.5), #65 idea (1.5); then research. Native: #10/#14/#16/#39/#50/#61 check.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 

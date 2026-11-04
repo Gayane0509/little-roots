@@ -83,19 +83,19 @@ export const art: ThemeArt = {
 </svg>`,
   sheep: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
 <path d="M46 98 L46 118 M82 98 L82 118" stroke="#3A2E39" stroke-width="7" stroke-linecap="round"/>
-<circle cx="34" cy="52" r="20" fill="#FFFFFF" stroke="#3A2E39" stroke-width="3"/>
-<circle cx="94" cy="52" r="20" fill="#FFFFFF" stroke="#3A2E39" stroke-width="3"/>
-<circle cx="24" cy="78" r="20" fill="#FFFFFF" stroke="#3A2E39" stroke-width="3"/>
-<circle cx="104" cy="78" r="20" fill="#FFFFFF" stroke="#3A2E39" stroke-width="3"/>
-<circle cx="64" cy="84" r="26" fill="#FFFFFF" stroke="#3A2E39" stroke-width="3"/>
-<circle cx="64" cy="36" r="24" fill="#FFFFFF" stroke="#3A2E39" stroke-width="3"/>
-<ellipse cx="64" cy="62" rx="24" ry="26" fill="#FFF3DC" stroke="#3A2E39" stroke-width="3"/>
-<ellipse cx="38" cy="62" rx="9" ry="6" transform="rotate(-20 38 62)" fill="#FFF3DC" stroke="#3A2E39" stroke-width="3"/>
-<ellipse cx="90" cy="62" rx="9" ry="6" transform="rotate(20 90 62)" fill="#FFF3DC" stroke="#3A2E39" stroke-width="3"/>
+<circle cx="34" cy="52" r="20" fill="#FFF3DC" stroke="#3A2E39" stroke-width="3"/>
+<circle cx="94" cy="52" r="20" fill="#FFF3DC" stroke="#3A2E39" stroke-width="3"/>
+<circle cx="24" cy="78" r="20" fill="#FFF3DC" stroke="#3A2E39" stroke-width="3"/>
+<circle cx="104" cy="78" r="20" fill="#FFF3DC" stroke="#3A2E39" stroke-width="3"/>
+<circle cx="64" cy="84" r="26" fill="#FFF3DC" stroke="#3A2E39" stroke-width="3"/>
+<circle cx="64" cy="36" r="24" fill="#FFF3DC" stroke="#3A2E39" stroke-width="3"/>
+<ellipse cx="64" cy="62" rx="24" ry="26" fill="#B8BCC6" stroke="#3A2E39" stroke-width="3"/>
+<ellipse cx="38" cy="62" rx="9" ry="6" transform="rotate(-20 38 62)" fill="#B8BCC6" stroke="#3A2E39" stroke-width="3"/>
+<ellipse cx="90" cy="62" rx="9" ry="6" transform="rotate(20 90 62)" fill="#B8BCC6" stroke="#3A2E39" stroke-width="3"/>
 <circle cx="54" cy="58" r="3.5" fill="#3A2E39"/><circle cx="74" cy="58" r="3.5" fill="#3A2E39"/>
 <path d="M58 70 Q64 76 70 70" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
 <circle cx="48" cy="68" r="4" fill="#FF9EAA" opacity="0.6"/><circle cx="80" cy="68" r="4" fill="#FF9EAA" opacity="0.6"/>
-<path d="M18 62 Q20 54 26 50" fill="none" stroke="#B8BCC6" stroke-width="3" stroke-linecap="round" opacity="0"/>
+<path d="M50 24 Q58 16 70 18" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.45"/>
 </svg>`,
   radio: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
 <path d="M34 34 L96 8" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
