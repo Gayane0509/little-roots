@@ -35,7 +35,7 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
 - 2026-11-04: **Family voice (#60, owner's top priority; replaces "No voice")** — parent records words on
   Parent → Family voice; played on lesson cards/rounds, theme page, Find; on-device only, per child + language; mic
   asked only there. Web-verified; native check #61 blocked on Xcode.
-- Checks (2026-11-04, after #85): `npm run check` — tsc, ESLint, Jest 62 suites / 259 tests; web export ✓ (after #83); expo-doctor 20/20 (after #77).
+- Checks (2026-11-04, after #89): `npm run check` — tsc, ESLint, Jest 65 suites / 266 tests; web export ✓ (after #83); expo-doctor 20/20 (after #77).
 - Checks (working tree, 2026-11-04 00:05): tsc, ESLint, Jest 46 suites / 189 tests; expo-doctor 20/20 (last run 2026-11-03).
 - 2026-11-04: #52 picture pass (4 redraws, bike fix), #53 Family + Food grow to 12 words with new drawings (104 words), #54 clearer parent weekly report, #59 first-lesson tap hint.
 - 2026-11-04 17:30 run: #57 Home "Next up" marker (Buddy badge + "Next" ribbon on the theme new words come from;
@@ -57,8 +57,13 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
   the fold); #84 compact lesson below 700 px tall (card, rhyme, reward overflowed at 375×667); #85 rhyme fits 375×812.
   Reviewer subagents on every diff (#80/#81: 3 low fixed; #82/#83: none; #84: nit fixed; #85 not separately reviewed,
   same helper). Lesson reward + Read game at 1024 px now checked.
-- Next unblocked: review #85 diff; short-phone (375×667) sweep of the remaining screens (Home, Letters, Stickers,
-  Memory, parent area) — only lesson + Find/Read checked so far; #49 (1.5), #65 idea (1.5); then research. Native: #10/#14/#16/#39/#50/#61 check.
+- 2026-11-04 21:30 run: #85 reviewed (no change: height-based gap intended, already pinned by a test); short-phone
+  (375×667) sweep → #86 Home lesson button above the grown-up card, #87 onboarding "Let's go!" on screen (+ 320 px
+  avatar follow-up), #88 letter tracing canvas capped by height so Done stays in the sheet; Memory, parent gate,
+  profiles fit; Letters/Stickers/theme/Games scroll as lists. #89 drawn pictures for the 18 letter examples that showed
+  emoji (done; snake/football/rose redrawn after a contact-sheet check). Reviewer subagents on #85 and #86/#87: no blockers.
+- Next unblocked: review #88/#89 diffs (not yet reviewed); tablet check of the tracing sheet (1024×768 →
+  335 px canvas); #49 (1.5), #65 idea (1.5); then research. Native: #10/#14/#16/#39/#50/#61 check.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Blockers (owner)
@@ -70,7 +75,7 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
 4. Commits (owner rule, 2026-11-04): each finished task is committed to `main` once `npm run check` passes, one
    clear commit per task; never failing or half-done work. After each commit, push `main` to origin (never
    force-push; if rejected: `git pull --rebase origin main`, `npm run check` again, then push). Everything up to
-   94543c7 is committed and pushed. The hourly `little-roots-daily` task (17:30–01:00) follows the same rule, bans voice features
+   3f36517 is committed and pushed. The hourly `little-roots-daily` task (17:30–01:00) follows the same rule, bans voice features
    other than Family voice, and puts images/design first.
 5. #40 Proposal: release Android build without the INTERNET permission (needs a config plugin + native test).
 6. #68 Decision: keep iPad rotation (recommended) or set `ios.requireFullScreen: true` (portrait-only iPad, no Split View).

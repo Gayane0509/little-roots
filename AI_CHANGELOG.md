@@ -27,6 +27,13 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   there); 375×812 unchanged (323). Files: `src/features/letters/{tracing,tracing.test,TraceCanvas}.ts(x)`. Checks:
   `npm run check` ✓; web: traced Ben at 375×667 → "Wonderful tracing!", 2 of 39 traced (preview data only). Not
   verified on device (#10). Commit: see git log.
+- claude + implementer subagent · #89 Letter sheet pictures: 18 new drawings in the house style for the alphabet
+  examples that aren't theme words (they showed emoji). Contact sheet reviewed: snake (body join, tongue over the face),
+  football (white on the white tile) and rose (read as a heart with a face) redrawn. `letterExampleArtId` picks the theme
+  word's drawing, else `letters.<english_slug>`. Files: `src/art/words/{letters,index}.ts`,
+  `src/features/letters/{exampleArt,exampleArt.test,LetterDetail}.ts(x)`. Checks: `npm run check` — tsc, ESLint, Jest
+  65 suites / 266 tests ✓ (first run caught a direct `@/content/alphabet` import → now via `@/content/packs`); web 375×812:
+  Ben shows the drawn duck, no console errors. Commit: see git log.
 
 ## 2026-11-04 (20:30 run)
 - claude · #80 Hills scene crop on wide screens: clouds moved down (art top y = 22), `sceneHeight` keeps the

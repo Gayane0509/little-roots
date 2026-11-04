@@ -13,6 +13,7 @@ import { BigButton } from '@/ui/BigButton';
 import { WordArt } from '@/ui/WordArt';
 import { Buddy } from '@/ui/Buddy';
 import { useTracedLetters } from '@/state/letters';
+import { letterExampleArtId } from './exampleArt';
 import { TraceCanvas } from './TraceCanvas';
 import { isTraceGoodEnough } from './tracing';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing } from '@/ui/tokens';
@@ -32,7 +33,7 @@ export function LetterDetail({ letter, onClose }: LetterDetailProps) {
   const { traced, markTraced } = useTracedLetters();
   const { state } = useProgressState();
   const close = () => { setDrawing(false); setTracing(false); setFeedback(null); onClose(); };
-  const exampleWord = letter && ACTIVE_PACK.themes.flatMap((theme) => theme.words).find((word) => word.hy === letter.example.hy);
+  const exampleArtId = letter && letterExampleArtId(letter, ACTIVE_PACK.themes);
   return (
     <Modal visible={letter !== null} transparent animationType="slide" onRequestClose={close}>
       <View style={styles.backdrop}>
@@ -62,7 +63,7 @@ export function LetterDetail({ letter, onClose }: LetterDetailProps) {
               <Text style={styles.sound}>Sounds like: {letter.sound}</Text>
 
               <View style={styles.example} accessibilityLabel={`${letter.example.hy}, ${letter.example.translit}, ${letter.example.en}`}>
-                <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">{exampleWord ? <WordArt wordId={exampleWord.id} emoji={letter.example.emoji} size={70} /> : <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.exampleEmoji}>{letter.example.emoji}</Text>}</View>
+                <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">{exampleArtId ? <WordArt wordId={exampleArtId} emoji={letter.example.emoji} size={70} /> : null}</View>
                 <View style={styles.exampleTexts}>
                   <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.exampleHy}>{letter.example.hy}</Text>
                   <Text style={styles.exampleSub}>
@@ -108,7 +109,6 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     padding: spacing.md,
   },
-  exampleEmoji: { fontSize: 56 },
   exampleTexts: { flexShrink: 1 },
   exampleHy: { fontSize: font.word, fontWeight: '800', color: colors.text },
   exampleSub: { fontSize: font.body, color: colors.textMuted },
