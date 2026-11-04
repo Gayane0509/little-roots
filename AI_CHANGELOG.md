@@ -2,6 +2,15 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (hills scene on game finish screens, #63)
+- claude · Find, Read and Memory report when they show their finish screen (`onFinishedChange`); `GameShell` then
+  draws the hills scene behind it, and removes it on Play again. Play screens stay plain.
+- Files: `src/features/games/GameShell.tsx` (+ `GameShell.render.test.tsx`), `ChoiceGame.tsx`, `MemoryGame.tsx`,
+  `src/app/games/{find,read,memory}.tsx`.
+- Checks: tsc ✓, ESLint ✓, Jest 54 suites / 224 tests ✓. Web: Find played to the end at 375 px → hills behind the score
+  screen. Mid-game "no scene" covered by the render test only (today's free-game limit blocked a replay in the preview).
+- Commit: see git log ("Hills behind game finish screens").
+
 ## 2026-11-04 (research: store rules + learning evidence, #64/#65)
 - claude · Research only, no app code. Apple: expanded age-rating questions and content-control labels, Declared Age
   Range API (not needed: no accounts). Google Play: 2026 Families changes target anonymous chat apps and Contacts

@@ -23,7 +23,7 @@ type Mode = 'find' | 'read';
 
 const NEXT_DELAY_MS = 1300;
 
-export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] }) {
+export function ChoiceGame({ mode, seenWords, onFinishedChange }: { mode: Mode; seenWords: Word[]; onFinishedChange?: (finished: boolean) => void }) {
   const line = useBuddyLine();
   const { soundEffects, haptics } = useSettings();
   const { recordAnswer, recordGamePlayed } = useProgressActions();
@@ -59,6 +59,8 @@ export function ChoiceGame({ mode, seenWords }: { mode: Mode; seenWords: Word[] 
   }, [index, rounds.length, soundEffects]);
 
   const round = rounds[index] as ChoiceRound | undefined;
+  const finished = !round;
+  useEffect(() => { onFinishedChange?.(finished); }, [finished, onFinishedChange]);
   // Find the picture says the word in the family voice, if recorded (AI_DECISIONS 2026-11-04).
   useAutoPlayWord(mode === 'find' ? round?.answer.id : undefined);
 

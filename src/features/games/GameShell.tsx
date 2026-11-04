@@ -19,8 +19,8 @@ import { MIN_SEEN_WORDS, pickSeenWords } from './logic';
 interface GameShellProps {
   title: string;
   icon: IconName;
-  /** Rendered once progress is loaded and enough words are seen. */
-  children: (seenWords: Word[]) => ReactNode;
+  /** Rendered once progress is loaded and enough words are seen; a game reports its finish screen so the shell shows the celebration scene. */
+  children: (seenWords: Word[], onFinishedChange: (finished: boolean) => void) => ReactNode;
 }
 
 /** Loading + "finish a lesson first" gate shared by every game screen. */
@@ -54,11 +54,12 @@ export function GameShell({ title, icon, children }: GameShellProps) {
   return <AdmittedGame title={title} icon={icon} seen={seen} isPremium={state.isPremium} played={gamesPlayedToday(state)}>{children}</AdmittedGame>;
 }
 
-function AdmittedGame({ title, icon, seen, isPremium, played, children }: { title: string; icon: IconName; seen: Word[]; isPremium: boolean; played: number; children: (words: Word[]) => ReactNode }) {
+function AdmittedGame({ title, icon, seen, isPremium, played, children }: { title: string; icon: IconName; seen: Word[]; isPremium: boolean; played: number; children: GameShellProps['children'] }) {
   const line = useBuddyLine();
   const [admitted] = useState(() => canPlayGame(isPremium, played));
   const { recordGamePlayed } = useProgressActions();
   const counted = useRef(false);
+  const [finished, setFinished] = useState(false);
   useEffect(() => {
     if (admitted && !counted.current) { counted.current = true; recordGamePlayed(); }
   }, [admitted, recordGamePlayed]);
@@ -70,9 +71,9 @@ function AdmittedGame({ title, icon, seen, isPremium, played, children }: { titl
     </ScrollView></Screen>;
   }
   return (
-    <Screen>
+    <Screen scene={finished ? 'hills' : undefined}>
       <IconTitle icon={icon} text={title} style={styles.title} />
-      {children(seen)}
+      {children(seen, setFinished)}
     </Screen>
   );
 }

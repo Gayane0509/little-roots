@@ -75,7 +75,7 @@ function FlipCard({ card, open, matched, disabled, onPress, width, height }: {
   );
 }
 
-export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
+export function MemoryGame({ seenWords, onFinishedChange }: { seenWords: Word[]; onFinishedChange?: (finished: boolean) => void }) {
   const line = useBuddyLine();
   const { soundEffects, haptics } = useSettings();
   const { recordGamePlayed } = useProgressActions();
@@ -95,6 +95,7 @@ export function MemoryGame({ seenWords }: { seenWords: Word[] }) {
   const pairs = deck.length / 2;
   const won = pairs > 0 && matched.length === pairs;
   useEffect(() => { if (won) playSfx('reward', soundEffects); }, [won, soundEffects]);
+  useEffect(() => { onFinishedChange?.(won); }, [won, onFinishedChange]);
 
   const gap = spacing.sm;
   const cardW = Math.max(TOUCH_MIN, Math.floor((width - spacing.md * 2 - gap * 2) / 3) - 1);
