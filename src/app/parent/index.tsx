@@ -8,7 +8,7 @@ import { WordArt } from '@/ui/WordArt';
 import type { Word } from '@/content/types';
 import { useParentGuard } from '@/features/parent/gate';
 import { PracticeRow } from '@/features/parent/PracticeRow';
-import { weeklyReport } from '@/lib/report';
+import { weeklyReport, weeklySummary } from '@/lib/report';
 import { currentStreak } from '@/lib/streak';
 import { useProgress } from '@/state/progress';
 import { useTracedLetters } from '@/state/letters';
@@ -19,6 +19,8 @@ import { Screen } from '@/ui/Screen';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing } from '@/ui/tokens';
 import { StorageErrorBanner } from '@/features/storage/StorageErrorBanner';
 import { WeeklyShareCard } from '@/features/report/WeeklyShareCard';
+
+const LEARNED_SHOWN = 8;
 
 function toWords(ids: string[]): Word[] {
   return ids.map(getWord).filter((w): w is Word => w !== undefined);
@@ -40,7 +42,9 @@ export default function ParentArea() {
   }, []);
   const report = weeklyReport(state, now);
 
-  const practice = toWords(report.practiceWordIds.length > 0 ? report.practiceWordIds : report.newWordIds);
+  const childName = active?.name ?? 'Your child';
+  const practice = toWords(report.practiceWordIds);
+  const learned = toWords(report.newWordIds);
   const teaserWords = practice.length >= 3 ? practice.slice(0, 3) : ACTIVE_PACK.themes[0].words.slice(0, 3);
 
   const confirmReset = () =>
@@ -68,6 +72,7 @@ export default function ParentArea() {
         <StorageErrorBanner />
 
         <Text accessibilityRole="header" style={styles.heading}>This week</Text>
+        <Text style={styles.body}>{weeklySummary(childName, report)}</Text>
         <View style={styles.stats}>
           <Stat label="Days active" value={`${report.daysActive}/7`} />
           <Stat label="New words" value={String(report.newWordIds.length)} />
@@ -77,11 +82,30 @@ export default function ParentArea() {
 
         <WeeklyShareCard childName={active?.name ?? 'My child'} report={report} />
 
-        <Text accessibilityRole="header" style={styles.heading}>Practice at home</Text>
+        <Text accessibilityRole="header" style={styles.heading}>New this week</Text>
+        {learned.length === 0 ? (
+          <Text style={styles.muted}>No new words this week yet.</Text>
+        ) : (
+          <View style={styles.learned}>
+            {learned.slice(0, LEARNED_SHOWN).map((w) => (
+              <View key={w.id} style={styles.learnedItem} accessible accessibilityLabel={`${w.hy}, ${w.translit}, ${w.en}`}>
+                <WordArt wordId={w.id} emoji={w.emoji} size={48} />
+                <Text style={styles.learnedHy} numberOfLines={1}>{w.hy}</Text>
+                <Text style={styles.learnedEn} numberOfLines={1}>{w.en}</Text>
+              </View>
+            ))}
+          </View>
+        )}
+        {learned.length > LEARNED_SHOWN ? <Text style={styles.muted}>and {learned.length - LEARNED_SHOWN} more</Text> : null}
+
+        <Text accessibilityRole="header" style={styles.heading}>Practice together</Text>
         {practice.length === 0 ? (
           <Text style={styles.muted}>Nothing yet. Finish a lesson to see words here.</Text>
         ) : (
-          practice.map((w) => <PracticeRow key={w.id} word={w} />)
+          <>
+            <Text style={styles.body}>Point at the picture and say the word, then let {childName === 'Your child' ? 'your child' : childName} say it back.</Text>
+            {practice.map((w) => <PracticeRow key={w.id} word={w} />)}
+          </>
         )}
 
         <Text accessibilityRole="header" style={styles.heading}>Full progress</Text>
@@ -156,6 +180,10 @@ const styles = StyleSheet.create({
   },
   statValue: { fontSize: font.title, fontWeight: '800', color: colors.primaryText },
   statLabel: { fontSize: font.small, color: colors.textMuted },
+  learned: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
+  learnedItem: { width: 96, alignItems: 'center', gap: spacing.xs, padding: spacing.sm, backgroundColor: colors.surface, borderRadius: radius.md },
+  learnedHy: { fontSize: font.small, fontWeight: '700', color: colors.text },
+  learnedEn: { fontSize: font.small, color: colors.textMuted },
   teaser: { backgroundColor: colors.surface, borderRadius: radius.md, padding: spacing.md, gap: spacing.sm },
   teaserRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, opacity: 0.72 },
 });

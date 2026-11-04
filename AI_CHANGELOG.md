@@ -2,6 +2,16 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (parent weekly report, #54)
+- claude · Parents → This week now opens with one plain sentence ("Mari learned on 4 of 7 days and met 6 new words.
+  Try the 3 words below together."; separate lines for a quiet week and for not started). New "New this week" grid
+  shows the week's words with pictures (8 shown, "and N more"). "Practice at home" → "Practice together": 3–5 words,
+  shaky ones first (box 0, then 1, by accuracy), filled from this week's words, with a how-to line.
+- Files: `src/lib/report.ts` (+ `weeklySummary`, `WeeklyReport` type), `src/lib/report.test.ts` (3 new tests),
+  `src/app/parent/index.tsx`.
+- Checks: `npm run check` ✓ (205 tests). Web: Parents screen at 375 and 768 px, no overflow, no console errors.
+  Committed.
+
 ## 2026-11-04 (more words, #53)
 - claude · Family and Food (the free themes) grow from 8 to 12 words: baby, friend, uncle, aunt; apricot, grapes,
   carrot, tomato. Each has a new drawing in the house style (people share the family look; food has faces). Ids of
