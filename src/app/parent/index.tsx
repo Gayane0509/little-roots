@@ -14,7 +14,9 @@ import { useProgress } from '@/state/progress';
 import { useTracedLetters } from '@/state/letters';
 import { useProfiles } from '@/state/profiles';
 import { useSettings } from '@/state/settings';
+import type { IconName } from '@/art/icons';
 import { BigButton } from '@/ui/BigButton';
+import { Icon } from '@/ui/Icon';
 import { Screen } from '@/ui/Screen';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing } from '@/ui/tokens';
 import { StorageErrorBanner } from '@/features/storage/StorageErrorBanner';
@@ -77,7 +79,7 @@ export default function ParentArea() {
           <Stat label="Days active" value={`${report.daysActive}/7`} />
           <Stat label="New words" value={String(report.newWordIds.length)} />
           <Stat label="Total words" value={String(report.totalWords)} />
-          <Stat label="Streak" value={`🔥 ${currentStreak(state, now)}`} />
+          <Stat label="Streak" value={String(currentStreak(state, now))} icon="flame" />
         </View>
 
         <WeeklyShareCard childName={active?.name ?? 'My child'} report={report} />
@@ -155,10 +157,14 @@ export default function ParentArea() {
   );
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function Stat({ label, value, icon }: { label: string; value: string; icon?: IconName }) {
   return (
     <View style={styles.stat} accessible accessibilityLabel={`${label}: ${value}`}>
-      <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.statValue}>{value}</Text>
+      {/* Drawn icon instead of an emoji (AI_DECISIONS "No emoji pictures", #99). */}
+      <View style={styles.statValueRow}>
+        {icon ? <Icon name={icon} size={28} /> : null}
+        <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.statValue}>{value}</Text>
+      </View>
       <Text style={styles.statLabel}>{label}</Text>
     </View>
   );
@@ -178,6 +184,7 @@ const styles = StyleSheet.create({
     padding: spacing.md,
     alignItems: 'center',
   },
+  statValueRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs },
   statValue: { fontSize: font.title, fontWeight: '800', color: colors.primaryText },
   statLabel: { fontSize: font.small, color: colors.textMuted },
   learned: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },

@@ -57,7 +57,7 @@ export function WeeklyShareCard({ childName, report }: Props) {
         {preview}
       </Text>
       <BigButton
-        label="📤 Share with family"
+        label="Share with family"
         color={colors.success}
         accessibilityHint="Opens the share sheet with this week's progress"
         onPress={() => void shareMessage(message)}

@@ -24,6 +24,10 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   Commit: "Games: dim the cards when today's games are used up (#98)".
 - claude · Reviewer subagent on #96/#97: no behaviour findings; low note taken — the #97 guard now matches whole multi-line
   `<BigButton … />` blocks. File: `src/features/games/grownUpPrompts.test.ts`. Checks: `npm run check` ✓ (68 / 280).
+- claude · #99 parent report: drawn flame on the Streak tile (was 🔥), "Share with family" without 📤. Files:
+  `src/app/parent/index.tsx`, `src/features/report/WeeklyShareCard.tsx`, new `src/ui/noEmojiLabels.test.ts`. Checks: `npm run
+  check` ✓ (69 suites / 282 tests); guard fails on old code; web 1024×768 parent report. Remaining button emoji → #100.
+  Commit: "Parent report: drawn streak flame, plain share label (#99)".
 
 ## 2026-11-04 (22:30 run; lock taken 22:34)
 - claude · #92 sheep (letter sheet, Vo): wool `#FFFFFF` → cream `#FFF3DC`, face + ears → grey `#B8BCC6`, hidden
