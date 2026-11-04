@@ -2,6 +2,16 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (letters grid on wide screens, #73)
+- claude · From 600 px the Letters page shows 6 near-square tiles a row (was 4 long flat ones) with bigger letters
+  (46 / 30 px, was 34 / 22): 7 rows instead of 10 at 1024 px. Phones unchanged. The lowercase letter now caps its
+  growth with large system text too (`DISPLAY_MAX_FONT_SCALE`, caught by the display-text guard test).
+- Files: `src/app/letters.tsx`.
+- Checks: tsc ✓, ESLint ✓, Jest 59 suites / 245 tests ✓ (the guard failed once before the cap was added). Web:
+  1024×768 → 108×108 px tiles, 7 rows; 600 px → 85×108, no overflow; 375 px → 77×88, 10 rows (as before); no console
+  errors.
+- Commit: see git log ("Letters grid fits wide screens").
+
 ## 2026-11-04 (memory board fits wide screens, #72)
 - claude · Bug: Memory card widths came from the window, not the 720 px content column, so at 1024×768 only 2 cards
   fit a row (6 rows of flat 324×109 cards, board scrolled). New `memoryLayout` sizes cards from the content column;
