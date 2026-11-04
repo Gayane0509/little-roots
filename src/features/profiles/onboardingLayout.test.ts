@@ -9,7 +9,7 @@ test('phones keep 64 px avatar pictures; wide windows grow them with the tile, c
 });
 
 test('short windows get the tight gap and shorter avatar tiles; taller ones keep square tiles', () => {
-  expect(onboardingLayout(375, 667)).toMatchObject({ gap: spacing.md, avatarAspectRatio: 5 / 4 });
+  expect(onboardingLayout(375, 667)).toMatchObject({ gap: spacing.md, avatarAspectRatio: 5 / 4, avatarArt: 56 });
   expect(onboardingLayout(375, SHORT_WINDOW_BELOW - 1).gap).toBe(spacing.md);
   expect(onboardingLayout(375, SHORT_WINDOW_BELOW)).toMatchObject({ gap: spacing.lg, avatarAspectRatio: 1 });
   expect(onboardingLayout(375, 812)).toMatchObject({ gap: spacing.lg, avatarAspectRatio: 1 });

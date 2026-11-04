@@ -16,6 +16,11 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   `SHORT_WINDOW_BELOW` shared with the lesson. Files: `src/app/onboarding.tsx`, `src/features/profiles/onboardingLayout{,.test}.ts`,
   `src/ui/tokens.ts`, `src/features/lesson/artSizes.ts`. Checks: `npm run check` — tsc, ESLint, Jest 64 suites / 262
   tests ✓; web 375×667 screenshot + 375×812 unchanged; Memory board at 375×667 fits (no change). Commit: see git log.
+- claude · #87 follow-up (reviewer subagent on #86/#87: no blockers): avatar picture 56 on short phones, so a 5:4 tile
+  of a 320 px phone (~89×71) holds it with the 4 px selected border (was ~1 px over). Other reviewer lows: the Home
+  order test reads source text (fails loudly on a rename: kept); onboarding wiring has no render test (kept: pure
+  helper tested, web-checked). Files: `src/features/profiles/onboardingLayout{,.test}.ts`. Checks: `npm run check` ✓
+  (64 suites / 263 tests). Commit: see git log.
 
 ## 2026-11-04 (20:30 run)
 - claude · #80 Hills scene crop on wide screens: clouds moved down (art top y = 22), `sceneHeight` keeps the
