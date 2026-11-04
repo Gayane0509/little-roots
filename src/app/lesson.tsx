@@ -45,7 +45,7 @@ function ReadyLesson() {
   // Wide windows: bigger answer pictures so they fill the wider option cards (#71).
   const { width, height } = useWindowDimensions();
   const optionArt = width >= WIDE_BREAKPOINT ? 120 : 88;
-  // The word card's picture grows on tablets, but only when the window is tall enough to keep Next on screen.
+  // The word card's picture grows on tablets, but only when the window is tall enough that the card needn't scroll.
   const cardArt = width >= WIDE_BREAKPOINT && height >= 700 ? 220 : 160;
   const [lesson] = useState<DailyLesson | null>(() => buildDailyLesson({
     themes: ACTIVE_PACK.themes, words: state.words, isPremium: state.isPremium, now: Date.now(),
