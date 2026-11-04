@@ -2,6 +2,19 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (Buddy poses and idle blink, #56)
+- claude · Արջուկ gets three new poses in the same style: `wave` (raised paw + motion lines) greets on Home, `point`
+  (arm out, eyes following) on the lesson's "Find the picture", `proud` (happy closed eyes, two gold stars) on the lesson
+  reward. Idle blink: a lid overlay (fur patch + curved line) shown for 140 ms every 4.5 s on a native-driver opacity
+  loop; only moods with open eyes; none under reduce motion or on covered screens (same rule as the bounce). No sound.
+- Files: `src/art/buddy.ts` (moods, `BUDDY_BLINK`, `BuddyMood`), `src/art/buddy.test.ts` (7 moods, poses distinct,
+  lids sit on that mood's eyes), `src/ui/Buddy.tsx`, `src/ui/Buddy.blink.test.ts` (≥ 4 s apart, ≤ 200 ms, reduce-motion
+  guard), `src/app/index.tsx`, `src/app/lesson.tsx`.
+- Checks: tsc ✓, ESLint ✓, Jest 53 suites / 219 tests ✓. Web: wave on Home, point in the lesson game, proud on the
+  reward (each cloned at 260 px to inspect); blink measured on Home: lids at 3.1 s and 7.7 s, 130–155 ms each. Console:
+  only Chrome's "vibrate blocked" for scripted clicks. Native look not checked (#10).
+- Commit: see git log ("Buddy waves, points and beams").
+
 ## 2026-11-04 (scene backdrop on Home and the lesson reward, #55)
 - claude · A soft hills scene (cloud, tree, flowers; pale palette tints, no outlines) is drawn along the bottom of Home
   and the lesson reward, behind everything (no touch, hidden from screen readers, static). Height = 30% of the window

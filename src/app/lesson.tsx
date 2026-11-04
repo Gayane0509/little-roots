@@ -171,7 +171,7 @@ function ReadyLesson() {
         </>}
 
         {step === 'game' && currentRound && <>
-          <Buddy message={line(hadWrongTap ? 'lesson_good_try' : 'lesson_find_picture')} mood={hadWrongTap ? 'cheer' : 'happy'} />
+          <Buddy message={line(hadWrongTap ? 'lesson_good_try' : 'lesson_find_picture')} mood={hadWrongTap ? 'cheer' : 'point'} />
           <Text style={styles.counter}>Picture {roundIndex + 1} of {rounds.length}</Text>
           <View style={styles.promptRow}>
             <View accessible accessibilityRole="text" accessibilityLabel={`Find ${currentRound.hy}, ${currentRound.translit}`} style={styles.prompt}>
@@ -211,7 +211,7 @@ function ReadyLesson() {
 
         {step === 'reward' && <>
           <Confetti />
-          <Buddy message={line('lesson_done')} mood="cheer" />
+          <Buddy message={line('lesson_done')} mood="proud" />
           <Animated.View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={{ transform: [{ scale: burst }] }}><Icon name="stickers" size={140} /></Animated.View>
           <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.heading} accessibilityRole="header">You earned {3 + firstTryCorrect} stars!</Text>
           {showNewSticker && lesson.newWords[0] && <View accessible accessibilityRole="text" accessibilityLabel={`New sticker: ${lesson.newWords[0].en}`} style={styles.stickerRow}>
