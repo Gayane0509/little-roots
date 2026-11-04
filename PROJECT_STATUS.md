@@ -47,7 +47,8 @@ _Updated: 2026-11-04 (+04). Updated at the end of every session._
   art scales with tile); #67 lesson reward shows a newly unlocked outfit (web-checked 5 → 6 stickers); #68 iPad rotates to landscape
   (finding, owner decision; landscape layouts fit at 1024×768). Screen sweep at 320 px: no horizontal overflow. #69 theme page 3 a row on wide screens. #70 BigButton
   labels spoken without emoji. Parent area at 320 px: no overflow. #71 bigger answer pictures on wide screens.
-- Next unblocked: #49 (1.5), #65 idea (1.5); research for new scored tasks. Native:
+- Next unblocked: Memory game + Letters on wide screens (same fit check as #66/#69/#71), Parent gate's 🔐 emoji →
+  drawn lock (cosmetic), #49 (1.5), #65 idea (1.5); then research for new scored tasks. Native:
   #10/#14/#16/#39/#50/#61 check.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
