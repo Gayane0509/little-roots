@@ -75,9 +75,10 @@ export default function Home() {
         {active ? <Pressable accessibilityRole="button" accessibilityLabel={`Switch child, current child ${active.name}`} onPress={() => router.push('/profiles')} style={styles.profile}><View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><ProfileAvatar wordId={active.avatarWordId} size={56} /></View><Text style={styles.profileName}>{active.name} ▾</Text></Pressable> : null}
         <Buddy mood="wave" outfit={wornOutfit(state)} message={line('greeting', { name: state.childName })} />
 
-        {!state.isPremium && freeWordsFinished(state) ? <View style={styles.freeDone}><Buddy mood="cheer" message={line('free_words_finished')} /><BigButton label="Ask a grown-up for 80 more words" onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'themes' } })} /></View> : null}
-
+        {/* The child's lesson comes before the grown-up card so it stays above the fold on short phones (#86). */}
         <BigButton label="Start today's lesson" onPress={() => router.push('/lesson')} style={styles.start} />
+
+        {!state.isPremium && freeWordsFinished(state) ? <View style={styles.freeDone}><Buddy mood="cheer" message={line('free_words_finished')} /><BigButton label="Ask a grown-up for 80 more words" onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'themes' } })} /></View> : null}
 
         <View style={styles.tiles}>
           <Pressable

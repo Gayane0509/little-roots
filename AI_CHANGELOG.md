@@ -2,6 +2,16 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-04 (21:30 run)
+- claude · #85 review (reviewer subagent): no blockers. Low 1 (tight rhyme gap also on 700–859 px tall tablets) is
+  intended — the fit depends on height and `artSizes.test.ts` already pins 1024×768 → `songGap: sm`; low 2 (812 px
+  threshold has little slack) → recorded as unverified on device (#10). No code change.
+- claude · #86 Home: "Start today's lesson" moved above the free-words-finished grown-up card, so at 375×667 it is
+  fully on screen (302–382, was 590–670 in a 635 px area) and the child's action leads instead of the upgrade prompt.
+  Files: `src/app/index.tsx`, `src/features/home/homeOrder.test.ts`. Checks: `npm run check` — tsc, ESLint, Jest
+  63 suites / 260 tests ✓; web 375×667 screenshot, no console errors. Short-phone sweep: Letters, Stickers, theme
+  page, Games list scroll as lists (expected); Memory/Find showed the daily-limit gate; profiles fit. Commit: see git log.
+
 ## 2026-11-04 (20:30 run)
 - claude · #80 Hills scene crop on wide screens: clouds moved down (art top y = 22), `sceneHeight` keeps the
   `slice` crop above `SCENE_ART_TOP` (grows past 240 only above ~980 px: 1024 → 251, 1366 → 335; phones unchanged). Files:
