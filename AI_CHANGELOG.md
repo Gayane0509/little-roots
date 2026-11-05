@@ -2,7 +2,16 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-05 (side session, #113 — not committed, parent session commits)
+## 2026-11-05 (side session, #114 — not committed, parent session commits)
+- claude · #114 profile picker: phone card avatar 82 → 112 px; new grey "Grown-ups: add a child" button after "Back to
+  home" opens the parent gate with next=/parent/children (its Add child already handles the free-plan paywall). The picker
+  joins the grown-up prompt guard test (grey; after the child's button). Files: `src/app/profiles.tsx`,
+  `src/features/games/grownUpPrompts.test.ts`. Checks: `npm run check` — tsc, ESLint, Jest 74 suites / 309 tests ✓; web
+  [::1] picker 375×812 (161×192 card, 112 px avatar), 320×568, 768×1024 (120 px), no horizontal scroll; the button opens
+  "Grown-ups check" with next=/parent/children. Suggested commit: "Profile picker: bigger avatar and a grown-up add-a-child
+  button (#114)".
+
+## 2026-11-05 (side session, #113, committed as 536b5b9)
 - claude · #113 lesson reward shows "Today's words": one card per new word (56 px picture + the Armenian word, fitted
   with `wordFontSize`) under the sticker, the intro's seeds grown; one screen-reader label lists them in English. Not
   shown for practice-only lessons, below 640 px tall, or on short windows (< 700 px) when a new Buddy outfit also shows

@@ -4,7 +4,7 @@ import { expect, test } from '@jest/globals';
 const { readFileSync } = require('fs') as { readFileSync(path: string, encoding: 'utf8'): string };
 
 // AI_DECISIONS "Grown-up prompts stay secondary": on kid screens every upgrade button is grey (#91, #97).
-const FILES = ['src/app/index.tsx', 'src/app/lesson.tsx', 'src/app/games/index.tsx', 'src/features/games/GameShell.tsx', 'src/features/games/GameDoneActions.tsx'];
+const FILES = ['src/app/index.tsx', 'src/app/lesson.tsx', 'src/app/games/index.tsx', 'src/features/games/GameShell.tsx', 'src/features/games/GameDoneActions.tsx', 'src/app/profiles.tsx'];
 
 test.each(FILES)('%s: grown-up upgrade buttons use the secondary grey', (file) => {
   const buttons = readFileSync(file, 'utf8').match(/<BigButton\s+label="(Ask a grown-up|Grown-ups)[\s\S]*?\/>/g) ?? [];
@@ -16,6 +16,7 @@ test.each([
   ['src/app/lesson.tsx', 'label="Back home"', 'label="Ask a grown-up for 80 more words"'],
   ['src/features/games/GameShell.tsx', 'label="Back"', 'label="Grown-ups: unlimited games"'],
   ['src/features/games/GameDoneActions.tsx', 'label="Back"', 'label="Grown-ups: unlimited games"'],
+  ['src/app/profiles.tsx', 'label="Back to home"', 'label="Grown-ups: add a child"'],
 ])("%s: the child's button comes before the grown-up prompt", (file, child, grownUp) => {
   const source = readFileSync(file, 'utf8');
   expect(source.indexOf(child)).toBeGreaterThan(-1);
