@@ -17,6 +17,7 @@ test.each([
   ['src/features/games/GameShell.tsx', 'label="Back"', 'label="Grown-ups: unlimited games"'],
   ['src/features/games/GameDoneActions.tsx', 'label="Back"', 'label="Grown-ups: unlimited games"'],
   ['src/app/profiles.tsx', 'label="Back to home"', 'label="Grown-ups: add a child"'],
+  ['src/app/games/index.tsx', 'label="My stickers"', 'label="Grown-ups: unlimited games"'],
 ])("%s: the child's button comes before the grown-up prompt", (file, child, grownUp) => {
   const source = readFileSync(file, 'utf8');
   expect(source.indexOf(child)).toBeGreaterThan(-1);

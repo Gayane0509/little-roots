@@ -2,7 +2,16 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-05 (side session, #114 — not committed, parent session commits)
+## 2026-11-05 (side session, review pass 3 + #116 — not committed, parent session commits)
+- claude · Review pass 3 (games list, letter tracing, parent intro) → #116–#117. #116 done: when today's games are used
+  up the games list no longer ends in a goodbye and a grown-up upsell — "Trace letters" and "My stickers" (no daily limit)
+  come after Buddy's line and the grey "Grown-ups: unlimited games" stays last (order added to the grown-up prompt test).
+  Files: `src/app/games/index.tsx`, `src/features/games/grownUpPrompts.test.ts`. Checks: `npm run check` — tsc, ESLint,
+  Jest 74 suites / 310 tests ✓; web [::1] out-of-games state at 375×812, 375×667 (all three buttons end by 456 px) and
+  768×1024, no horizontal scroll; the buttons open /letters and /stickers. Suggested commit: "Games: offer Letters and
+  Stickers when today's games are used up (#116)".
+
+## 2026-11-05 (side session, #114, committed as 4b6daa1)
 - claude · #114 profile picker: phone card avatar 82 → 112 px; new grey "Grown-ups: add a child" button after "Back to
   home" opens the parent gate with next=/parent/children (its Add child already handles the free-plan paywall). The picker
   joins the grown-up prompt guard test (grey; after the child's button). Files: `src/app/profiles.tsx`,
