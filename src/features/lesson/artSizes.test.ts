@@ -5,15 +5,15 @@ import { spacing } from '@/ui/tokens';
 import { INTRO_SEEDS_FROM, LESSON_COMPACT_BELOW, lessonArtSizes, REWARD_BIG_WITH_OUTFIT_FROM, SONG_TIGHT_BELOW } from './artSizes';
 
 test('phones keep the small pictures', () => {
-  expect(lessonArtSizes(375, 812, false)).toEqual({ option: 88, card: 160, reward: 140, sticker: 96, rewardRowsSideBySide: false, gap: spacing.lg, songLinePadding: spacing.md, songGap: spacing.sm, introSeeds: true });
+  expect(lessonArtSizes(375, 812, false)).toEqual({ option: 88, card: 160, reward: 140, sticker: 96, rewardRowsSideBySide: false, gap: spacing.lg, songLinePadding: spacing.md, songGap: spacing.sm, introSeeds: true, songPicture: 32 });
 });
 
 test('tall tablets get bigger pictures, a bigger reward and the sticker + outfit side by side', () => {
-  expect(lessonArtSizes(1024, 768, false)).toEqual({ option: 120, card: 220, reward: 180, sticker: 128, rewardRowsSideBySide: true, gap: spacing.lg, songLinePadding: spacing.md, songGap: spacing.sm, introSeeds: true });
+  expect(lessonArtSizes(1024, 768, false)).toEqual({ option: 120, card: 220, reward: 180, sticker: 128, rewardRowsSideBySide: true, gap: spacing.lg, songLinePadding: spacing.md, songGap: spacing.sm, introSeeds: true, songPicture: 32 });
 });
 
 test('short windows (iPhone SE, landscape) get the compact lesson; wide ones keep the big answer pictures', () => {
-  expect(lessonArtSizes(375, 667, false)).toEqual({ option: 88, card: 104, reward: 104, sticker: 80, rewardRowsSideBySide: false, gap: spacing.sm, songLinePadding: spacing.sm, songGap: spacing.sm, introSeeds: true });
+  expect(lessonArtSizes(375, 667, false)).toEqual({ option: 88, card: 104, reward: 104, sticker: 80, rewardRowsSideBySide: false, gap: spacing.sm, songLinePadding: spacing.sm, songGap: spacing.sm, introSeeds: true, songPicture: 32 });
   expect(lessonArtSizes(1024, 600, false)).toMatchObject({ option: 120, card: 104, reward: 104, sticker: 80, gap: spacing.sm });
   expect(lessonArtSizes(375, LESSON_COMPACT_BELOW - 1, false).gap).toBe(spacing.sm);
   expect(lessonArtSizes(375, LESSON_COMPACT_BELOW, false)).toMatchObject({ card: 160, gap: spacing.lg });

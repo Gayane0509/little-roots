@@ -8,6 +8,8 @@ export type LessonArtSizes = {
   songGap: number;
   /** The intro's row of seeds, one per new word (#109); left out where it would make the step scroll. */
   introSeeds: boolean;
+  /** Pictures beside each rhyme line (#112); smaller where the rhyme step is tight. */
+  songPicture: number;
 };
 
 /** Windows shorter than this (iPhone SE 375×667) get the compact lesson (#84): the word card, rhyme and reward overflowed. */
@@ -42,5 +44,6 @@ export function lessonArtSizes(width: number, height: number, hasNewOutfit: bool
     songLinePadding: compact ? spacing.sm : spacing.md,
     songGap: height < SONG_TIGHT_BELOW ? spacing.sm : spacing.lg,
     introSeeds: height >= INTRO_SEEDS_FROM,
+    songPicture: height < SONG_TIGHT_BELOW ? 32 : 40,
   };
 }

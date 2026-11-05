@@ -10,6 +10,7 @@ import type { Word } from '@/content/types';
 import { lessonArtSizes } from '@/features/lesson/artSizes';
 import { gameOptions, shuffled } from '@/features/lesson/game';
 import { initialLessonState, lessonReducer, type Step } from '@/features/lesson/lessonReducer';
+import { keepLastWord, lineWordIds } from '@/features/lesson/rhymeWords';
 import { shouldShowTapHint } from '@/features/lesson/tapHint';
 import { OutfitPortrait } from '@/features/stickers/OutfitPicker';
 import { buildDailyLesson, type DailyLesson } from '@/lib/lesson';
@@ -225,8 +226,17 @@ function ReadyLesson() {
           <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.heading} accessibilityRole="header">{lesson.song.title}</Text>
           {lesson.song.lines.map((line, index) => (
             <Pressable key={index} accessibilityRole="button" accessibilityLabel={`Rhyme line ${index + 1}: ${line.hy}, ${line.en}`} accessibilityState={{ selected: songLineIndex === index }} onPress={() => dispatch({ type: 'SONG_LINE', index })} style={[styles.songLine, { padding: art.songLinePadding }, songLineIndex === index && styles.songLineActive]}>
-              <Text style={styles.songHy}>{line.hy}</Text>
-              <Text style={styles.songEn}>{line.en}</Text>
+              {/* The line's words as pictures, so a child who can't read yet can follow along (#112). */}
+              <View style={styles.songRow}>
+                {(() => {
+                  const ids = lineWordIds(line.hy, lesson.song, lesson.theme.words);
+                  return ids.length ? <View style={styles.songPictures} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">{ids.map((id) => <WordArt key={id} wordId={id} emoji={lesson.theme.words.find((w) => w.id === id)?.emoji ?? ''} size={art.songPicture} />)}</View> : null;
+                })()}
+                <View style={styles.songTexts}>
+                  <Text style={styles.songHy}>{keepLastWord(line.hy)}</Text>
+                  <Text style={styles.songEn}>{line.en}</Text>
+                </View>
+              </View>
             </Pressable>
           ))}
         </>}
@@ -294,6 +304,9 @@ const styles = StyleSheet.create({
   checkText: { color: colors.successText, fontSize: 34, fontWeight: '800' },
   songLine: { width: '100%', minHeight: TOUCH_MIN, justifyContent: 'center', backgroundColor: colors.surface, borderRadius: radius.md, borderWidth: 2, borderColor: colors.border },
   songLineActive: { borderColor: colors.primary, backgroundColor: '#FFF0DF' },
+  songRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
+  songPictures: { gap: spacing.xs, alignItems: 'center' },
+  songTexts: { flex: 1 },
   songHy: { color: colors.text, fontSize: font.heading, fontWeight: '700', textAlign: 'center' },
   songEn: { color: colors.textMuted, fontSize: font.small, textAlign: 'center' },
   sticker: { color: colors.text, fontSize: font.heading, fontWeight: '700' },

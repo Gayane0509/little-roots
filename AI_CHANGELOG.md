@@ -2,7 +2,18 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-05 (side session, #111 — not committed, parent session commits)
+## 2026-11-05 (side session, review pass 2 + #112 — not committed, parent session commits)
+- claude · Review pass 2 at 375×812 (profile picker, lesson rhyme and reward) → new tasks #112–#115. #112 done: each rhyme
+  line shows the pictures of its words. `src/features/lesson/rhymeWords.ts`: `lineWordIds` (song's words matched inside
+  inflected forms, longest first so մորաքույր doesn't add քույր, at most 2) and `keepLastWord` (a ≤ 3-letter last word
+  keeps a no-break space, so "սիրուն է։" stays together). Pictures sit in a small column beside the text (32 px; 40 on
+  windows ≥ 860 px tall via `lessonArtSizes.songPicture`) and add no height. Files: `src/app/lesson.tsx`,
+  `src/features/lesson/{rhymeWords.ts,rhymeWords.test.ts,artSizes.ts,artSizes.test.ts}`. Checks: `npm run check` — tsc,
+  ESLint, Jest 74 suites / 305 tests ✓; web [::1] rhyme step 375×812 (lines end 677, Next at 716, no scroll) and 768×1024;
+  at 375×667 the step scrolls 50 px as it did before (picture column 68 px ≤ 69 px text) → #115. Suggested commit:
+  "Lesson rhyme: pictures for each line's words (#112)".
+
+## 2026-11-05 (side session, #111, committed as 81678e6)
 - claude · #111 boy avatar: the default (preselected) avatar used the "child" word picture, a small full-body figure whose
   face came out half the size of the brother/sister portraits. New avatar-only portrait in `src/art/avatars.ts`
   (`AVATAR_PORTRAITS`, typed by `AvatarWordId`; head and shoulders, green shirt, brown hair, ears) used by
