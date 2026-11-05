@@ -257,6 +257,17 @@ function ReadyLesson() {
             <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[styles.newOutfit, { width: art.sticker, height: art.sticker }]}><OutfitPortrait outfit={newOutfit} /></View>
           </View>}
           </View>}
+          {/* The intro's seeds have grown: today's new words once more, at the happy moment (#113). */}
+          {art.rewardWords && lesson.newWords.length > 0 ? (
+            <View accessible accessibilityRole="text" accessibilityLabel={`Today's words: ${lesson.newWords.map((word) => word.en).join(', ')}`} style={styles.rewardWords}>
+              {lesson.newWords.map((word) => (
+                <View key={word.id} style={styles.rewardWord} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+                  <WordArt wordId={word.id} emoji={word.emoji} size={56} />
+                  <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={[styles.rewardWordHy, { fontSize: wordFontSize(word.hy, REWARD_WORD_TEXT, font.body, fontScale) }]}>{word.hy}</Text>
+                </View>
+              ))}
+            </View>
+          ) : null}
         </>}
       </ScrollView>
 
@@ -272,6 +283,10 @@ function ReadyLesson() {
     </Screen>
   );
 }
+
+/** A word card on the reward (#113): three fit a 320 px phone; the word's text box is the card minus border and a little padding. */
+const REWARD_WORD_WIDTH = 96;
+const REWARD_WORD_TEXT = REWARD_WORD_WIDTH - 2 * 2 - 2 * spacing.xs;
 
 const styles = StyleSheet.create({
   topBar: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
@@ -313,6 +328,9 @@ const styles = StyleSheet.create({
   newOutfit: { alignItems: 'center', justifyContent: 'center' },
   stickerRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   rewardRows: { alignItems: 'center', gap: spacing.lg },
+  rewardWords: { flexDirection: 'row', justifyContent: 'center', gap: spacing.sm },
+  rewardWord: { width: REWARD_WORD_WIDTH, alignItems: 'center', gap: spacing.xs, paddingVertical: spacing.sm, backgroundColor: colors.surface, borderRadius: radius.md, borderWidth: 2, borderColor: colors.border },
+  rewardWordHy: { color: colors.text, fontWeight: '800', textAlign: 'center' },
   rewardRowsSideBySide: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', columnGap: spacing.xl },
   footer: { paddingVertical: spacing.md },
 });

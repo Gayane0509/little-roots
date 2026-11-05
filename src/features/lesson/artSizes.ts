@@ -16,6 +16,8 @@ export type LessonArtSizes = {
    */
   songEnglishOnTap: boolean;
   songTitleSize: number;
+  /** The reward's row of today's new words (#113); left out where it would make the reward scroll (short windows with a new outfit). */
+  rewardWords: boolean;
 };
 
 /** Windows shorter than this (iPhone SE 375×667) get the compact lesson (#84): the word card, rhyme and reward overflowed. */
@@ -24,6 +26,8 @@ export const LESSON_COMPACT_BELOW = SHORT_WINDOW_BELOW;
 export const SONG_TIGHT_BELOW = 860;
 /** Windows at least this tall show the intro's seed row; at 320×568 it pushed the step 62 px past the window (#109). */
 export const INTRO_SEEDS_FROM = 640;
+/** Windows at least this tall show the reward's row of new words (#113). */
+export const REWARD_WORDS_FROM = 640;
 
 /**
  * Picture sizes in the lesson. Answer pictures grow on any wide window so they fill the wider option cards (#71). The
@@ -54,5 +58,7 @@ export function lessonArtSizes(width: number, height: number, hasNewOutfit: bool
     songPicture: compact ? 24 : height < SONG_TIGHT_BELOW ? 32 : 40,
     songEnglishOnTap: compact,
     songTitleSize: compact ? font.heading : font.title,
+    // At 375×667 a reward that also unlocks an outfit scrolled 69 px with the words row; without the outfit row it fits.
+    rewardWords: height >= REWARD_WORDS_FROM && !(compact && hasNewOutfit),
   };
 }

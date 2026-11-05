@@ -2,7 +2,17 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-05 (side session, #115 — not committed, parent session commits)
+## 2026-11-05 (side session, #113 — not committed, parent session commits)
+- claude · #113 lesson reward shows "Today's words": one card per new word (56 px picture + the Armenian word, fitted
+  with `wordFontSize`) under the sticker, the intro's seeds grown; one screen-reader label lists them in English. Not
+  shown for practice-only lessons, below 640 px tall, or on short windows (< 700 px) when a new Buddy outfit also shows
+  (measured: that reward scrolled 69 px at 375×667). Files: `src/app/lesson.tsx`,
+  `src/features/lesson/{artSizes.ts,artSizes.test.ts}`. Checks: `npm run check` — tsc, ESLint, Jest 74 suites / 307 tests
+  ✓; web [::1] reward 375×667 (row ends 512, Back home 571), 375×812 (644/716), 768×1024 (716/928), no scroll; console only
+  shows the browser blocking `navigator.vibrate` for scripted taps. Suggested commit: "Lesson reward: today's new words
+  (#113)".
+
+## 2026-11-05 (side session, #115, committed as d234a39)
 - claude · #115 rhyme step fits 375×667 (it scrolled 50 px with the Family rhyme). On windows under 700 px tall
   (`lessonArtSizes`: `songEnglishOnTap`, `songTitleSize`, `songPicture` 24): a line's English shows once it's tapped (the
   screen-reader label always has it), the rhyme title uses the 22 px heading size, and the stacked line pictures are 24 px
