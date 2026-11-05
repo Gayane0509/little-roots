@@ -148,8 +148,7 @@ export function MemoryGame({ seenWords, onFinishedChange }: { seenWords: Word[];
     return (
       <ScrollView contentContainerStyle={styles.win}>
         <Confetti />
-        <Buddy mood="cheer" message={line('game_memory_done', { moves })} />
-        <GameDoneActions onPlayAgain={playAgain} />
+        <GameDoneActions result={line('game_memory_done', { moves })} onPlayAgain={playAgain} />
       </ScrollView>
     );
   }

@@ -2,7 +2,16 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-05 (side session, #124 — not committed, parent session commits)
+## 2026-11-05 (side session, #125; committed by the 18:30 run after `npm run check` 76 suites / 317 tests ✓)
+- claude · #125 finished-game screen: two Buddy bubbles stacked (the score, then "that's all the games for today").
+  `GameDoneActions` now takes the game's `result` line and shows one Buddy: the result, with "That's all the games for
+  today" on a second line once the free games are used up. `ChoiceGame` (Find, Read) and `MemoryGame` pass their result
+  instead of rendering their own Buddy. Files: `src/features/games/{GameDoneActions.tsx,ChoiceGame.tsx,MemoryGame.tsx}`.
+  Checks: `npm run check` — tsc, ESLint, Jest 76 suites / 317 tests ✓; web [::1] Find finished on the last free game at
+  375×667: one bubble, Trace letters / My stickers / Back / grown-up prompt on screen, no scroll. Suggested commit:
+  "Games: one Buddy bubble on the finished screen (#125)".
+
+## 2026-11-05 (side session, #124, committed as ae7cdaa)
 - claude · Review pass 4 continued (reminders: fine; game screens out of games) → #124 done, #125 found. Opening a game
   with none left and finishing the last free game still ended in Back and the grown-up upsell. New shared
   `src/features/games/FreeActivities.tsx` (Trace letters, My stickers) on the games list, GameShell and GameDoneActions;

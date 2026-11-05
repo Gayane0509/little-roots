@@ -120,8 +120,7 @@ export function ChoiceGame({ mode, seenWords, onFinishedChange }: { mode: Mode; 
   if (!round) {
     return (
       <ScrollView contentContainerStyle={styles.done}>
-        <Buddy mood="cheer" message={line('game_score', { score, total: rounds.length })} />
-        <GameDoneActions onPlayAgain={playAgain} />
+        <GameDoneActions result={line('game_score', { score, total: rounds.length })} onPlayAgain={playAgain} />
       </ScrollView>
     );
   }
