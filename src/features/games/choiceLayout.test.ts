@@ -4,8 +4,8 @@ import { TOUCH_MIN } from '@/ui/tokens';
 
 import { CHOICE_COMPACT_BELOW, CHOICE_TALL_FROM, choiceLayout } from './choiceLayout';
 
-test('regular phones and tablets keep the full-size picture and rows', () => {
-  expect(choiceLayout({ width: 375, height: 812 })).toEqual({ optionArt: 128, pictureArt: 128, picturePadding: 24, optionMinHeight: 104 });
+test('regular phones and tablets keep the full-size picture; phones get slightly lower rows', () => {
+  expect(choiceLayout({ width: 375, height: 812 })).toEqual({ optionArt: 128, pictureArt: 128, picturePadding: 24, optionMinHeight: 88 });
   expect(choiceLayout({ width: 1024, height: 768 })).toEqual({ optionArt: 112, pictureArt: 128, picturePadding: 24, optionMinHeight: 104 });
 });
 
@@ -38,4 +38,19 @@ test('a tall-phone Find picture always fits inside its answer card', () => {
     const cardInner = Math.floor((width - 32) * 0.46) - 6 - 16;
     expect(art).toBeLessThanOrEqual(Math.max(80, cardInner));
   }
+});
+
+test('Read fits a 375×812 phone: picture and three rows leave room for Back even with a two-line Buddy prompt', () => {
+  const { pictureArt, picturePadding, optionMinHeight } = choiceLayout({ width: 375, height: 812 });
+  // Measured on the web at 375×812 (#102): the picture card started at 175 and Back is 64 px plus a 16 px gap; a
+  // two-line Armenian + English prompt adds about 24 px. Keep the picture, rows and Back inside the window.
+  const picture = pictureArt + 2 * picturePadding + 2 * 3;
+  const bottom = 175 + 24 + picture + 16 + 3 * optionMinHeight + 2 * 16 + 16 + 64;
+  expect(bottom).toBeLessThanOrEqual(812 - 16);
+  expect(optionMinHeight).toBeGreaterThanOrEqual(TOUCH_MIN);
+});
+
+test('tablets keep the taller answer rows', () => {
+  expect(choiceLayout({ width: 768, height: 1024 }).optionMinHeight).toBe(104);
+  expect(choiceLayout({ width: 430, height: 932 }).optionMinHeight).toBe(88);
 });

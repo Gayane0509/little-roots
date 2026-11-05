@@ -35,7 +35,7 @@ _Updated: 2026-11-05 00:40 (+04). Updated at the end of every session._
 - 2026-11-04: **Family voice (#60, owner's top priority; replaces "No voice")** — parent records words on
   Parent → Family voice; played on lesson cards/rounds, theme page, Find; on-device only, per child + language; mic
   asked only there. Web-verified; native check #61 blocked on Xcode.
-- Checks (2026-11-05, after #101: 69 suites / 285 tests; 2026-11-05 00:35, unchanged code; 2026-11-04 23:54, after #100 review): `npm run check` — tsc, ESLint, Jest 69 suites / 283 tests; (after #93: 66 / 269); web export ✓ (after #83); expo-doctor 20/20 (after #77).
+- Checks (2026-11-05, after #102: 69 suites / 287 tests; 2026-11-05 00:35, unchanged code; 2026-11-04 23:54, after #100 review): `npm run check` — tsc, ESLint, Jest 69 suites / 283 tests; (after #93: 66 / 269); web export ✓ (after #83); expo-doctor 20/20 (after #77).
 - Checks (working tree, 2026-11-04 00:05): tsc, ESLint, Jest 46 suites / 189 tests; expo-doctor 20/20 (last run 2026-11-03).
 - 2026-11-04: #52 picture pass (4 redraws, bike fix), #53 Family + Food grow to 12 words with new drawings (104 words), #54 clearer parent weekly report, #59 first-lesson tap hint.
 - 2026-11-04 17:30 run: #57 Home "Next up" marker (Buddy badge + "Next" ribbon on the theme new words come from;
@@ -75,7 +75,7 @@ _Updated: 2026-11-05 00:40 (+04). Updated at the end of every session._
 - 2026-11-05 00:30 run (short: last hour; Codex still blocked #11; Claude 5-hour 18 %, weekly 59 %): #100 icons seen on
   screen in a clean origin (127.0.0.1:8095, 375×812): theme "Start a lesson" drawn play icon and the Find game right-answer
   tick; no console errors. `npm run check` green (69 suites / 283 tests). Finding → #101.
-- #101 done (uncommitted): Find answer pictures 128 px on tall phones (375×812 and up). Next unblocked: #102 Read fits 375×812 without scrolling; research new scored tasks (backlog left is
+- #101 done (12ca8a5): Find answer pictures 128 px on tall phones. #102 done (uncommitted): Read fits 375×812 with a two-line Armenian + English prompt. Next unblocked: #103 Read Back on screen at 375×667 in Armenian + English; research new scored tasks (backlog left is
   low-score: #49 1.5, #65 1.5). Native: #10/#14/#16/#39/#50/#61 check (VoiceOver: #94 canvas size).
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 

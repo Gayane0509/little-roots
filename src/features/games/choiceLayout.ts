@@ -23,7 +23,8 @@ function findCardInner(width: number) {
  * Sizes for the Find and Read games. Wide windows get bigger answer pictures to fill the wider option cards (#71).
  * Short windows shrink the Read picture and the answer rows so every answer is on screen without scrolling (#83);
  * rows stay above the touch minimum. Tall phones get Find pictures as big as the answer card allows (#101); Read is
- * unchanged there because its picture and three rows already fill a 375×812 screen.
+ * unchanged there because its picture and three rows already fill a 375×812 screen. Phones get slightly lower answer
+ * rows than tablets so Read's Back stays on screen at 375×812 when Buddy speaks Armenian and English (#102).
  */
 export function choiceLayout(window: { width: number; height: number }): ChoiceLayout {
   const compact = window.height < CHOICE_COMPACT_BELOW;
@@ -33,6 +34,6 @@ export function choiceLayout(window: { width: number; height: number }): ChoiceL
     optionArt: wide ? 112 : tallPhone ? Math.max(80, Math.min(TALL_OPTION_ART_MAX, findCardInner(window.width))) : 80,
     pictureArt: compact ? 88 : 128,
     picturePadding: compact ? spacing.md : spacing.lg,
-    optionMinHeight: compact ? TOUCH_MIN + 16 : TOUCH_MIN + 40,
+    optionMinHeight: compact ? TOUCH_MIN + 16 : wide ? TOUCH_MIN + 40 : TOUCH_MIN + 24,
   };
 }

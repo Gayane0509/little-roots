@@ -2,7 +2,16 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-05 (side session, not committed — parent session commits)
+## 2026-11-05 (side session, #102 — not committed, parent session commits)
+- claude · #102 Read fits 375×812: the overflow came from Buddy's two-line Armenian + English prompt. `choiceLayout` gives
+  regular phones answer rows of `TOUCH_MIN + 24` (88) instead of 104; tablets keep 104, short-window compact rows stay 80.
+  New budget test (picture + three rows + Back inside 812 px with a two-line prompt; fails on the old rows). Files:
+  `src/features/games/{choiceLayout.ts,choiceLayout.test.ts}`. Checks: `npm run check` — tsc, ESLint, Jest 69 suites / 287
+  tests ✓; web (Armenian + English Buddy) 375×812: rows end 690, Back 732–796, no scroll; 430×932 and 768×1024 fit; no console
+  errors. Found: 375×667 in that mode Back is 39 px below the fold → #103. Suggested commit: "Read: fits 375×812 phones with
+  the two-line prompt (#102)".
+
+## 2026-11-05 (side session, #101, committed as 12ca8a5)
 - claude · #101 Find answer pictures fill tall phones: `choiceLayout` gets a tall-phone tier (`CHOICE_TALL_FROM = 800`, width
   below `WIDE_BREAKPOINT`) that sizes the Find picture to the answer card's inner width, capped at 128 (375×812 and 430×932:
   80 → 128 px, last row ends at 643 with Back at 732 on 375×812). Short phones (375×667, 320×568) and tablets unchanged; Read
