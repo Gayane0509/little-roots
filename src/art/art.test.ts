@@ -2,6 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 
 import { ACTIVE_PACK } from '@/content/packs';
 
+import { AVATAR_PORTRAITS } from './avatars';
 import { ICONS } from './icons';
 import { getWordArt } from './index';
 import './words';
@@ -23,14 +24,14 @@ describe('word art', () => {
   });
 
   it('polyline and polygon points are plain numbers (a path command there stops the shape drawing)', () => {
-    const svgs = [...ACTIVE_PACK.themes.flatMap((t) => t.words).map((w) => getWordArt(w.id) ?? ''), ...Object.values(ICONS)];
+    const svgs = [...ACTIVE_PACK.themes.flatMap((t) => t.words).map((w) => getWordArt(w.id) ?? ''), ...Object.values(ICONS), ...Object.values(AVATAR_PORTRAITS)];
     const bad = svgs.flatMap((xml) => [...xml.matchAll(/<poly(?:line|gon)\b[^>]*\bpoints="([^"]*)"/g)].map((m) => m[1]))
       .filter((points) => !/^[\d\s.,-]*$/.test(points));
     expect(bad).toEqual([]);
   });
 
-  it('UI icons follow the same SVG rules', () => {
-    for (const xml of Object.values(ICONS)) {
+  it('UI icons and avatar portraits follow the same SVG rules', () => {
+    for (const xml of [...Object.values(ICONS), ...Object.values(AVATAR_PORTRAITS)]) {
       expect(xml.startsWith('<svg')).toBe(true);
       expect(xml).toContain('viewBox="0 0 128 128"');
       expect(xml).not.toMatch(/<(text|style|image|script|linearGradient|radialGradient|filter|use)\b/);

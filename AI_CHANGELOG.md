@@ -2,7 +2,18 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-05 (side session, #110 — not committed, parent session commits)
+## 2026-11-05 (side session, #111 — not committed, parent session commits)
+- claude · #111 boy avatar: the default (preselected) avatar used the "child" word picture, a small full-body figure whose
+  face came out half the size of the brother/sister portraits. New avatar-only portrait in `src/art/avatars.ts`
+  (`AVATAR_PORTRAITS`, typed by `AvatarWordId`; head and shoulders, green shirt, brown hair, ears) used by
+  `ProfileAvatar`; the word picture is unchanged. Phone onboarding avatars 64 → 80 px (≤ 80 % of the tile: 71 px at
+  320 px; short windows 56, tablets unchanged). Files: `src/art/{avatars.ts,art.test.ts}`,
+  `src/features/profiles/{ProfileAvatar.tsx,onboardingLayout.ts,onboardingLayout.test.ts}`. Checks: `npm run check` —
+  tsc, ESLint, Jest 73 suites / 302 tests ✓ (portraits under the SVG rule tests); web [::1] onboarding 375×812 (80 px in
+  106 px tiles, no scroll), 320×812 (71/89), 375×667 (56, unchanged), 768×1024 (134, unchanged), Home chip shows the
+  portrait; no console errors. Suggested commit: "Avatars: boy portrait and bigger avatars on phones (#111)".
+
+## 2026-11-05 (side session, #110, committed as 3b334d3)
 - claude · #110 Letters sheet example: picture 70 → 96 px (the drawing read as ~44 px) and the sheet's letter coloured
   inside the example word (`src/features/letters/exampleHighlight.ts`: first upper/lower match, two-character letters
   too; e.g. **բ**ադ, ար**և**) in the big letters' colour. Files: `src/features/letters/{LetterDetail.tsx,

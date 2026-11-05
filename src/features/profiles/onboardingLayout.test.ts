@@ -3,7 +3,9 @@ import { SHORT_WINDOW_BELOW, spacing } from '@/ui/tokens';
 import { onboardingLayout } from './onboardingLayout';
 
 test('phones keep 64 px avatar pictures; wide windows grow them with the tile, capped at 140', () => {
-  expect(onboardingLayout(375, 812).avatarArt).toBe(64);
+  expect(onboardingLayout(375, 812).avatarArt).toBe(80);
+  // A 320 px phone's tile is ~89 px: the picture keeps a margin inside it.
+  expect(onboardingLayout(320, 812).avatarArt).toBe(71);
   expect(onboardingLayout(600, 900).avatarArt).toBe(106);
   expect(onboardingLayout(1366, 1024).avatarArt).toBe(134);
 });
