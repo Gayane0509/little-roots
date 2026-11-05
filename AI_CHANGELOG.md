@@ -2,6 +2,14 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-05 (side session, not committed — parent session commits)
+- claude · #101 Find answer pictures fill tall phones: `choiceLayout` gets a tall-phone tier (`CHOICE_TALL_FROM = 800`, width
+  below `WIDE_BREAKPOINT`) that sizes the Find picture to the answer card's inner width, capped at 128 (375×812 and 430×932:
+  80 → 128 px, last row ends at 643 with Back at 732 on 375×812). Short phones (375×667, 320×568) and tablets unchanged; Read
+  unchanged because it already fills 375×812 → new task #102. Files: `src/features/games/{choiceLayout.ts,choiceLayout.test.ts}`.
+  Checks: `npm run check` — tsc, ESLint, Jest 69 suites / 285 tests ✓; web 375×812, 430×932, 375×667, 320×568, 768×1024: no
+  horizontal scroll, no console errors. Commit: none yet (suggested "Find: bigger answer pictures on tall phones (#101)").
+
 ## 2026-11-05 (00:30 run; lock taken 00:34)
 - claude · Verification only, no code change: in a clean origin (127.0.0.1:8095, 375×812) the theme "Start a lesson" button shows the
   drawn play icon (#100) and a right answer in Find shows the drawn tick; no console errors. New task #101 (Find answer pictures
