@@ -2,7 +2,7 @@ import type { ArtXml } from './types';
 
 /** UI icons drawn in the word-art style (STYLE.md), so they look the same on every platform. */
 export type IconName = 'letters' | 'stickers' | 'games' | 'lock' | 'flame' | 'memory' | 'find' | 'read' | 'sprout' | 'voice' | 'point'
-  | 'chart' | 'clock' | 'bulb' | 'gear' | 'play' | 'check';
+  | 'chart' | 'clock' | 'bulb' | 'gear' | 'play' | 'check' | 'seed';
 
 export const ICONS: Record<IconName, ArtXml> = {
   // Two alphabet blocks; the yellow one carries the first Armenian letter's shape (Ա).
@@ -178,5 +178,20 @@ export const ICONS: Record<IconName, ArtXml> = {
 <path d="M38 66 L56 84 L92 46" fill="none" stroke="#3A2E39" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M38 66 L56 84 L92 46" fill="none" stroke="#FFFFFF" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M26 50 Q32 32 50 24" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+</svg>`,
+  // A sleeping seed in a soil mound with a tiny shoot: a word not learned yet, still growing (theme page, #106).
+  seed: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<g stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<path d="M14 110 Q64 78 114 110 Z" fill="#C98B5A"/>
+<path d="M64 76 V46" fill="none" stroke-width="5"/>
+<path d="M64 60 C52 60 42 52 40 38 C54 38 63 47 64 60 Z" fill="#4CC985"/>
+<path d="M64 52 C66 40 76 32 90 32 C88 46 78 52 64 52 Z" fill="#7BDDA3"/>
+<ellipse cx="64" cy="88" rx="24" ry="17" fill="#D9965B"/>
+</g>
+<path d="M52 86 Q56 90 60 86 M68 86 Q72 90 76 86" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>
+<circle cx="50" cy="94" r="4" fill="#FF9EAA" opacity="0.6"/>
+<circle cx="78" cy="94" r="4" fill="#FF9EAA" opacity="0.6"/>
+<path d="M48 80 Q52 75 58 74" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+<path d="M46 42 Q52 46 58 54" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
 </svg>`,
 };

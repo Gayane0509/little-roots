@@ -2,7 +2,16 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-05 (side session, #108 — not committed, parent session commits)
+## 2026-11-05 (side session, #106 — not committed, parent session commits)
+- claude · #106 theme page: words not learned yet showed a grey "?" and "Learn it in a lesson!", text a pre-reader can't
+  read. New `seed` icon in `src/art/icons.ts` (a sleeping seed with closed eyes and pink cheeks in a soil mound, a tiny
+  two-leaf shoot; STYLE.md outline and palette; `sprout` stays Memory's card back) shown at word-picture size and faded
+  (opacity 0.55) on those cards; the sentence stays only in the screen-reader label. Files: `src/art/icons.ts`,
+  `src/app/theme/[id].tsx`. Checks: `npm run check` — tsc, ESLint, Jest 72 suites / 299 tests ✓ (art rule tests cover the
+  new icon); web [::1] Family page 375×812 and 768×1024: 9 seeds beside 3 learned words, 9 labels, no visible sentence or
+  "?", no horizontal scroll. Suggested commit: "Theme page: a sleeping seed for words not learned yet (#106)".
+
+## 2026-11-05 (side session, #108, committed as 1eaaf1d)
 - claude · #108 theme page header at 320 px: the "12/12" count wrapped under the title because the title box had
   `minWidth: '50%'` (144 px; 64 + 16 + 144 + 16 + 54 > 288). The box's `minWidth` is now `themeHeaderTitleWidth` (the
   width the title font is fitted to, 72 px kept for the count). Files: `src/app/theme/[id].tsx`,

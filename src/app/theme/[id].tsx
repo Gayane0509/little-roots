@@ -11,6 +11,7 @@ import { useProgress } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
 import { Wiggle } from '@/ui/Wiggle';
+import { Icon } from '@/ui/Icon';
 import { WordArt } from '@/ui/WordArt';
 import { wordBox, wordFontSize } from '@/ui/wordFit';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN, WIDE_BREAKPOINT } from '@/ui/tokens';
@@ -88,8 +89,8 @@ function SeenCard({ word, wide, window }: { word: Word; wide: boolean; window: {
 function UnseenCard({ wide }: { wide: boolean }) {
   return (
     <View style={[styles.card, styles.unseen, wide ? styles.cellWide : styles.cell]} accessible accessibilityLabel="A new word. Learn it in a lesson!">
-      <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.mystery}>?</Text>
-      <Text style={styles.unseenText}>Learn it in a lesson!</Text>
+      {/* A pre-reader can't read a sentence here, so the card shows a sleeping seed; the words stay in the label (#106). */}
+      <View style={styles.unseenArt} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Icon name="seed" size={wide ? ART.wide : ART.phone} /></View>
     </View>
   );
 }
@@ -120,11 +121,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 2,
   },
-  mystery: { fontSize: 56, fontWeight: '800', color: colors.textMuted },
   // fontSize comes from `wordFontSize` (long words shrink instead of breaking, #105).
   cardHy: { fontWeight: '800', color: colors.text, maxWidth: '100%' },
   cardTranslit: { fontSize: font.body, color: colors.primaryText, fontWeight: '700', textAlign: 'center' },
   cardEn: { fontSize: font.small, color: colors.textMuted },
   unseen: { backgroundColor: 'rgba(255,255,255,0.55)', borderWidth: 2, borderColor: colors.surface, borderStyle: 'dashed' },
-  unseenText: { fontSize: font.small, fontWeight: '700', color: colors.text, textAlign: 'center' },
+  // Faded so a word still to learn reads as "not yet" beside the learned cards.
+  unseenArt: { opacity: 0.55 },
 });
