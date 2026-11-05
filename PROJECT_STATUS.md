@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-05 22:40 (+04). Updated at the end of every session._
+_Updated: 2026-11-05 23:40 (+04). Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -85,6 +85,8 @@ _Updated: 2026-11-05 22:40 (+04). Updated at the end of every session._
   (#11). No work started; nothing changed in the app.
 - 2026-11-05 22:30 run: usage check only. Claude weekly 98 % (5-hour 40 %, weekly resets 2026-11-09 23:00 UTC),
   Codex re-probed: still rejects `gpt-6-sol` (#11; `~/.codex/config.toml` unchanged since 2026-10-30). No app change.
+- 2026-11-05 23:30 run: usage check only. Claude weekly 99 % (5-hour 0 %, weekly resets 2026-11-09 23:00 UTC),
+  Codex re-probed: still rejects `gpt-6-sol` (#11; config unchanged since 2026-10-30). No app change.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Blockers (owner)
