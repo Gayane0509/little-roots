@@ -223,7 +223,7 @@ function ReadyLesson() {
 
         {step === 'song' && <>
           <Buddy message={line('lesson_song')} outfit={outfit} />
-          <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.heading} accessibilityRole="header">{lesson.song.title}</Text>
+          <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={[styles.heading, { fontSize: art.songTitleSize }]} accessibilityRole="header">{lesson.song.title}</Text>
           {lesson.song.lines.map((line, index) => (
             <Pressable key={index} accessibilityRole="button" accessibilityLabel={`Rhyme line ${index + 1}: ${line.hy}, ${line.en}`} accessibilityState={{ selected: songLineIndex === index }} onPress={() => dispatch({ type: 'SONG_LINE', index })} style={[styles.songLine, { padding: art.songLinePadding }, songLineIndex === index && styles.songLineActive]}>
               {/* The line's words as pictures, so a child who can't read yet can follow along (#112). */}
@@ -234,7 +234,7 @@ function ReadyLesson() {
                 })()}
                 <View style={styles.songTexts}>
                   <Text style={styles.songHy}>{keepLastWord(line.hy)}</Text>
-                  <Text style={styles.songEn}>{line.en}</Text>
+                  {!art.songEnglishOnTap || songLineIndex === index ? <Text style={styles.songEn}>{line.en}</Text> : null}
                 </View>
               </View>
             </Pressable>

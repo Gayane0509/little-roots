@@ -2,7 +2,18 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-05 (side session, review pass 2 + #112 — not committed, parent session commits)
+## 2026-11-05 (side session, #115 — not committed, parent session commits)
+- claude · #115 rhyme step fits 375×667 (it scrolled 50 px with the Family rhyme). On windows under 700 px tall
+  (`lessonArtSizes`: `songEnglishOnTap`, `songTitleSize`, `songPicture` 24): a line's English shows once it's tapped (the
+  screen-reader label always has it), the rhyme title uses the 22 px heading size, and the stacked line pictures are 24 px
+  so they match the two-line text height instead of setting it. Budget test from the 375×667 measurements (line 89 → 72
+  px, ≥ 50 px saved with one line open). Files: `src/app/lesson.tsx`, `src/features/lesson/{artSizes.ts,artSizes.test.ts}`.
+  Checks: `npm run check` — tsc, ESLint, Jest 74 suites / 306 tests ✓; web [::1] 375×667: "Together" and "Yummy food"
+  rhymes with Next at 571 and no scroll, a tapped line shows its English. The long Family rhyme was not reachable on the
+  test profile (all Family words learned), so it's covered by the budget test. Suggested commit: "Lesson rhyme fits
+  short phones: English on tap, smaller pictures (#115)".
+
+## 2026-11-05 (side session, review pass 2 + #112, committed as 87c18a5)
 - claude · Review pass 2 at 375×812 (profile picker, lesson rhyme and reward) → new tasks #112–#115. #112 done: each rhyme
   line shows the pictures of its words. `src/features/lesson/rhymeWords.ts`: `lineWordIds` (song's words matched inside
   inflected forms, longest first so մորաքույր doesn't add քույր, at most 2) and `keepLastWord` (a ≤ 3-letter last word

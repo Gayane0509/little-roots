@@ -1,4 +1,4 @@
-import { SHORT_WINDOW_BELOW, spacing, WIDE_BREAKPOINT } from '@/ui/tokens';
+import { font, SHORT_WINDOW_BELOW, spacing, WIDE_BREAKPOINT } from '@/ui/tokens';
 
 export type LessonArtSizes = {
   option: number; card: number; reward: number; sticker: number; rewardRowsSideBySide: boolean;
@@ -10,6 +10,12 @@ export type LessonArtSizes = {
   introSeeds: boolean;
   /** Pictures beside each rhyme line (#112); smaller where the rhyme step is tight. */
   songPicture: number;
+  /**
+   * Short windows show a rhyme line's English only once it's tapped, and a smaller rhyme title: four lines with English
+   * pushed the step 50 px past a 375×667 window (#115). Screen readers always get the English in the line's label.
+   */
+  songEnglishOnTap: boolean;
+  songTitleSize: number;
 };
 
 /** Windows shorter than this (iPhone SE 375×667) get the compact lesson (#84): the word card, rhyme and reward overflowed. */
@@ -44,6 +50,9 @@ export function lessonArtSizes(width: number, height: number, hasNewOutfit: bool
     songLinePadding: compact ? spacing.sm : spacing.md,
     songGap: height < SONG_TIGHT_BELOW ? spacing.sm : spacing.lg,
     introSeeds: height >= INTRO_SEEDS_FROM,
-    songPicture: height < SONG_TIGHT_BELOW ? 32 : 40,
+    // Short windows: two stacked 24 px pictures (52 px) match two lines of rhyme text, so the pictures add no height (#115).
+    songPicture: compact ? 24 : height < SONG_TIGHT_BELOW ? 32 : 40,
+    songEnglishOnTap: compact,
+    songTitleSize: compact ? font.heading : font.title,
   };
 }
