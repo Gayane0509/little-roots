@@ -2,7 +2,15 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-05 (side session, #118 — not committed, parent session commits)
+## 2026-11-05 (side session, #120 — not committed, parent session commits)
+- claude · Review pass 3 continued (paywall, settings) → #119–#121; settings had nothing to fix. #120 done: the yearly
+  plan said "Best value" twice (badge and the note under the price); the note is now just "≈ $2.92/month". #119 needs the
+  owner: the paywall links the privacy policy but no Terms of Use, which Apple expects for auto-renewing subscriptions.
+  Files: `src/app/parent/paywall.tsx`. Checks: `npm run check` — tsc, ESLint, Jest 75 suites / 311 tests ✓; web [::1]
+  paywall 375×812 through the gate: "Best value" once. Memory not reviewed (today's free games are used up on the test
+  profile). Suggested commit: "Paywall: say Best value once (#120)".
+
+## 2026-11-05 (side session, #118, committed as d14301f)
 - claude · Review pass 3 continued (parent full report on the free plan) → #118 done: the locked report was a title, one
   line and "Explore Premium" with no way back but the system gesture. It now shows a drawn chart picture, the real count
   ("21 words explored so far"), what Premium adds, and a grey "Back to parents" after Explore Premium (shared

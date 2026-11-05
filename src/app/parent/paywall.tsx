@@ -46,7 +46,7 @@ export default function Paywall() {
       {plans.map((plan) => <View key={plan.id} style={styles.plan}>
         {plan.id === 'yearly' ? <Text style={styles.badge}>Best value</Text> : null}
         {__DEV__ ? <BigButton label={`${plan.title} ${plan.priceLabel}`} color={plan.id === 'yearly' ? colors.success : colors.primary} onPress={() => void buy(plan.id)} /> : <Text style={styles.planLabel}>{plan.title} · {plan.priceLabel}</Text>}
-        {plan.perMonthLabel ? <Text style={styles.planNote}>≈ {plan.perMonthLabel} · Best value</Text> : null}
+        {plan.perMonthLabel ? <Text style={styles.planNote}>≈ {plan.perMonthLabel}</Text> : null}
       </View>)}
       {!__DEV__ ? <><Text style={styles.coming}>Subscriptions are coming soon.</Text><BigButton label="Coming soon" disabled onPress={() => {}} accessibilityHint="Purchases are not available yet" /></> : null}
     </>}
