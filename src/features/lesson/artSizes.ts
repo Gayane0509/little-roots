@@ -6,12 +6,16 @@ export type LessonArtSizes = {
   gap: number; songLinePadding: number;
   /** The rhyme step's gap: 4 lines + Buddy's bubble overflow a 375×812 phone with the regular gap (#85). */
   songGap: number;
+  /** The intro's row of seeds, one per new word (#109); left out where it would make the step scroll. */
+  introSeeds: boolean;
 };
 
 /** Windows shorter than this (iPhone SE 375×667) get the compact lesson (#84): the word card, rhyme and reward overflowed. */
 export const LESSON_COMPACT_BELOW = SHORT_WINDOW_BELOW;
 /** Windows shorter than this use the tight gap on the rhyme step. */
 export const SONG_TIGHT_BELOW = 860;
+/** Windows at least this tall show the intro's seed row; at 320×568 it pushed the step 62 px past the window (#109). */
+export const INTRO_SEEDS_FROM = 640;
 
 /**
  * Picture sizes in the lesson. Answer pictures grow on any wide window so they fill the wider option cards (#71). The
@@ -37,5 +41,6 @@ export function lessonArtSizes(width: number, height: number, hasNewOutfit: bool
     gap: compact ? spacing.sm : spacing.lg,
     songLinePadding: compact ? spacing.sm : spacing.md,
     songGap: height < SONG_TIGHT_BELOW ? spacing.sm : spacing.lg,
+    introSeeds: height >= INTRO_SEEDS_FROM,
   };
 }

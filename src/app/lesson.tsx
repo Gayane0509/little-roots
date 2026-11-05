@@ -29,7 +29,7 @@ import { TapHint } from '@/ui/TapHint';
 import { useAutoPlayWord, VoiceButton } from '@/ui/VoiceButton';
 import { Wiggle } from '@/ui/Wiggle';
 import { WordArt } from '@/ui/WordArt';
-import { wordBox, wordFontSize } from '@/ui/wordFit';
+import { contentWidth, wordBox, wordFontSize } from '@/ui/wordFit';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 export default function LessonScreen() {
@@ -168,7 +168,17 @@ function ReadyLesson() {
         {step === 'hello' && <>
           <Buddy message={`${state.childName ? line('greeting', { name: state.childName }) : line('greeting_anon')}\n${lesson.newWords.length ? line(lesson.newWords.length === 1 ? 'lesson_new_word' : 'lesson_new_words', { count: lesson.newWords.length }) : line('lesson_practice')}`} outfit={outfit} />
           <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={themeArtWordId(lesson.theme.id)} emoji={lesson.theme.emoji} size={140} /></View>
-          <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.heading} accessibilityRole="header">{lesson.theme.titleEn}</Text>
+          {/* The theme's Armenian name leads, English under it (#109); long names shrink to stay whole. */}
+          <View accessible accessibilityRole="header" accessibilityLabel={`${lesson.theme.titleHy}, ${lesson.theme.titleEn}`} style={styles.introTitle}>
+            <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={[styles.heading, { fontSize: wordFontSize(lesson.theme.titleHy, contentWidth(width), font.word, fontScale) }]}>{lesson.theme.titleHy}</Text>
+            <Text style={styles.introTitleEn}>{lesson.theme.titleEn}</Text>
+          </View>
+          {/* One sleeping seed per new word: the words still to grow today, without giving them away. Buddy says the count. */}
+          {art.introSeeds && lesson.newWords.length > 0 ? (
+            <View style={styles.introSeeds} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+              {lesson.newWords.map((word) => <View key={word.id} style={styles.introSeed}><Icon name="seed" size={64} /></View>)}
+            </View>
+          ) : null}
         </>}
 
         {step === 'new' && card && <>
@@ -263,6 +273,10 @@ const styles = StyleSheet.create({
   content: { flexGrow: 1, alignItems: 'center' },
   centered: { flexGrow: 1, justifyContent: 'center', gap: spacing.xl },
   heading: { color: colors.text, fontSize: font.title, fontWeight: '800', textAlign: 'center' },
+  introTitle: { alignItems: 'center', gap: spacing.xs },
+  introTitleEn: { color: colors.textMuted, fontSize: font.body, fontWeight: '700', textAlign: 'center' },
+  introSeeds: { flexDirection: 'row', justifyContent: 'center', gap: spacing.md },
+  introSeed: { width: 80, height: 80, borderRadius: radius.round, backgroundColor: colors.surface, borderWidth: 2, borderColor: colors.border, alignItems: 'center', justifyContent: 'center' },
   counter: { color: colors.textMuted, fontSize: font.body, fontWeight: '700' },
   wordCard: { width: '100%', minHeight: 300, backgroundColor: colors.surface, borderRadius: radius.lg, borderWidth: 2, borderColor: colors.border, alignItems: 'center', justifyContent: 'center', padding: spacing.lg, gap: spacing.sm },
   // Word sizes come from `wordFontSize` (long words shrink instead of breaking, #105).

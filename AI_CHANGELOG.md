@@ -2,7 +2,17 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-05 (side session, #107 — not committed, parent session commits)
+## 2026-11-05 (side session, review pass + #109 — not committed, parent session commits)
+- claude · Review pass at 375×812 (lesson intro and word card, Letters sheet, onboarding, parent gate) → new tasks
+  #109–#111. #109 done: the lesson intro now leads with the theme's Armenian name (44 px, sized by `wordFontSize` over
+  the content column) with English under it, and shows one sleeping `seed` per new word (none for practice lessons;
+  left out below 640 px tall via `lessonArtSizes.introSeeds`, since at 320×568 the row made the step scroll 62 px). Header
+  label "Ընտանիք, Family". Files: `src/app/lesson.tsx`, `src/features/lesson/{artSizes.ts,artSizes.test.ts}`. Checks:
+  `npm run check` — tsc, ESLint, Jest 72 suites / 300 tests ✓; web [::1] intro at 375×812 (Let's go! at 716), 375×667,
+  320×568 (no seeds, no scroll), 768×1024: no scroll, no horizontal scroll. Suggested commit: "Lesson intro: Armenian theme
+  name and a seed per new word (#109)".
+
+## 2026-11-05 (side session, #107, committed as b695b93)
 - claude · #107 sticker book: the 23 identical empty dashed slots looked unfinished. New `starSlot` icon in
   `src/art/icons.ts` (pale cream star with a grey outline, no face, so it doesn't hint at the next sticker) drawn at 60% of
   the sticker art size and 0.7 opacity in each empty slot by `StickerTile`; the slot label is unchanged. Files:
