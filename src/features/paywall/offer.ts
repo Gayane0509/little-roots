@@ -26,3 +26,7 @@ export const comparison = [
 export function freeWordsFinished(state: ProgressState): boolean {
   return ACTIVE_PACK.themes.filter((theme) => theme.free).every((theme) => theme.words.every((word) => (state.words[word.id]?.seen ?? 0) > 0));
 }
+
+/** The themes Premium unlocks and how many words they hold, for the paywall's picture strip (#121). */
+export const PREMIUM_THEMES = ACTIVE_PACK.themes.filter((theme) => !theme.free);
+export const PREMIUM_WORDS = PREMIUM_THEMES.reduce((sum, theme) => sum + theme.words.length, 0);

@@ -2,7 +2,17 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-05 (side session, #120 — not committed, parent session commits)
+## 2026-11-05 (side session, #121 — not committed, parent session commits)
+- claude · #121 paywall shows what Premium adds as pictures: a strip of the 10 Premium themes' drawings (56 px tiles in
+  each theme's colour) with "80 more words in 10 themes", under the subtitle; one screen-reader label lists the theme
+  names. `PREMIUM_THEMES` / `PREMIUM_WORDS` live in `src/features/paywall/offer.ts`; a test checks free + Premium-theme
+  words equal the comparison table's Premium words. Files: `src/app/parent/paywall.tsx`,
+  `src/features/paywall/{offer.ts,offer.test.ts}`. Checks: `npm run check` — tsc, ESLint, Jest 75 suites / 312 tests ✓;
+  web [::1] paywall at 375×667 (two rows of five) and 768×1024 (one row), no horizontal scroll, no console errors. Memory
+  still unreviewed (today's free games are used up on the test profile). Suggested commit: "Paywall: pictures of the
+  Premium themes (#121)".
+
+## 2026-11-05 (side session, #120, committed as 4240289)
 - claude · Review pass 3 continued (paywall, settings) → #119–#121; settings had nothing to fix. #120 done: the yearly
   plan said "Best value" twice (badge and the note under the price); the note is now just "≈ $2.92/month". #119 needs the
   owner: the paywall links the privacy policy but no Terms of Use, which Apple expects for auto-renewing subscriptions.

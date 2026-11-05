@@ -3,12 +3,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { getPurchases, type Plan } from '@/lib/purchases';
 import { useProfiles } from '@/state/profiles';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { themeArtWordId } from '@/content/themeArt';
 import { useParentGuard } from '@/features/parent/gate';
-import { comparison, offerHeadline } from '@/features/paywall/offer';
+import { comparison, offerHeadline, PREMIUM_THEMES, PREMIUM_WORDS } from '@/features/paywall/offer';
 import { useProgress } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
 import { Screen } from '@/ui/Screen';
+import { WordArt } from '@/ui/WordArt';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 export default function Paywall() {
@@ -38,6 +40,13 @@ export default function Paywall() {
     <Buddy mood="cheer" message="More little discoveries together" size={76} />
     <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} accessibilityRole="header" style={styles.title}>{offerHeadline(reason)}</Text>
     <Text style={styles.sub}>Choose what fits your family. Learning stays on this device.</Text>
+    {/* What Premium adds, as pictures (#121): one drawing per locked theme. */}
+    <View style={styles.premiumThemes} accessible accessibilityLabel={`Premium themes: ${PREMIUM_THEMES.map((theme) => theme.titleEn).join(', ')}`}>
+      <View style={styles.premiumArt} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+        {PREMIUM_THEMES.map((theme) => <View key={theme.id} style={[styles.premiumTile, { backgroundColor: theme.color }]}><WordArt wordId={themeArtWordId(theme.id)} emoji={theme.emoji} size={40} /></View>)}
+      </View>
+      <Text style={styles.premiumCaption}>{PREMIUM_WORDS} more words in {PREMIUM_THEMES.length} themes</Text>
+    </View>
     <View style={styles.table}>
       {comparison.map((row) => <View key={row.feature} style={styles.tableRow} accessible accessibilityLabel={`${row.feature}. Free: ${row.free}. Premium: ${row.premium}`}><Text style={styles.feature}>{row.feature}</Text><View style={styles.cells}><Text style={styles.column}>Free: {row.free}</Text><Text style={styles.column}>Premium: {row.premium}</Text></View></View>)}
     </View>
@@ -57,6 +66,10 @@ export default function Paywall() {
 }
 const styles = StyleSheet.create({
   content: { gap: spacing.md, paddingVertical: spacing.lg }, title: { fontSize: font.title, fontWeight: '800', color: colors.text, textAlign: 'center' }, sub: { fontSize: font.body, color: colors.textMuted, textAlign: 'center' },
+  premiumThemes: { alignItems: 'center', gap: spacing.sm },
+  premiumArt: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: spacing.sm },
+  premiumTile: { width: 56, height: 56, borderRadius: radius.md, alignItems: 'center', justifyContent: 'center' },
+  premiumCaption: { fontSize: font.body, fontWeight: '700', color: colors.text, textAlign: 'center' },
   table: { borderRadius: radius.md, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border },
   tableRow: { gap: spacing.xs, minHeight: 54, padding: spacing.sm, borderTopWidth: 1, borderColor: colors.border }, cells: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
   feature: { color: colors.text, fontSize: font.small, fontWeight: '700' }, column: { color: colors.text, fontSize: font.small },
