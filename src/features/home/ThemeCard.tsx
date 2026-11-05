@@ -8,6 +8,7 @@ import { tint } from '@/ui/contrast';
 import { Icon } from '@/ui/Icon';
 import { WordArt } from '@/ui/WordArt';
 
+import { isThemeComplete, themeCardLabel } from './themeCardLabel';
 import { homeCardTitleSize } from './themeTitle';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN, WIDE_BREAKPOINT } from '@/ui/tokens';
 
@@ -25,9 +26,8 @@ interface ThemeCardProps {
 export function ThemeCard({ theme, learned, total, unlocked, isNext = false, onOpenPress, onLockedPress }: ThemeCardProps) {
   const window = useWindowDimensions();
   const wide = window.width >= WIDE_BREAKPOINT;
-  const label = unlocked
-    ? `${isNext ? 'Next up: ' : ''}${theme.titleHy}, ${theme.titleEn}, ${learned} of ${total} words learned. Open`
-    : `${theme.titleHy}, ${theme.titleEn}, locked. Ask a grown-up to unlock`;
+  const label = themeCardLabel(theme, learned, total, unlocked, isNext);
+  const complete = isThemeComplete(learned, total, unlocked);
   return (
     <Pressable
       accessibilityRole="button"
@@ -35,6 +35,8 @@ export function ThemeCard({ theme, learned, total, unlocked, isNext = false, onO
       onPress={unlocked ? onOpenPress : onLockedPress}
       style={[styles.card, wide && styles.cardWide, { backgroundColor: unlocked ? theme.color : tint(theme.color, 0.55) }, !unlocked && styles.lockedCard, isNext && styles.nextCard]}
     >
+      {/* A finished theme gets a gold star badge (#123); it is never the "Next" theme, so the corner is free. */}
+      {complete ? <View style={styles.doneBadge} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Icon name="stickers" size={30} /></View> : null}
       {isNext ? <View style={styles.ribbon} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><SvgXml xml={BUDDY_ART.happy} width={26} height={26} /><Text style={styles.ribbonText} maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE}>Next</Text></View> : null}
       <View style={styles.art} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={themeArtWordId(theme.id)} emoji={theme.emoji} size={wide ? 72 : 56} />{!unlocked ? <View style={styles.lock}><Icon name="lock" size={26} /></View> : null}</View>
       <View style={styles.texts}>
@@ -61,6 +63,7 @@ const styles = StyleSheet.create({
   nextCard: { borderWidth: 3, borderColor: colors.primaryText },
   ribbon: { position: 'absolute', top: -spacing.sm, right: spacing.sm, zIndex: 1, flexDirection: 'row', alignItems: 'center', gap: spacing.xs, paddingLeft: spacing.xs, paddingRight: spacing.sm, paddingVertical: 2, borderRadius: radius.round, backgroundColor: colors.primaryText },
   ribbonText: { fontSize: font.small, fontWeight: '800', color: colors.surface },
+  doneBadge: { position: 'absolute', top: -spacing.sm, right: spacing.sm, zIndex: 1, width: 44, height: 44, borderRadius: radius.round, backgroundColor: colors.surface, borderWidth: 2, borderColor: colors.star, alignItems: 'center', justifyContent: 'center' },
   lockedCard: { borderWidth: 2, borderColor: colors.border, borderStyle: 'dashed' },
   lock: { position: 'absolute', right: -10, bottom: -6, width: 36, height: 36, borderRadius: radius.round, backgroundColor: colors.surface, borderWidth: 2, borderColor: colors.border, alignItems: 'center', justifyContent: 'center' },
   texts: { gap: 2, flexShrink: 1 },

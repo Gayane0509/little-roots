@@ -2,7 +2,16 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-05 (side session, #122 — not committed, parent session commits)
+## 2026-11-05 (side session, review pass 4 + #123 — not committed, parent session commits)
+- claude · Review pass 4 (Home on a tablet, Family voice; the voice chips already use the theme drawings, no finding) →
+  #123 done: a finished theme gets a gold star badge on its Home card (drawn `stickers` icon in a white circle with a
+  star-gold border, same corner as the Next ribbon, which a finished theme never has) and the label says "all 12 words
+  learned". Label and completion rule moved to `src/features/home/themeCardLabel.ts` with tests. Files:
+  `src/features/home/{ThemeCard.tsx,themeCardLabel.ts,themeCardLabel.test.ts}`. Checks: `npm run check` — tsc, ESLint,
+  Jest 76 suites / 315 tests ✓; web [::1] Home 375×812 and 768×1024: badge on Family (12/12), Next ribbon on Food, no
+  horizontal scroll, no console errors. Suggested commit: "Home: a gold star on finished themes (#123)".
+
+## 2026-11-05 (side session, #122, committed as bdf8453)
 - claude · Review pass 3: Memory (today's game count on the [::1] test profile reset to 0 in local storage, as the parent
   session asked) → #122 done: Memory opens with Buddy's line like Find and Read — new phrase `game_memory_prompt`
   ("Գտի՛ր զույգերը՝ նկարն ու բառը։" / "Find the pairs: a picture and its word!"; Armenian needs the owner's proofreading),
