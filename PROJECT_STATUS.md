@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-05 00:40 (+04). Updated at the end of every session._
+_Updated: 2026-11-05 18:45 (+04). Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -77,6 +77,10 @@ _Updated: 2026-11-05 00:40 (+04). Updated at the end of every session._
   tick; no console errors. `npm run check` green (69 suites / 283 tests). Finding → #101.
 - #101 done (12ca8a5): Find answer pictures 128 px on tall phones. #102 done (bc3c664): Read fits 375×812 with a two-line Armenian + English prompt. #103 done (659cd7c): Read and Find use half gaps on short windows. #104 done (1f8fc7f): theme names stay whole. #105 done (c3e31f1): word names stay whole in every word box. #108 done (1eaaf1d): theme header count stays beside the title at 320 px. #106 done (7d9c87c): unlearned words show a drawn sleeping seed. #107 done (b695b93): empty sticker slots show a faint drawn star. Review pass 2026-11-05 → #109–#111; #109 done (06f1da0): lesson intro leads with the Armenian theme name. #110 done (3b334d3): Letters sheet example picture 96 px and the letter coloured in the word. #111 done (81678e6): boy avatar portrait; phone avatars 80 px. Review pass 2 → #112–#115; #112 done (87c18a5): rhyme lines show their words as pictures. #115 done (d234a39): the rhyme step fits 375×667. #113 done (536b5b9): the reward shows today's new words. #114 done (4b6daa1): profile picker avatar 112 px and a grown-up add-a-child button. Review pass 3 (games list, tracing, parent intro) → #116–#117; #116 done (e6055f3): out of games, the child gets Trace letters and My stickers first. #118 done (d14301f): the free-plan full report shows the word count and a way back. Paywall and settings reviewed → #119–#121; #120 done (4240289): "Best value" once on the paywall. #121 done (1500857): the paywall shows the 10 Premium themes as pictures. #122 done (bdf8453): Memory opens with Buddy's "find the pairs" line (Armenian needs proofreading). Review pass 4 (Home on tablet, Family voice) → #123; #123 done (5e91b75): finished themes get a gold star badge on Home. Review 4 (reminders fine, game screens) → #124–#125; #124 done (ae7cdaa): every out-of-games screen offers Trace letters and My stickers. #125 done: one Buddy bubble on the finished-game screen. Owner decision: #119 Terms of Use link (store-critical). Next unblocked: #117 tracing start dots (3); review privacy and children screens; Memory review waits for a new day's games; #68 waits on the owner; research new scored tasks (backlog left is
   low-score: #49 1.5, #65 1.5). Native: #10/#14/#16/#39/#50/#61 check (VoiceOver: #94 canvas size).
+- 2026-11-05 18:30 run: committed and pushed #125 left uncommitted by a side session (ffe0c5f; `npm run check` 76 suites /
+  317 tests ✓). Then stopped: **Claude weekly limit 98 %** (cap 80 %, resets 2026-11-09 23:00 UTC; 5-hour 36 %) and Codex
+  still rejects `gpt-6-sol` (#11, re-probed). No tool may implement until the weekly reset or until the owner fixes #11;
+  hourly runs should only check usage and stop. #117 marked waiting-capacity.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Blockers (owner)

@@ -2,6 +2,13 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-05 18:30 run (capacity stop)
+- claude · Found #125 (side session) uncommitted; `npm run check` — tsc, ESLint, Jest 76 suites / 317 tests ✓ → committed
+  ffe0c5f "Games: one Buddy bubble on the finished screen (#125)" and pushed (first push failed transiently, retry ok).
+- Usage: Claude 5-hour 36 %, **weekly 98 %** (≥ 80 % cap → review/rest only); Codex probe still fails ("`gpt-6-sol` not
+  supported with a ChatGPT account", #11). No implementation this run; #117 → waiting-capacity. Files: AI_TASKS.md,
+  PROJECT_STATUS.md, AI_CHANGELOG.md. No code change.
+
 ## 2026-11-05 (side session, #125; committed by the 18:30 run after `npm run check` 76 suites / 317 tests ✓)
 - claude · #125 finished-game screen: two Buddy bubbles stacked (the score, then "that's all the games for today").
   `GameDoneActions` now takes the game's `result` line and shows one Buddy: the result, with "That's all the games for
