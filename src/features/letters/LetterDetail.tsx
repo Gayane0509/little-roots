@@ -14,6 +14,7 @@ import { WordArt } from '@/ui/WordArt';
 import { Buddy } from '@/ui/Buddy';
 import { useTracedLetters } from '@/state/letters';
 import { letterExampleArtId } from './exampleArt';
+import { highlightLetter } from './exampleHighlight';
 import { TraceCanvas } from './TraceCanvas';
 import { isTraceGoodEnough } from './tracing';
 import { colors, CONTENT_MAX_WIDTH, DISPLAY_MAX_FONT_SCALE, font, radius, spacing } from '@/ui/tokens';
@@ -34,6 +35,7 @@ export function LetterDetail({ letter, onClose }: LetterDetailProps) {
   const { state } = useProgressState();
   const close = () => { setDrawing(false); setTracing(false); setFeedback(null); onClose(); };
   const exampleArtId = letter && letterExampleArtId(letter, ACTIVE_PACK.themes);
+  const exampleParts = letter && highlightLetter(letter.example.hy, letter);
   return (
     <Modal visible={letter !== null} transparent animationType="slide" onRequestClose={close}>
       <View style={styles.backdrop}>
@@ -63,9 +65,12 @@ export function LetterDetail({ letter, onClose }: LetterDetailProps) {
               <Text style={styles.sound}>Sounds like: {letter.sound}</Text>
 
               <View style={styles.example} accessibilityLabel={`${letter.example.hy}, ${letter.example.translit}, ${letter.example.en}`}>
-                <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">{exampleArtId ? <WordArt wordId={exampleArtId} emoji={letter.example.emoji} size={70} /> : null}</View>
+                <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">{exampleArtId ? <WordArt wordId={exampleArtId} emoji={letter.example.emoji} size={EXAMPLE_ART} /> : null}</View>
                 <View style={styles.exampleTexts}>
-                  <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.exampleHy}>{letter.example.hy}</Text>
+                  {/* The sheet's letter is coloured inside the word, so the child sees where it is (#110). */}
+                  <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.exampleHy}>
+                    {exampleParts ? <>{exampleParts.before}<Text style={styles.exampleLetter}>{exampleParts.letter}</Text>{exampleParts.after}</> : letter.example.hy}
+                  </Text>
                   <Text style={styles.exampleSub}>
                     {letter.example.translit} · {letter.example.en}
                   </Text>
@@ -85,6 +90,9 @@ export function LetterDetail({ letter, onClose }: LetterDetailProps) {
     </Modal>
   );
 }
+
+/** Example picture: big enough to read as a picture beside the 44 px word (it was 70, the drawing looked ~44 px). */
+const EXAMPLE_ART = 96;
 
 const styles = StyleSheet.create({
   backdrop: { flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(43,45,66,0.45)' },
@@ -115,5 +123,6 @@ const styles = StyleSheet.create({
   },
   exampleTexts: { flexShrink: 1 },
   exampleHy: { fontSize: font.word, fontWeight: '800', color: colors.text },
+  exampleLetter: { color: colors.primaryText },
   exampleSub: { fontSize: font.body, color: colors.textMuted },
 });

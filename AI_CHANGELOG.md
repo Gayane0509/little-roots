@@ -2,7 +2,16 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-05 (side session, review pass + #109 — not committed, parent session commits)
+## 2026-11-05 (side session, #110 — not committed, parent session commits)
+- claude · #110 Letters sheet example: picture 70 → 96 px (the drawing read as ~44 px) and the sheet's letter coloured
+  inside the example word (`src/features/letters/exampleHighlight.ts`: first upper/lower match, two-character letters
+  too; e.g. **բ**ադ, ար**և**) in the big letters' colour. Files: `src/features/letters/{LetterDetail.tsx,
+  exampleHighlight.ts,exampleHighlight.test.ts}`. Checks: `npm run check` — tsc, ESLint, Jest 73 suites / 302 tests ✓
+  (every alphabet example contains its letter and rebuilds from the parts); web [::1] Ben and Yev sheets at 375×812,
+  Ben at 768×1024: buttons on screen, no console errors. Suggested commit: "Letters: bigger example picture and the
+  letter coloured in the word (#110)".
+
+## 2026-11-05 (side session, review pass + #109, committed as 06f1da0)
 - claude · Review pass at 375×812 (lesson intro and word card, Letters sheet, onboarding, parent gate) → new tasks
   #109–#111. #109 done: the lesson intro now leads with the theme's Armenian name (44 px, sized by `wordFontSize` over
   the content column) with English under it, and shows one sleeping `seed` per new word (none for practice lessons;
