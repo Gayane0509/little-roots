@@ -7,9 +7,12 @@ import { fullReport } from '@/features/report/reportData';
 import { canSeeFullReport } from '@/lib/entitlements';
 import { useProgressState } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
+import { Icon } from '@/ui/Icon';
 import { Screen } from '@/ui/Screen';
 import { WordArt } from '@/ui/WordArt';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing } from '@/ui/tokens';
+
+const backToParents = () => { if (router.canGoBack()) router.back(); else router.replace('/parent'); };
 
 export default function FullReportScreen() {
   const guard = useParentGuard('/parent/report');
@@ -18,7 +21,15 @@ export default function FullReportScreen() {
   const report = useMemo(() => fullReport(state, now), [state, now]);
   if (guard) return guard;
   if (!canSeeFullReport(state.isPremium)) {
-    return <Screen><View style={styles.center}><Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} accessibilityRole="header" style={styles.title}>Full progress</Text><Text style={styles.sub}>See every word your child learns with Premium.</Text><BigButton label="Explore Premium" onPress={() => router.replace({ pathname: '/parent/paywall', params: { reason: 'report' } })} /></View></Screen>;
+    // Free plan: a short preview with the real count and a way back, not a dead end with one button (#118).
+    return <Screen><View style={styles.center}>
+      <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={styles.lockedArt}><Icon name="chart" size={96} /></View>
+      <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} accessibilityRole="header" style={styles.title}>Full progress</Text>
+      <Text style={styles.lockedCount}>{report.seenTotal} {report.seenTotal === 1 ? 'word' : 'words'} explored so far</Text>
+      <Text style={styles.sub}>Premium shows every word with its stars, progress in each theme and 8 weeks of learning.</Text>
+      <BigButton label="Explore Premium" onPress={() => router.replace({ pathname: '/parent/paywall', params: { reason: 'report' } })} />
+      <BigButton label="Back to parents" color={colors.textMuted} onPress={backToParents} />
+    </View></Screen>;
   }
   return <Screen><SectionList sections={report.themes.map((item) => ({ ...item, data: item.words.length ? item.words : [{ word: null, stars: 0 }] }))} keyExtractor={(item, index) => item.word?.id ?? `empty-${index}`} contentContainerStyle={styles.content} stickySectionHeadersEnabled={false}
     ListHeaderComponent={<>
@@ -33,12 +44,12 @@ export default function FullReportScreen() {
     renderItem={({ item }) => item.word ? <View style={styles.row} accessibilityLabel={`${item.word.hy}, ${item.word.translit}, ${item.word.en}, ${item.stars} mastery stars`}>
       <WordArt wordId={item.word.id} emoji={item.word.emoji} size={48} /><View style={styles.wordText}><Text style={styles.hy}>{item.word.hy}</Text><Text style={styles.sub}>{item.word.translit} · {item.word.en}</Text></View><Text style={styles.stars}>{'★'.repeat(item.stars)}</Text>
     </View> : <Text style={styles.sub}>No words explored yet.</Text>}
-    ListFooterComponent={<BigButton label="Back to parents" color={colors.textMuted} onPress={() => { if (router.canGoBack()) router.back(); else router.replace('/parent'); }} />}
+    ListFooterComponent={<BigButton label="Back to parents" color={colors.textMuted} onPress={backToParents} />}
   /></Screen>;
 }
 const styles = StyleSheet.create({
   content: { gap: spacing.lg, paddingBottom: spacing.xl }, center: { flex: 1, justifyContent: 'center', gap: spacing.lg },
-  title: { fontSize: font.title, fontWeight: '800', color: colors.text }, heading: { fontSize: font.heading, fontWeight: '800', color: colors.text }, sub: { fontSize: font.small, color: colors.textMuted },
+  title: { fontSize: font.title, fontWeight: '800', color: colors.text }, heading: { fontSize: font.heading, fontWeight: '800', color: colors.text }, sub: { fontSize: font.small, color: colors.textMuted }, lockedArt: { alignSelf: 'center' }, lockedCount: { fontSize: font.body, fontWeight: '700', color: colors.text },
   chart: { minHeight: 150, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', gap: spacing.xs, padding: spacing.md, backgroundColor: colors.surface, borderRadius: radius.md },
   week: { flex: 1, minWidth: 0, alignItems: 'center', gap: spacing.xs }, number: { color: colors.text, fontWeight: '700' }, bar: { width: '75%', backgroundColor: colors.primary, borderRadius: radius.sm }, weekLabel: { color: colors.textMuted, fontSize: font.small, textAlign: 'center' },
   section: { gap: spacing.sm }, track: { height: 12, backgroundColor: colors.border, borderRadius: radius.round, overflow: 'hidden' }, fill: { height: '100%', backgroundColor: colors.success },

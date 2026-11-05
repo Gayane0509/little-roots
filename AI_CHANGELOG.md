@@ -2,7 +2,17 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-05 (side session, review pass 3 + #116 — not committed, parent session commits)
+## 2026-11-05 (side session, #118 — not committed, parent session commits)
+- claude · Review pass 3 continued (parent full report on the free plan) → #118 done: the locked report was a title, one
+  line and "Explore Premium" with no way back but the system gesture. It now shows a drawn chart picture, the real count
+  ("21 words explored so far"), what Premium adds, and a grey "Back to parents" after Explore Premium (shared
+  `backToParents`, same logic as the full report's footer). Files: `src/app/parent/report.tsx`,
+  `src/features/report/lockedReport.test.ts`. Checks: `npm run check` — tsc, ESLint, Jest 75 suites / 311 tests ✓; web
+  [::1] 375×812 through the parent gate; Back leaves the page; no console errors. Paywall and settings sit behind the gate
+  on each direct visit and weren't reviewed in content yet. Suggested commit: "Parent report: the free-plan preview shows
+  the word count and a way back (#118)".
+
+## 2026-11-05 (side session, review pass 3 + #116, committed as e6055f3)
 - claude · Review pass 3 (games list, letter tracing, parent intro) → #116–#117. #116 done: when today's games are used
   up the games list no longer ends in a goodbye and a grown-up upsell — "Trace letters" and "My stickers" (no daily limit)
   come after Buddy's line and the grey "Grown-ups: unlimited games" stays last (order added to the grown-up prompt test).
