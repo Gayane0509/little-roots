@@ -2,6 +2,11 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-05 22:30 run (capacity stop)
+- claude · Usage: Claude 5-hour 40 %, **weekly 98 %** (≥ 80 % cap → review/rest only); Codex probe still fails
+  ("`gpt-6-sol` not supported with a ChatGPT account", #11). No implementation; #117 stays waiting-capacity. Files:
+  PROJECT_STATUS.md, AI_CHANGELOG.md. No code change, so no checks run.
+
 ## 2026-11-05 18:30 run (capacity stop)
 - claude · Found #125 (side session) uncommitted; `npm run check` — tsc, ESLint, Jest 76 suites / 317 tests ✓ → committed
   ffe0c5f "Games: one Buddy bubble on the finished screen (#125)" and pushed (first push failed transiently, retry ok).
