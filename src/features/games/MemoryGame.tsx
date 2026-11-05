@@ -100,7 +100,7 @@ export function MemoryGame({ seenWords, onFinishedChange }: { seenWords: Word[];
   useEffect(() => { if (won) playSfx('reward', soundEffects); }, [won, soundEffects]);
   useEffect(() => { onFinishedChange?.(won); }, [won, onFinishedChange]);
 
-  const { cardWidth, cardHeight, artSize, gap } = memoryLayout(useWindowDimensions(), deck.length);
+  const { cardWidth, cardHeight, artSize, gap, prompt } = memoryLayout(useWindowDimensions(), deck.length);
 
   const flip = (card: MemoryCard) => {
     const t = turn.current;
@@ -157,6 +157,8 @@ export function MemoryGame({ seenWords, onFinishedChange }: { seenWords: Word[];
   return (
     <ScrollView contentContainerStyle={styles.root}>
       <Text style={styles.moves} accessibilityLabel={`${moves} moves`}>Moves: {moves}</Text>
+      {/* Like Find and Read, Buddy says what to do (#122); left out on short windows so the cards keep their size. */}
+      {prompt ? <Buddy message={line('game_memory_prompt')} size={48} /> : null}
       <View style={[styles.grid, { gap }]}>
         {deck.map((card) => (
           <FlipCard

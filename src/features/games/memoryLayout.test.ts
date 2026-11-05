@@ -2,7 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 
 import { CONTENT_MAX_WIDTH, spacing, TOUCH_MIN } from '@/ui/tokens';
 
-import { memoryLayout } from './memoryLayout';
+import { MEMORY_PROMPT_FROM, memoryLayout } from './memoryLayout';
 
 const rowWidth = (l: ReturnType<typeof memoryLayout>) => l.columns * l.cardWidth + (l.columns - 1) * l.gap;
 
@@ -33,5 +33,11 @@ describe('memoryLayout', () => {
     const l = memoryLayout({ width: 240, height: 400, fontScale: 1 }, 12);
     expect(l.cardWidth).toBeGreaterThanOrEqual(TOUCH_MIN);
     expect(l.cardHeight).toBeGreaterThanOrEqual(TOUCH_MIN);
+  });
+
+  it("shows Buddy's prompt only where the board has room for it (#122)", () => {
+    expect(memoryLayout({ width: 375, height: 812, fontScale: 1 }, 12).prompt).toBe(true);
+    expect(memoryLayout({ width: 375, height: MEMORY_PROMPT_FROM - 1, fontScale: 1 }, 12).prompt).toBe(false);
+    expect(memoryLayout({ width: 375, height: 667, fontScale: 1 }, 12).prompt).toBe(false);
   });
 });

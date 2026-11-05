@@ -2,7 +2,17 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-05 (side session, #121 — not committed, parent session commits)
+## 2026-11-05 (side session, #122 — not committed, parent session commits)
+- claude · Review pass 3: Memory (today's game count on the [::1] test profile reset to 0 in local storage, as the parent
+  session asked) → #122 done: Memory opens with Buddy's line like Find and Read — new phrase `game_memory_prompt`
+  ("Գտի՛ր զույգերը՝ նկարն ու բառը։" / "Find the pairs: a picture and its word!"; Armenian needs the owner's proofreading),
+  shown for the whole game on windows ≥ 800 px tall (`memoryLayout().prompt`); shorter windows keep the full card height.
+  Files: `src/content/phrases.ts`, `src/features/games/{MemoryGame.tsx,memoryLayout.ts,memoryLayout.test.ts}`. Checks:
+  `npm run check` — tsc, ESLint, Jest 75 suites / 313 tests ✓; web [::1] 375×812 (cards 119 px, Back ends 776), 768×1024
+  (Back 841), 375×667 and 1024×768 without the prompt, no scroll, no console errors. Suggested commit: "Memory: Buddy says
+  find the pairs (#122)".
+
+## 2026-11-05 (side session, #121, committed as 1500857)
 - claude · #121 paywall shows what Premium adds as pictures: a strip of the 10 Premium themes' drawings (56 px tiles in
   each theme's colour) with "80 more words in 10 themes", under the subtitle; one screen-reader label lists the theme
   names. `PREMIUM_THEMES` / `PREMIUM_WORDS` live in `src/features/paywall/offer.ts`; a test checks free + Premium-theme

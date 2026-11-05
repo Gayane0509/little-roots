@@ -22,6 +22,7 @@ export const PHRASES = {
   games_done_today: { hy: 'Այսօրվա խաղերը վերջացան։ Մինչև վաղը։', translit: 'Aysorva khaghery vyerjatsan. Minchyev vaghy.', en: "That's all the games for today — see you tomorrow!" },
   game_memory_done: { hy: 'Դու հաղթեցիր {moves} քայլով։', translit: 'Du haghtyetsir {moves} qaylov.', en: 'You did it in {moves} moves!' },
   game_score: { hy: 'Ապրե՛ս։ {score} ճիշտ պատասխան {total}-ից։', translit: 'Apres. {score} chisht pataskhan {total}-its.', en: 'Great job! {score} of {total} right on the first try!' },
+  game_memory_prompt: { hy: 'Գտի՛ր զույգերը՝ նկարն ու բառը։', translit: 'Gtir zuygery, nkarn u bary.', en: 'Find the pairs: a picture and its word!' },
   game_find_prompt: { hy: 'Կարդա՛ և գտի՛ր նկարը։', translit: 'Karda yev gtir nkary.', en: 'Read the word and find the picture!' },
   game_read_prompt: { hy: 'Ո՞ր բառն է սա։', translit: 'Vo՞r barn e sa.', en: 'Which word is this?' },
   game_correct: { hy: 'Ապրե՛ս։', translit: 'Apres.', en: 'Great!' },
