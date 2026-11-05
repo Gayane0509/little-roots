@@ -2,7 +2,19 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-05 (side session, review pass 4 + #123 — not committed, parent session commits)
+## 2026-11-05 (side session, #124 — not committed, parent session commits)
+- claude · Review pass 4 continued (reminders: fine; game screens out of games) → #124 done, #125 found. Opening a game
+  with none left and finishing the last free game still ended in Back and the grown-up upsell. New shared
+  `src/features/games/FreeActivities.tsx` (Trace letters, My stickers) on the games list, GameShell and GameDoneActions;
+  there Back is grey so the free activities are the orange choices, and the grown-up prompt stays last (order checked
+  for all three in `grownUpPrompts.test.ts`). Files: `src/app/games/index.tsx`,
+  `src/features/games/{FreeActivities.tsx,GameShell.tsx,GameDoneActions.tsx,grownUpPrompts.test.ts}`. Checks:
+  `npm run check` — tsc, ESLint, Jest 76 suites / 317 tests ✓; web [::1] (today's count set on the test profile as
+  asked): GameShell out-of-games screen and the finished-game screen after the last free game at 375×812 and 375×667,
+  all buttons on screen, no console errors. Suggested commit: "Games: every out-of-games screen offers Letters and
+  Stickers (#124)".
+
+## 2026-11-05 (side session, review pass 4 + #123, committed as 5e91b75)
 - claude · Review pass 4 (Home on a tablet, Family voice; the voice chips already use the theme drawings, no finding) →
   #123 done: a finished theme gets a gold star badge on its Home card (drawn `stickers` icon in a white circle with a
   star-gold border, same corner as the Next ribbon, which a finished theme never has) and the label says "all 12 words

@@ -7,6 +7,7 @@ import { gamesPlayedToday, useProgressState } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
 import { colors, spacing } from '@/ui/tokens';
+import { FreeActivities } from './FreeActivities';
 import { canReplayGame } from './gameDone';
 
 export function GameDoneActions({ onPlayAgain }: { onPlayAgain: () => void }) {
@@ -17,9 +18,9 @@ export function GameDoneActions({ onPlayAgain }: { onPlayAgain: () => void }) {
     {canReplay ? <BigButton label="Play again" color={colors.success} onPress={() => {
       // Check the current entitlement again when the button is pressed.
       if (canReplayGame(state.isPremium, gamesPlayedToday(state))) onPlayAgain();
-    }} /> : <Buddy message={line('games_done_today')} />}
-    {/* Out of games, Back is the child's one orange action and the grown-up prompt is grey, below it (#97). */}
-    <BigButton label="Back" color={canReplay ? colors.textMuted : undefined} onPress={goBackOrHome} />
+    }} /> : <><Buddy message={line('games_done_today')} /><FreeActivities /></>}
+    {/* Out of games, the free activities are the child's orange choices (#124); Back and the grown-up prompt are grey (#97). */}
+    <BigButton label="Back" color={colors.textMuted} onPress={goBackOrHome} />
     {canReplay ? null : <BigButton label="Grown-ups: unlimited games" color={colors.textMuted} onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'games' } })} />}
   </View>;
 }
