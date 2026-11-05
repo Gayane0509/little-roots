@@ -2,7 +2,7 @@ import { Redirect, router, useLocalSearchParams } from 'expo-router';
 import { ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
 import { themeArtWordId } from '@/content/themeArt';
-import { HEADER_ART, themeHeaderTitleSize } from '@/features/home/themeTitle';
+import { HEADER_ART, themeHeaderTitleSize, themeHeaderTitleWidth } from '@/features/home/themeTitle';
 import { ACTIVE_PACK } from '@/content/packs';
 import type { Word } from '@/content/types';
 import { isThemeUnlocked, themeProgress } from '@/lib/lesson';
@@ -38,7 +38,7 @@ export default function ThemeDetail() {
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.header}>
           <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={themeArtWordId(theme.id)} emoji={theme.emoji} size={HEADER_ART} /></View>
-          <View style={styles.headerTexts}>
+          <View style={[styles.headerTexts, { minWidth: themeHeaderTitleWidth(window.width) }]}>
             <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={[styles.titleHy, { fontSize: themeHeaderTitleSize(theme.titleHy, window) }]} accessibilityRole="header">
               {theme.titleHy}
             </Text>
@@ -98,7 +98,9 @@ const styles = StyleSheet.create({
   content: { gap: spacing.md, paddingBottom: spacing.xl },
   sub: { fontSize: font.body, color: colors.text },
   header: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: spacing.md },
-  headerTexts: { flexGrow: 1, flexShrink: 1, minWidth: '50%' },
+  // minWidth is the title box `themeHeaderTitleSize` fits to, so the count stays beside it on 320 px phones (#108) and only
+  // wraps below when large system text makes the count wider than its reserved room.
+  headerTexts: { flexGrow: 1, flexShrink: 1 },
   // fontSize comes from `themeHeaderTitleSize` (long names shrink, #104).
   titleHy: { fontWeight: '800', color: colors.text },
   titleEn: { fontSize: font.body, color: colors.text },

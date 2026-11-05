@@ -2,7 +2,15 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-05 (side session, #105 — not committed, parent session commits)
+## 2026-11-05 (side session, #108 — not committed, parent session commits)
+- claude · #108 theme page header at 320 px: the "12/12" count wrapped under the title because the title box had
+  `minWidth: '50%'` (144 px; 64 + 16 + 144 + 16 + 54 > 288). The box's `minWidth` is now `themeHeaderTitleWidth` (the
+  width the title font is fitted to, 72 px kept for the count). Files: `src/app/theme/[id].tsx`,
+  `src/features/home/themeTitle.test.ts`. Checks: `npm run check` — tsc, ESLint, Jest 72 suites / 299 tests ✓; web localhost
+  Family page 320×640: picture, title (22 px), count on one row; 375 and 768 unchanged; no console errors. Suggested commit:
+  "Theme page: count stays beside the title on 320 px phones (#108)".
+
+## 2026-11-05 (side session, #105, committed as c3e31f1)
 - claude · #105 word names never break mid-word. Audit of the longest words (նարնջագույն 11 letters, վարդագույն 10,
   մորաքույր/ժամացույց 9; 44 px widths measured on the web, up to 298 px) against every box that shows one word: lesson word
   card and Find prompt broke at 375, Read rows at 320, theme page cards and Memory word cards (box ~86 px at 375) broke,
