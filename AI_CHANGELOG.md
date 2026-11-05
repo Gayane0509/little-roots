@@ -2,7 +2,16 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-05 (side session, #102 — not committed, parent session commits)
+## 2026-11-05 (side session, #103 — not committed, parent session commits)
+- claude · #103 Read Back on screen at 375×667 with Buddy in Armenian + English: picture and rows unchanged; `choiceLayout`
+  returns `gap` (`spacing.sm` on windows under 760 px tall, `spacing.md` otherwise) and `ChoiceGame` uses it for the screen and
+  the answer list (Find too). New budget test. Files: `src/features/games/{choiceLayout.ts,choiceLayout.test.ts,ChoiceGame.tsx}`.
+  Checks: `npm run check` — tsc, ESLint, Jest 69 suites / 288 tests ✓; web 375×667 (clean origin, two-line prompt put into
+  the bubble in the page, profile settings untouched): rows end 570, Back 587–651, no scroll; 375×812 unchanged (Back
+  732–796); 320×568 still scrolls as before; no console errors. Suggested commit: "Games: half gaps on short phones so Read's
+  Back fits at 375×667 (#103)".
+
+## 2026-11-05 (side session, #102, committed as bc3c664)
 - claude · #102 Read fits 375×812: the overflow came from Buddy's two-line Armenian + English prompt. `choiceLayout` gives
   regular phones answer rows of `TOUCH_MIN + 24` (88) instead of 104; tablets keep 104, short-window compact rows stay 80.
   New budget test (picture + three rows + Back inside 812 px with a two-line prompt; fails on the old rows). Files:

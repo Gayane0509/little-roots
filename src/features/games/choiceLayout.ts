@@ -1,6 +1,6 @@
 import { spacing, TOUCH_MIN, WIDE_BREAKPOINT } from '@/ui/tokens';
 
-export type ChoiceLayout = { optionArt: number; pictureArt: number; picturePadding: number; optionMinHeight: number };
+export type ChoiceLayout = { optionArt: number; pictureArt: number; picturePadding: number; optionMinHeight: number; gap: number };
 
 /** Windows shorter than this get the compact layout (iPhone SE 375×667: the third Read answer was below the fold). */
 export const CHOICE_COMPACT_BELOW = 760;
@@ -24,7 +24,8 @@ function findCardInner(width: number) {
  * Short windows shrink the Read picture and the answer rows so every answer is on screen without scrolling (#83);
  * rows stay above the touch minimum. Tall phones get Find pictures as big as the answer card allows (#101); Read is
  * unchanged there because its picture and three rows already fill a 375×812 screen. Phones get slightly lower answer
- * rows than tablets so Read's Back stays on screen at 375×812 when Buddy speaks Armenian and English (#102).
+ * rows than tablets so Read's Back stays on screen at 375×812 when Buddy speaks Armenian and English (#102). Short
+ * windows also halve the gaps between the screen's parts so Back fits at 375×667 in that mode (#103).
  */
 export function choiceLayout(window: { width: number; height: number }): ChoiceLayout {
   const compact = window.height < CHOICE_COMPACT_BELOW;
@@ -35,5 +36,6 @@ export function choiceLayout(window: { width: number; height: number }): ChoiceL
     pictureArt: compact ? 88 : 128,
     picturePadding: compact ? spacing.md : spacing.lg,
     optionMinHeight: compact ? TOUCH_MIN + 16 : wide ? TOUCH_MIN + 40 : TOUCH_MIN + 24,
+    gap: compact ? spacing.sm : spacing.md,
   };
 }

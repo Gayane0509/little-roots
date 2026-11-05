@@ -5,13 +5,13 @@ import { TOUCH_MIN } from '@/ui/tokens';
 import { CHOICE_COMPACT_BELOW, CHOICE_TALL_FROM, choiceLayout } from './choiceLayout';
 
 test('regular phones and tablets keep the full-size picture; phones get slightly lower rows', () => {
-  expect(choiceLayout({ width: 375, height: 812 })).toEqual({ optionArt: 128, pictureArt: 128, picturePadding: 24, optionMinHeight: 88 });
-  expect(choiceLayout({ width: 1024, height: 768 })).toEqual({ optionArt: 112, pictureArt: 128, picturePadding: 24, optionMinHeight: 104 });
+  expect(choiceLayout({ width: 375, height: 812 })).toEqual({ optionArt: 128, pictureArt: 128, picturePadding: 24, optionMinHeight: 88, gap: 16 });
+  expect(choiceLayout({ width: 1024, height: 768 })).toEqual({ optionArt: 112, pictureArt: 128, picturePadding: 24, optionMinHeight: 104, gap: 16 });
 });
 
 test('short windows get a smaller picture and rows that still meet the touch minimum', () => {
   const se = choiceLayout({ width: 375, height: 667 });
-  expect(se).toEqual({ optionArt: 80, pictureArt: 88, picturePadding: 16, optionMinHeight: 80 });
+  expect(se).toEqual({ optionArt: 80, pictureArt: 88, picturePadding: 16, optionMinHeight: 80, gap: 8 });
   expect(se.optionMinHeight).toBeGreaterThanOrEqual(TOUCH_MIN);
 });
 
@@ -53,4 +53,16 @@ test('Read fits a 375×812 phone: picture and three rows leave room for Back eve
 test('tablets keep the taller answer rows', () => {
   expect(choiceLayout({ width: 768, height: 1024 }).optionMinHeight).toBe(104);
   expect(choiceLayout({ width: 430, height: 932 }).optionMinHeight).toBe(88);
+});
+
+test('Read fits a 375×667 phone with a two-line Buddy prompt: short windows use half the gaps (#103)', () => {
+  const { pictureArt, picturePadding, optionMinHeight, gap } = choiceLayout({ width: 375, height: 667 });
+  // Measured on the web at 375×667 with the 16 px gaps: Back ended at 690 with the picture card starting at 199 (two-line
+  // prompt). Above the picture: round counter and Buddy, with two gaps; below: three rows (two inner gaps), a gap, Back.
+  const above = 199 - 2 * 16;
+  const picture = pictureArt + 2 * picturePadding + 2 * 3;
+  const bottom = above + 2 * gap + picture + gap + 3 * optionMinHeight + 2 * gap + gap + 64;
+  expect(bottom).toBeLessThanOrEqual(667 - 16);
+  expect(optionMinHeight).toBeGreaterThanOrEqual(TOUCH_MIN);
+  expect(gap).toBe(8);
 });

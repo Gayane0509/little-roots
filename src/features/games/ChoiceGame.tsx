@@ -131,7 +131,7 @@ export function ChoiceGame({ mode, seenWords, onFinishedChange }: { mode: Mode; 
         : line('game_read_prompt');
 
   return (
-    <ScrollView contentContainerStyle={styles.root}>
+    <ScrollView contentContainerStyle={[styles.root, { gap: layout.gap }]}>
       <Text style={styles.round} accessibilityLabel={`Round ${index + 1} of ${rounds.length}`}>
         {index + 1} / {rounds.length}
       </Text>
@@ -152,7 +152,7 @@ export function ChoiceGame({ mode, seenWords, onFinishedChange }: { mode: Mode; 
       )}
 
       <Animated.View
-        style={[styles.options, mode === 'find' && styles.grid, { transform: [{ translateX: shake }] }]}
+        style={[{ gap: layout.gap }, mode === 'find' && styles.grid, { transform: [{ translateX: shake }] }]}
       >
         {round.options.map((option) => {
           const isAnswer = option.id === round.answer.id;
@@ -197,7 +197,8 @@ export function ChoiceGame({ mode, seenWords, onFinishedChange }: { mode: Mode; 
 }
 
 const styles = StyleSheet.create({
-  root: { flexGrow: 1, gap: spacing.md },
+  // Gaps come from `choiceLayout` (halved on short windows).
+  root: { flexGrow: 1 },
   round: { fontSize: font.heading, fontWeight: '700', color: colors.textMuted, textAlign: 'center' },
   promptRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.sm },
   wordPrompt: { flexShrink: 1, alignItems: 'center', gap: spacing.xs, paddingVertical: spacing.md, paddingHorizontal: spacing.lg, borderRadius: radius.lg, backgroundColor: colors.surface, borderWidth: 2, borderColor: colors.border },
@@ -211,7 +212,6 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: colors.border,
   },
-  options: { gap: spacing.md },
   // Two columns: the items plus the row gap must fit in 100%, or the grid collapses to one column.
   grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' },
   gridItem: { width: '46%' },
