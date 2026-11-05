@@ -12,6 +12,7 @@ import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
 import { Wiggle } from '@/ui/Wiggle';
 import { WordArt } from '@/ui/WordArt';
+import { wordBox, wordFontSize } from '@/ui/wordFit';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN, WIDE_BREAKPOINT } from '@/ui/tokens';
 
 /** Word picture size: phones show two cards a row, wide windows three bigger ones (#69). */
@@ -56,7 +57,7 @@ export default function ThemeDetail() {
         <View style={styles.grid}>
           {theme.words.map((word) =>
             state.words[word.id] ? (
-              <SeenCard key={word.id} word={word} wide={wide} />
+              <SeenCard key={word.id} word={word} wide={wide} window={window} />
             ) : (
               <UnseenCard key={word.id} wide={wide} />
             ),
@@ -69,12 +70,12 @@ export default function ThemeDetail() {
   );
 }
 
-function SeenCard({ word, wide }: { word: Word; wide: boolean }) {
+function SeenCard({ word, wide, window }: { word: Word; wide: boolean; window: { width: number; fontScale: number } }) {
   return (
     <Wiggle wordId={word.id} label={`${word.hy}, ${word.translit}, ${word.en}`} style={wide ? styles.cellWide : styles.cell}>
       <View style={styles.card}>
       <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={word.id} emoji={word.emoji} size={wide ? ART.wide : ART.phone} /></View>
-      <Text style={styles.cardHy}>
+      <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={[styles.cardHy, { fontSize: wordFontSize(word.hy, wordBox.themeCard(window.width), font.heading, window.fontScale) }]}>
         {word.hy}
       </Text>
       <Text style={styles.cardTranslit}>{word.translit}</Text>
@@ -118,7 +119,8 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   mystery: { fontSize: 56, fontWeight: '800', color: colors.textMuted },
-  cardHy: { fontSize: font.heading, fontWeight: '800', color: colors.text, maxWidth: '100%' },
+  // fontSize comes from `wordFontSize` (long words shrink instead of breaking, #105).
+  cardHy: { fontWeight: '800', color: colors.text, maxWidth: '100%' },
   cardTranslit: { fontSize: font.body, color: colors.primaryText, fontWeight: '700', textAlign: 'center' },
   cardEn: { fontSize: font.small, color: colors.textMuted },
   unseen: { backgroundColor: 'rgba(255,255,255,0.55)', borderWidth: 2, borderColor: colors.surface, borderStyle: 'dashed' },

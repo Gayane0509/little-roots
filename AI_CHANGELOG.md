@@ -2,7 +2,20 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-05 (side session, #104 — not committed, parent session commits)
+## 2026-11-05 (side session, #105 — not committed, parent session commits)
+- claude · #105 word names never break mid-word. Audit of the longest words (նարնջագույն 11 letters, վարդագույն 10,
+  մորաքույր/ժամացույց 9; 44 px widths measured on the web, up to 298 px) against every box that shows one word: lesson word
+  card and Find prompt broke at 375, Read rows at 320, theme page cards and Memory word cards (box ~86 px at 375) broke,
+  parent tiles cut with an ellipsis. New `src/ui/wordFit.ts` (box per component from the window width, Memory from
+  `memoryLayout`, prompts lose the voice button's room only when a recording exists) + `wordFontSize`; `fitFontSize`'s
+  minimum now applies to the size on screen. Used in `app/lesson.tsx`, `ChoiceGame.tsx`, `MemoryGame.tsx`,
+  `app/theme/[id].tsx`, `app/parent/index.tsx` (inline sizes keep `maxFontSizeMultiplier`). Checks: `npm run check` — tsc,
+  ESLint, Jest 72 suites / 298 tests ✓ (new test: 104 words × 7 boxes × 320–1024 px × text scale 1/1.5); web Family page
+  (localhost profile, viewed only): 375 aunt 19 px, 320 aunt 15 px, all one line, 768 all 22 px; no console errors. Games,
+  lesson and parent tiles checked by the test only (no profile there has met a long word). Found #108. Suggested commit:
+  "Words: long names shrink instead of breaking mid-word (#105)".
+
+## 2026-11-05 (side session, #104, committed as 1f8fc7f)
 - claude · Design review at 375×812 (Home, theme page, Stickers, Letters) → new tasks #104–#107. #104 done: theme names
   no longer break mid-word. `src/ui/fitFontSize.ts` sizes text from its longest word (0.75 em per letter; widest measured on
   the web 0.74) and `src/features/home/themeTitle.ts` gives the Home card and theme header text boxes from the window width

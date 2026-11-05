@@ -16,6 +16,7 @@ import { buildDailyLesson, type DailyLesson } from '@/lib/lesson';
 import { haptic } from '@/lib/haptics';
 import { OUTFIT_LABEL, outfitUnlockedBy, wornOutfit } from '@/lib/outfits';
 import { playSfx } from '@/lib/sfx';
+import { useFamilyVoice } from '@/state/familyVoice';
 import { useSettings } from '@/state/settings';
 import { useProgress } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
@@ -28,6 +29,7 @@ import { TapHint } from '@/ui/TapHint';
 import { useAutoPlayWord, VoiceButton } from '@/ui/VoiceButton';
 import { Wiggle } from '@/ui/Wiggle';
 import { WordArt } from '@/ui/WordArt';
+import { wordBox, wordFontSize } from '@/ui/wordFit';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 export default function LessonScreen() {
@@ -43,7 +45,8 @@ function ReadyLesson() {
   const { soundEffects, haptics } = useSettings();
   const { state, recordAnswer, completeLesson } = useProgress();
   const outfit = wornOutfit(state);
-  const { width, height } = useWindowDimensions();
+  const { width, height, fontScale } = useWindowDimensions();
+  const voice = useFamilyVoice();
   const [lesson] = useState<DailyLesson | null>(() => buildDailyLesson({
     themes: ACTIVE_PACK.themes, words: state.words, isPremium: state.isPremium, now: Date.now(),
   }));
@@ -173,7 +176,7 @@ function ReadyLesson() {
           <Text style={styles.counter}>Word {cardIndex + 1} of {lesson.newWords.length}</Text>
           <Animated.View style={{ width: '100%', opacity: cardEntrance, transform: [{ translateY: cardEntrance.interpolate({ inputRange: [0, 1], outputRange: [20, 0] }) }] }}><Wiggle wordId={card.id} label={`${card.hy}, ${card.translit}, ${card.en}`} onTap={() => setCardTapped(true)}><View style={styles.wordCard}>
             <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={card.id} emoji={card.emoji} size={art.card} /></View>
-            <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.armenian}>{card.hy}</Text>
+            <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={[styles.armenian, { fontSize: wordFontSize(card.hy, wordBox.lessonCard(width), font.word, fontScale) }]}>{card.hy}</Text>
             <Text style={styles.translit}>{card.translit}</Text>
             <Text style={styles.english}>{card.en}</Text>
             <TapHint visible={shouldShowTapHint(state, cardIndex, cardTapped)} />
@@ -185,7 +188,7 @@ function ReadyLesson() {
           <Text style={styles.counter}>Picture {roundIndex + 1} of {rounds.length}</Text>
           <View style={styles.promptRow}>
             <View accessible accessibilityRole="text" accessibilityLabel={`Find ${currentRound.hy}, ${currentRound.translit}`} style={styles.prompt}>
-              <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.promptWord}>{currentRound.hy}</Text>
+              <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={[styles.promptWord, { fontSize: wordFontSize(currentRound.hy, wordBox.lessonPrompt(width, !!voice.uris[currentRound.id]), font.title, fontScale) }]}>{currentRound.hy}</Text>
               <Text style={styles.promptTranslit}>{currentRound.translit}</Text>
             </View>
             <VoiceButton wordId={currentRound.id} label={currentRound.translit} />
@@ -262,12 +265,13 @@ const styles = StyleSheet.create({
   heading: { color: colors.text, fontSize: font.title, fontWeight: '800', textAlign: 'center' },
   counter: { color: colors.textMuted, fontSize: font.body, fontWeight: '700' },
   wordCard: { width: '100%', minHeight: 300, backgroundColor: colors.surface, borderRadius: radius.lg, borderWidth: 2, borderColor: colors.border, alignItems: 'center', justifyContent: 'center', padding: spacing.lg, gap: spacing.sm },
-  armenian: { color: colors.text, fontSize: font.word, fontWeight: '800', textAlign: 'center' },
+  // Word sizes come from `wordFontSize` (long words shrink instead of breaking, #105).
+  armenian: { color: colors.text, fontWeight: '800', textAlign: 'center' },
   translit: { color: colors.textMuted, fontSize: font.heading, textAlign: 'center' },
   english: { color: colors.text, fontSize: font.body, textAlign: 'center' },
   promptRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.sm },
   prompt: { minHeight: TOUCH_MIN, justifyContent: 'center', paddingHorizontal: spacing.lg, borderRadius: radius.md, backgroundColor: colors.surface },
-  promptWord: { color: colors.text, fontSize: font.title, fontWeight: '800', textAlign: 'center' },
+  promptWord: { color: colors.text, fontWeight: '800', textAlign: 'center' },
   promptTranslit: { color: colors.textMuted, fontSize: font.body, textAlign: 'center' },
   options: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: spacing.md },
   option: { width: '100%', minHeight: 120, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.surface, borderRadius: radius.md, borderWidth: 2, borderColor: colors.border },

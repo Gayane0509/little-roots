@@ -6,6 +6,7 @@ import { useBuddyLine } from '@/features/buddy/useBuddyLine';
 import { goBackOrHome } from '@/lib/navigation';
 import { haptic } from '@/lib/haptics';
 import { playSfx } from '@/lib/sfx';
+import { useFamilyVoice } from '@/state/familyVoice';
 import { useSettings } from '@/state/settings';
 import { useProgressActions } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
@@ -14,6 +15,7 @@ import { HINT_AFTER_MISSES, HintPulse } from '@/ui/HintPulse';
 import { Icon } from '@/ui/Icon';
 import { useAutoPlayWord, VoiceButton } from '@/ui/VoiceButton';
 import { WordArt } from '@/ui/WordArt';
+import { wordBox, wordFontSize } from '@/ui/wordFit';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing } from '@/ui/tokens';
 
 import { choiceLayout } from './choiceLayout';
@@ -29,7 +31,9 @@ export function ChoiceGame({ mode, seenWords, onFinishedChange }: { mode: Mode; 
   const line = useBuddyLine();
   const { soundEffects, haptics } = useSettings();
   const { recordAnswer, recordGamePlayed } = useProgressActions();
-  const layout = choiceLayout(useWindowDimensions());
+  const window = useWindowDimensions();
+  const layout = choiceLayout(window);
+  const voice = useFamilyVoice();
   const optionCount = mode === 'find' ? Math.min(4, seenWords.length) : 3;
   const [rounds, setRounds] = useState<ChoiceRound[]>(() => buildChoiceRounds(seenWords, optionCount));
   const [index, setIndex] = useState(0);
@@ -140,7 +144,7 @@ export function ChoiceGame({ mode, seenWords, onFinishedChange }: { mode: Mode; 
       {mode === 'find' ? (
         <View style={styles.promptRow}>
           <View style={styles.wordPrompt} accessible accessibilityRole="text" accessibilityLabel={`Find ${round.answer.hy}, ${round.answer.translit}`}>
-            <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.promptWord}>{round.answer.hy}</Text>
+            <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={[styles.promptWord, { fontSize: wordFontSize(round.answer.hy, wordBox.findPrompt(window.width, !!voice.uris[round.answer.id]), font.word, window.fontScale) }]}>{round.answer.hy}</Text>
             <Text style={styles.promptTranslit}>{round.answer.translit}</Text>
           </View>
           <VoiceButton wordId={round.answer.id} label={round.answer.translit} />
@@ -181,7 +185,7 @@ export function ChoiceGame({ mode, seenWords, onFinishedChange }: { mode: Mode; 
                 {mode === 'find' ? (
                   <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={option.id} emoji={option.emoji} size={layout.optionArt} /></View>
                 ) : (
-                  <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.optionWord}>{option.hy}</Text>
+                  <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={[styles.optionWord, { fontSize: wordFontSize(option.hy, wordBox.readRow(window.width), font.word, window.fontScale) }]}>{option.hy}</Text>
                 )}
                 {isRight ? <View style={styles.check} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Icon name="check" size={32} /></View> : null}
               </Pressable>
@@ -202,7 +206,8 @@ const styles = StyleSheet.create({
   round: { fontSize: font.heading, fontWeight: '700', color: colors.textMuted, textAlign: 'center' },
   promptRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: spacing.sm },
   wordPrompt: { flexShrink: 1, alignItems: 'center', gap: spacing.xs, paddingVertical: spacing.md, paddingHorizontal: spacing.lg, borderRadius: radius.lg, backgroundColor: colors.surface, borderWidth: 2, borderColor: colors.border },
-  promptWord: { fontSize: font.word, fontWeight: '800', color: colors.text, textAlign: 'center' },
+  // Word sizes come from `wordFontSize` (long words shrink instead of breaking, #105).
+  promptWord: { fontWeight: '800', color: colors.text, textAlign: 'center' },
   promptTranslit: { fontSize: font.body, color: colors.textMuted, textAlign: 'center' },
   picture: {
     alignItems: 'center',
@@ -227,7 +232,7 @@ const styles = StyleSheet.create({
   },
   wrong: { borderColor: colors.danger, backgroundColor: '#FDE8E8', opacity: 0.6 },
   right: { borderColor: colors.success, backgroundColor: '#E3F7EC' },
-  optionWord: { fontSize: font.word, fontWeight: '800', color: colors.text, textAlign: 'center', flexShrink: 1 },
+  optionWord: { fontWeight: '800', color: colors.text, textAlign: 'center', flexShrink: 1 },
   check: { position: 'absolute', top: spacing.xs, right: spacing.sm },
   done: { flexGrow: 1, justifyContent: 'center', gap: spacing.lg },
   back: { marginTop: 'auto' },

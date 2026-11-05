@@ -13,7 +13,8 @@ import { Buddy } from '@/ui/Buddy';
 import { Confetti } from '@/ui/Confetti';
 import { Icon } from '@/ui/Icon';
 import { WordArt } from '@/ui/WordArt';
-import { colors, font, radius, spacing } from '@/ui/tokens';
+import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing } from '@/ui/tokens';
+import { wordBox, wordFontSize } from '@/ui/wordFit';
 
 import { buildMemoryDeck, type MemoryCard } from './logic';
 import { memoryLayout } from './memoryLayout';
@@ -31,6 +32,7 @@ function FlipCard({ card, open, matched, disabled, onPress, width, height, artSi
   disabled: boolean;
   onPress: () => void;
 }) {
+  const { fontScale } = useWindowDimensions();
   const [flip] = useState(() => new Animated.Value(open ? 1 : 0));
   useEffect(() => {
     Animated.timing(flip, { toValue: open ? 1 : 0, duration: 260, useNativeDriver: true }).start();
@@ -70,7 +72,7 @@ function FlipCard({ card, open, matched, disabled, onPress, width, height, artSi
         {card.kind === 'emoji' ? (
           <WordArt wordId={card.word.id} emoji={card.word.emoji} size={artSize} />
         ) : (
-          <Text style={styles.hy}>{card.word.hy}</Text>
+          <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={[styles.hy, { fontSize: wordFontSize(card.word.hy, wordBox.memoryCard(width), font.heading, fontScale) }]}>{card.word.hy}</Text>
         )}
       </Animated.View>
     </Pressable>
@@ -204,6 +206,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     elevation: 8,
   },
-  hy: { fontSize: font.heading, fontWeight: '800', color: colors.text },
+  // fontSize comes from `wordFontSize` (long words shrink instead of breaking, #105).
+  hy: { fontWeight: '800', color: colors.text },
   win: { flexGrow: 1, justifyContent: 'center', gap: spacing.lg },
 });

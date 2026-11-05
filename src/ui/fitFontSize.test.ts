@@ -11,7 +11,8 @@ test('the longest word decides; spaces may wrap', () => {
   expect(fitFontSize('Մեր տունը', 60, 30, 10)).toBe(Math.floor(60 / (5 * EM_PER_LETTER)));
 });
 
-test('larger system text shrinks the base so the scaled word still fits; never below the minimum', () => {
-  expect(fitFontSize('Զգացմունքներ', 127, 18, 12, 1.2)).toBe(12);
+test('larger system text shrinks the base so the scaled word still fits; never below the minimum on screen', () => {
+  expect(fitFontSize('Զգացմունքներ', 127, 18, 12, 1.2)).toBe(11);
+  expect(fitFontSize('Զգացմունքներ', 40, 18, 12, 1.5)).toBe(8);
   expect(fitFontSize('Զգացմունքներ', 40, 18, 12)).toBe(12);
 });

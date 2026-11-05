@@ -1,6 +1,6 @@
 import { Redirect, router, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { Alert, AppState, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, AppState, Platform, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
 import { ACTIVE_PACK, getWord } from '@/content/packs';
 import { canSeeFullReport } from '@/lib/entitlements';
@@ -18,6 +18,7 @@ import type { IconName } from '@/art/icons';
 import { BigButton } from '@/ui/BigButton';
 import { Icon } from '@/ui/Icon';
 import { Screen } from '@/ui/Screen';
+import { wordBox, wordFontSize } from '@/ui/wordFit';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing } from '@/ui/tokens';
 import { StorageErrorBanner } from '@/features/storage/StorageErrorBanner';
 import { WeeklyShareCard } from '@/features/report/WeeklyShareCard';
@@ -30,6 +31,7 @@ function toWords(ids: string[]): Word[] {
 
 export default function ParentArea() {
   const guard = useParentGuard('/parent');
+  const { fontScale } = useWindowDimensions();
   const { state, reset } = useProgress();
   const { resetTraced } = useTracedLetters();
   const { active } = useProfiles();
@@ -92,7 +94,7 @@ export default function ParentArea() {
             {learned.slice(0, LEARNED_SHOWN).map((w) => (
               <View key={w.id} style={styles.learnedItem} accessible accessibilityLabel={`${w.hy}, ${w.translit}, ${w.en}`}>
                 <WordArt wordId={w.id} emoji={w.emoji} size={48} />
-                <Text style={styles.learnedHy} numberOfLines={1}>{w.hy}</Text>
+                <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={[styles.learnedHy, { fontSize: wordFontSize(w.hy, wordBox.parentLearned(), font.small, fontScale) }]} numberOfLines={1}>{w.hy}</Text>
                 <Text style={styles.learnedEn} numberOfLines={1}>{w.en}</Text>
               </View>
             ))}
@@ -189,7 +191,8 @@ const styles = StyleSheet.create({
   statLabel: { fontSize: font.small, color: colors.textMuted },
   learned: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
   learnedItem: { width: 96, alignItems: 'center', gap: spacing.xs, padding: spacing.sm, backgroundColor: colors.surface, borderRadius: radius.md },
-  learnedHy: { fontSize: font.small, fontWeight: '700', color: colors.text },
+  // fontSize comes from `wordFontSize` (long words shrink instead of being cut off, #105).
+  learnedHy: { fontWeight: '700', color: colors.text },
   learnedEn: { fontSize: font.small, color: colors.textMuted },
   teaser: { backgroundColor: colors.surface, borderRadius: radius.md, padding: spacing.md, gap: spacing.sm },
   teaserRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, opacity: 0.72 },
