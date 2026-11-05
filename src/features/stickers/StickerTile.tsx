@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { Icon } from '@/ui/Icon';
 import { WordArt } from '@/ui/WordArt';
 import { colors, DISPLAY_MAX_FONT_SCALE, radius, TOUCH_MIN } from '@/ui/tokens';
 
@@ -30,7 +31,12 @@ export function StickerTile({ emoji, index, wordId, width, artSize }: StickerTil
   };
 
   if (!emoji) {
-    return <View style={[styles.tile, { width }, styles.empty]} accessibilityLabel="Empty sticker slot" />;
+    // A faint star says "a sticker goes here" without showing which one comes next (#107).
+    return (
+      <View style={[styles.tile, { width }, styles.empty]} accessibilityLabel="Empty sticker slot">
+        <View style={styles.emptyHint} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Icon name="starSlot" size={Math.round(artSize * 0.6)} /></View>
+      </View>
+    );
   }
 
   return (
@@ -52,4 +58,5 @@ const styles = StyleSheet.create({
   },
   filled: { width: '100%', backgroundColor: colors.surface, borderWidth: 3, borderColor: colors.star },
   empty: { borderWidth: 3, borderStyle: 'dashed', borderColor: colors.locked },
+  emptyHint: { opacity: 0.7 },
 });

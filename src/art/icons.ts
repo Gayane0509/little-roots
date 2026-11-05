@@ -2,7 +2,7 @@ import type { ArtXml } from './types';
 
 /** UI icons drawn in the word-art style (STYLE.md), so they look the same on every platform. */
 export type IconName = 'letters' | 'stickers' | 'games' | 'lock' | 'flame' | 'memory' | 'find' | 'read' | 'sprout' | 'voice' | 'point'
-  | 'chart' | 'clock' | 'bulb' | 'gear' | 'play' | 'check' | 'seed';
+  | 'chart' | 'clock' | 'bulb' | 'gear' | 'play' | 'check' | 'seed' | 'starSlot';
 
 export const ICONS: Record<IconName, ArtXml> = {
   // Two alphabet blocks; the yellow one carries the first Armenian letter's shape (Ա).
@@ -193,5 +193,9 @@ export const ICONS: Record<IconName, ArtXml> = {
 <circle cx="78" cy="94" r="4" fill="#FF9EAA" opacity="0.6"/>
 <path d="M48 80 Q52 75 58 74" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
 <path d="M46 42 Q52 46 58 54" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+</svg>`,
+  // A pale star outline for an empty sticker-book slot: a place to fill, without showing which sticker comes next (#107).
+  starSlot: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<polygon points="64 18 77 50 112 53 85 75 93 108 64 90 35 108 43 75 16 53 51 50" fill="#FFF3DC" stroke="#B8BCC6" stroke-width="5" stroke-linejoin="round"/>
 </svg>`,
 };

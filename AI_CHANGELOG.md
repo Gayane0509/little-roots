@@ -2,7 +2,15 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-05 (side session, #106 — not committed, parent session commits)
+## 2026-11-05 (side session, #107 — not committed, parent session commits)
+- claude · #107 sticker book: the 23 identical empty dashed slots looked unfinished. New `starSlot` icon in
+  `src/art/icons.ts` (pale cream star with a grey outline, no face, so it doesn't hint at the next sticker) drawn at 60% of
+  the sticker art size and 0.7 opacity in each empty slot by `StickerTile`; the slot label is unchanged. Files:
+  `src/art/icons.ts`, `src/features/stickers/StickerTile.tsx`. Checks: `npm run check` — tsc, ESLint, Jest 72 suites / 299
+  tests ✓ (art rule tests cover the icon); web [::1] Sticker book 375×812 and 768×1024: 23 starred slots, earned sticker
+  stands out, no horizontal scroll. Suggested commit: "Stickers: a faint drawn star in empty slots (#107)".
+
+## 2026-11-05 (side session, #106, committed as 7d9c87c)
 - claude · #106 theme page: words not learned yet showed a grey "?" and "Learn it in a lesson!", text a pre-reader can't
   read. New `seed` icon in `src/art/icons.ts` (a sleeping seed with closed eyes and pink cheeks in a soil mound, a tiny
   two-leaf shoot; STYLE.md outline and palette; `sprout` stays Memory's card back) shown at word-picture size and faded
