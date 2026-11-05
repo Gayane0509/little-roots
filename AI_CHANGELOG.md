@@ -2,7 +2,19 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
-## 2026-11-05 (side session, #103 — not committed, parent session commits)
+## 2026-11-05 (side session, #104 — not committed, parent session commits)
+- claude · Design review at 375×812 (Home, theme page, Stickers, Letters) → new tasks #104–#107. #104 done: theme names
+  no longer break mid-word. `src/ui/fitFontSize.ts` sizes text from its longest word (0.75 em per letter; widest measured on
+  the web 0.74) and `src/features/home/themeTitle.ts` gives the Home card and theme header text boxes from the window width
+  (system text scale capped at `DISPLAY_MAX_FONT_SCALE`); used in `ThemeCard.tsx` and `app/theme/[id].tsx`. 375: Feelings
+  18 → 14 px, Toys/Animals 16, others 18; 320: every name one line (11–18); 768: all 18. `onLayout` was tried first and
+  dropped: it gives a first frame at the old size and, in a hidden preview pane, never fires (no requestAnimationFrame).
+  Files: `src/ui/{fitFontSize.ts,fitFontSize.test.ts}`, `src/features/home/{themeTitle.ts,themeTitle.test.ts,ThemeCard.tsx}`,
+  `src/app/theme/[id].tsx`. Checks: `npm run check` — tsc, ESLint, Jest 71 suites / 295 tests ✓; web Home 375×812, 320×640,
+  768×1024 (reloaded at each size); theme header for a locked long-name theme covered by tests only. Suggested commit:
+  "Home: long theme names shrink instead of breaking mid-word (#104)".
+
+## 2026-11-05 (side session, #103, committed as 659cd7c)
 - claude · #103 Read Back on screen at 375×667 with Buddy in Armenian + English: picture and rows unchanged; `choiceLayout`
   returns `gap` (`spacing.sm` on windows under 760 px tall, `spacing.md` otherwise) and `ChoiceGame` uses it for the screen and
   the answer list (Find too). New budget test. Files: `src/features/games/{choiceLayout.ts,choiceLayout.test.ts,ChoiceGame.tsx}`.

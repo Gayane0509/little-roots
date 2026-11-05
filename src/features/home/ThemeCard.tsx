@@ -7,6 +7,8 @@ import { themeArtWordId } from '@/content/themeArt';
 import { tint } from '@/ui/contrast';
 import { Icon } from '@/ui/Icon';
 import { WordArt } from '@/ui/WordArt';
+
+import { homeCardTitleSize } from './themeTitle';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN, WIDE_BREAKPOINT } from '@/ui/tokens';
 
 interface ThemeCardProps {
@@ -21,7 +23,8 @@ interface ThemeCardProps {
 }
 
 export function ThemeCard({ theme, learned, total, unlocked, isNext = false, onOpenPress, onLockedPress }: ThemeCardProps) {
-  const wide = useWindowDimensions().width >= WIDE_BREAKPOINT;
+  const window = useWindowDimensions();
+  const wide = window.width >= WIDE_BREAKPOINT;
   const label = unlocked
     ? `${isNext ? 'Next up: ' : ''}${theme.titleHy}, ${theme.titleEn}, ${learned} of ${total} words learned. Open`
     : `${theme.titleHy}, ${theme.titleEn}, locked. Ask a grown-up to unlock`;
@@ -35,7 +38,7 @@ export function ThemeCard({ theme, learned, total, unlocked, isNext = false, onO
       {isNext ? <View style={styles.ribbon} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><SvgXml xml={BUDDY_ART.happy} width={26} height={26} /><Text style={styles.ribbonText} maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE}>Next</Text></View> : null}
       <View style={styles.art} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={themeArtWordId(theme.id)} emoji={theme.emoji} size={wide ? 72 : 56} />{!unlocked ? <View style={styles.lock}><Icon name="lock" size={26} /></View> : null}</View>
       <View style={styles.texts}>
-        <Text style={styles.titleHy}>{theme.titleHy}</Text>
+        <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={[styles.titleHy, { fontSize: homeCardTitleSize(theme.titleHy, window) }]}>{theme.titleHy}</Text>
         <Text style={styles.titleEn}>{theme.titleEn}</Text>
         <Text style={styles.count}>
           {learned}/{total}
@@ -61,7 +64,8 @@ const styles = StyleSheet.create({
   lockedCard: { borderWidth: 2, borderColor: colors.border, borderStyle: 'dashed' },
   lock: { position: 'absolute', right: -10, bottom: -6, width: 36, height: 36, borderRadius: radius.round, backgroundColor: colors.surface, borderWidth: 2, borderColor: colors.border, alignItems: 'center', justifyContent: 'center' },
   texts: { gap: 2, flexShrink: 1 },
-  titleHy: { fontSize: font.body, fontWeight: '800', color: colors.text },
+  // fontSize comes from `homeCardTitleSize` (long names shrink, #104).
+  titleHy: { fontWeight: '800', color: colors.text },
   titleEn: { fontSize: font.body, color: colors.text },
   count: { fontSize: font.small, fontWeight: '700', color: colors.textMuted },
 });

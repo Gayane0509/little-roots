@@ -2,6 +2,7 @@ import { Redirect, router, useLocalSearchParams } from 'expo-router';
 import { ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
 import { themeArtWordId } from '@/content/themeArt';
+import { HEADER_ART, themeHeaderTitleSize } from '@/features/home/themeTitle';
 import { ACTIVE_PACK } from '@/content/packs';
 import type { Word } from '@/content/types';
 import { isThemeUnlocked, themeProgress } from '@/lib/lesson';
@@ -19,7 +20,8 @@ const ART = { phone: 84, wide: 120 } as const;
 export default function ThemeDetail() {
   const { id } = useLocalSearchParams<{ id?: string }>();
   const { state, ready } = useProgress();
-  const wide = useWindowDimensions().width >= WIDE_BREAKPOINT;
+  const window = useWindowDimensions();
+  const wide = window.width >= WIDE_BREAKPOINT;
   const theme = ACTIVE_PACK.themes.find((t) => t.id === id);
 
   if (!theme) return <Redirect href="/" />;
@@ -34,9 +36,9 @@ export default function ThemeDetail() {
     <Screen background={theme.color}>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.header}>
-          <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={themeArtWordId(theme.id)} emoji={theme.emoji} size={64} /></View>
+          <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={themeArtWordId(theme.id)} emoji={theme.emoji} size={HEADER_ART} /></View>
           <View style={styles.headerTexts}>
-            <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.titleHy} accessibilityRole="header">
+            <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={[styles.titleHy, { fontSize: themeHeaderTitleSize(theme.titleHy, window) }]} accessibilityRole="header">
               {theme.titleHy}
             </Text>
             <Text style={styles.titleEn}>{theme.titleEn}</Text>
@@ -96,7 +98,8 @@ const styles = StyleSheet.create({
   sub: { fontSize: font.body, color: colors.text },
   header: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: spacing.md },
   headerTexts: { flexGrow: 1, flexShrink: 1, minWidth: '50%' },
-  titleHy: { fontSize: font.title, fontWeight: '800', color: colors.text },
+  // fontSize comes from `themeHeaderTitleSize` (long names shrink, #104).
+  titleHy: { fontWeight: '800', color: colors.text },
   titleEn: { fontSize: font.body, color: colors.text },
   count: { fontSize: font.heading, fontWeight: '800', color: colors.text, paddingRight: spacing.sm },
   bar: { height: 14, borderRadius: radius.round, backgroundColor: 'rgba(255,255,255,0.6)', overflow: 'hidden' },
