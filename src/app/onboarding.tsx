@@ -1,7 +1,7 @@
 
 import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from 'react-native';
 
 import { AVATAR_WORD_IDS, useProfiles, type AvatarWordId } from '@/state/profiles';
 import { useBuddyLine } from '@/features/buddy/useBuddyLine';
@@ -12,6 +12,7 @@ import { Buddy } from '@/ui/Buddy';
 import { Screen } from '@/ui/Screen';
 import { selectedA11y } from '@/ui/selectedA11y';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
+import { notify } from '@/lib/dialog';
 
 export default function Onboarding() {
   const line = useBuddyLine();
@@ -30,8 +31,8 @@ export default function Onboarding() {
     busyRef.current = true; setBusy(true);
     try {
       if (await add(value.trim() || 'Friend', avatar, { activate: true })) router.replace('/');
-      else { Alert.alert('Child limit reached', 'Ask a grown-up about Premium.'); router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'children' } }); }
-    } catch { Alert.alert('Could not save', 'Please try again.'); }
+      else { notify('Child limit reached', 'Ask a grown-up about Premium.'); router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'children' } }); }
+    } catch { notify('Could not save', 'Please try again.'); }
     finally { busyRef.current = false; if (mounted.current) setBusy(false); }
   };
 

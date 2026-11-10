@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-10 17:45 (+04). Updated at the end of every session._
+_Updated: 2026-11-10 18:55 (+04). Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -97,6 +97,11 @@ _Updated: 2026-11-10 17:45 (+04). Updated at the end of every session._
   Pacing: weekly 11 → 12 % this run (5-hour 21 %). To stay under the 80 % weekly cap until the 2026-11-16 reset, budget
   ~1.5 % weekly per hourly run (~13 %/day): one or two small tasks per run, then stop. Next: #117 needs a handwriting
   reference for start points (owner/native check), so prefer new review tasks; #128 (web Alert), #49 lowest.
+- 2026-11-10 18:30 run: #128 done — confirm/notice dialogs go through `src/lib/dialog.ts`, so Delete child and Reset
+  progress work in the web preview (browser confirm); native unchanged. `npm run check` 78 suites / 325 tests ✓;
+  reviewer: no findings. Web preview not opened (server start declined in the unattended run) → check Delete child
+  and Reset on web next run. Usage: 5-hour 22 %, weekly 12 %. Next: web check of #128, then a new review task
+  (privacy and children screens); #117 needs a handwriting reference; #49 lowest.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Blockers (owner)

@@ -2,6 +2,16 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-10 18:30 run
+- claude · Usage: Claude 5-hour 22 %, weekly 12 %; Codex config unchanged since 2026-10-30 (#11 still blocks it).
+- #128 system dialogs work in the web preview: new `src/lib/dialog.ts` (`notify`, `confirmAction`; browser
+  alert/confirm on web, `Alert.alert` with Cancel first on native) + `src/lib/dialog.test.ts` (4 tests). All
+  `Alert.alert` call sites switched with identical text and buttons: src/app/onboarding.tsx, src/app/profiles.tsx,
+  src/app/parent/index.tsx (Reset progress), src/app/parent/children.tsx (Delete child), src/app/parent/paywall.tsx,
+  src/features/report/WeeklyShareCard.tsx (local notify removed). Checks: `npm run check` — tsc, ESLint, Jest 78 suites
+  / 325 tests ✓. Reviewer subagent: no findings (2 optional nits: non-destructive style untested, import order).
+  Not verified: the web preview itself (the preview server start was declined in this unattended run) and native.
+
 ## 2026-11-10 17:30 run
 - claude · Usage: Claude 5-hour 13 %, weekly 11 % (weekly reset → work resumes); Codex config unchanged since
   2026-10-30, so #11 still blocks it (not re-probed). Codex cross-review unavailable; change is one string.

@@ -1,8 +1,9 @@
 import { Redirect, router, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { Alert, AppState, Platform, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { AppState, Platform, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
 import { ACTIVE_PACK, getWord } from '@/content/packs';
+import { confirmAction } from '@/lib/dialog';
 import { canSeeFullReport } from '@/lib/entitlements';
 import { WordArt } from '@/ui/WordArt';
 import type { Word } from '@/content/types';
@@ -52,18 +53,17 @@ export default function ParentArea() {
   const teaserWords = practice.length >= 3 ? practice.slice(0, 3) : ACTIVE_PACK.themes[0].words.slice(0, 3);
 
   const confirmReset = () =>
-    Alert.alert('Reset progress?', `This resets ${active?.name ?? 'your child'}'s words, stars, stickers and traced letters on this device. Family voice recordings and other children are kept.`, [
-      { text: 'Cancel', style: 'cancel' },
-      {
-        text: 'Reset',
-        style: 'destructive',
-        onPress: () => {
-          reset();
-          resetTraced();
-          router.replace('/');
-        },
+    confirmAction({
+      title: 'Reset progress?',
+      message: `This resets ${active?.name ?? 'your child'}'s words, stars, stickers and traced letters on this device. Family voice recordings and other children are kept.`,
+      confirmText: 'Reset',
+      destructive: true,
+      onConfirm: () => {
+        reset();
+        resetTraced();
+        router.replace('/');
       },
-    ]);
+    });
 
   if (guard) return guard;
   if (!settingsReady) return null;

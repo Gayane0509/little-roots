@@ -2,7 +2,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { getPurchases, type Plan } from '@/lib/purchases';
 import { useProfiles } from '@/state/profiles';
-import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { themeArtWordId } from '@/content/themeArt';
 import { useParentGuard } from '@/features/parent/gate';
 import { comparison, offerHeadline, PREMIUM_THEMES, PREMIUM_WORDS } from '@/features/paywall/offer';
@@ -12,6 +12,7 @@ import { Buddy } from '@/ui/Buddy';
 import { Screen } from '@/ui/Screen';
 import { WordArt } from '@/ui/WordArt';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
+import { notify } from '@/lib/dialog';
 
 export default function Paywall() {
   const { reason } = useLocalSearchParams<{ reason?: string }>();
@@ -25,15 +26,15 @@ export default function Paywall() {
     try {
       const result = await purchases.purchase(id);
       if (result === 'success') router.replace('/parent');
-      else if (result === 'unavailable') Alert.alert('Coming soon', 'Subscriptions are not available yet.');
-    } catch { Alert.alert('Purchase failed', 'Please try again.'); }
+      else if (result === 'unavailable') notify('Coming soon', 'Subscriptions are not available yet.');
+    } catch { notify('Purchase failed', 'Please try again.'); }
   };
   const restore = async () => {
     try {
       const restored = await purchases.restore();
-      if (restored) Alert.alert('Restored', 'Premium is active.');
-      else Alert.alert('No purchase found', __DEV__ ? 'There is no test purchase to restore.' : 'Restoring purchases is not available yet.');
-    } catch { Alert.alert('Restore failed', 'Please try again.'); }
+      if (restored) notify('Restored', 'Premium is active.');
+      else notify('No purchase found', __DEV__ ? 'There is no test purchase to restore.' : 'Restoring purchases is not available yet.');
+    } catch { notify('Restore failed', 'Please try again.'); }
   };
   if (guard) return guard;
   return <Screen><ScrollView contentContainerStyle={styles.content}>

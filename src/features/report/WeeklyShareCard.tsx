@@ -1,4 +1,4 @@
-import { Alert, Platform, Share, StyleSheet, Text, View } from 'react-native';
+import { Platform, Share, StyleSheet, Text, View } from 'react-native';
 
 import { getWord } from '@/content/packs';
 import type { Word } from '@/content/types';
@@ -7,16 +7,13 @@ import { BigButton } from '@/ui/BigButton';
 import { colors, font, radius, spacing } from '@/ui/tokens';
 
 import { weeklyShareText } from './shareText';
+import { notify } from '@/lib/dialog';
 
 interface Props {
   childName: string;
   report: ReturnType<typeof weeklyReport>;
 }
 
-function notify(message: string) {
-  if (Platform.OS === 'web' && typeof window !== 'undefined') window.alert(message);
-  else Alert.alert(message);
-}
 
 async function shareMessage(message: string) {
   // Browsers without the Web Share API: copy instead. Never copy after the parent dismissed a share sheet.

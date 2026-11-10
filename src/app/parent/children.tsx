@@ -1,9 +1,10 @@
 import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { DELETE_CHILD_MESSAGE } from '@/features/parent/deleteChildText';
 import { useParentGuard } from '@/features/parent/gate';
 import { ProfileAvatar } from '@/features/profiles/ProfileAvatar';
+import { confirmAction, notify } from '@/lib/dialog';
 import { canAddProfile, MAX_PROFILES } from '@/lib/entitlements';
 import { AVATAR_WORD_IDS, useProfiles, type AvatarWordId } from '@/state/profiles';
 import { BigButton } from '@/ui/BigButton';
@@ -29,17 +30,17 @@ export default function Children() {
     try {
       if (editingId === 'new') {
         const added = await add(name, avatar, { activate: false });
-        if (!added) { Alert.alert('Child limit reached', 'Explore Premium to add another child.'); router.push({ pathname: '/parent/paywall', params: { reason: 'children' } }); return; }
+        if (!added) { notify('Child limit reached', 'Explore Premium to add another child.'); router.push({ pathname: '/parent/paywall', params: { reason: 'children' } }); return; }
       } else if (editingId) await rename(editingId, name, avatar);
       if (mounted.current) setEditingId(null);
-    } catch { Alert.alert('Could not save', 'Please try again.'); } finally { end(); }
+    } catch { notify('Could not save', 'Please try again.'); } finally { end(); }
   };
   const confirmDelete = (id: string, childName: string) => {
     if (busyRef.current) return;
-    Alert.alert(`Delete ${childName}?`, DELETE_CHILD_MESSAGE, [{ text: 'Cancel', style: 'cancel' }, { text: 'Delete', style: 'destructive', onPress: () => {
+    confirmAction({ title: `Delete ${childName}?`, message: DELETE_CHILD_MESSAGE, confirmText: 'Delete', destructive: true, onConfirm: () => {
       if (!begin()) return;
-      void remove(id).catch(() => Alert.alert('Could not delete', 'Please try again.')).finally(end);
-    } }]);
+      void remove(id).catch(() => notify('Could not delete', 'Please try again.')).finally(end);
+    } });
   };
   return <Screen><ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
     <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} accessibilityRole="header" style={styles.title}>Children</Text>
