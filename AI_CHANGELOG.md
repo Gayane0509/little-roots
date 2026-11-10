@@ -17,6 +17,8 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   src/features/letters/TraceCanvas.tsx, README.md. Checks: `npm run check` 77 suites / 319 tests ✓; expo-doctor
   20/20; `npm audit --omit=dev` 5 moderate (unchanged). Web (1024×768): font loaded, tiles/sheet/SVG use it, every
   glyph inside the canvas. Native not checked (#10).
+- #129 Reset progress warning: "Family voice recordings and other children are kept." File: src/app/parent/index.tsx.
+  Checks: `npm run check` 319 tests ✓. Copy only (native alert, not shown on web).
 
 ## 2026-11-06 00:30 run (capacity stop)
 - claude · Usage: Claude 5-hour 2 %, **weekly 99 %** (≥ 80 % cap → review/rest only); Codex not re-probed (config

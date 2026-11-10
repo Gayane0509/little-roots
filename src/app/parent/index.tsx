@@ -52,7 +52,7 @@ export default function ParentArea() {
   const teaserWords = practice.length >= 3 ? practice.slice(0, 3) : ACTIVE_PACK.themes[0].words.slice(0, 3);
 
   const confirmReset = () =>
-    Alert.alert('Reset progress?', `This resets ${active?.name ?? 'your child'}'s words, stars, stickers and traced letters on this device. Other children are kept.`, [
+    Alert.alert('Reset progress?', `This resets ${active?.name ?? 'your child'}'s words, stars, stickers and traced letters on this device. Family voice recordings and other children are kept.`, [
       { text: 'Cancel', style: 'cancel' },
       {
         text: 'Reset',
