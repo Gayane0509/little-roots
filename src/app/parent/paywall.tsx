@@ -2,10 +2,10 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { getPurchases, type Plan } from '@/lib/purchases';
 import { useProfiles } from '@/state/profiles';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { themeArtWordId } from '@/content/themeArt';
 import { useParentGuard } from '@/features/parent/gate';
-import { comparison, offerHeadline, PREMIUM_THEMES, PREMIUM_WORDS } from '@/features/paywall/offer';
+import { comparison, offerHeadline, PREMIUM_THEMES, PREMIUM_WORDS, premiumStripLayout } from '@/features/paywall/offer';
 import { useProgress } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
@@ -19,6 +19,7 @@ export default function Paywall() {
   const guard = useParentGuard('/parent/paywall', reason);
   const { state } = useProgress();
   const { setPremium } = useProfiles();
+  const strip = premiumStripLayout(useWindowDimensions().width);
   const [plans, setPlans] = useState<Plan[]>([]);
   const purchases = useMemo(() => getPurchases(setPremium), [setPremium]);
   useEffect(() => { let active = true; void purchases.getPlans().then((items) => { if (active) setPlans(items); }); return () => { active = false; }; }, [purchases]);
@@ -43,8 +44,8 @@ export default function Paywall() {
     <Text style={styles.sub}>Choose what fits your family. Learning stays on this device.</Text>
     {/* What Premium adds, as pictures (#121): one drawing per locked theme. */}
     <View style={styles.premiumThemes} accessible accessibilityLabel={`Premium themes: ${PREMIUM_THEMES.map((theme) => theme.titleEn).join(', ')}`}>
-      <View style={styles.premiumArt} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
-        {PREMIUM_THEMES.map((theme) => <View key={theme.id} style={[styles.premiumTile, { backgroundColor: theme.color }]}><WordArt wordId={themeArtWordId(theme.id)} emoji={theme.emoji} size={40} /></View>)}
+      <View style={[styles.premiumArt, { maxWidth: strip.rowWidth }]} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+        {PREMIUM_THEMES.map((theme) => <View key={theme.id} style={[styles.premiumTile, { width: strip.tile, height: strip.tile, backgroundColor: theme.color }]}><WordArt wordId={themeArtWordId(theme.id)} emoji={theme.emoji} size={strip.art} /></View>)}
       </View>
       <Text style={styles.premiumCaption}>{PREMIUM_WORDS} more words in {PREMIUM_THEMES.length} themes</Text>
     </View>
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
   content: { gap: spacing.md, paddingVertical: spacing.lg }, title: { fontSize: font.title, fontWeight: '800', color: colors.text, textAlign: 'center' }, sub: { fontSize: font.body, color: colors.textMuted, textAlign: 'center' },
   premiumThemes: { alignItems: 'center', gap: spacing.sm },
   premiumArt: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: spacing.sm },
-  premiumTile: { width: 56, height: 56, borderRadius: radius.md, alignItems: 'center', justifyContent: 'center' },
+  premiumTile: { borderRadius: radius.md, alignItems: 'center', justifyContent: 'center' },
   premiumCaption: { fontSize: font.body, fontWeight: '700', color: colors.text, textAlign: 'center' },
   table: { borderRadius: radius.md, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border },
   tableRow: { gap: spacing.xs, minHeight: 54, padding: spacing.sm, borderTopWidth: 1, borderColor: colors.border }, cells: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },

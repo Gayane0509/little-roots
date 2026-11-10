@@ -1,6 +1,7 @@
 import { ACTIVE_PACK } from '@/content/packs';
 import { FREE_LIMITS, MAX_PROFILES } from '@/lib/entitlements';
 import type { ProgressState } from '@/state/progress.types';
+import { CONTENT_MAX_WIDTH, spacing } from '@/ui/tokens';
 
 export type OfferReason = 'themes' | 'games' | 'letters' | 'report' | 'children';
 const headlines: Record<OfferReason, string> = {
@@ -30,3 +31,18 @@ export function freeWordsFinished(state: ProgressState): boolean {
 /** The themes Premium unlocks and how many words they hold, for the paywall's picture strip (#121). */
 export const PREMIUM_THEMES = ACTIVE_PACK.themes.filter((theme) => !theme.free);
 export const PREMIUM_WORDS = PREMIUM_THEMES.reduce((sum, theme) => sum + theme.words.length, 0);
+
+const STRIP_TILE = 56;
+const STRIP_GAP = spacing.sm;
+
+/**
+ * Tile size for the paywall picture strip (#139): one row when every theme fits, otherwise two even rows
+ * (5 + 5, never 4 + 4 + 2 at 320 px), with tiles shrinking below 56 px only when two rows still don't fit.
+ */
+export function premiumStripLayout(windowWidth: number, count = PREMIUM_THEMES.length): { tile: number; art: number; rowWidth: number } {
+  const content = Math.min(windowWidth - 2 * spacing.md, CONTENT_MAX_WIDTH);
+  const span = (perRow: number, tile: number) => perRow * tile + (perRow - 1) * STRIP_GAP;
+  const perRow = span(count, STRIP_TILE) <= content ? count : Math.ceil(count / 2);
+  const tile = Math.min(STRIP_TILE, Math.floor((content - (perRow - 1) * STRIP_GAP) / perRow));
+  return { tile, art: Math.round((tile * 40) / STRIP_TILE), rowWidth: span(perRow, tile) };
+}

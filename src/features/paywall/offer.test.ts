@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals';
-import { comparison, freeWordsFinished, offerHeadline, parseOfferReason, PREMIUM_THEMES, PREMIUM_WORDS } from './offer';
+import { comparison, freeWordsFinished, offerHeadline, parseOfferReason, PREMIUM_THEMES, PREMIUM_WORDS, premiumStripLayout } from './offer';
 import { ACTIVE_PACK } from '@/content/packs';
 import type { ProgressState } from '@/state/progress.types';
 
@@ -24,4 +24,17 @@ test('the paywall picture strip matches the comparison table (#121)', () => {
   expect(PREMIUM_THEMES.length).toBeGreaterThan(0);
   expect(PREMIUM_THEMES.every((theme) => !theme.free)).toBe(true);
   expect(Number(words?.free) + PREMIUM_WORDS).toBe(Number(words?.premium));
+});
+
+test('the picture strip makes even rows and stays inside the column (#139)', () => {
+  for (const width of [280, 320, 375, 414, 768, 1024]) {
+    const { tile, art, rowWidth } = premiumStripLayout(width, 10);
+    expect(rowWidth).toBeLessThanOrEqual(width - 32);
+    const perRow = (rowWidth + 8) / (tile + 8);
+    expect([5, 10]).toContain(perRow);
+    expect(art).toBeLessThan(tile);
+  }
+  expect(premiumStripLayout(375, 10).tile).toBe(56);
+  expect(premiumStripLayout(320, 10)).toEqual({ tile: 51, art: 36, rowWidth: 287 });
+  expect(premiumStripLayout(1024, 10).rowWidth).toBe(632);
 });

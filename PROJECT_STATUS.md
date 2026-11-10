@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-10 22:40 (+04). Updated at the end of every session._
+_Updated: 2026-11-10 23:40 (+04). Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -120,6 +120,9 @@ _Updated: 2026-11-10 22:40 (+04). Updated at the end of every session._
   suites / 332 tests ✓). #138 the Report names the child ("Mari has explored 24 words"; 82 suites / 335 tests ✓).
   Usage: 5-hour 14 %, weekly 15 %. Next: new review tasks (Paywall and Stickers at 320 px), #117 handwriting
   reference; #49 lowest.
+- 2026-11-10 23:30 run: Stickers at 320 px fits (#140 logged: outfit unlock count is easy to misread). #139 paywall
+  Premium theme strip in even rows (5 + 5 at 320 px, was 4 + 4 + 2; web 320/375/1024; 82 suites / 336 tests ✓).
+  Usage: 5-hour 18 %, weekly 16 %. Next: #140 sticker pips toward an outfit, #117 handwriting reference; #49 lowest.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Blockers (owner)

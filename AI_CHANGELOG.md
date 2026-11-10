@@ -2,6 +2,17 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-10 23:30 run
+- claude · Usage: Claude 5-hour 18 %, weekly 16 %; Codex config unchanged (#11 still blocks it; small UI diff checked
+  in the browser instead of a Codex review).
+- Review: Stickers at 320 px fits (earned tiles only look small mid bounce-in; scale 1 after). Outfit "★ 1" under a
+  lock means "1 more sticker" (hat needs 3) — easy to misread → #140.
+- #139 Paywall picture strip in even rows: `premiumStripLayout` in src/features/paywall/offer.ts (+ test) sizes the
+  10 Premium theme tiles from the window — one row when all fit, else two rows of five, tiles below 56 px only when
+  needed; src/app/parent/paywall.tsx uses it (row maxWidth keeps 5 + 5). Web (127.0.0.1:8095, through the gate):
+  320×640 two rows of five 51 px tiles (17–304, was 4 + 4 + 2), 375×812 two rows of 56 px, 1024×768 one row; no
+  horizontal scroll, no console errors. `npm run check`: tsc ✓, ESLint ✓, Jest 82 suites / 336 tests ✓.
+
 ## 2026-11-10 22:30 run
 - claude · Usage: Claude 5-hour 14 %, weekly 15 %; Codex config unchanged since 2026-10-30 (#11 still blocks it;
   Codex review skipped, small UI diff checked in the browser).
