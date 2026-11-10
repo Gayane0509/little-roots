@@ -54,3 +54,8 @@ Content lives behind the `LanguagePack` interface (`src/content/packs/`). Armeni
    letters are saved per child and per language, so switching packs never mixes progress. What's still missing is a
    parent-facing language picker that sets the active pack; it waits until a second pack has native-speaker content.
 3. Have a native speaker review all text before release.
+
+## Third-party font
+
+Big alphabet letters use Noto Sans Armenian Bold (© Google / Noto Project, SIL Open Font License 1.1), bundled from
+`@expo-google-fonts/noto-sans-armenian` (licence text: `node_modules/@expo-google-fonts/noto-sans-armenian/LICENSE_FONT`).

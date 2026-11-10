@@ -87,7 +87,8 @@
           "color": "#FF8C42"
         }
       ],
-      "expo-asset"
+      "expo-asset",
+      "expo-font"
     ],
     "scheme": "littleroots"
   }

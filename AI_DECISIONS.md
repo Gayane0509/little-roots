@@ -175,5 +175,8 @@ Durable decisions with reasons. Newest first. Earlier ones are summarized from `
   `useFonts` before `StartupGate` opens (keeps the no-flash rule, #5; `SPLASH_MAX_MS` still caps it).
 - Risks: native embedding can only be checked after the Xcode update (#10); app size grows ~30–60 KB per weight.
 - Success: web and native screenshots show the same glyphs; startup measure `lr:startup` not slower on web.
-- Status: not started. #117 dot data must still be checked by eye per letter (an outline's first point is not a
+- Done 2026-11-10: runtime `useFonts` in `StartupGate` (works on native without a rebuild; the bare `expo-font`
+  plugin added by `expo install` embeds nothing). Letters grid, letter sheet and tracing letter use it, no `fontWeight`.
+  Web: all 38+38 glyphs' ink fits the 255 px canvas (top ≥ 17, bottom ≤ 216). Audit unchanged (5 moderate), doctor 20/20.
+- #117 dot data must still be checked by eye per letter (an outline's first point is not a
   writing start), so #117 needs a contact sheet review after #127.

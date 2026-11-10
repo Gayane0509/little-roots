@@ -11,7 +11,9 @@ jest.mock('react-native', () => {
     View: ({ testID }: { testID?: string }) => React.createElement('div', { 'data-testid': testID }),
   };
 });
-const mockState = { settingsReady: false, progressReady: false, released: false };
+const mockState = { settingsReady: false, progressReady: false, released: false, fontLoaded: true, fontError: null as Error | null };
+jest.mock('expo-font', () => ({ useFonts: () => [mockState.fontLoaded, mockState.fontError] }));
+jest.mock('@/ui/letterFont', () => ({ LETTER_FONTS: {} }));
 jest.mock('@/state/settings', () => ({ useSettings: () => ({ ready: mockState.settingsReady }) }));
 jest.mock('@/state/progress', () => ({ useProgress: () => ({ ready: mockState.progressReady }) }));
 jest.mock('@/lib/splash', () => ({
@@ -37,7 +39,7 @@ beforeEach(() => {
   const { JSDOM } = require('jsdom');
   const dom = new JSDOM('<!doctype html><html><body></body></html>');
   Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true, window: dom.window, document: dom.window.document });
-  Object.assign(mockState, { settingsReady: false, progressReady: false, released: false });
+  Object.assign(mockState, { settingsReady: false, progressReady: false, released: false, fontLoaded: true, fontError: null });
   splash.releaseSplash.mockClear();
 });
 afterEach(async () => { if (root) await act(async () => root?.unmount()); root = null; document.body.innerHTML = ''; });
@@ -61,4 +63,14 @@ test('after the splash is gone (profile switch), screens render while progress l
   await render();
   expect(blank()).toBeNull();
   expect(document.body.textContent).toContain('screens');
+});
+test('first launch also waits for the letter font (#127); a font that fails to load does not block', async () => {
+  Object.assign(mockState, { settingsReady: true, progressReady: true, fontLoaded: false });
+  await render();
+  expect(blank()).not.toBeNull();
+  expect(splash.releaseSplash).not.toHaveBeenCalled();
+  mockState.fontError = new Error('font failed');
+  await render();
+  expect(blank()).toBeNull();
+  expect(splash.releaseSplash).toHaveBeenCalledTimes(1);
 });

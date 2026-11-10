@@ -11,6 +11,7 @@ import { BigButton } from '@/ui/BigButton';
 import { Icon } from '@/ui/Icon';
 import { IconTitle } from '@/ui/IconTitle';
 import { Screen } from '@/ui/Screen';
+import { LETTER_FONT } from '@/ui/letterFont';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN, WIDE_BREAKPOINT } from '@/ui/tokens';
 
 const TILE_COLORS = ['#FFD6A5', '#CDE7FF', '#CAFFBF', '#FFC8DD', '#FDFFB6', '#E0C3FC'];
@@ -67,9 +68,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   tileWide: { width: '15%', minHeight: TOUCH_MIN + 44 },
-  upper: { fontSize: 34, fontWeight: '800', color: colors.text },
+  upper: { fontSize: 34, fontFamily: LETTER_FONT, color: colors.text },
   upperWide: { fontSize: 46 },
   star: { position: 'absolute', right: 4, top: 4, fontSize: 16 },
-  lower: { fontSize: font.heading, fontWeight: '700', color: colors.textMuted },
+  lower: { fontSize: font.heading, fontFamily: LETTER_FONT, color: colors.textMuted },
   lowerWide: { fontSize: font.title },
 });

@@ -10,6 +10,13 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   src/app/parent/children.tsx. Checks: `npm run check` — tsc, ESLint, Jest 77 suites / 318 tests ✓. Web: Children
   screen renders behind the gate, no app console errors (the alert itself is a no-op on web → #128).
 - #117 blocked (system fonts differ per platform → #127 bundle an Armenian font first). New: #127, #128.
+- #127 bundled Noto Sans Armenian Bold (50 KB, OFL) for big letters: Letters grid, letter sheet, tracing guide letter;
+  first launch waits for it (a failed load doesn't block; splash timeout still caps). Files: package.json,
+  package-lock.json, app.json (expo-font plugin from `expo install`), src/ui/letterFont.ts,
+  src/features/startup/StartupGate.tsx (+ test), src/app/letters.tsx, src/features/letters/LetterDetail.tsx,
+  src/features/letters/TraceCanvas.tsx, README.md. Checks: `npm run check` 77 suites / 319 tests ✓; expo-doctor
+  20/20; `npm audit --omit=dev` 5 moderate (unchanged). Web (1024×768): font loaded, tiles/sheet/SVG use it, every
+  glyph inside the canvas. Native not checked (#10).
 
 ## 2026-11-06 00:30 run (capacity stop)
 - claude · Usage: Claude 5-hour 2 %, **weekly 99 %** (≥ 80 % cap → review/rest only); Codex not re-probed (config

@@ -91,7 +91,8 @@ _Updated: 2026-11-10 17:40 (+04). Updated at the end of every session._
   Codex not re-probed (`~/.codex/config.toml` unchanged since 2026-10-30, so #11 still blocks). No app change.
 - 2026-11-10 17:30 run: weekly limit reset (Claude 5-hour 13 %, weekly 11 %); Codex still blocked (#11). #126 done:
   delete-child warning names Family voice recordings. #117 blocked on #127 (bundle an Armenian font: system fonts differ
-  per platform). `npm run check` 77 suites / 318 tests ✓.
+  per platform) → #127 done the same run: Noto Sans Armenian Bold bundled for big letters (web-checked; native → #10);
+  #117 unblocked. `npm run check` 77 suites / 319 tests ✓.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Blockers (owner)

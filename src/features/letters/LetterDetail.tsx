@@ -17,6 +17,7 @@ import { letterExampleArtId } from './exampleArt';
 import { highlightLetter } from './exampleHighlight';
 import { TraceCanvas } from './TraceCanvas';
 import { isTraceGoodEnough } from './tracing';
+import { LETTER_FONT } from '@/ui/letterFont';
 import { colors, CONTENT_MAX_WIDTH, DISPLAY_MAX_FONT_SCALE, font, radius, spacing } from '@/ui/tokens';
 
 interface LetterDetailProps {
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
   },
   content: { padding: spacing.lg, gap: spacing.md },
   feedback: { minHeight: 56, justifyContent: 'center' },
-  letters: { fontSize: 104, fontWeight: '800', color: colors.primaryText, textAlign: 'center' },
+  letters: { fontSize: 104, fontFamily: LETTER_FONT, color: colors.primaryText, textAlign: 'center' },
   name: { fontSize: font.title, fontWeight: '800', color: colors.text, textAlign: 'center' },
   sound: { fontSize: font.body, color: colors.textMuted, textAlign: 'center' },
   example: {
