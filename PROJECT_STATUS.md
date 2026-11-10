@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-10 21:50 (+04). Updated at the end of every session._
+_Updated: 2026-11-10 22:40 (+04). Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -115,6 +115,10 @@ _Updated: 2026-11-10 21:50 (+04). Updated at the end of every session._
   tests ✓. Usage: 5-hour 9 %, weekly 14 %.
   #136 "Playing now" tag on the active child (two or more children; 80 suites / 329 tests ✓). Next: new review tasks
   (Family voice screen at 320 px, Report with two children), #117 handwriting reference; #49 lowest.
+- 2026-11-10 22:30 run: Family voice at 320 px fits. #137 its messages (microphone off + Open Settings, save/delete
+  errors, saved, deleted) show in the row of the word they are about, not above the 104-word list (web-checked; 81
+  suites / 332 tests ✓). Usage: 5-hour 14 %, weekly 15 %. Next: Report with two children, #117 handwriting reference;
+  #49 lowest.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Blockers (owner)

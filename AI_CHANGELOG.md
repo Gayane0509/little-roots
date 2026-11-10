@@ -2,6 +2,16 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-10 22:30 run
+- claude · Usage: Claude 5-hour 14 %, weekly 15 %; Codex config unchanged since 2026-10-30 (#11 still blocks it;
+  Codex review skipped, small UI diff checked in the browser).
+- #137 Family voice messages beside their word: new src/features/parent/voiceNotice.ts (`VoiceNotice`, `VOICE_NOTICE`,
+  `noticeForWord`) + voiceNotice.test.ts (3 tests); src/app/parent/voice.tsx shows the message and Open Settings in the
+  row of the word they are about instead of above the list. Web (localhost:8095, through the gate) 320×640: Family voice
+  fits (no horizontal overflow); Record on tatik, then papik (the preview denies the microphone) — the message shows
+  in the tapped row, inside the card (34–286 px); no console errors. Saved/Deleted messages not seen on web (no
+  microphone); native → #61. Checks: `npm run check` — tsc, ESLint, Jest 81 suites / 332 tests ✓. Commit: see git log (#137).
+
 ## 2026-11-10 21:30 run
 - claude · Usage: Claude 5-hour 9 %, weekly 14 %; Codex config unchanged since 2026-10-30 (#11 still blocks it;
   Codex review skipped, three-line style change checked in the browser).

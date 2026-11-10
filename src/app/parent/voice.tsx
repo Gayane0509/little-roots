@@ -7,6 +7,7 @@ import { ACTIVE_PACK } from '@/content/packs';
 import { themeArtWordId } from '@/content/themeArt';
 import type { ThemeId, Word } from '@/content/types';
 import { useParentGuard } from '@/features/parent/gate';
+import { noticeForWord, VOICE_NOTICE, type VoiceNotice } from '@/features/parent/voiceNotice';
 import { RECORDING_AUDIO_MODE, restorePlaybackAudioMode } from '@/lib/audioSession';
 import { chunk } from '@/lib/chunk';
 import { useFamilyVoice } from '@/state/familyVoice';
@@ -35,8 +36,7 @@ export default function FamilyVoiceScreen() {
   const [recordingId, setRecordingId] = useState<string | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const [message, setMessage] = useState('');
-  const [permissionDenied, setPermissionDenied] = useState(false);
+  const [notice, setNotice] = useState<VoiceNotice | null>(null);
   const recordingRef = useRef<string | null>(null);
   const autoStop = useRef<ReturnType<typeof setTimeout> | null>(null);
   const stopRef = useRef<() => Promise<void>>(async () => {});
@@ -66,20 +66,18 @@ export default function FamilyVoiceScreen() {
     try {
       const permission = await requestRecordingPermissionsAsync();
       if (!permission.granted) {
-        setPermissionDenied(true);
-        setMessage('Microphone access is off, so words can\'t be recorded. You can turn it on in Settings.');
+        setNotice({ wordId: word.id, text: VOICE_NOTICE.permissionDenied, permissionDenied: true });
         return;
       }
-      setPermissionDenied(false);
       await setAudioModeAsync(RECORDING_AUDIO_MODE);
       await recorder.prepareToRecordAsync();
       recorder.record();
       recordingRef.current = word.id;
       setRecordingId(word.id);
-      setMessage(`Recording "${word.translit}"… say the word, then tap Stop.`);
+      setNotice({ wordId: word.id, text: VOICE_NOTICE.recording(word.translit) });
       autoStop.current = setTimeout(() => { void stopRef.current(); }, MAX_RECORDING_MS);
     } catch {
-      setMessage('Could not start recording. Please try again.');
+      setNotice({ wordId: word.id, text: VOICE_NOTICE.startFailed });
       await restorePlaybackAudioMode();
     } finally { setBusy(false); }
   }
@@ -90,13 +88,13 @@ export default function FamilyVoiceScreen() {
     if (autoStop.current) { clearTimeout(autoStop.current); autoStop.current = null; }
     recordingRef.current = null;
     setBusy(true);
-    setMessage('Saving…');
+    setNotice({ wordId, text: VOICE_NOTICE.saving });
     try {
       await recorder.stop();
       if (!recorder.uri) throw new Error('No recording file');
       await voice.save(wordId, recorder.uri);
-      setMessage(Platform.OS === 'web' ? 'Saved for this visit (web preview: recordings are kept until the page reloads).' : 'Saved on this device.');
-    } catch { setMessage('Could not save the recording. Please try again.'); }
+      setNotice({ wordId, text: Platform.OS === 'web' ? VOICE_NOTICE.savedWeb : VOICE_NOTICE.savedDevice });
+    } catch { setNotice({ wordId, text: VOICE_NOTICE.saveFailed }); }
     finally {
       setRecordingId(null);
       await restorePlaybackAudioMode();
@@ -107,8 +105,8 @@ export default function FamilyVoiceScreen() {
 
   async function remove(word: Word) {
     setConfirmDeleteId(null);
-    try { await voice.remove(word.id); setMessage(`Deleted the recording of "${word.translit}".`); }
-    catch { setMessage('Could not delete the recording. Please try again.'); }
+    try { await voice.remove(word.id); setNotice({ wordId: word.id, text: VOICE_NOTICE.deleted(word.translit) }); }
+    catch { setNotice({ wordId: word.id, text: VOICE_NOTICE.deleteFailed }); }
   }
 
   if (guard) return guard;
@@ -141,8 +139,6 @@ export default function FamilyVoiceScreen() {
                 selected={filter === theme.id} onPress={() => setFilter(theme.id)} />;
             })}
           </ScrollView>
-          {!!message && <Text accessibilityLiveRegion="polite" style={styles.message}>{message}</Text>}
-          {permissionDenied && Platform.OS !== 'web' && <BigButton label="Open Settings" color={colors.textMuted} onPress={() => { void Linking.openSettings(); }} />}
         </View>}
         renderSectionHeader={({ section }) => <Text accessibilityRole="header" style={styles.section}>{section.title}</Text>}
         renderItem={({ item: row }) => (
@@ -159,6 +155,7 @@ export default function FamilyVoiceScreen() {
         const recorded = !!voice.uris[word.id];
         const isRecording = recordingId === word.id;
         const othersBusy = busy || (!!recordingId && !isRecording);
+        const rowNotice = noticeForWord(notice, word.id);
         return (
           <View key={word.id} style={[styles.row, styles.cell, isRecording && styles.rowRecording]}>
             <View style={styles.word}>
@@ -169,6 +166,8 @@ export default function FamilyVoiceScreen() {
                 <Text style={[styles.status, recorded && styles.statusDone]}>{isRecording ? 'Recording…' : recorded ? 'Recorded' : 'Not recorded yet'}</Text>
               </View>
             </View>
+            {rowNotice && <Text accessibilityLiveRegion="polite" style={styles.message}>{rowNotice.text}</Text>}
+            {rowNotice?.permissionDenied && Platform.OS !== 'web' && <BigButton label="Open Settings" color={colors.textMuted} onPress={() => { void Linking.openSettings(); }} />}
             {confirmDeleteId === word.id ? (
               <View style={styles.buttons}>
                 <Text style={styles.confirm}>Delete this recording?</Text>
