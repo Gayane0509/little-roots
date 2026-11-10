@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-10 17:40 (+04). Updated at the end of every session._
+_Updated: 2026-11-10 17:45 (+04). Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -94,6 +94,9 @@ _Updated: 2026-11-10 17:40 (+04). Updated at the end of every session._
   per platform) → #127 done the same run: Noto Sans Armenian Bold bundled for big letters (web-checked; native → #10);
   #117 unblocked (but start points need a handwriting reference check). #129 reset warning says recordings are kept;
   #130 example word fits at 320 px; #131 font wait capped by the splash timeout. `npm run check` 77 suites / 321 tests ✓.
+  Pacing: weekly 11 → 12 % this run (5-hour 21 %). To stay under the 80 % weekly cap until the 2026-11-16 reset, budget
+  ~1.5 % weekly per hourly run (~13 %/day): one or two small tasks per run, then stop. Next: #117 needs a handwriting
+  reference for start points (owner/native check), so prefer new review tasks; #128 (web Alert), #49 lowest.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Blockers (owner)

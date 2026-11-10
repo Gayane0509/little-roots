@@ -180,3 +180,8 @@ Durable decisions with reasons. Newest first. Earlier ones are summarized from `
   Web: all 38+38 glyphs' ink fits the 255 px canvas (top ≥ 17, bottom ≤ 216). Audit unchanged (5 moderate), doctor 20/20.
 - #117 dot data must still be checked by eye per letter (an outline's first point is not a
   writing start), so #117 needs a contact sheet review after #127.
+
+## 2026-11-10 — Weekly pacing for the hourly runs
+- Last week the Claude weekly limit hit 98 % by 2026-11-05 and four days of runs could only check usage. From now on
+  each hourly run budgets about 1.5 % of the weekly limit (80 % cap ÷ ~6 days ÷ 8 runs) and stops at a checkpoint when
+  it reaches it, even inside the 50-minute window.
