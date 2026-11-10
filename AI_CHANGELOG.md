@@ -2,6 +2,14 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-10 20:30 run
+- claude · Usage: Claude 5-hour 6 → 7 %, weekly 14 %; Codex config unchanged since 2026-10-30 (#11 still blocks it;
+  Codex review skipped, one-line style change).
+- #134 Reminders time chips fill their rows: src/app/parent/reminders.tsx (`minWidth: '30%'` → `flexGrow: 1,
+  flexBasis: '30%'`). Web (localhost:8095, through the gate) 320×640: chips 16–107 / 213–304 (were 16–102 / 205–291),
+  no horizontal scroll; 1024×768: three equal chips across the column; no console errors. Settings at 320×640: no
+  overflow, no change. Checks: `npm run check` — tsc, ESLint, Jest 79 suites / 327 tests ✓. Commit: see git log (#134).
+
 ## 2026-11-10 19:30 run
 - claude · Usage: Claude 5-hour 0 %, weekly 13 %; Codex config unchanged since 2026-10-30 (#11 still blocks it; Codex
   review skipped, copy-only change).

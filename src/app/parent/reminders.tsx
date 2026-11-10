@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   card: { backgroundColor: colors.surface, borderRadius: radius.md, padding: spacing.md, gap: spacing.md },
   presets: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
   chip: {
-    minWidth: '30%', minHeight: TOUCH_MIN, borderRadius: radius.md,
+    flexGrow: 1, flexBasis: '30%', minHeight: TOUCH_MIN, borderRadius: radius.md,
     backgroundColor: colors.surface, borderColor: colors.border, borderWidth: 2,
     alignItems: 'center', justifyContent: 'center', paddingHorizontal: spacing.sm,
   },
