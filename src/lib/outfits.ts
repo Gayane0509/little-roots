@@ -14,6 +14,11 @@ export function stickersNeeded(outfit: BuddyOutfit, stickerCount: number): numbe
   return Math.max(0, OUTFIT_UNLOCK[outfit] - stickerCount);
 }
 
+/** Share of the way to unlocking `outfit` (0–1), for the dress-up progress bar (#140). */
+export function outfitProgress(outfit: BuddyOutfit, stickerCount: number): number {
+  return Math.min(1, Math.max(0, stickerCount) / OUTFIT_UNLOCK[outfit]);
+}
+
 export function unlockedOutfits(stickerCount: number): BuddyOutfit[] {
   return BUDDY_OUTFITS.filter((outfit) => stickersNeeded(outfit, stickerCount) === 0);
 }

@@ -12,6 +12,11 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   needed; src/app/parent/paywall.tsx uses it (row maxWidth keeps 5 + 5). Web (127.0.0.1:8095, through the gate):
   320×640 two rows of five 51 px tiles (17–304, was 4 + 4 + 2), 375×812 two rows of 56 px, 1024×768 one row; no
   horizontal scroll, no console errors. `npm run check`: tsc ✓, ESLint ✓, Jest 82 suites / 336 tests ✓.
+- #140 Dress-up progress bar: `outfitProgress` in src/lib/outfits.ts (+ test); src/features/stickers/OutfitPicker.tsx
+  shows a star and a gold bar (stickers earned of the unlock count) on each locked outfit instead of the "★ N more"
+  number; screen-reader labels unchanged ("Party hat, locked: 1 more sticker"). Web (127.0.0.1:8095) 2 stickers:
+  320×640 2×2 tiles with bars at 2/3, 2/6, 2/10, inside the tiles; 1024×768 one row of 140 px tiles; no console
+  errors. `npm run check`: tsc ✓, ESLint ✓, Jest 82 suites / 337 tests ✓.
 
 ## 2026-11-10 22:30 run
 - claude · Usage: Claude 5-hour 14 %, weekly 15 %; Codex config unchanged since 2026-10-30 (#11 still blocks it;

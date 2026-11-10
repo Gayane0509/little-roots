@@ -122,7 +122,9 @@ _Updated: 2026-11-10 23:40 (+04). Updated at the end of every session._
   reference; #49 lowest.
 - 2026-11-10 23:30 run: Stickers at 320 px fits (#140 logged: outfit unlock count is easy to misread). #139 paywall
   Premium theme strip in even rows (5 + 5 at 320 px, was 4 + 4 + 2; web 320/375/1024; 82 suites / 336 tests ✓).
-  Usage: 5-hour 18 %, weekly 16 %. Next: #140 sticker pips toward an outfit, #117 handwriting reference; #49 lowest.
+  #140 locked outfits show a gold progress bar toward their unlock instead of "★ N" (web 320 + 1024; 82 suites /
+  337 tests ✓). Usage at start: 5-hour 18 %, weekly 16 %. Next: new review tasks (Letters list and Games list at
+  320 px, lesson flow on tablet), #117 handwriting reference; #49 lowest.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Blockers (owner)

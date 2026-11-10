@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals';
 
-import { isBuddyOutfit, outfitUnlockedBy, stickersNeeded, unlockedOutfits, wornOutfit } from './outfits';
+import { isBuddyOutfit, outfitProgress, outfitUnlockedBy, stickersNeeded, unlockedOutfits, wornOutfit } from './outfits';
 
 test('outfits unlock at 3, 6 and 10 stickers', () => {
   expect(unlockedOutfits(0)).toEqual([]);
@@ -34,4 +34,11 @@ test('names the outfit a new sticker unlocks, only when it crosses the threshold
   expect(outfitUnlockedBy(5, 6)).toBe('glasses');
   expect(outfitUnlockedBy(9, 10)).toBe('crown');
   expect(outfitUnlockedBy(10, 10)).toBeUndefined();
+});
+
+test('progress toward an outfit fills as stickers come in (#140)', () => {
+  expect(outfitProgress('hat', 0)).toBe(0);
+  expect(outfitProgress('hat', 2)).toBeCloseTo(2 / 3);
+  expect(outfitProgress('crown', 5)).toBe(0.5);
+  expect(outfitProgress('glasses', 12)).toBe(1);
 });

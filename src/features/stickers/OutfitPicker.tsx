@@ -1,11 +1,11 @@
-import { Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 
 import { BUDDY_ART, BUDDY_OUTFIT_ART, BUDDY_OUTFITS, type BuddyOutfit } from '@/art/buddy';
-import { OUTFIT_LABEL, stickersNeeded } from '@/lib/outfits';
+import { OUTFIT_LABEL, outfitProgress, stickersNeeded } from '@/lib/outfits';
 import { Icon } from '@/ui/Icon';
 import { selectedA11y } from '@/ui/selectedA11y';
-import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
+import { colors, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
 
 interface OutfitPickerProps {
   stickerCount: number;
@@ -37,14 +37,15 @@ export function OutfitPicker({ stickerCount, worn, onPick }: OutfitPickerProps) 
         const needed = outfit ? stickersNeeded(outfit, stickerCount) : 0;
         const selected = (worn ?? null) === outfit;
         const name = outfit ? OUTFIT_LABEL[outfit] : 'No dress-up';
-        if (needed > 0) {
+        if (outfit && needed > 0) {
           return (
             <View key={outfit} style={[styles.tile, column, styles.locked]} accessible accessibilityLabel={`${name}, locked: ${needed} more ${needed === 1 ? 'sticker' : 'stickers'}`}>
               <View style={styles.dim}><OutfitPortrait outfit={outfit} /></View>
               <View style={styles.lockBadge} accessible={false}><Icon name="lock" size={26} /></View>
+              {/* A bar, not a number (#140): "★ 1" read as "needs 1" to a child who already has 2. */}
               <View style={styles.need} accessible={false}>
                 <Icon name="stickers" size={18} />
-                <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.needText}>{needed}</Text>
+                <View style={styles.track}><View style={[styles.fill, { width: `${Math.round(outfitProgress(outfit, stickerCount) * 100)}%` }]} /></View>
               </View>
             </View>
           );
@@ -79,6 +80,7 @@ const styles = StyleSheet.create({
   half: { width: '46%' },
   portrait: { width: '82%', aspectRatio: 1 },
   lockBadge: { position: 'absolute', top: spacing.xs, right: spacing.xs },
-  need: { position: 'absolute', bottom: spacing.xs, flexDirection: 'row', alignItems: 'center', gap: 2 },
-  needText: { fontSize: font.small, fontWeight: '800', color: colors.text },
+  need: { position: 'absolute', bottom: spacing.xs, left: '14%', right: '14%', flexDirection: 'row', alignItems: 'center', gap: spacing.xs },
+  track: { flex: 1, height: 8, borderRadius: radius.round, backgroundColor: colors.locked, overflow: 'hidden' },
+  fill: { height: '100%', borderRadius: radius.round, backgroundColor: colors.star },
 });
