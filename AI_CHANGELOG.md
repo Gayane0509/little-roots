@@ -19,6 +19,11 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   glyph inside the canvas. Native not checked (#10).
 - #129 Reset progress warning: "Family voice recordings and other children are kept." File: src/app/parent/index.tsx.
   Checks: `npm run check` 319 tests ✓. Copy only (native alert, not shown on web).
+- #130 letter-sheet example word fits its box in the bundled font (`wordBox.letterExample`, src/ui/wordFit.ts + test,
+  src/features/letters/LetterDetail.tsx). Web 320×568: all 39 example words on one line.
+- #131 reviewer subagent on #127: no blockers; low finding fixed — StartupGate stops waiting for the font after
+  `SPLASH_MAX_MS` (src/features/startup/StartupGate.tsx + 2 tests). Android SVG bold weight to check on device (#10).
+  Checks: `npm run check` 77 suites / 321 tests ✓.
 
 ## 2026-11-06 00:30 run (capacity stop)
 - claude · Usage: Claude 5-hour 2 %, **weekly 99 %** (≥ 80 % cap → review/rest only); Codex not re-probed (config

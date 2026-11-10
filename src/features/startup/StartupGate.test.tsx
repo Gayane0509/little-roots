@@ -17,6 +17,7 @@ jest.mock('@/ui/letterFont', () => ({ LETTER_FONTS: {} }));
 jest.mock('@/state/settings', () => ({ useSettings: () => ({ ready: mockState.settingsReady }) }));
 jest.mock('@/state/progress', () => ({ useProgress: () => ({ ready: mockState.progressReady }) }));
 jest.mock('@/lib/splash', () => ({
+  SPLASH_MAX_MS: 4000,
   isSplashReleased: () => mockState.released,
   releaseSplash: jest.fn(() => { mockState.released = true; }),
 }));
@@ -72,5 +73,24 @@ test('first launch also waits for the letter font (#127); a font that fails to l
   mockState.fontError = new Error('font failed');
   await render();
   expect(blank()).toBeNull();
+  expect(document.body.textContent).toContain('screens');
   expect(splash.releaseSplash).toHaveBeenCalledTimes(1);
+});
+test('a slow letter font stops holding the screens after the splash cap', async () => {
+  jest.useFakeTimers();
+  try {
+    Object.assign(mockState, { settingsReady: true, progressReady: true, fontLoaded: false });
+    await render();
+    expect(blank()).not.toBeNull();
+    await act(async () => { jest.advanceTimersByTime(3999); });
+    expect(blank()).not.toBeNull();
+    await act(async () => { jest.advanceTimersByTime(1); });
+    expect(document.body.textContent).toContain('screens');
+    expect(splash.releaseSplash).toHaveBeenCalledTimes(1);
+  } finally { jest.useRealTimers(); }
+});
+test('after the splash is gone, screens render while the font is still loading', async () => {
+  Object.assign(mockState, { settingsReady: true, released: true, fontLoaded: false });
+  await render();
+  expect(document.body.textContent).toContain('screens');
 });
