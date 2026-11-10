@@ -2,6 +2,19 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-10 21:30 run
+- claude · Usage: Claude 5-hour 9 %, weekly 14 %; Codex config unchanged since 2026-10-30 (#11 still blocks it;
+  Codex review skipped, three-line style change checked in the browser).
+- #135 Children rows fit at 320 px: src/app/parent/children.tsx — the name sits in a wrapping row with Edit/Delete
+  (`info`, `actions` styles; name `minWidth: 0`), so a name too long for one line moves Edit/Delete under it. Before, on
+  web at 320 px with a 20-character name, Delete ended at 313 px (card edge 304) and Edit/Delete didn't line up between
+  rows. Web (localhost:8095, through the gate, test child added in preview storage) 320×640: "Anahit-Mariam Sargis" wraps
+  at word breaks, Edit 156–220 / Delete 228–296 on both rows; "Alexandrapetrosyanaa" (no spaces) stays inside the card;
+  1024×768: one line per child, actions aligned; renamed through Edit → Save; no console errors.
+- #128 Delete child checked on web: confirm text = the #126 warning; accepting removed the test child (preview storage
+  back to Mari only). The browser pane dismisses native dialogs, so `window.confirm` was stubbed to accept.
+- Checks: `npm run check` — tsc, ESLint, Jest 79 suites / 327 tests ✓. Commit: see git log (#135).
+
 ## 2026-11-10 20:30 run
 - claude · Usage: Claude 5-hour 6 → 7 %, weekly 14 %; Codex config unchanged since 2026-10-30 (#11 still blocks it;
   Codex review skipped, one-line style change).
