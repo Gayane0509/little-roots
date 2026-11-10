@@ -3,8 +3,10 @@ import { SectionList, StyleSheet, Text, View } from 'react-native';
 import { useMemo, useState } from 'react';
 import { ACTIVE_PACK } from '@/content/packs';
 import { useParentGuard } from '@/features/parent/gate';
+import { exploredLine } from '@/features/report/exploredLine';
 import { fullReport } from '@/features/report/reportData';
 import { canSeeFullReport } from '@/lib/entitlements';
+import { useProfiles } from '@/state/profiles';
 import { useProgressState } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
 import { Icon } from '@/ui/Icon';
@@ -17,6 +19,7 @@ const backToParents = () => { if (router.canGoBack()) router.back(); else router
 export default function FullReportScreen() {
   const guard = useParentGuard('/parent/report');
   const { state } = useProgressState();
+  const { active } = useProfiles();
   const [now] = useState(() => Date.now());
   const report = useMemo(() => fullReport(state, now), [state, now]);
   if (guard) return guard;
@@ -25,7 +28,7 @@ export default function FullReportScreen() {
     return <Screen><View style={styles.center}>
       <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={styles.lockedArt}><Icon name="chart" size={96} /></View>
       <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} accessibilityRole="header" style={styles.title}>Full progress</Text>
-      <Text style={styles.lockedCount}>{report.seenTotal} {report.seenTotal === 1 ? 'word' : 'words'} explored so far</Text>
+      <Text style={styles.lockedCount}>{exploredLine(active?.name, report.seenTotal)}</Text>
       <Text style={styles.sub}>Premium shows every word with its stars, progress in each theme and 8 weeks of learning.</Text>
       <BigButton label="Explore Premium" onPress={() => router.replace({ pathname: '/parent/paywall', params: { reason: 'report' } })} />
       <BigButton label="Back to parents" color={colors.textMuted} onPress={backToParents} />
@@ -34,7 +37,7 @@ export default function FullReportScreen() {
   return <Screen><SectionList sections={report.themes.map((item) => ({ ...item, data: item.words.length ? item.words : [{ word: null, stars: 0 }] }))} keyExtractor={(item, index) => item.word?.id ?? `empty-${index}`} contentContainerStyle={styles.content} stickySectionHeadersEnabled={false}
     ListHeaderComponent={<>
     <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} accessibilityRole="header" style={styles.title}>Full progress</Text>
-    <Text style={styles.sub}>{report.seenTotal} of {ACTIVE_PACK.themes.reduce((sum, theme) => sum + theme.words.length, 0)} words explored</Text>
+    <Text style={styles.sub}>{exploredLine(active?.name, report.seenTotal, ACTIVE_PACK.themes.reduce((sum, theme) => sum + theme.words.length, 0))}</Text>
     <Text accessibilityRole="header" style={styles.heading}>Words learned over 8 weeks</Text>
     <View style={styles.chart}>{report.weeks.map((week) => <View key={week.label} style={styles.week} accessible accessibilityLabel={`${week.label}: ${week.count} words`}>
       <Text style={styles.number}>{week.count}</Text><View style={[styles.bar, { height: Math.max(8, Math.min(100, week.count * 12)) }]} /><Text style={styles.weekLabel}>{week.label}</Text>

@@ -117,8 +117,9 @@ _Updated: 2026-11-10 22:40 (+04). Updated at the end of every session._
   (Family voice screen at 320 px, Report with two children), #117 handwriting reference; #49 lowest.
 - 2026-11-10 22:30 run: Family voice at 320 px fits. #137 its messages (microphone off + Open Settings, save/delete
   errors, saved, deleted) show in the row of the word they are about, not above the 104-word list (web-checked; 81
-  suites / 332 tests ✓). Usage: 5-hour 14 %, weekly 15 %. Next: Report with two children, #117 handwriting reference;
-  #49 lowest.
+  suites / 332 tests ✓). #138 the Report names the child ("Mari has explored 24 words"; 82 suites / 335 tests ✓).
+  Usage: 5-hour 14 %, weekly 15 %. Next: new review tasks (Paywall and Stickers at 320 px), #117 handwriting
+  reference; #49 lowest.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Blockers (owner)

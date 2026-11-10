@@ -10,7 +10,12 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   row of the word they are about instead of above the list. Web (localhost:8095, through the gate) 320×640: Family voice
   fits (no horizontal overflow); Record on tatik, then papik (the preview denies the microphone) — the message shows
   in the tapped row, inside the card (34–286 px); no console errors. Saved/Deleted messages not seen on web (no
-  microphone); native → #61. Checks: `npm run check` — tsc, ESLint, Jest 81 suites / 332 tests ✓. Commit: see git log (#137).
+  microphone); native → #61. Checks: `npm run check` — tsc, ESLint, Jest 81 suites / 332 tests ✓. Commit 30eb920 (#137).
+- #138 Report names the child: new src/features/report/exploredLine.ts + exploredLine.test.ts (3 tests);
+  src/app/parent/report.tsx count line uses the active child's name ("Mari has explored 24 words" on the free plan,
+  "Mari: 24 of 104 words explored" on the full report). First wording "… so far" wrapped "far" alone at 320 px →
+  shortened. Web (free plan) 320×640 and 1024×768: one line, no console errors; full report not opened (Premium off).
+  Checks: `npm run check` — tsc, ESLint, Jest 82 suites / 335 tests ✓. Commit: see git log (#138).
 
 ## 2026-11-10 21:30 run
 - claude · Usage: Claude 5-hour 9 %, weekly 14 %; Codex config unchanged since 2026-10-30 (#11 still blocks it;
