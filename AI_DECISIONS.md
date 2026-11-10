@@ -164,3 +164,16 @@ Durable decisions with reasons. Newest first. Earlier ones are summarized from `
   the raw window width: the window-based Memory board wrapped to 2 columns at 1024 px (#72).
 - Parent-only screens get the same treatment only where a list is long (Family voice, #76); stat cards stay as is.
 
+
+## 2026-11-10 — Bundled Armenian font (#127, proposal before #117 tracing start dots)
+- Problem: the tracing guide letter and letter tiles use the platform system font, so Armenian glyphs differ between
+  iOS, Android and web. Start dots (#117) at fixed coordinates would sit off the stroke on some devices — worse than no dot.
+- Benefit: one consistent, warm letter shape for children on every device; makes #117 placeable from known outlines.
+- Candidate: `@expo-google-fonts/noto-sans-armenian` 0.4.2 (Expo-maintained, MIT code + SIL OFL-1.1 font, last
+  publish 2025-09; 1.4 MB unpacked for all weights — ship only one bold weight) with `expo-font` (not yet a direct dep).
+- Preferred approach: `expo-font` config plugin (embedded at build time, no startup cost) plus a web load through
+  `useFonts` before `StartupGate` opens (keeps the no-flash rule, #5; `SPLASH_MAX_MS` still caps it).
+- Risks: native embedding can only be checked after the Xcode update (#10); app size grows ~30–60 KB per weight.
+- Success: web and native screenshots show the same glyphs; startup measure `lr:startup` not slower on web.
+- Status: not started. #117 dot data must still be checked by eye per letter (an outline's first point is not a
+  writing start), so #117 needs a contact sheet review after #127.
