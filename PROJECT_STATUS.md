@@ -105,7 +105,8 @@ _Updated: 2026-11-10 19:40 (+04). Updated at the end of every session._
 - 2026-11-10 19:30 run: #128 web-checked (Reset progress confirm; Cancel keeps progress). #132 privacy text lists
   everything stored (avatar, outfit, traced letters, settings, reminder time) + Share this week line; PRIVACY.md in sync
   (test), effective date 2026-11-10 — store listing privacy URL should show the new version. `npm run check` 79 suites /
-  327 tests ✓. Usage: 5-hour 0 %, weekly 13 %. Next: #133 (lowest), #117 handwriting reference, new review tasks.
+  327 tests ✓. Usage: 5-hour 0 %, weekly 13 %. #133 checked: not an app bug (no change). Next: #117 handwriting reference, new review
+  tasks (Children screen with two children, Settings, Reminders at 320 px); #49 lowest.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Blockers (owner)

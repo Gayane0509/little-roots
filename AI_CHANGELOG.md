@@ -11,7 +11,8 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   settings, reminder time; Share this week line; effective date 2026-11-10), new src/features/parent/privacyText.test.ts
   (stored kinds named; PRIVACY.md in sync). Web 375×812 Privacy: new lines shown, no horizontal scroll, no console
   errors. Checks: `npm run check` — tsc, ESLint, Jest 79 suites / 327 tests ✓.
-- Finding → #133 (web tab title stale after Back, lowest).
+- Finding → #133 (web tab title stale after Back) → checked: no change. `document.title` is right after Back
+  ("Grown-ups · Little Roots"); only the preview pane's tab label lagged. Notes only.
 
 ## 2026-11-10 18:30 run
 - claude · Usage: Claude 5-hour 22 %, weekly 12 %; Codex config unchanged since 2026-10-30 (#11 still blocks it).
