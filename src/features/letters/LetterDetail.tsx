@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Modal, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { router } from 'expo-router';
 
 import { ACTIVE_PACK, type Letter } from '@/content/packs';
@@ -18,6 +18,7 @@ import { highlightLetter } from './exampleHighlight';
 import { TraceCanvas } from './TraceCanvas';
 import { isTraceGoodEnough } from './tracing';
 import { LETTER_FONT } from '@/ui/letterFont';
+import { wordBox, wordFontSize } from '@/ui/wordFit';
 import { colors, CONTENT_MAX_WIDTH, DISPLAY_MAX_FONT_SCALE, font, radius, spacing } from '@/ui/tokens';
 
 interface LetterDetailProps {
@@ -37,6 +38,8 @@ export function LetterDetail({ letter, onClose }: LetterDetailProps) {
   const close = () => { setDrawing(false); setTracing(false); setFeedback(null); onClose(); };
   const exampleArtId = letter && letterExampleArtId(letter, ACTIVE_PACK.themes);
   const exampleParts = letter && highlightLetter(letter.example.hy, letter);
+  const { width, fontScale } = useWindowDimensions();
+  const exampleSize = letter ? wordFontSize(letter.example.hy, wordBox.letterExample(width), font.word, fontScale) : font.word;
   return (
     <Modal visible={letter !== null} transparent animationType="slide" onRequestClose={close}>
       <View style={styles.backdrop}>
@@ -69,7 +72,7 @@ export function LetterDetail({ letter, onClose }: LetterDetailProps) {
                 <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">{exampleArtId ? <WordArt wordId={exampleArtId} emoji={letter.example.emoji} size={EXAMPLE_ART} /> : null}</View>
                 <View style={styles.exampleTexts}>
                   {/* The sheet's letter is coloured inside the word, so the child sees where it is (#110). */}
-                  <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.exampleHy}>
+                  <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={[styles.exampleHy, { fontSize: exampleSize }]}>
                     {exampleParts ? <>{exampleParts.before}<Text style={styles.exampleLetter}>{exampleParts.letter}</Text>{exampleParts.after}</> : letter.example.hy}
                   </Text>
                   <Text style={styles.exampleSub}>
@@ -123,7 +126,7 @@ const styles = StyleSheet.create({
     padding: spacing.md,
   },
   exampleTexts: { flexShrink: 1 },
-  exampleHy: { fontSize: font.word, fontWeight: '800', color: colors.text },
+  exampleHy: { fontSize: font.word, fontFamily: LETTER_FONT, color: colors.text },
   exampleLetter: { color: colors.primaryText },
   exampleSub: { fontSize: font.body, color: colors.textMuted },
 });

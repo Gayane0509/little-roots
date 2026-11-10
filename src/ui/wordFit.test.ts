@@ -18,6 +18,7 @@ test('box widths match the components at 375 px', () => {
   expect(wordBox.findPrompt(375, false)).toBe(291);
   expect(wordBox.findPrompt(375, true)).toBe(219);
   expect(wordBox.themeCard(375)).toBe(132);
+  expect(wordBox.letterExample(320)).toBe(240);
   expect(wordBox.memoryCard(memoryLayout({ width: 375, height: 812, fontScale: 1 }, 12).cardWidth)).toBe(86);
 });
 
@@ -34,6 +35,9 @@ test('every word stays one whole word in every box, 320 px phones to tablets, at
       ['memoryCard', wordBox.memoryCard(memoryCard), font.heading],
       ['parentLearned', wordBox.parentLearned(), font.small],
     ];
+    for (const example of ACTIVE_PACK.alphabet.map((letter) => letter.example.hy)) {
+      for (const scale of [1, 1.5]) if (!fits(example, wordBox.letterExample(width), font.word, scale)) bad.push(`letterExample@${width}x${scale}: ${example}`);
+    }
     for (const word of words) {
       for (const [name, box, base] of boxes) {
         for (const scale of [1, 1.5]) if (!fits(word.hy, box, base, scale)) bad.push(`${name}@${width}x${scale}: ${word.hy}`);

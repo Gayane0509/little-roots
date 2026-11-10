@@ -25,6 +25,9 @@ export const wordBox = {
   themeCard: (width: number) => Math.floor(contentWidth(width) * (width >= WIDE_BREAKPOINT ? 0.315 : 0.48)) - 2 * spacing.md,
   /** Memory word card face (card width from `memoryLayout`): 3 px border and `spacing.sm` padding. */
   memoryCard: (cardWidth: number) => cardWidth - 2 * 3 - 2 * spacing.sm,
+  /** Letter sheet example word (`LetterDetail`): the sheet (full window, capped), `spacing.lg` content padding and
+   * `spacing.md` card padding. The word wraps below the picture when it doesn't fit beside it, so this is its widest line. */
+  letterExample: (width: number) => Math.min(width, CONTENT_MAX_WIDTH) - 2 * spacing.lg - 2 * spacing.md,
   /** Parent "New this week" tile: 96 px wide with `spacing.sm` padding. */
   parentLearned: () => 96 - 2 * spacing.sm,
 };
