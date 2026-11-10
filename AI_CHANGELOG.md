@@ -2,6 +2,15 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-10 17:30 run
+- claude · Usage: Claude 5-hour 13 %, weekly 11 % (weekly reset → work resumes); Codex config unchanged since
+  2026-10-30, so #11 still blocks it (not re-probed). Codex cross-review unavailable; change is one string.
+- #126 delete-child warning now names Family voice recordings and says it cannot be undone (deleting a child removed
+  them silently from the warning's point of view). Files: src/features/parent/deleteChildText.ts (+ test),
+  src/app/parent/children.tsx. Checks: `npm run check` — tsc, ESLint, Jest 77 suites / 318 tests ✓. Web: Children
+  screen renders behind the gate, no app console errors (the alert itself is a no-op on web → #128).
+- #117 blocked (system fonts differ per platform → #127 bundle an Armenian font first). New: #127, #128.
+
 ## 2026-11-06 00:30 run (capacity stop)
 - claude · Usage: Claude 5-hour 2 %, **weekly 99 %** (≥ 80 % cap → review/rest only); Codex not re-probed (config
   unchanged since 2026-10-30, #11 still blocks). No implementation; #117 stays waiting-capacity. Files:

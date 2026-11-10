@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { DELETE_CHILD_MESSAGE } from '@/features/parent/deleteChildText';
 import { useParentGuard } from '@/features/parent/gate';
 import { ProfileAvatar } from '@/features/profiles/ProfileAvatar';
 import { canAddProfile, MAX_PROFILES } from '@/lib/entitlements';
@@ -35,7 +36,7 @@ export default function Children() {
   };
   const confirmDelete = (id: string, childName: string) => {
     if (busyRef.current) return;
-    Alert.alert(`Delete ${childName}?`, 'Their learning progress and traced letters will be removed from this device.', [{ text: 'Cancel', style: 'cancel' }, { text: 'Delete', style: 'destructive', onPress: () => {
+    Alert.alert(`Delete ${childName}?`, DELETE_CHILD_MESSAGE, [{ text: 'Cancel', style: 'cancel' }, { text: 'Delete', style: 'destructive', onPress: () => {
       if (!begin()) return;
       void remove(id).catch(() => Alert.alert('Could not delete', 'Please try again.')).finally(end);
     } }]);
