@@ -2,6 +2,17 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-10 19:30 run
+- claude · Usage: Claude 5-hour 0 %, weekly 13 %; Codex config unchanged since 2026-10-30 (#11 still blocks it; Codex
+  review skipped, copy-only change).
+- #128 web check: Parent → Settings → Reset progress shows the browser confirm ("…Family voice recordings and other
+  children are kept."); Cancel kept Mari's progress. Delete child needs two children (not re-run, would need a test child).
+- #132 privacy text complete: src/features/parent/privacyText.ts, PRIVACY.md (avatar, Buddy's outfit, traced letters,
+  settings, reminder time; Share this week line; effective date 2026-11-10), new src/features/parent/privacyText.test.ts
+  (stored kinds named; PRIVACY.md in sync). Web 375×812 Privacy: new lines shown, no horizontal scroll, no console
+  errors. Checks: `npm run check` — tsc, ESLint, Jest 79 suites / 327 tests ✓.
+- Finding → #133 (web tab title stale after Back, lowest).
+
 ## 2026-11-10 18:30 run
 - claude · Usage: Claude 5-hour 22 %, weekly 12 %; Codex config unchanged since 2026-10-30 (#11 still blocks it).
 - #128 system dialogs work in the web preview: new `src/lib/dialog.ts` (`notify`, `confirmAction`; browser

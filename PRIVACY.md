@@ -1,6 +1,6 @@
 # Little Roots — Privacy Policy
 
-Effective date: 2026-11-04
+Effective date: 2026-11-10
 
 ## The short version
 
@@ -8,11 +8,15 @@ Little Roots collects nothing and sends nothing. Everything the app knows stays 
 
 ## What is stored on this device
 
-- Your child's first name, so the app can greet them.
-- Learning progress: which words were learned, stars, stickers and lesson days.
+- Your child's first name and avatar picture, so the app can greet them.
+- Learning progress: which words were learned, stars, stickers, Buddy's outfit, traced letters and lesson days.
+- Settings: sound effects, vibration, Buddy's language and the daily reminder time, if a grown-up sets one.
 - Family voice recordings, if a grown-up makes them: short audio files of the app's words, one per word.
 
 This information is never uploaded, shared or sold.
+
+Share this week, in the Parent area, opens your phone's share menu with a short text you can read first. Nothing is
+sent unless you pick an app to send it.
 
 ## What we do not do
 

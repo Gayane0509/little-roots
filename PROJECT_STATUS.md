@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-10 18:55 (+04). Updated at the end of every session._
+_Updated: 2026-11-10 19:40 (+04). Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -102,6 +102,10 @@ _Updated: 2026-11-10 18:55 (+04). Updated at the end of every session._
   reviewer: no findings. Web preview not opened (server start declined in the unattended run) → check Delete child
   and Reset on web next run. Usage: 5-hour 22 %, weekly 12 %. Next: web check of #128, then a new review task
   (privacy and children screens); #117 needs a handwriting reference; #49 lowest.
+- 2026-11-10 19:30 run: #128 web-checked (Reset progress confirm; Cancel keeps progress). #132 privacy text lists
+  everything stored (avatar, outfit, traced letters, settings, reminder time) + Share this week line; PRIVACY.md in sync
+  (test), effective date 2026-11-10 — store listing privacy URL should show the new version. `npm run check` 79 suites /
+  327 tests ✓. Usage: 5-hour 0 %, weekly 13 %. Next: #133 (lowest), #117 handwriting reference, new review tasks.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Blockers (owner)
