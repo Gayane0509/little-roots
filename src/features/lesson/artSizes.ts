@@ -8,6 +8,8 @@ export type LessonArtSizes = {
   songGap: number;
   /** The intro's row of seeds, one per new word (#109); left out where it would make the step scroll. */
   introSeeds: boolean;
+  /** The intro's theme picture: phone size kept 140 px on tall tablets while the rest of the lesson art grew (#141). */
+  intro: number;
   /** Pictures beside each rhyme line (#112); smaller where the rhyme step is tight. */
   songPicture: number;
   /**
@@ -54,6 +56,7 @@ export function lessonArtSizes(width: number, height: number, hasNewOutfit: bool
     songLinePadding: compact ? spacing.sm : spacing.md,
     songGap: height < SONG_TIGHT_BELOW ? spacing.sm : spacing.lg,
     introSeeds: height >= INTRO_SEEDS_FROM,
+    intro: tallTablet ? 200 : 140,
     // Short windows: two stacked 24 px pictures (52 px) match two lines of rhyme text, so the pictures add no height (#115).
     songPicture: compact ? 24 : height < SONG_TIGHT_BELOW ? 32 : 40,
     songEnglishOnTap: compact,

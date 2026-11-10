@@ -168,7 +168,7 @@ function ReadyLesson() {
       <ScrollView contentContainerStyle={[styles.content, { gap: step === 'song' ? art.songGap : art.gap, paddingVertical: art.gap }]} showsVerticalScrollIndicator={false}>
         {step === 'hello' && <>
           <Buddy message={`${state.childName ? line('greeting', { name: state.childName }) : line('greeting_anon')}\n${lesson.newWords.length ? line(lesson.newWords.length === 1 ? 'lesson_new_word' : 'lesson_new_words', { count: lesson.newWords.length }) : line('lesson_practice')}`} outfit={outfit} />
-          <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={themeArtWordId(lesson.theme.id)} emoji={lesson.theme.emoji} size={140} /></View>
+          <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><WordArt wordId={themeArtWordId(lesson.theme.id)} emoji={lesson.theme.emoji} size={art.intro} /></View>
           {/* The theme's Armenian name leads, English under it (#109); long names shrink to stay whole. */}
           <View accessible accessibilityRole="header" accessibilityLabel={`${lesson.theme.titleHy}, ${lesson.theme.titleEn}`} style={styles.introTitle}>
             <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={[styles.heading, { fontSize: wordFontSize(lesson.theme.titleHy, contentWidth(width), font.word, fontScale) }]}>{lesson.theme.titleHy}</Text>

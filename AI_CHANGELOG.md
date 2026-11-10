@@ -2,6 +2,17 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-11 00:33 run
+- claude · Usage: Claude 5-hour 1 %, weekly 17 %; Codex still blocked by #11 (no Codex review; small diff checked in
+  the browser). Short run (00:45 cutoff).
+- Review: Letters list and Games list at 320×640 — no overflow (scrollWidth 320), letter tiles and game cards fit;
+  no change.
+- #141 Lesson intro theme picture grows on tall tablets: `intro` in src/features/lesson/artSizes.ts (200 px on tall
+  tablets, 140 px elsewhere; + test in artSizes.test.ts); src/app/lesson.tsx uses `art.intro`. Web: 1024×768 200 px,
+  375×667 140 px, no scrolling container on either.
+- Checks: `npm run check` (tsc + eslint + jest) 82 suites / 338 tests ✓. Commit: "Lesson intro picture grows on
+  tablets (#141)".
+
 ## 2026-11-10 23:30 run
 - claude · Usage: Claude 5-hour 18 %, weekly 16 %; Codex config unchanged (#11 still blocks it; small UI diff checked
   in the browser instead of a Codex review).

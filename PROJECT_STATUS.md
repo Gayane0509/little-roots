@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-10 23:40 (+04). Updated at the end of every session._
+_Updated: 2026-11-11 00:40 (+04). Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -125,6 +125,9 @@ _Updated: 2026-11-10 23:40 (+04). Updated at the end of every session._
   #140 locked outfits show a gold progress bar toward their unlock instead of "★ N" (web 320 + 1024; 82 suites /
   337 tests ✓). Usage at start: 5-hour 18 %, weekly 16 %. Next: new review tasks (Letters list and Games list at
   320 px, lesson flow on tablet), #117 handwriting reference; #49 lowest.
+- 2026-11-11 00:33 run: Letters list and Games list at 320 px fit (no change). #141 lesson intro theme picture 200 px
+  on tall tablets (was 140; web 1024×768 + 375×667, no scroll; 82 suites / 338 tests ✓). Usage at start: 5-hour 1 %,
+  weekly 17 %. Next: review the lesson word/answer steps on tablet, #117 handwriting reference; #49 lowest.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Blockers (owner)
