@@ -112,7 +112,9 @@ _Updated: 2026-11-10 21:50 (+04). Updated at the end of every session._
   screen with two children (needs a test child on web), #117 handwriting reference; #49 lowest.
 - 2026-11-10 21:30 run: #135 Children rows fit at 320 px (long names wrap at word breaks, Edit/Delete move under them,
   aligned across rows; web-checked 320 + 1024 px). #128 Delete child checked on web. `npm run check` 79 suites / 327
-  tests ✓. Usage: 5-hour 9 %, weekly 14 %. Next: #136 "Playing now" tag on Children, #117 handwriting reference; #49 lowest.
+  tests ✓. Usage: 5-hour 9 %, weekly 14 %.
+  #136 "Playing now" tag on the active child (two or more children; 80 suites / 329 tests ✓). Next: new review tasks
+  (Family voice screen at 320 px, Report with two children), #117 handwriting reference; #49 lowest.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Blockers (owner)

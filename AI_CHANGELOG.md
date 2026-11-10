@@ -13,7 +13,12 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   1024×768: one line per child, actions aligned; renamed through Edit → Save; no console errors.
 - #128 Delete child checked on web: confirm text = the #126 warning; accepting removed the test child (preview storage
   back to Mari only). The browser pane dismisses native dialogs, so `window.confirm` was stubbed to accept.
-- Checks: `npm run check` — tsc, ESLint, Jest 79 suites / 327 tests ✓. Commit: see git log (#135).
+- Checks: `npm run check` — tsc, ESLint, Jest 79 suites / 327 tests ✓. Commit 413005c (#135).
+- #136 "Playing now" on Children: new src/features/parent/childRow.ts (`isPlayingNow`, `PLAYING_NOW`) +
+  childRow.test.ts (2 tests); src/app/parent/children.tsx shows the green tag under the active child's name when there
+  are two or more children. Web (test child added in preview storage, then removed) 320×640: tag on Mari only, rows
+  wrap cleanly; 375×812 and 1024×768: tag under the name, actions aligned; no console errors. Checks: `npm run check` —
+  tsc, ESLint, Jest 80 suites / 329 tests ✓. Commit: see git log (#136).
 
 ## 2026-11-10 20:30 run
 - claude · Usage: Claude 5-hour 6 → 7 %, weekly 14 %; Codex config unchanged since 2026-10-30 (#11 still blocks it;
