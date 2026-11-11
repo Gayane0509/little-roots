@@ -52,8 +52,10 @@ export interface MemoryCard {
   kind: 'emoji' | 'word';
 }
 
-export function buildMemoryDeck(seen: readonly Word[], random: Random = Math.random, pairs = MEMORY_PAIRS): MemoryCard[] {
-  const chosen = uniqueWords(shuffle(seen, random)).slice(0, pairs);
+/** `fits` says whether a word's card can show it whole; words that can't are used only when too few others are seen. */
+export function buildMemoryDeck(seen: readonly Word[], random: Random = Math.random, pairs = MEMORY_PAIRS, fits: (word: Word) => boolean = () => true): MemoryCard[] {
+  const words = uniqueWords(shuffle(seen, random));
+  const chosen = [...words.filter(fits), ...words.filter((word) => !fits(word))].slice(0, pairs);
   const cards = chosen.flatMap<MemoryCard>((word) => [
     { key: `${word.id}:emoji`, word, kind: 'emoji' },
     { key: `${word.id}:word`, word, kind: 'word' },

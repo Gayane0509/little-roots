@@ -42,6 +42,12 @@ test('each playground rhyme line shows the thing it names (#144)', () => {
   expect(ids).toEqual([['playground.slide'], ['playground.kite'], ['playground.bubbles'], ['playground.icecream']]);
 });
 
+test('each holidays rhyme line shows the thing it names (#144)', () => {
+  const holidays = getTheme('holidays');
+  const ids = holidays?.song.lines.map((line) => lineWordIds(line.hy, holidays.song, holidays.words));
+  expect(ids).toEqual([['holidays.newyeartree'], ['holidays.gata'], ['holidays.fireworks'], ['holidays.vardavar']]);
+});
+
 test('words outside the song list and very short words are ignored; at most two per line', () => {
   const words = [{ id: 'a.cat', hy: 'կատու' }, { id: 'a.one', hy: 'մի' }, { id: 'a.dog', hy: 'շուն' }, { id: 'a.cow', hy: 'կով' }];
   expect(lineWordIds('Կատուն և շունը և կովը', {}, words)).toEqual(['a.cat', 'a.dog']);

@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-11 19:30 run. Updated at the end of every session._
+_Updated: 2026-11-11 20:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -143,6 +143,11 @@ _Updated: 2026-11-11 19:30 run. Updated at the end of every session._
   0.75 em per letter and Խաղահրապարակ broke mid-word; now weighed by measured letter widths (738a6df). `npm run check`
   83 suites / 346 tests ✓; web-checked 375 + 320 px. Reviewer subagent on #158: no blockers, 2 lows applied. Usage at
   start: 5-hour 15 %, weekly 27 %. Next: holidays (Vardavar, New Year), action words (16-letter title), then #145.
+- 2026-11-11 20:30 run: #144 5 of 6 — Holidays theme (Տոներ: New Year tree, Ձմեռ պապ, gata, fireworks, cake, candle,
+  Vardavar, dove; Fluent 3D, rhyme "Holidays"; 144 theme words, 17 themes — the 19:30 note's "137" was a miscount, 136).
+  Web-checked 375 px: Home card, all 8 pictures in Family voice. Found: հրավառություն can't fit a 320 px Memory card even
+  at 8 px → Memory now prefers words that fit (`wordFits`; tested; Memory web-checked 320×700). 83 suites / 349 tests ✓. Usage at start: 5-hour 23 %, weekly 29 %. Codex config
+  still unchanged (#11). Next: action words (last #144 theme), then #157 lone card check, #145.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

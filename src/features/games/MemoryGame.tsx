@@ -14,9 +14,9 @@ import { Confetti } from '@/ui/Confetti';
 import { Icon } from '@/ui/Icon';
 import { WordArt } from '@/ui/WordArt';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing } from '@/ui/tokens';
-import { wordBox, wordFontSize } from '@/ui/wordFit';
+import { wordBox, wordFits, wordFontSize } from '@/ui/wordFit';
 
-import { buildMemoryDeck, type MemoryCard } from './logic';
+import { buildMemoryDeck, MEMORY_PAIRS, type MemoryCard } from './logic';
 import { memoryLayout } from './memoryLayout';
 import { GameDoneActions } from './GameDoneActions';
 
@@ -83,7 +83,11 @@ export function MemoryGame({ seenWords, onFinishedChange }: { seenWords: Word[];
   const line = useBuddyLine();
   const { soundEffects, haptics } = useSettings();
   const { recordGamePlayed } = useProgressActions();
-  const [deck, setDeck] = useState(() => buildMemoryDeck(seenWords));
+  const dims = useWindowDimensions();
+  // Card width for a full deck; a word too long for it even at the smallest size is left for wider screens.
+  const wordCard = wordBox.memoryCard(memoryLayout(dims, MEMORY_PAIRS * 2).cardWidth);
+  const fitsCard = (word: Word) => wordFits(word.hy, wordCard, font.heading, dims.fontScale);
+  const [deck, setDeck] = useState(() => buildMemoryDeck(seenWords, Math.random, MEMORY_PAIRS, fitsCard));
   const [flipped, setFlipped] = useState<string[]>([]);
   const [matched, setMatched] = useState<string[]>([]);
   const [moves, setMoves] = useState(0);
@@ -100,7 +104,7 @@ export function MemoryGame({ seenWords, onFinishedChange }: { seenWords: Word[];
   useEffect(() => { if (won) playSfx('reward', soundEffects); }, [won, soundEffects]);
   useEffect(() => { onFinishedChange?.(won); }, [won, onFinishedChange]);
 
-  const { cardWidth, cardHeight, artSize, gap, prompt } = memoryLayout(useWindowDimensions(), deck.length);
+  const { cardWidth, cardHeight, artSize, gap, prompt } = memoryLayout(dims, deck.length);
 
   const flip = (card: MemoryCard) => {
     const t = turn.current;
@@ -138,7 +142,7 @@ export function MemoryGame({ seenWords, onFinishedChange }: { seenWords: Word[];
     timer.current = null;
     recordGamePlayed();
     turn.current = { flipped: [], matched: [], busy: false };
-    setDeck(buildMemoryDeck(seenWords));
+    setDeck(buildMemoryDeck(seenWords, Math.random, MEMORY_PAIRS, fitsCard));
     setFlipped([]);
     setMatched([]);
     setMoves(0);

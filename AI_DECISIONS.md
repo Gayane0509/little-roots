@@ -22,6 +22,10 @@ Durable decisions with reasons. Newest first. Earlier ones are summarized from `
   Playground (2026-11-11), **needs native proofreading:** Խաղահրապարակ · սահարան (slide) · օդապարուկ · դույլ · կարուսել ·
   պղպջակներ · պաղպաղակ · շատրվան · ինքնագլոր (scooter; colloquial սամոկատ) · Սահարանից սահում եմ։ · Օդապարուկը թռչում
   է։ · Պղպջակները պայթում են։ · Պաղպաղակ եմ ուզում։ (and transliterations).
+  Holidays (2026-11-11), **needs native proofreading:** Տոներ · տոնածառ · Ձմեռ պապ · գաթա · հրավառություն · տորթ · մոմ ·
+  Վարդավառ · աղավնի · Տոնածառը փայլում է։ · Տատիկը գաթա է թխում։ · Երկնքում հրավառություն է։ · Վարդավառին ջուր ենք
+  ցողում։ (and transliterations). Pictures: Fluent "Pie" for gata (round scored pastry; "Moon cake" rejected for its
+  Chinese symbol), "Water pistol" for Vardavar, Santa in Light tone for Ձմեռ պապ.
 - 2026-11-11 · **Word pictures: Microsoft Fluent Emoji 3D (#142, owner's choice; updates "No emoji pictures").** The
   owner asked for better pictures and picked Fluent 3D from a side-by-side with the drawn SVGs. 102 word pictures are
   256 px PNGs bundled in `assets/words/<theme>/<slug>.png` (MIT, `assets/words/LICENSE`; 3.5 MB), listed in

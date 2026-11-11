@@ -1,4 +1,4 @@
-import { fitFontSize } from './fitFontSize';
+import { fitFontSize, wordEms } from './fitFontSize';
 import { CONTENT_MAX_WIDTH, DISPLAY_MAX_FONT_SCALE, spacing, TOUCH_MIN, WIDE_BREAKPOINT } from './tokens';
 
 /**
@@ -41,4 +41,13 @@ export const WORD_MIN_SIZE = 8;
 /** Font size for one word in `box`; system text growth is capped at DISPLAY_MAX_FONT_SCALE where these are used. */
 export function wordFontSize(text: string, box: number, base: number, fontScale = 1) {
   return fitFontSize(text, box, base, WORD_MIN_SIZE, Math.min(fontScale, DISPLAY_MAX_FONT_SCALE));
+}
+
+/**
+ * Whether `text` fits `box` as whole words at its `wordFontSize`. False only when even WORD_MIN_SIZE is too wide, e.g.
+ * հրավառություն (9.75 em) on a 320 px phone's Memory card (67 px), so the game can pick another word (#144).
+ */
+export function wordFits(text: string, box: number, base: number, fontScale = 1) {
+  const scale = Math.min(fontScale, DISPLAY_MAX_FONT_SCALE);
+  return wordFontSize(text, box, base, fontScale) * scale * Math.max(...text.split(/\s+/).map(wordEms)) <= box;
 }

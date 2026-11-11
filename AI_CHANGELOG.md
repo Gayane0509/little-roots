@@ -2,6 +2,23 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-11 20:30 run
+- claude · Usage at start: Claude 5-hour 23 %, weekly 29 %; Codex config unchanged since 2026-10-30, so #11 still
+  blocks it (not re-probed). No reviewer subagent this run (same recipe as the four reviewed themes; capacity kept).
+- #144 5 of 6 — Holidays theme (Տոներ, premium): New Year tree, Ձմեռ պապ (Santa, Light tone), gata (Fluent "Pie"),
+  fireworks, cake, candle, Vardavar (Fluent "Water pistol"), dove; drawn fallbacks; rhyme "Holidays" with one picture per
+  line (test). 144 theme words in 17 themes (the 19:30 entry's "137" was a miscount: 136).
+- Finding while adding it: հրավառություն (9.75 em) can't fit a 320 px phone's Memory card (67 px) even at the 8 px
+  floor. New `wordFits` (src/ui/wordFit.ts); `buildMemoryDeck` takes a `fits` predicate and uses non-fitting words only
+  when too few others are seen; MemoryGame passes it for a full deck's card width. The word-fit test now names this one
+  known exception and a new test pins `wordFits` (only հրավառություն fails at 320 px; fits at 375).
+- Files: assets/words/holidays/*.png (8), src/art/pictures.ts, src/art/words/{holidays,index}.ts,
+  src/content/{themes,types,themeArt,content.test}.ts, src/features/lesson/rhymeWords.test.ts,
+  src/features/games/{logic,logic.test}.ts, src/features/games/MemoryGame.tsx, src/ui/{wordFit,wordFit.test}.ts, notes.
+- Checks: `npx tsc --noEmit` ✓, `npx eslint .` ✓, `npx jest --watchman=false` 83 suites / 349 tests ✓. Web (127.0.0.1:8095):
+  Holidays card on Home 375 px (locked, tree picture); all 8 pictures in Parent → Family voice (filter Holidays);
+  Memory at 320×700 renders 12 cards, no console errors. Not verified: native fonts (#10).
+
 ## 2026-11-11 19:30 run
 - claude · Usage at start: Claude 5-hour 15 %, weekly 27 %; Codex still blocked by #11, so a reviewer subagent reviews
   instead of Codex.

@@ -17,6 +17,7 @@ import { art as school } from './school';
 import { art as weather } from './weather';
 import { art as kitchen } from './kitchen';
 import { art as playground } from './playground';
+import { art as holidays } from './holidays';
 import { art as letters } from './letters';
 
 registerThemeArt('family', family);
@@ -35,5 +36,6 @@ registerThemeArt('school', school);
 registerThemeArt('weather', weather);
 registerThemeArt('kitchen', kitchen);
 registerThemeArt('playground', playground);
+registerThemeArt('holidays', holidays);
 // Alphabet example words that aren't in a theme (#89).
 registerThemeArt('letters', letters);

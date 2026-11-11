@@ -65,6 +65,13 @@ describe('buildMemoryDeck', () => {
     expect(buildMemoryDeck(WORDS.slice(0, 4), seeded(), 6)).toHaveLength(8);
     expect(buildMemoryDeck(WORDS.slice(0, 3), seeded())).toHaveLength(6);
   });
+  it('leaves out words that do not fit their card while others are left (#144)', () => {
+    const long = WORDS[0];
+    const fits = (w: { id: string }) => w.id !== long.id;
+    expect(buildMemoryDeck(WORDS, seeded(), 3, fits).some((c) => c.word.id === long.id)).toBe(false);
+    // Too few other words: the long word still plays rather than shrinking the board.
+    expect(buildMemoryDeck(WORDS, seeded(), WORDS.length, fits).filter((c) => c.word.id === long.id)).toHaveLength(2);
+  });
 });
 
 describe('buildChoiceRounds', () => {

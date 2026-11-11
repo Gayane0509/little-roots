@@ -5,7 +5,7 @@ import { memoryLayout } from '@/features/games/memoryLayout';
 
 import { wordEms } from './fitFontSize';
 import { font } from './tokens';
-import { wordBox, wordFontSize } from './wordFit';
+import { wordBox, wordFits, wordFontSize } from './wordFit';
 
 const words = ACTIVE_PACK.themes.flatMap((t) => t.words);
 const widestWord = (text: string) => Math.max(...text.split(/\s+/).map(wordEms));
@@ -44,7 +44,16 @@ test('every word stays one whole word in every box, 320 px phones to tablets, at
       }
     }
   }
-  expect(bad).toEqual([]);
+  // The one known exception: Memory leaves հրավառություն out of a 320 px phone's deck (`wordFits`, #144).
+  expect(bad).toEqual(['memoryCard@320x1: հրավառություն', 'memoryCard@320x1.5: հրավառություն']);
+});
+
+test('wordFits agrees with the check above and is what Memory uses to skip a word (#144)', () => {
+  const box320 = wordBox.memoryCard(memoryLayout({ width: 320, height: 900, fontScale: 1 }, 12).cardWidth);
+  const box375 = wordBox.memoryCard(memoryLayout({ width: 375, height: 900, fontScale: 1 }, 12).cardWidth);
+  expect(wordFits('հրավառություն', box320, font.heading)).toBe(false);
+  expect(wordFits('հրավառություն', box375, font.heading)).toBe(true);
+  expect(words.filter((word) => !wordFits(word.hy, box320, font.heading)).map((word) => word.hy)).toEqual(['հրավառություն']);
 });
 
 test('short words keep the base size in roomy boxes', () => {

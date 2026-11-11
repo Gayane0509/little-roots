@@ -118,6 +118,14 @@ export const WORD_PICTURES: Readonly<Record<string, ImageSourcePropType>> = {
   'playground.icecream': require('../../assets/words/playground/icecream.png'), // Soft ice cream
   'playground.fountain': require('../../assets/words/playground/fountain.png'), // Fountain
   'playground.scooter': require('../../assets/words/playground/scooter.png'), // Kick scooter
+  'holidays.newyeartree': require('../../assets/words/holidays/newyeartree.png'), // Christmas tree
+  'holidays.santa': require('../../assets/words/holidays/santa.png'), // Santa Claus (Light)
+  'holidays.gata': require('../../assets/words/holidays/gata.png'), // Pie
+  'holidays.fireworks': require('../../assets/words/holidays/fireworks.png'), // Fireworks
+  'holidays.cake': require('../../assets/words/holidays/cake.png'), // Birthday cake
+  'holidays.candle': require('../../assets/words/holidays/candle.png'), // Candle
+  'holidays.vardavar': require('../../assets/words/holidays/vardavar.png'), // Water pistol
+  'holidays.dove': require('../../assets/words/holidays/dove.png'), // Dove
   'transport.car': require('../../assets/words/transport/car.png'), // Automobile
   'transport.bus': require('../../assets/words/transport/bus.png'), // Bus
   'transport.train': require('../../assets/words/transport/train.png'), // Locomotive
