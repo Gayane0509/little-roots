@@ -9,6 +9,9 @@ Durable decisions with reasons. Newest first. Earlier ones are summarized from `
   **Needs native proofreading:** դպրոց · ուսուցիչ · պայուսակ · մատիտ · տետր · մկրատ · քանոն · մոմամատիտ (crayon; or
   գունավոր մատիտ) · Ես գնում եմ դպրոց։ · Պայուսակս մեջքիս է։ · Մատիտով գրում եմ տետրում։ · Ուսուցիչը ժպտում է։
   (and their transliterations).
+  Weather & seasons (2026-11-11), **needs native proofreading:** Եղանակ (theme title; also means "season") · ծիածան ·
+  ձյուն · քամի · անձրևանոց · գարուն · ամառ · աշուն · ձմեռ · Ձմեռը ձյուն է բերում։ · Գարունը ծաղիկներ է բերում։ ·
+  Ամառն ու աշունը գալիս են։ · Անձրևից հետո ծիածան է։ (and their transliterations).
 - 2026-11-11 · **Word pictures: Microsoft Fluent Emoji 3D (#142, owner's choice; updates "No emoji pictures").** The
   owner asked for better pictures and picked Fluent 3D from a side-by-side with the drawn SVGs. 102 word pictures are
   256 px PNGs bundled in `assets/words/<theme>/<slug>.png` (MIT, `assets/words/LICENSE`; 3.5 MB), listed in

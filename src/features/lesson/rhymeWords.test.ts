@@ -19,6 +19,17 @@ test('each family rhyme line shows the pictures of the words it says (#112)', ()
   expect(ids(songs[1])).toEqual([['family.baby'], ['family.uncle', 'family.aunt'], ['family.friend'], []]);
 });
 
+test('each weather rhyme line shows its season or weather pictures (#144)', () => {
+  const weather = getTheme('weather');
+  const ids = weather?.song.lines.map((line) => lineWordIds(line.hy, weather.song, weather.words));
+  expect(ids).toEqual([
+    ['weather.winter', 'weather.snow'],
+    ['weather.spring'],
+    ['weather.summer', 'weather.autumn'],
+    ['weather.rainbow'],
+  ]);
+});
+
 test('words outside the song list and very short words are ignored; at most two per line', () => {
   const words = [{ id: 'a.cat', hy: 'կատու' }, { id: 'a.one', hy: 'մի' }, { id: 'a.dog', hy: 'շուն' }, { id: 'a.cow', hy: 'կով' }];
   expect(lineWordIds('Կատուն և շունը և կովը', {}, words)).toEqual(['a.cat', 'a.dog']);

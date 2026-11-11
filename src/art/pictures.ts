@@ -94,6 +94,14 @@ export const WORD_PICTURES: Readonly<Record<string, ImageSourcePropType>> = {
   'school.scissors': require('../../assets/words/school/scissors.png'), // Scissors
   'school.ruler': require('../../assets/words/school/ruler.png'), // Straight ruler
   'school.crayon': require('../../assets/words/school/crayon.png'), // Crayon
+  'weather.rainbow': require('../../assets/words/weather/rainbow.png'), // Rainbow
+  'weather.snow': require('../../assets/words/weather/snow.png'), // Snowflake
+  'weather.wind': require('../../assets/words/weather/wind.png'), // Wind face
+  'weather.umbrella': require('../../assets/words/weather/umbrella.png'), // Umbrella with rain drops
+  'weather.spring': require('../../assets/words/weather/spring.png'), // Cherry blossom
+  'weather.summer': require('../../assets/words/weather/summer.png'), // Beach with umbrella
+  'weather.autumn': require('../../assets/words/weather/autumn.png'), // Fallen leaf
+  'weather.winter': require('../../assets/words/weather/winter.png'), // Snowman
   'transport.car': require('../../assets/words/transport/car.png'), // Automobile
   'transport.bus': require('../../assets/words/transport/bus.png'), // Bus
   'transport.train': require('../../assets/words/transport/train.png'), // Locomotive

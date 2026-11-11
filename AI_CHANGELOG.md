@@ -2,6 +2,22 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-11 18:30 run
+- claude · Usage at start: Claude 5-hour 7 %, weekly 26 %; Codex still blocked by #11 (`~/.codex/config.toml`
+  unchanged since 2026-10-30), so no Codex implementation or review.
+- #144 (2 of 6): new premium theme **Weather & seasons** (`weather`) — rainbow, snow, wind, umbrella, spring, summer,
+  autumn, winter; 8 Fluent 3D PNGs (assets/words/weather/, 31–41 KB, MIT: Rainbow, Snowflake, Wind face, Umbrella
+  with rain drops, Cherry blossom, Beach with umbrella, Fallen leaf, Snowman), drawn SVG fallbacks
+  (src/art/words/weather.ts, contact sheet checked), rhyme "All year round"; nature's sun/rain/cloud not repeated.
+  Picked wind face over "leaf fluttering in wind" (looked like autumn's leaves). Test: each rhyme line maps to its
+  pictures (src/features/lesson/rhymeWords.test.ts). Files: src/content/{types,themes,themeArt}.ts,
+  src/content/content.test.ts, src/art/pictures.ts, src/art/words/{index,weather}.ts.
+- Web (127.0.0.1:8095): Home 375 + 320 px shows the Weather card (title wraps to two whole lines, no horizontal
+  overflow; 14 cards in even rows); locked theme → parent gate → paywall "96 more words in 12 themes", Words 24 /
+  120, strip 6 + 6; Family voice filter "Weather & seasons 0/8" lists the 8 pictures (all 256 px PNGs loaded); no
+  console errors.
+- Checks: `npm run check` 83 suites / 343 tests ✓. Commit: "New theme: Weather & seasons (#144)".
+
 ## 2026-11-11 17:30 run
 - claude · Usage at start: Claude 5-hour 2 %, weekly 25 %; Codex still blocked by #11 (config unchanged since
   2026-10-30), so no Codex implementation or review.

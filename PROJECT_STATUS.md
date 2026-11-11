@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-11 17:30 run. Updated at the end of every session._
+_Updated: 2026-11-11 18:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -134,6 +134,9 @@ _Updated: 2026-11-11 17:30 run. Updated at the end of every session._
   themes); paywall headline now counts Premium words (was hard-coded 80). `npm run check` 83 suites / 342 tests ✓;
   web-checked 375×812. Usage at start: 5-hour 2 %, weekly 25 %. Next: the remaining #144 themes (weather & seasons,
   kitchen, playground, holidays, action words), then #145.
+- 2026-11-11 18:30 run: #144 2 of 6 — Weather & seasons theme (8 words, Fluent 3D pictures, rhyme "All year round";
+  121 theme words, 14 themes; paywall now "96 more words in 12 themes"). `npm run check` 83 suites / 343 tests ✓;
+  web-checked 375 + 320 px. Usage at start: 5-hour 7 %, weekly 26 %. Next: kitchen, playground, holidays, action words.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

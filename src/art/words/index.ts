@@ -14,6 +14,7 @@ import { art as nature } from './nature';
 import { art as transport } from './transport';
 import { art as feelings } from './feelings';
 import { art as school } from './school';
+import { art as weather } from './weather';
 import { art as letters } from './letters';
 
 registerThemeArt('family', family);
@@ -29,5 +30,6 @@ registerThemeArt('nature', nature);
 registerThemeArt('transport', transport);
 registerThemeArt('feelings', feelings);
 registerThemeArt('school', school);
+registerThemeArt('weather', weather);
 // Alphabet example words that aren't in a theme (#89).
 registerThemeArt('letters', letters);
