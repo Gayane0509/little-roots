@@ -6,6 +6,8 @@ import { CONTENT_MAX_WIDTH, spacing } from '@/ui/tokens';
 /** The themes Premium unlocks and how many words they hold, for the paywall's picture strip (#121). */
 export const PREMIUM_THEMES = ACTIVE_PACK.themes.filter((theme) => !theme.free);
 export const PREMIUM_WORDS = PREMIUM_THEMES.reduce((sum, theme) => sum + theme.words.length, 0);
+/** The grey grown-up button once the free words are finished (Home, lesson); counted, never hard-coded (#161). */
+export const ASK_GROWN_UP_LABEL = `Ask a grown-up for ${PREMIUM_WORDS} more words`;
 
 export type OfferReason = 'themes' | 'games' | 'letters' | 'report' | 'children';
 const headlines: Record<OfferReason, string> = {

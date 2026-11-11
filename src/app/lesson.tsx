@@ -5,7 +5,7 @@ import { AccessibilityInfo, Animated, Pressable, ScrollView, StyleSheet, Text, u
 import { ACTIVE_PACK } from '@/content/packs';
 import { themeArtWordId } from '@/content/themeArt';
 import { useBuddyLine } from '@/features/buddy/useBuddyLine';
-import { freeWordsFinished } from '@/features/paywall/offer';
+import { ASK_GROWN_UP_LABEL, freeWordsFinished } from '@/features/paywall/offer';
 import type { Word } from '@/content/types';
 import { lessonArtSizes } from '@/features/lesson/artSizes';
 import { gameOptions, shuffled } from '@/features/lesson/game';
@@ -147,7 +147,7 @@ function ReadyLesson() {
           {/* The child's button is the one orange action; the grown-up prompt is grey, below it (#97, AI_DECISIONS). */}
           {freeDone ? <Buddy mood="cheer" message={line('free_words_finished')} /> : <Buddy message={line('all_caught_up')} />}
           <BigButton label="Back home" onPress={() => router.replace('/')} />
-          {freeDone ? <BigButton label="Ask a grown-up for 80 more words" color={colors.textMuted} onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'themes' } })} /> : null}
+          {freeDone ? <BigButton label={ASK_GROWN_UP_LABEL} color={colors.textMuted} onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'themes' } })} /> : null}
         </ScrollView>
       </Screen>
     );

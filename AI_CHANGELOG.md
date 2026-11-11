@@ -16,6 +16,13 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   375 and 1024 px, word whole (նորածին 22 px in its 124 px column at 320), tap works, heading role, no console errors.
 - Not verified: native (Xcode, #10); a recorded word on the card (no recording in the test child). Commit: see git log
   ("Word of the day on Home (#147)").
+- #161 Home and lesson grown-up button said "80 more words"; Premium holds 136 since #144/#145. Now
+  `ASK_GROWN_UP_LABEL` (counted from `PREMIUM_WORDS`). Files: src/features/paywall/offer.ts, offer.test.ts,
+  src/app/index.tsx, src/app/lesson.tsx, src/features/games/grownUpPrompts.test.ts, src/features/home/homeOrder.test.ts
+  (the two guards look for the constant instead of the old text; same colour and order rules). Checks: `npm run check`
+  84 suites / 366 tests ✓; the new test failed against the old labels; web 375×667 Home "136 more words", no console
+  errors (lesson out-of-lessons state not reachable with the test child). Commit: "Count Premium words on the
+  grown-up button (#161)".
 
 ## 2026-11-11 21:30 run
 - claude · Usage at start: Claude 5-hour 36 %, weekly 31 %; Codex config unchanged since 2026-10-30 (#11), so a

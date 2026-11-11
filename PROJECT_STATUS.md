@@ -162,7 +162,8 @@ _Updated: 2026-11-11 22:30 run. Updated at the end of every session._
 - 2026-11-11 22:30 run: **#147 done** — Word of the day card on Home (same word all day per child, from words met
   before today; tap plays the Family voice recording; long words stack under the picture). 84 suites / 365 tests ✓;
   web 320/375/1024 px. Reviewer subagent: 2 medium + 3 low applied. Found #161 (Home/lesson "80 more words" label is
-  stale: Premium holds 136). Usage at start: 5-hour 1 %, weekly 32 %. Next: #161, then #148–#156 by score
+  stale: Premium holds 136). #161 done the same run (button now "136 more words"; 84 suites / 366 tests ✓).
+  Usage at start: 5-hour 1 %, weekly 32 %. Next: #148–#156 by score
   (#153 talk-together cards 12, #151 counting game 12); #143 alongside; #157 decision.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 

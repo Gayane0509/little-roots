@@ -6,7 +6,7 @@ const { readFileSync } = require('fs') as { readFileSync(path: string, encoding:
 test("Home puts the child's lesson above the grown-up card, so it stays above the fold on a 375×667 phone (#86)", () => {
   const source = readFileSync('src/app/index.tsx', 'utf8');
   const lesson = source.indexOf('label="Start today\'s lesson"');
-  const grownUp = source.indexOf('label="Ask a grown-up for 80 more words"');
+  const grownUp = source.indexOf('label={ASK_GROWN_UP_LABEL}');
   expect(lesson).toBeGreaterThan(-1);
   expect(grownUp).toBeGreaterThan(-1);
   expect(lesson).toBeLessThan(grownUp);

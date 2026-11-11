@@ -18,7 +18,7 @@ import { useBuddyLine } from '@/features/buddy/useBuddyLine';
 import { BigButton } from '@/ui/BigButton';
 import { Buddy } from '@/ui/Buddy';
 import { Icon } from '@/ui/Icon';
-import { freeWordsFinished } from '@/features/paywall/offer';
+import { ASK_GROWN_UP_LABEL, freeWordsFinished } from '@/features/paywall/offer';
 import { Screen } from '@/ui/Screen';
 import { sceneHeight } from '@/ui/SceneBackdrop';
 import { colors, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
@@ -84,7 +84,7 @@ export default function Home() {
         {/* The child's lesson comes before the grown-up card so it stays above the fold on short phones (#86). */}
         <BigButton label="Start today's lesson" onPress={() => router.push('/lesson')} style={styles.start} />
 
-        {freeDone ? <BigButton label="Ask a grown-up for 80 more words" color={colors.textMuted} onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'themes' } })} /> : null}
+        {freeDone ? <BigButton label={ASK_GROWN_UP_LABEL} color={colors.textMuted} onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'themes' } })} /> : null}
 
         <View style={styles.tiles}>
           <Pressable

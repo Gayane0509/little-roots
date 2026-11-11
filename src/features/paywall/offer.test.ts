@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals';
-import { comparison, freeWordsFinished, offerHeadline, parseOfferReason, PREMIUM_THEMES, PREMIUM_WORDS, premiumStripLayout } from './offer';
+import { ASK_GROWN_UP_LABEL, comparison, freeWordsFinished, offerHeadline, parseOfferReason, PREMIUM_THEMES, PREMIUM_WORDS, premiumStripLayout } from './offer';
 import { ACTIVE_PACK } from '@/content/packs';
 import type { ProgressState } from '@/state/progress.types';
 
@@ -41,4 +41,16 @@ test('the picture strip makes even rows and stays inside the column (#139)', () 
   expect(premiumStripLayout(375, 10).tile).toBe(56);
   expect(premiumStripLayout(320, 10)).toEqual({ tile: 51, art: 36, rowWidth: 287 });
   expect(premiumStripLayout(1024, 10).rowWidth).toBe(632);
+});
+
+test('the grown-up button counts the Premium words; no screen hard-codes a word count (#161)', () => {
+  expect(ASK_GROWN_UP_LABEL).toBe(`Ask a grown-up for ${PREMIUM_WORDS} more words`);
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { readdirSync, readFileSync } = require('fs') as {
+    readdirSync(dir: string, options: { recursive: true; encoding: 'utf8' }): string[]; readFileSync(path: string, encoding: 'utf8'): string;
+  };
+  const dir = 'src/app';
+  const files = readdirSync(dir, { recursive: true, encoding: 'utf8' }).filter((file) => file.endsWith('.tsx'));
+  const stale = files.filter((file) => /\b\d+ more words\b/.test(readFileSync(`${dir}/${file}`, 'utf8')));
+  expect(stale).toEqual([]);
 });

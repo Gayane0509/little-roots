@@ -7,13 +7,13 @@ const { readFileSync } = require('fs') as { readFileSync(path: string, encoding:
 const FILES = ['src/app/index.tsx', 'src/app/lesson.tsx', 'src/app/games/index.tsx', 'src/features/games/GameShell.tsx', 'src/features/games/GameDoneActions.tsx', 'src/app/profiles.tsx'];
 
 test.each(FILES)('%s: grown-up upgrade buttons use the secondary grey', (file) => {
-  const buttons = readFileSync(file, 'utf8').match(/<BigButton\s+label="(Ask a grown-up|Grown-ups)[\s\S]*?\/>/g) ?? [];
+  const buttons = readFileSync(file, 'utf8').match(/<BigButton\s+label=(?:"Grown-ups|\{ASK_GROWN_UP_LABEL\})[\s\S]*?\/>/g) ?? [];
   expect(buttons.length).toBeGreaterThan(0);
   for (const button of buttons) expect(button).toContain('color={colors.textMuted}');
 });
 
 test.each([
-  ['src/app/lesson.tsx', 'label="Back home"', 'label="Ask a grown-up for 80 more words"'],
+  ['src/app/lesson.tsx', 'label="Back home"', 'label={ASK_GROWN_UP_LABEL}'],
   ['src/features/games/GameShell.tsx', 'label="Back"', 'label="Grown-ups: unlimited games"'],
   ['src/features/games/GameDoneActions.tsx', 'label="Back"', 'label="Grown-ups: unlimited games"'],
   ['src/app/profiles.tsx', 'label="Back to home"', 'label="Grown-ups: add a child"'],
