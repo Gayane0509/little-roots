@@ -12,6 +12,10 @@ test('offer reasons and limits stay consistent', () => {
   expect(parseOfferReason('games')).toBe('games');
   expect(comparison.find((row) => row.feature === 'Games per day')?.free).toBe('3');
 });
+test('the themes headline counts the Premium words, so new themes keep it true (#144)', () => {
+  const premium = ACTIVE_PACK.themes.filter((t) => !t.free).reduce((sum, t) => sum + t.words.length, 0);
+  expect(offerHeadline('themes')).toBe(`${premium} more words to discover`);
+});
 test('free word celebration waits until all 16 words were seen', () => {
   const state = { words: {} } as ProgressState;
   expect(freeWordsFinished(state)).toBe(false);

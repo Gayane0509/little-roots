@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-11 (owner session). Updated at the end of every session._
+_Updated: 2026-11-11 17:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -130,6 +130,10 @@ _Updated: 2026-11-11 (owner session). Updated at the end of every session._
   weekly 17 %. Next: review the lesson word/answer steps on tablet, #117 handwriting reference; #49 lowest.
 - 2026-11-11 (owner session): #142 word pictures replaced by Microsoft Fluent Emoji 3D (MIT) — 102 bundled PNGs,
   people in Light skin tone (dark hair); colours, numbers, family and 3 letter examples stay drawn (#143 follow-up). Web-checked.
+- 2026-11-11 17:30 run: #144 started — School theme (8 words, Fluent 3D pictures, rhyme; 113 theme words, 13
+  themes); paywall headline now counts Premium words (was hard-coded 80). `npm run check` 83 suites / 342 tests ✓;
+  web-checked 375×812. Usage at start: 5-hour 2 %, weekly 25 %. Next: the remaining #144 themes (weather & seasons,
+  kitchen, playground, holidays, action words), then #145.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

@@ -86,6 +86,14 @@ export const WORD_PICTURES: Readonly<Record<string, ImageSourcePropType>> = {
   'toys.gift': require('../../assets/words/toys/gift.png'), // Wrapped gift
   'toys.robot': require('../../assets/words/toys/robot.png'), // Robot
   'toys.book': require('../../assets/words/toys/book.png'), // Green book
+  'school.school': require('../../assets/words/school/school.png'), // School
+  'school.teacher': require('../../assets/words/school/teacher.png'), // Teacher (Light)
+  'school.backpack': require('../../assets/words/school/backpack.png'), // Backpack
+  'school.pencil': require('../../assets/words/school/pencil.png'), // Pencil
+  'school.notebook': require('../../assets/words/school/notebook.png'), // Notebook
+  'school.scissors': require('../../assets/words/school/scissors.png'), // Scissors
+  'school.ruler': require('../../assets/words/school/ruler.png'), // Straight ruler
+  'school.crayon': require('../../assets/words/school/crayon.png'), // Crayon
   'transport.car': require('../../assets/words/transport/car.png'), // Automobile
   'transport.bus': require('../../assets/words/transport/bus.png'), // Bus
   'transport.train': require('../../assets/words/transport/train.png'), // Locomotive

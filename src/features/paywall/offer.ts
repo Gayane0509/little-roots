@@ -3,9 +3,13 @@ import { FREE_LIMITS, MAX_PROFILES } from '@/lib/entitlements';
 import type { ProgressState } from '@/state/progress.types';
 import { CONTENT_MAX_WIDTH, spacing } from '@/ui/tokens';
 
+/** The themes Premium unlocks and how many words they hold, for the paywall's picture strip (#121). */
+export const PREMIUM_THEMES = ACTIVE_PACK.themes.filter((theme) => !theme.free);
+export const PREMIUM_WORDS = PREMIUM_THEMES.reduce((sum, theme) => sum + theme.words.length, 0);
+
 export type OfferReason = 'themes' | 'games' | 'letters' | 'report' | 'children';
 const headlines: Record<OfferReason, string> = {
-  themes: '80 more words to discover',
+  themes: `${PREMIUM_WORDS} more words to discover`,
   children: 'Room for every child in your family',
   games: 'Unlimited games', letters: 'Trace all 39 letters', report: 'See every word your child learns',
 };
@@ -27,10 +31,6 @@ export const comparison = [
 export function freeWordsFinished(state: ProgressState): boolean {
   return ACTIVE_PACK.themes.filter((theme) => theme.free).every((theme) => theme.words.every((word) => (state.words[word.id]?.seen ?? 0) > 0));
 }
-
-/** The themes Premium unlocks and how many words they hold, for the paywall's picture strip (#121). */
-export const PREMIUM_THEMES = ACTIVE_PACK.themes.filter((theme) => !theme.free);
-export const PREMIUM_WORDS = PREMIUM_THEMES.reduce((sum, theme) => sum + theme.words.length, 0);
 
 const STRIP_TILE = 56;
 const STRIP_GAP = spacing.sm;

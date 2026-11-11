@@ -2,6 +2,13 @@
 
 Durable decisions with reasons. Newest first. Earlier ones are summarized from `PROGRESS.md`.
 
+- 2026-11-11 · **New themes (#144) follow one recipe.** Each theme is premium (only Family and Food stay free), has 8
+  words with stable ids `<theme>.<slug>`, a Fluent 3D picture per word (256 px from microsoft/fluentui-emoji, people in
+  Light tone), a drawn SVG fallback in `src/art/words/<theme>.ts`, a 4-line rhyme and a card word in `themeArt`. Copy
+  that counts content (paywall "N more words") is derived from `ACTIVE_PACK`, never hard-coded. School is the first.
+  **Needs native proofreading:** դպրոց · ուսուցիչ · պայուսակ · մատիտ · տետր · մկրատ · քանոն · մոմամատիտ (crayon; or
+  գունավոր մատիտ) · Ես գնում եմ դպրոց։ · Պայուսակս մեջքիս է։ · Մատիտով գրում եմ տետրում։ · Ուսուցիչը ժպտում է։
+  (and their transliterations).
 - 2026-11-11 · **Word pictures: Microsoft Fluent Emoji 3D (#142, owner's choice; updates "No emoji pictures").** The
   owner asked for better pictures and picked Fluent 3D from a side-by-side with the drawn SVGs. 102 word pictures are
   256 px PNGs bundled in `assets/words/<theme>/<slug>.png` (MIT, `assets/words/LICENSE`; 3.5 MB), listed in

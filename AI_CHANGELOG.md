@@ -2,6 +2,20 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-11 17:30 run
+- claude · Usage at start: Claude 5-hour 2 %, weekly 25 %; Codex still blocked by #11 (config unchanged since
+  2026-10-30), so no Codex implementation or review.
+- #144 (1 of 6): new premium theme **School** — school, teacher, backpack, pencil, notebook, scissors, ruler, crayon;
+  8 Fluent 3D PNGs (assets/words/school/, 19–53 KB each, MIT), drawn SVG fallbacks (src/art/words/school.ts), rhyme
+  "At school". Files: src/content/{types,themes,themeArt}.ts, src/content/content.test.ts, src/art/pictures.ts,
+  src/art/words/{index,school}.ts.
+- Bug found in the web check: the paywall headline was hard-coded "80 more words to discover" (true only for 10
+  Premium themes); now derived from `PREMIUM_WORDS` (88). Files: src/features/paywall/offer{,.test}.ts.
+- Web (127.0.0.1:8095, 375×812): Home shows the School card with its picture; locked School → parent gate → paywall
+  (11 theme pictures in 6 + 5 rows, "88 more words in 11 themes", Words 24 / 112); Family voice School filter shows the
+  8 pictures; no console errors. Drawn fallbacks checked by the art tests only (not shown when a PNG exists).
+- Checks: `npm run check` (tsc + eslint + jest) 83 suites / 342 tests ✓. Commit: "New theme: School (#144)".
+
 ## 2026-11-11 owner session (#142, skin tone)
 - claude · Owner: "make them light, Armenians usually don't have dark skin; hair can stay a little dark". Compared
   Fluent Light vs Medium-Light (Medium-Light makes hair blonde); switched the 15 people and body pictures to Light
