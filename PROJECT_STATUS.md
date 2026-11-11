@@ -132,6 +132,10 @@ _Updated: 2026-11-11 (owner session). Updated at the end of every session._
   people in Light skin tone (dark hair); colours, numbers, family and 3 letter examples stay drawn (#143 follow-up). Web-checked.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
+## Next priorities (owner, 2026-11-11)
+Agreed with the owner: build #144 (more themes) → #145 (phrases) → #146 (review round) → #147 (word of the day),
+then #148–#156 by score; #143 (last flat drawings) alongside. New Armenian text always goes on the proofreading list.
+
 ## Blockers (owner)
 1. Xcode too old for SDK 58 native build (Swift 6 error in expo-modules-jsi) → update Xcode.
 2. Codex CLI: configured models are rejected for this ChatGPT account → set a supported model in
