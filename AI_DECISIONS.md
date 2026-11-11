@@ -2,6 +2,11 @@
 
 Durable decisions with reasons. Newest first. Earlier ones are summarized from `PROGRESS.md`.
 
+- 2026-11-11 · **Word fitting weighs letter widths (#158).** `wordEms` counts wide letters (ա թ խ պ տ փ ֆ և Թ Խ Մ Պ Ռ
+  Վ Փ Ֆ, measured 0.77–0.99 em in the bold web system font) at 0.95 em, narrow ones (լ յ չ ւ Ւ, 0.27–0.45 em) at 0.55
+  and the rest at 0.75; a flat 0.75 let Խաղահրապարակ (9.99 em real) break mid-word. Home card title floor 11 → 9 px and
+  theme header floor 12 → 11 px: only Խաղահրապարակ on a 320 px phone reaches them (its English name stays full size).
+  Native fonts may differ (Android Noto) → device check #10.
 - 2026-11-11 · **New themes (#144) follow one recipe.** Each theme is premium (only Family and Food stay free), has 8
   words with stable ids `<theme>.<slug>`, a Fluent 3D picture per word (256 px from microsoft/fluentui-emoji, people in
   Light tone), a drawn SVG fallback in `src/art/words/<theme>.ts`, a 4-line rhyme and a card word in `themeArt`. Copy

@@ -1,7 +1,7 @@
 import { expect, test } from '@jest/globals';
 
 import { ACTIVE_PACK } from '@/content/packs';
-import { EM_PER_LETTER } from '@/ui/fitFontSize';
+import { wordEms } from '@/ui/fitFontSize';
 
 import { HEADER_ART, homeCardTitleSize, homeCardTitleWidth, themeHeaderTitleSize, themeHeaderTitleWidth } from './themeTitle';
 
@@ -21,16 +21,16 @@ test('Feelings shrinks on Home and on its page; short names keep their size', ()
 test('every Armenian theme name stays one whole word from 320 px phones to tablets', () => {
   for (const width of [320, 360, 375, 430, 768, 1024]) {
     for (const theme of ACTIVE_PACK.themes) {
-      const letters = [...theme.titleHy].length;
-      expect(homeCardTitleSize(theme.titleHy, { width }) * letters * EM_PER_LETTER).toBeLessThanOrEqual(homeCardTitleWidth(width));
-      expect(themeHeaderTitleSize(theme.titleHy, { width }) * letters * EM_PER_LETTER).toBeLessThanOrEqual(themeHeaderTitleWidth(width));
+      const ems = wordEms(theme.titleHy);
+      expect(homeCardTitleSize(theme.titleHy, { width }) * ems).toBeLessThanOrEqual(homeCardTitleWidth(width));
+      expect(themeHeaderTitleSize(theme.titleHy, { width }) * ems).toBeLessThanOrEqual(themeHeaderTitleWidth(width));
     }
   }
 });
 
 test('larger system text shrinks the base so the scaled name still fits', () => {
   const size = homeCardTitleSize('Կենդանիներ', { width: 375, fontScale: 1.3 });
-  expect(size * 1.3 * 10 * EM_PER_LETTER).toBeLessThanOrEqual(homeCardTitleWidth(375));
+  expect(size * 1.3 * wordEms('Կենդանիներ')).toBeLessThanOrEqual(homeCardTitleWidth(375));
 });
 
 test('the theme header row fits picture, title box, count and gaps on phones from 320 px (#108)', () => {

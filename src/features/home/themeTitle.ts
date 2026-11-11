@@ -21,9 +21,12 @@ export function themeHeaderTitleWidth(width: number) {
   return contentWidth(width) - HEADER_ART - HEADER_COUNT_WIDTH - 2 * spacing.md;
 }
 
-/** Smallest sizes a theme name shrinks to: only Զգացմունքներ on a 320 px phone gets this small, and it stays whole. */
-const HOME_TITLE_MIN = 11;
-const HEADER_TITLE_MIN = 12;
+/**
+ * Smallest sizes a theme name shrinks to: only Խաղահրապարակ (the widest name, ~10 em) on a 320 px phone gets this small, and
+ * it stays whole; the English name under it stays full size.
+ */
+const HOME_TITLE_MIN = 9;
+const HEADER_TITLE_MIN = 11;
 
 /**
  * Theme names shrink to stay whole instead of breaking mid-word (Զգացմունքներ, #104). Both titles cap system text growth at

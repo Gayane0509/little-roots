@@ -2,6 +2,22 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-11 19:30 run
+- claude · Usage at start: Claude 5-hour 15 %, weekly 27 %; Codex still blocked by #11, so a reviewer subagent reviews
+  instead of Codex.
+- #158 (bug, found while checking the new Playground card): `fitFontSize` estimated every Armenian letter at 0.75 em, but
+  Խաղահրապարակ measures 9.99 em (0.83/letter) and broke "Խաղահրապար / ակ" on its Home card at 375 px. New `wordEms`
+  weighs wide and narrow letters (widths measured with canvas in the web preview), rounded to 2 decimals (a size that
+  exactly filled its box was rejected by float error). Home title floor 9 px, header floor 11 px. Tests now use
+  `wordEms` (src/ui/fitFontSize.test.ts adds the measured case). Files: src/ui/fitFontSize.ts,
+  src/features/home/themeTitle.ts, src/ui/fitFontSize.test.ts, src/ui/wordFit.test.ts,
+  src/features/home/themeTitle.test.ts.
+- Web (127.0.0.1:8095): Home 375 px — every theme name on one line (Խաղահրապարակ 12 px, 121 of 129 px; Տրանսպորտ 17,
+  Զգացմունքներ 14); 320 px — all one line (Խաղահրապարակ 9 px), no horizontal scroll; no console errors.
+- Reviewer subagent: no blocking findings; applied narrow letters 0.5 → 0.55 em (margin for Android fonts) and a second
+  measured anchor (Տրանսպորտ ≥ 6.66 em); uppercase-letter note not taken (Ա 0.72, Տ 0.67 em measured, not wide).
+- Checks: `npm run check` 83 suites / 346 tests ✓.
+
 ## 2026-11-11 18:30 run
 - claude · Usage at start: Claude 5-hour 7 %, weekly 26 %; Codex still blocked by #11 (`~/.codex/config.toml`
   unchanged since 2026-10-30), so no Codex implementation or review.

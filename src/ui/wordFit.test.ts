@@ -3,14 +3,14 @@ import { expect, test } from '@jest/globals';
 import { ACTIVE_PACK } from '@/content/packs';
 import { memoryLayout } from '@/features/games/memoryLayout';
 
-import { EM_PER_LETTER } from './fitFontSize';
+import { wordEms } from './fitFontSize';
 import { font } from './tokens';
 import { wordBox, wordFontSize } from './wordFit';
 
 const words = ACTIVE_PACK.themes.flatMap((t) => t.words);
-const longestWord = (text: string) => Math.max(...text.split(/\s+/).map((w) => [...w].length));
+const widestWord = (text: string) => Math.max(...text.split(/\s+/).map(wordEms));
 const fits = (text: string, box: number, base: number, fontScale = 1) =>
-  wordFontSize(text, box, base, fontScale) * fontScale * longestWord(text) * EM_PER_LETTER <= box;
+  wordFontSize(text, box, base, fontScale) * fontScale * widestWord(text) <= box;
 
 test('box widths match the components at 375 px', () => {
   expect(wordBox.lessonCard(375)).toBe(291);
