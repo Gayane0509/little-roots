@@ -149,7 +149,10 @@ _Updated: 2026-11-11 20:30 run. Updated at the end of every session._
   at 8 px → Memory now prefers words that fit (`wordFits`; tested; Memory web-checked 320×700). 83 suites / 349 tests ✓
   (96bed4a). Then Action words (Գործեր: eat, sleep, run, play, swim, dance, sing, draw; rhyme "What I like to do") —
   **#144 done: 6 themes, 152 theme words, 18 themes.** #157 closed: 18 themes fill every Home row. 83 suites / 350 tests ✓;
-  web 375 px (Home, Family voice pictures). Next: #145 phrases theme, then #146, #147; #143 alongside. Usage at start: 5-hour 23 %, weekly 29 %. Codex config
+  web 375 px (Home, Family voice pictures) (c035b6e). Then **#145 done**: Phrases theme (Խոսքեր: hello, good morning, good
+  night, thank you, please, I love you, how are you?, goodbye; rhyme "Kind words"); 160 theme words, 19 themes; 83 suites /
+  351 tests ✓; web 375 px Family voice shows all 8 with Record buttons. #157 reopened (19 themes: one lone card).
+  Next: #146 review round (spaced), #147 word of the day; #143 alongside; #157 decision. Usage at start: 5-hour 23 %, weekly 29 %. Codex config
   still unchanged (#11). Next: action words (last #144 theme), then #157 lone card check, #145.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 

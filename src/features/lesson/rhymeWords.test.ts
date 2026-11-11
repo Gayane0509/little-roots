@@ -54,6 +54,12 @@ test('each action words rhyme line shows the thing it names (#144)', () => {
   expect(ids).toEqual([['actions.run'], ['actions.dance'], ['actions.play'], ['actions.sleep']]);
 });
 
+test('each phrases rhyme line shows the phrase it says (#145)', () => {
+  const phrases = getTheme('phrases');
+  const ids = phrases?.song.lines.map((line) => lineWordIds(line.hy, phrases.song, phrases.words));
+  expect(ids).toEqual([['phrases.goodmorning'], ['phrases.thankyou'], ['phrases.iloveyou'], ['phrases.goodnight']]);
+});
+
 test('words outside the song list and very short words are ignored; at most two per line', () => {
   const words = [{ id: 'a.cat', hy: 'կատու' }, { id: 'a.one', hy: 'մի' }, { id: 'a.dog', hy: 'շուն' }, { id: 'a.cow', hy: 'կով' }];
   expect(lineWordIds('Կատուն և շունը և կովը', {}, words)).toEqual(['a.cat', 'a.dog']);

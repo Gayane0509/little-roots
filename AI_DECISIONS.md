@@ -29,6 +29,10 @@ Durable decisions with reasons. Newest first. Earlier ones are summarized from `
   Action words (2026-11-11), **needs native proofreading:** Գործեր (theme title, "things we do"; must be one word —
   alternatives Բայեր) · ուտել · քնել · վազել · խաղալ · լողալ · պարել · երգել · նկարել · Սիրում եմ վազել։ · Սիրում եմ
   պարել։ · Ուզում եմ խաղալ։ · Իսկ հիմա՝ քնել։ (and transliterations). Words are infinitives so rhyme lines can show them.
+  Phrases (#145, 2026-11-11), **needs native proofreading:** Խոսքեր (theme title; one word) · Բարև · Բարի լույս · Բարի
+  գիշեր · Շնորհակալ եմ (shorter than Շնորհակալություն, which can't fit small word boxes) · Խնդրում եմ · Սիրում եմ քեզ ·
+  Ինչպե՞ս ես · Ցտեսություն · Բարի լույս, մայրիկ։ · Շնորհակալ եմ, տատիկ։ · Սիրում եմ քեզ, պապիկ։ · Բարի գիշեր, հայրիկ։
+  A phrase is a word entry (stable id `phrases.<slug>`), so lessons, games and Family voice work unchanged.
 - 2026-11-11 · **Memory skips words that can't fit its cards (#144).** `wordFits` says whether a word fits its box at
   WORD_MIN_SIZE (8 px); `buildMemoryDeck` puts non-fitting words last, so they play only when too few others are seen.
   Today only հրավառություն on 320 px phones. Preferred over a smaller floor (unreadable) or a mid-word break.

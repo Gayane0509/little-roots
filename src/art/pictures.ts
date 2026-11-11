@@ -134,6 +134,14 @@ export const WORD_PICTURES: Readonly<Record<string, ImageSourcePropType>> = {
   'actions.dance': require('../../assets/words/actions/dance.png'), // Woman dancing (Light)
   'actions.sing': require('../../assets/words/actions/sing.png'), // Singer (Light)
   'actions.draw': require('../../assets/words/actions/draw.png'), // Artist palette
+  'phrases.hello': require('../../assets/words/phrases/hello.png'), // Person raising hand (Light)
+  'phrases.goodmorning': require('../../assets/words/phrases/goodmorning.png'), // Sunrise
+  'phrases.goodnight': require('../../assets/words/phrases/goodnight.png'), // Night with stars
+  'phrases.thankyou': require('../../assets/words/phrases/thankyou.png'), // Folded hands (Light)
+  'phrases.please': require('../../assets/words/phrases/please.png'), // Pleading face
+  'phrases.iloveyou': require('../../assets/words/phrases/iloveyou.png'), // Heart with ribbon
+  'phrases.howareyou': require('../../assets/words/phrases/howareyou.png'), // Slightly smiling face
+  'phrases.goodbye': require('../../assets/words/phrases/goodbye.png'), // Waving hand (Light)
   'transport.car': require('../../assets/words/transport/car.png'), // Automobile
   'transport.bus': require('../../assets/words/transport/bus.png'), // Bus
   'transport.train': require('../../assets/words/transport/train.png'), // Locomotive

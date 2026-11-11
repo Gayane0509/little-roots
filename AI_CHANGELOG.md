@@ -28,6 +28,12 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
 - Checks: tsc ✓, ESLint ✓, Jest 83 suites / 350 tests ✓. Web 375 px: Home last row Holidays + Action words; Family voice
   shows all 8 pictures ("0 of 152"); fresh bundle has no resolve error (an earlier console error was from the moment
   index.ts was saved before actions.ts existed).
+- #145 Phrases theme (Խոսքեր, premium): hello (raising hand), good morning (sunrise), good night (night with stars), thank
+  you (folded hands), please (pleading face), I love you (heart with ribbon), how are you? (smiling face), goodbye (waving
+  hand); Light tone for hands/people; drawn fallbacks; rhyme "Kind words" (test). Files: assets/words/phrases/*.png (8),
+  src/art/pictures.ts, src/art/words/{phrases,index}.ts, src/content/{themes,types,themeArt,content.test}.ts,
+  src/features/lesson/rhymeWords.test.ts, notes. Checks: tsc ✓, ESLint ✓, Jest 83 suites / 351 tests ✓; web 375 px
+  Family voice ("0 of 160", 8 phrases with pictures and Record buttons); fresh bundle has no resolve error.
 
 ## 2026-11-11 19:30 run
 - claude · Usage at start: Claude 5-hour 15 %, weekly 27 %; Codex still blocked by #11, so a reviewer subagent reviews
