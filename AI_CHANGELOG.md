@@ -2,6 +2,16 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-11 owner session (#142)
+- claude · Owner asked for better word pictures. Compared the drawn SVGs with Microsoft Fluent Emoji 3D (MIT, 111 of
+  121 words covered) side by side; owner chose Fluent 3D.
+- Added 102 PNGs (256 px, 3.5 MB) in assets/words/<theme>/ + assets/words/LICENSE; src/art/pictures.ts (registry);
+  src/ui/WordArt.tsx shows the picture first, then the SVG, then the emoji; src/content/themeArt.ts Family card → mom;
+  test src/art/pictures.test.ts. People and body parts in Medium skin tone (default yellow and Medium-Light blonde
+  looked wrong). Colours, numbers, family, walnut, ship's wheel and wheat stay drawn (#143 logged).
+- Web (127.0.0.1:8095): Home, Food and Family theme pages at 375×812 and 1024×768, letter Բ sheet; no console errors.
+- Checks: `npm run check` (tsc + eslint + jest) 83 suites / 341 tests ✓. Commit: "Word pictures: Microsoft Fluent Emoji 3D (#142)".
+
 ## 2026-11-11 00:33 run
 - claude · Usage: Claude 5-hour 1 %, weekly 17 %; Codex still blocked by #11 (no Codex review; small diff checked in
   the browser). Short run (00:45 cutoff).

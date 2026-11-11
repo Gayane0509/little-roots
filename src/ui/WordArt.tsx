@@ -1,8 +1,9 @@
 import { memo } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 
 import { getWordArt } from '@/art';
+import { WORD_PICTURES } from '@/art/pictures';
 import '@/art/words';
 
 interface WordArtProps {
@@ -12,8 +13,19 @@ interface WordArtProps {
   size: number;
 }
 
-/** A word's illustration, falling back to its emoji. Decorative: callers own the accessibility label. */
+/**
+ * A word's picture: the bundled Fluent 3D picture when there is one, else its drawn SVG, else its emoji.
+ * Decorative: callers own the accessibility label.
+ */
 export const WordArt = memo(function WordArt({ wordId, emoji, size }: WordArtProps) {
+  const picture = WORD_PICTURES[wordId];
+  if (picture) {
+    return (
+      <View style={[styles.box, { width: size, height: size }]} accessible={false} pointerEvents="none">
+        <Image source={picture} style={{ width: size, height: size }} resizeMode="contain" accessible={false} />
+      </View>
+    );
+  }
   const xml = getWordArt(wordId);
   if (!xml) {
     return (

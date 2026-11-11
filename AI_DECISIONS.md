@@ -2,6 +2,15 @@
 
 Durable decisions with reasons. Newest first. Earlier ones are summarized from `PROGRESS.md`.
 
+- 2026-11-11 · **Word pictures: Microsoft Fluent Emoji 3D (#142, owner's choice; updates "No emoji pictures").** The
+  owner asked for better pictures and picked Fluent 3D from a side-by-side with the drawn SVGs. 102 word pictures are
+  256 px PNGs bundled in `assets/words/<theme>/<slug>.png` (MIT, `assets/words/LICENSE`; 3.5 MB), listed in
+  `src/art/pictures.ts`, and `WordArt` shows them first. They are images inside the app, not emoji text, so they look
+  the same on every device (the reason for #89 still holds). People and body parts use the Medium skin tone (brown
+  hair). Drawn SVGs stay for the colours and numbers themes (a paint blob / numeral with dots teaches better), for
+  "family" and three letter examples Fluent lacks (walnut, ship's wheel, wheat), and as the fallback for every
+  word; Buddy, icons, scenes and avatars stay drawn. The Family theme card shows mom (`themeArt`). Guard:
+  `src/art/pictures.test.ts`. Limits: 256 px is soft above ~170 pt on 3× screens.
 - 2026-11-04 · **Short-window rule (#84–#88).** `SHORT_WINDOW_BELOW` (700 px window height, `src/ui/tokens.ts`) is the
   one threshold for screens that should fit without scrolling (lesson, onboarding); sizes live in pure, tested helpers
   (`lessonArtSizes`, `onboardingLayout`, `traceCanvasSize`). A screen's main action must be on screen at 375×667;
