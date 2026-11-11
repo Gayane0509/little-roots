@@ -2,6 +2,12 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-11 owner session (#142, skin tone)
+- claude · Owner: "make them light, Armenians usually don't have dark skin; hair can stay a little dark". Compared
+  Fluent Light vs Medium-Light (Medium-Light makes hair blonde); switched the 15 people and body pictures to Light
+  (light skin, dark hair). Files: assets/words/{body,family}/*.png, src/art/pictures.ts comment, notes. Web: Family
+  page 375 px. Checks: `npm run check` 83 suites / 341 tests ✓.
+
 ## 2026-11-11 owner session (#142)
 - claude · Owner asked for better word pictures. Compared the drawn SVGs with Microsoft Fluent Emoji 3D (MIT, 111 of
   121 words covered) side by side; owner chose Fluent 3D.

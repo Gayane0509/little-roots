@@ -4,7 +4,7 @@ import type { ImageSourcePropType } from 'react-native';
  * Word pictures from Microsoft Fluent Emoji 3D (MIT, assets/words/LICENSE), 256 px PNGs bundled with the app so they
  * work offline and look the same on every device. Keyed by word id; words without one (colours, numbers, "family" and
  * three letter examples Fluent has no picture for) keep their drawn SVG in src/art/words. Source name in each comment.
- * People and body parts use Fluent's Medium skin tone (brown hair) instead of the yellow emoji default.
+ * People and body parts use Fluent's Light skin tone (light skin, dark hair) instead of the yellow emoji default.
  */
 export const WORD_PICTURES: Readonly<Record<string, ImageSourcePropType>> = {
   'animals.dog': require('../../assets/words/animals/dog.png'), // Dog face

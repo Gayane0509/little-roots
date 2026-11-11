@@ -6,8 +6,8 @@ Durable decisions with reasons. Newest first. Earlier ones are summarized from `
   owner asked for better pictures and picked Fluent 3D from a side-by-side with the drawn SVGs. 102 word pictures are
   256 px PNGs bundled in `assets/words/<theme>/<slug>.png` (MIT, `assets/words/LICENSE`; 3.5 MB), listed in
   `src/art/pictures.ts`, and `WordArt` shows them first. They are images inside the app, not emoji text, so they look
-  the same on every device (the reason for #89 still holds). People and body parts use the Medium skin tone (brown
-  hair). Drawn SVGs stay for the colours and numbers themes (a paint blob / numeral with dots teaches better), for
+  the same on every device (the reason for #89 still holds). People and body parts use the Light skin tone (light
+  skin, dark hair; owner 2026-11-11). Drawn SVGs stay for the colours and numbers themes (a paint blob / numeral with dots teaches better), for
   "family" and three letter examples Fluent lacks (walnut, ship's wheel, wheat), and as the fallback for every
   word; Buddy, icons, scenes and avatars stay drawn. The Family theme card shows mom (`themeArt`). Guard:
   `src/art/pictures.test.ts`. Limits: 256 px is soft above ~170 pt on 3× screens.

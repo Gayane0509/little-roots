@@ -129,7 +129,7 @@ _Updated: 2026-11-11 (owner session). Updated at the end of every session._
   on tall tablets (was 140; web 1024×768 + 375×667, no scroll; 82 suites / 338 tests ✓). Usage at start: 5-hour 1 %,
   weekly 17 %. Next: review the lesson word/answer steps on tablet, #117 handwriting reference; #49 lowest.
 - 2026-11-11 (owner session): #142 word pictures replaced by Microsoft Fluent Emoji 3D (MIT) — 102 bundled PNGs,
-  people in Medium skin tone; colours, numbers, family and 3 letter examples stay drawn (#143 follow-up). Web-checked.
+  people in Light skin tone (dark hair); colours, numbers, family and 3 letter examples stay drawn (#143 follow-up). Web-checked.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Blockers (owner)
