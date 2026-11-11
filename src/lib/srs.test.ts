@@ -21,4 +21,17 @@ describe('spaced repetition', () => {
     expect(reset).toMatchObject({ box: 0, seen: 3, correct: 1, learnedAt: now });
     expect(dueWordIds({ a: reset, b: { ...first, wordId: 'b', dueAt: now } }, reset.dueAt)).toEqual(['b', 'a']);
   });
+
+  it('treats a correct answer before the due time as practice: box and due time stay (#146)', () => {
+    const first = scheduleReview(undefined, 'a', true, now);
+    const sameDay = scheduleReview(scheduleReview(first, 'a', true, now + 1_000), 'a', true, now + 2_000);
+    expect(sameDay).toMatchObject({ box: 0, dueAt: first.dueAt, seen: 3, correct: 3 });
+    const due = scheduleReview(sameDay, 'a', true, first.dueAt);
+    expect(due).toMatchObject({ box: 1, dueAt: first.dueAt + INTERVAL_DAYS[1] * 86_400_000 });
+  });
+
+  it('still starts a word over when it is missed before its due time', () => {
+    const advanced = scheduleReview(scheduleReview(undefined, 'a', true, now), 'a', true, now + 86_400_000);
+    expect(scheduleReview(advanced, 'a', false, now + 86_400_000 + 1_000)).toMatchObject({ box: 0, correct: 2, seen: 3 });
+  });
 });

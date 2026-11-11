@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-11 20:30 run. Updated at the end of every session._
+_Updated: 2026-11-11 21:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -154,6 +154,11 @@ _Updated: 2026-11-11 20:30 run. Updated at the end of every session._
   351 tests ✓; web 375 px Family voice shows all 8 with Record buttons. #157 reopened (19 themes: one lone card).
   Next: #146 review round (spaced), #147 word of the day; #143 alongside; #157 decision. Usage at start: 5-hour 23 %, weekly 29 %. Codex config
   still unchanged (#11). Next: action words (last #144 theme), then #157 lone card check, #145.
+- 2026-11-11 21:30 run: **#146 done** — Find and Read ask words due for review first (the Leitner scheduler and lesson
+  reviews already existed); bug fixed: correct answers before a word is due no longer move it up a box (games had
+  pushed words days ahead). 83 suites / 355 tests ✓; web-checked on Find. Reviewer subagent: no defects, 1 low applied.
+  New ideas #159 (second 3D picture for review), #160 ("Do you remember?" line). Usage at start: 5-hour 36 %, weekly
+  31 %. Next: #147 word of the day, then #148–#156 by score; #143 alongside; #157 decision.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

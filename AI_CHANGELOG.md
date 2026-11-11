@@ -2,6 +2,23 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-11 21:30 run
+- claude · Usage at start: Claude 5-hour 36 %, weekly 31 %; Codex config unchanged since 2026-10-30 (#11), so a
+  reviewer subagent (sonnet) reviewed instead: no correctness findings, 1 low applied (replay no longer re-asks the
+  answered review words).
+- #146 spaced review. Found that the Leitner scheduler and due reviews in the daily lesson already existed. Added:
+  Find and Read ask words due for review first (most overdue, at most one game's rounds, then other met words before a
+  repeat) — `buildChoiceRounds(..., reviewIds)`, ids taken once in `GameShell` when the game is admitted. Bug fixed:
+  `scheduleReview` moved a word up a box on every correct answer, even before it was due, so three games in a day took
+  a word from box 0 to 3 (next seen in 14 days); early correct answers now keep box and due time.
+- Files: src/lib/srs.ts, src/lib/srs.test.ts, src/features/games/logic.ts, src/features/games/logic.test.ts,
+  src/features/games/GameShell.tsx, src/features/games/ChoiceGame.tsx, src/app/games/find.tsx, src/app/games/read.tsx;
+  AI_TASKS.md (#146 done, #159, #160 new), AI_DECISIONS.md, PROJECT_STATUS.md.
+- Checks: `npm run check` (tsc, ESLint, Jest 83 suites / 355 tests) ✓. Web (127.0.0.1:8095, test child, data backed up
+  and restored): with grandma + dad due and 4 words not due, Find asked dad then grandma in rounds 1–2; dad stored box 1,
+  due in 3.00 days; brother (not due) answered correctly kept box 0 and its due date; no console errors.
+- Not verified: native (Xcode, #10). Commit: see git log ("Spaced review in Find and Read (#146)").
+
 ## 2026-11-11 20:30 run
 - claude · Usage at start: Claude 5-hour 23 %, weekly 29 %; Codex config unchanged since 2026-10-30, so #11 still
   blocks it (not re-probed). No reviewer subagent this run (same recipe as the four reviewed themes; capacity kept).

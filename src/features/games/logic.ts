@@ -71,16 +71,21 @@ export interface ChoiceRound {
 /**
  * One round per answer; answers cycle through the seen words if there are fewer words than rounds.
  * Options always include the answer, with unique ids, emojis and spellings.
+ * `reviewIds` (most overdue first) are asked before other words, so a game doubles as a spaced review (#146).
  */
 export function buildChoiceRounds(
   seen: readonly Word[],
   optionCount: number,
   random: Random = Math.random,
   rounds = ROUNDS,
+  reviewIds: readonly string[] = [],
 ): ChoiceRound[] {
   const pool = uniqueWords(shuffle(seen, random));
   if (pool.length < optionCount) return [];
-  const order: Word[] = [];
+  const byId = new Map(pool.map((word) => [word.id, word] as const));
+  const due = shuffle(reviewIds.map((id) => byId.get(id)).filter((word): word is Word => word !== undefined).slice(0, rounds), random);
+  const dueIds = new Set(due.map((word) => word.id));
+  const order: Word[] = [...due, ...pool.filter((word) => !dueIds.has(word.id))];
   while (order.length < rounds) order.push(...shuffle(pool, random));
   return order.slice(0, rounds).map((answer) => {
     const distractors = shuffle(pool.filter((word) => word.id !== answer.id), random).slice(0, optionCount - 1);

@@ -6,6 +6,8 @@ import { goBackOrHome } from '@/lib/navigation';
 import { useBuddyLine } from '@/features/buddy/useBuddyLine';
 import type { IconName } from '@/art/icons';
 import { canPlayGame } from '@/lib/entitlements';
+import { dueWordIds } from '@/lib/srs';
+import type { WordProgressMap } from '@/lib/srs.types';
 import { IconTitle } from '@/ui/IconTitle';
 import { gamesPlayedToday, useProgressActions, useProgressState } from '@/state/progress';
 import type { Word } from '@/content/types';
@@ -20,8 +22,11 @@ import { MIN_SEEN_WORDS, pickSeenWords } from './logic';
 interface GameShellProps {
   title: string;
   icon: IconName;
-  /** Rendered once progress is loaded and enough words are seen; a game reports its finish screen so the shell shows the celebration scene. */
-  children: (seenWords: Word[], onFinishedChange: (finished: boolean) => void) => ReactNode;
+  /**
+   * Rendered once progress is loaded and enough words are seen; a game reports its finish screen so the shell shows the
+   * celebration scene. `reviewIds`: words due for spaced review, most overdue first (#146).
+   */
+  children: (seenWords: Word[], onFinishedChange: (finished: boolean) => void, reviewIds: readonly string[]) => ReactNode;
 }
 
 /** Loading + "finish a lesson first" gate shared by every game screen. */
@@ -52,10 +57,12 @@ export function GameShell({ title, icon, children }: GameShellProps) {
     );
   }
 
-  return <AdmittedGame title={title} icon={icon} seen={seen} isPremium={state.isPremium} played={gamesPlayedToday(state)}>{children}</AdmittedGame>;
+  return <AdmittedGame title={title} icon={icon} seen={seen} words={state.words} isPremium={state.isPremium} played={gamesPlayedToday(state)}>{children}</AdmittedGame>;
 }
 
-function AdmittedGame({ title, icon, seen, isPremium, played, children }: { title: string; icon: IconName; seen: Word[]; isPremium: boolean; played: number; children: GameShellProps['children'] }) {
+function AdmittedGame({ title, icon, seen, words, isPremium, played, children }: { title: string; icon: IconName; seen: Word[]; words: WordProgressMap; isPremium: boolean; played: number; children: GameShellProps['children'] }) {
+  // Taken once when the game opens: answers recorded during it reschedule words but must not change the rounds.
+  const [reviewIds] = useState(() => dueWordIds(words, Date.now()));
   const line = useBuddyLine();
   const [admitted] = useState(() => canPlayGame(isPremium, played));
   const { recordGamePlayed } = useProgressActions();
@@ -75,7 +82,7 @@ function AdmittedGame({ title, icon, seen, isPremium, played, children }: { titl
   return (
     <Screen scene={finished ? 'hills' : undefined}>
       <IconTitle icon={icon} text={title} style={styles.title} />
-      {children(seen, setFinished)}
+      {children(seen, setFinished, reviewIds)}
     </Screen>
   );
 }

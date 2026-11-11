@@ -98,4 +98,15 @@ describe('buildChoiceRounds', () => {
   it('returns no rounds when there are not enough distinct words', () => {
     expect(buildChoiceRounds(WORDS.slice(0, 2), 3, seeded())).toEqual([]);
   });
+  it('asks words due for review first, most overdue when more are due than rounds (#146)', () => {
+    for (const seed of [1, 2, 3, 4, 5]) {
+      const rounds = buildChoiceRounds(WORDS, 4, seeded(seed), 3, ['family.w6', 'family.w2', 'family.w4', 'family.w0']);
+      expect(rounds.map((r) => r.answer.id).sort()).toEqual(['family.w2', 'family.w4', 'family.w6']);
+    }
+  });
+  it('fills the remaining rounds with other words before repeating a due word', () => {
+    const rounds = buildChoiceRounds(WORDS, 4, seeded(9), 6, ['family.w7', 'gone.x']);
+    expect(rounds[0].answer.id).toBe('family.w7');
+    expect(new Set(rounds.map((r) => r.answer.id)).size).toBe(6);
+  });
 });

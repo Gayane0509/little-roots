@@ -228,3 +228,13 @@ Durable decisions with reasons. Newest first. Earlier ones are summarized from `
 - Last week the Claude weekly limit hit 98 % by 2026-11-05 and four days of runs could only check usage. From now on
   each hourly run budgets about 1.5 % of the weekly limit (80 % cap ÷ ~6 days ÷ 8 runs) and stops at a checkpoint when
   it reaches it, even inside the 50-minute window.
+
+## 2026-11-11 — Spaced review in games (#146)
+- Early practice doesn't advance the schedule: a correct answer moves a word up a Leitner box only when the word is due;
+  before that it counts in seen/correct only. A wrong answer still starts the word over (box 0, due tomorrow). Reason:
+  games record answers too, and three games in one day had pushed a word from box 0 to box 3 (next seen in 14 days).
+- Find and Read are the review round: due words (most overdue first, at most one game's rounds) are asked first, then
+  other met words. No separate review screen, so the daily game limit and Home stay as they are. Memory records no
+  answers, so it keeps picking at random.
+- No second picture from the old flat drawings in review: the #142/#143 rule is one 3D style on screen (→ #159).
+

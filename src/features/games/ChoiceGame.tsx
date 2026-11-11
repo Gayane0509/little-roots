@@ -19,7 +19,7 @@ import { wordBox, wordFontSize } from '@/ui/wordFit';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing } from '@/ui/tokens';
 
 import { choiceLayout } from './choiceLayout';
-import { buildChoiceRounds, type ChoiceRound } from './logic';
+import { buildChoiceRounds, ROUNDS, type ChoiceRound } from './logic';
 import { GameDoneActions } from './GameDoneActions';
 
 /** `find`: read the word, tap its picture. `read`: see the picture, tap its word. */
@@ -27,7 +27,7 @@ type Mode = 'find' | 'read';
 
 const NEXT_DELAY_MS = 1300;
 
-export function ChoiceGame({ mode, seenWords, onFinishedChange }: { mode: Mode; seenWords: Word[]; onFinishedChange?: (finished: boolean) => void }) {
+export function ChoiceGame({ mode, seenWords, reviewIds, onFinishedChange }: { mode: Mode; seenWords: Word[]; reviewIds?: readonly string[]; onFinishedChange?: (finished: boolean) => void }) {
   const line = useBuddyLine();
   const { soundEffects, haptics } = useSettings();
   const { recordAnswer, recordGamePlayed } = useProgressActions();
@@ -35,7 +35,7 @@ export function ChoiceGame({ mode, seenWords, onFinishedChange }: { mode: Mode; 
   const layout = choiceLayout(window);
   const voice = useFamilyVoice();
   const optionCount = mode === 'find' ? Math.min(4, seenWords.length) : 3;
-  const [rounds, setRounds] = useState<ChoiceRound[]>(() => buildChoiceRounds(seenWords, optionCount));
+  const [rounds, setRounds] = useState<ChoiceRound[]>(() => buildChoiceRounds(seenWords, optionCount, Math.random, ROUNDS, reviewIds));
   const [index, setIndex] = useState(0);
   const [wrongIds, setWrongIds] = useState<string[]>([]);
   const [solved, setSolved] = useState(false);
@@ -110,6 +110,7 @@ export function ChoiceGame({ mode, seenWords, onFinishedChange }: { mode: Mode; 
     recordGamePlayed();
     locked.current = false;
     hadWrong.current = false;
+    // The due words were answered in the first game, so a replay mixes all met words again (#146).
     setRounds(buildChoiceRounds(seenWords, optionCount));
     setIndex(0);
     setWrongIds([]);
