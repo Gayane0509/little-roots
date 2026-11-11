@@ -136,7 +136,8 @@ _Updated: 2026-11-11 18:30 run. Updated at the end of every session._
   kitchen, playground, holidays, action words), then #145.
 - 2026-11-11 18:30 run: #144 2 of 6 — Weather & seasons theme (8 words, Fluent 3D pictures, rhyme "All year round";
   121 theme words, 14 themes; paywall now "96 more words in 12 themes"). `npm run check` 83 suites / 343 tests ✓;
-  web-checked 375 + 320 px. Usage at start: 5-hour 7 %, weekly 26 %. Next: kitchen, playground, holidays, action words.
+  web-checked 375 + 320 px. Then Kitchen (3 of 6; 129 theme words, 15 themes; 83 suites / 344 tests ✓; web-checked
+  375 px). Usage at start: 5-hour 7 %, weekly 26 %. Next: playground, holidays (Vardavar, New Year), action words.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

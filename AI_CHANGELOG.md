@@ -16,7 +16,16 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   overflow; 14 cards in even rows); locked theme → parent gate → paywall "96 more words in 12 themes", Words 24 /
   120, strip 6 + 6; Family voice filter "Weather & seasons 0/8" lists the 8 pictures (all 256 px PNGs loaded); no
   console errors.
-- Checks: `npm run check` 83 suites / 343 tests ✓. Commit: "New theme: Weather & seasons (#144)".
+- Checks: `npm run check` 83 suites / 343 tests ✓. Commit 631d195 "New theme: Weather & seasons (#144)".
+- #144 (3 of 6): new premium theme **Kitchen** (`kitchen`) — plate, spoon, bowl, cup, pot, frying pan, teapot, salt;
+  8 Fluent 3D PNGs (assets/words/kitchen/, 21–44 KB, MIT), drawn fallbacks (src/art/words/kitchen.ts, contact sheet
+  checked), rhyme "In the kitchen" (each line shows its picture; test). Fork and knife left out: the plate picture
+  already shows them, so a Find round would have two right-looking answers. Same files as Weather +
+  src/art/words/kitchen.ts.
+- Web (375 px): Home shows the Kitchen card; Family voice "Kitchen 0/8" lists the 8 pictures (256 px loaded), "0 of
+  128 recorded". A console "Unable to resolve ./kitchen" came from Fast Refresh between two edits; the current dev
+  bundle builds (HTTP 200, no resolve error, kitchen pictures in it).
+- Checks: `npm run check` 83 suites / 344 tests ✓. Commit: "New theme: Kitchen (#144)".
 
 ## 2026-11-11 17:30 run
 - claude · Usage at start: Claude 5-hour 2 %, weekly 25 %; Codex still blocked by #11 (config unchanged since

@@ -102,6 +102,14 @@ export const WORD_PICTURES: Readonly<Record<string, ImageSourcePropType>> = {
   'weather.summer': require('../../assets/words/weather/summer.png'), // Beach with umbrella
   'weather.autumn': require('../../assets/words/weather/autumn.png'), // Fallen leaf
   'weather.winter': require('../../assets/words/weather/winter.png'), // Snowman
+  'kitchen.plate': require('../../assets/words/kitchen/plate.png'), // Fork and knife with plate
+  'kitchen.spoon': require('../../assets/words/kitchen/spoon.png'), // Spoon
+  'kitchen.bowl': require('../../assets/words/kitchen/bowl.png'), // Bowl with spoon
+  'kitchen.cup': require('../../assets/words/kitchen/cup.png'), // Hot beverage
+  'kitchen.pot': require('../../assets/words/kitchen/pot.png'), // Pot of food
+  'kitchen.pan': require('../../assets/words/kitchen/pan.png'), // Cooking
+  'kitchen.teapot': require('../../assets/words/kitchen/teapot.png'), // Teapot
+  'kitchen.salt': require('../../assets/words/kitchen/salt.png'), // Salt
   'transport.car': require('../../assets/words/transport/car.png'), // Automobile
   'transport.bus': require('../../assets/words/transport/bus.png'), // Bus
   'transport.train': require('../../assets/words/transport/train.png'), // Locomotive

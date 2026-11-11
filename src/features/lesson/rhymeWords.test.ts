@@ -30,6 +30,12 @@ test('each weather rhyme line shows its season or weather pictures (#144)', () =
   ]);
 });
 
+test('each kitchen rhyme line shows the thing it names (#144)', () => {
+  const kitchen = getTheme('kitchen');
+  const ids = kitchen?.song.lines.map((line) => lineWordIds(line.hy, kitchen.song, kitchen.words));
+  expect(ids).toEqual([['kitchen.bowl'], ['kitchen.spoon'], ['kitchen.teapot'], ['kitchen.pot']]);
+});
+
 test('words outside the song list and very short words are ignored; at most two per line', () => {
   const words = [{ id: 'a.cat', hy: 'կատու' }, { id: 'a.one', hy: 'մի' }, { id: 'a.dog', hy: 'շուն' }, { id: 'a.cow', hy: 'կով' }];
   expect(lineWordIds('Կատուն և շունը և կովը', {}, words)).toEqual(['a.cat', 'a.dog']);

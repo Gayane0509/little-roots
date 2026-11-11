@@ -5,7 +5,7 @@ import { THEMES } from './themes';
 describe('content', () => {
   const all = THEMES.flatMap((t) => t.words);
 
-  it('has 14 themes in order', () => {
+  it('has 15 themes in order', () => {
     expect(THEMES.map((t) => t.id)).toEqual([
       'family',
       'food',
@@ -21,6 +21,7 @@ describe('content', () => {
       'feelings',
       'school',
       'weather',
+      'kitchen',
     ]);
   });
 
