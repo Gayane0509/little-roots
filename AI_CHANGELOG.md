@@ -19,6 +19,16 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   Holidays card on Home 375 px (locked, tree picture); all 8 pictures in Parent → Family voice (filter Holidays);
   Memory at 320×700 renders 12 cards, no console errors. Not verified: native fonts (#10).
 
+- #144 6 of 6 — Action words theme (Գործեր, premium): eat (Fluent "Spaghetti"), sleep, run, play (yo-yo), swim, dance,
+  sing, draw (palette), infinitives; drawn fallbacks; rhyme "What I like to do" (test). Guard tests caught two things
+  before commit: 🎤 is banned by the no-voice guard (→ 🎶), and the two-word title Ի՞նչ եմ անում broke the one-line title
+  fit (→ Գործեր). #144 done (152 theme words, 18 themes); #157 closed (even rows).
+- Files: assets/words/actions/*.png (8), src/art/pictures.ts, src/art/words/{actions,index}.ts,
+  src/content/{themes,types,themeArt,content.test}.ts, src/features/lesson/rhymeWords.test.ts, notes.
+- Checks: tsc ✓, ESLint ✓, Jest 83 suites / 350 tests ✓. Web 375 px: Home last row Holidays + Action words; Family voice
+  shows all 8 pictures ("0 of 152"); fresh bundle has no resolve error (an earlier console error was from the moment
+  index.ts was saved before actions.ts existed).
+
 ## 2026-11-11 19:30 run
 - claude · Usage at start: Claude 5-hour 15 %, weekly 27 %; Codex still blocked by #11, so a reviewer subagent reviews
   instead of Codex.

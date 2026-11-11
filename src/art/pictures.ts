@@ -126,6 +126,14 @@ export const WORD_PICTURES: Readonly<Record<string, ImageSourcePropType>> = {
   'holidays.candle': require('../../assets/words/holidays/candle.png'), // Candle
   'holidays.vardavar': require('../../assets/words/holidays/vardavar.png'), // Water pistol
   'holidays.dove': require('../../assets/words/holidays/dove.png'), // Dove
+  'actions.eat': require('../../assets/words/actions/eat.png'), // Spaghetti
+  'actions.sleep': require('../../assets/words/actions/sleep.png'), // Sleeping face
+  'actions.run': require('../../assets/words/actions/run.png'), // Person running (Light)
+  'actions.play': require('../../assets/words/actions/play.png'), // Yo-yo
+  'actions.swim': require('../../assets/words/actions/swim.png'), // Person swimming (Light)
+  'actions.dance': require('../../assets/words/actions/dance.png'), // Woman dancing (Light)
+  'actions.sing': require('../../assets/words/actions/sing.png'), // Singer (Light)
+  'actions.draw': require('../../assets/words/actions/draw.png'), // Artist palette
   'transport.car': require('../../assets/words/transport/car.png'), // Automobile
   'transport.bus': require('../../assets/words/transport/bus.png'), // Bus
   'transport.train': require('../../assets/words/transport/train.png'), // Locomotive

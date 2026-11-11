@@ -6,7 +6,7 @@ const words: Record<ThemeId, string> = {
   toys: 'toys.ball', nature: 'nature.sun', transport: 'transport.car', feelings: 'feelings.happy',
   school: 'school.school', weather: 'weather.rainbow',
   kitchen: 'kitchen.teapot', playground: 'playground.slide',
-  holidays: 'holidays.newyeartree',
+  holidays: 'holidays.newyeartree', actions: 'actions.run',
 };
 
 export function themeArtWordId(themeId: ThemeId): string {

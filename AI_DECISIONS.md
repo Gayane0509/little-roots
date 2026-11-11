@@ -26,6 +26,12 @@ Durable decisions with reasons. Newest first. Earlier ones are summarized from `
   Վարդավառ · աղավնի · Տոնածառը փայլում է։ · Տատիկը գաթա է թխում։ · Երկնքում հրավառություն է։ · Վարդավառին ջուր ենք
   ցողում։ (and transliterations). Pictures: Fluent "Pie" for gata (round scored pastry; "Moon cake" rejected for its
   Chinese symbol), "Water pistol" for Vardavar, Santa in Light tone for Ձմեռ պապ.
+  Action words (2026-11-11), **needs native proofreading:** Գործեր (theme title, "things we do"; must be one word —
+  alternatives Բայեր) · ուտել · քնել · վազել · խաղալ · լողալ · պարել · երգել · նկարել · Սիրում եմ վազել։ · Սիրում եմ
+  պարել։ · Ուզում եմ խաղալ։ · Իսկ հիմա՝ քնել։ (and transliterations). Words are infinitives so rhyme lines can show them.
+- 2026-11-11 · **Memory skips words that can't fit its cards (#144).** `wordFits` says whether a word fits its box at
+  WORD_MIN_SIZE (8 px); `buildMemoryDeck` puts non-fitting words last, so they play only when too few others are seen.
+  Today only հրավառություն on 320 px phones. Preferred over a smaller floor (unreadable) or a mid-word break.
 - 2026-11-11 · **Word pictures: Microsoft Fluent Emoji 3D (#142, owner's choice; updates "No emoji pictures").** The
   owner asked for better pictures and picked Fluent 3D from a side-by-side with the drawn SVGs. 102 word pictures are
   256 px PNGs bundled in `assets/words/<theme>/<slug>.png` (MIT, `assets/words/LICENSE`; 3.5 MB), listed in

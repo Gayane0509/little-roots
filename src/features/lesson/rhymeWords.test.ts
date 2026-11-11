@@ -48,6 +48,12 @@ test('each holidays rhyme line shows the thing it names (#144)', () => {
   expect(ids).toEqual([['holidays.newyeartree'], ['holidays.gata'], ['holidays.fireworks'], ['holidays.vardavar']]);
 });
 
+test('each action words rhyme line shows the thing it names (#144)', () => {
+  const actions = getTheme('actions');
+  const ids = actions?.song.lines.map((line) => lineWordIds(line.hy, actions.song, actions.words));
+  expect(ids).toEqual([['actions.run'], ['actions.dance'], ['actions.play'], ['actions.sleep']]);
+});
+
 test('words outside the song list and very short words are ignored; at most two per line', () => {
   const words = [{ id: 'a.cat', hy: 'կատու' }, { id: 'a.one', hy: 'մի' }, { id: 'a.dog', hy: 'շուն' }, { id: 'a.cow', hy: 'կով' }];
   expect(lineWordIds('Կատուն և շունը և կովը', {}, words)).toEqual(['a.cat', 'a.dog']);

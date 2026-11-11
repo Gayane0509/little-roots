@@ -15,7 +15,8 @@ export type ThemeId =
   | 'weather'
   | 'kitchen'
   | 'playground'
-  | 'holidays';
+  | 'holidays'
+  | 'actions';
 
 export interface Word {
   /** Stable id, e.g. "family.mom". Progress is keyed by it — never rename once shipped. */

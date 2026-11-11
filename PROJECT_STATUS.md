@@ -146,7 +146,10 @@ _Updated: 2026-11-11 20:30 run. Updated at the end of every session._
 - 2026-11-11 20:30 run: #144 5 of 6 — Holidays theme (Տոներ: New Year tree, Ձմեռ պապ, gata, fireworks, cake, candle,
   Vardavar, dove; Fluent 3D, rhyme "Holidays"; 144 theme words, 17 themes — the 19:30 note's "137" was a miscount, 136).
   Web-checked 375 px: Home card, all 8 pictures in Family voice. Found: հրավառություն can't fit a 320 px Memory card even
-  at 8 px → Memory now prefers words that fit (`wordFits`; tested; Memory web-checked 320×700). 83 suites / 349 tests ✓. Usage at start: 5-hour 23 %, weekly 29 %. Codex config
+  at 8 px → Memory now prefers words that fit (`wordFits`; tested; Memory web-checked 320×700). 83 suites / 349 tests ✓
+  (96bed4a). Then Action words (Գործեր: eat, sleep, run, play, swim, dance, sing, draw; rhyme "What I like to do") —
+  **#144 done: 6 themes, 152 theme words, 18 themes.** #157 closed: 18 themes fill every Home row. 83 suites / 350 tests ✓;
+  web 375 px (Home, Family voice pictures). Next: #145 phrases theme, then #146, #147; #143 alongside. Usage at start: 5-hour 23 %, weekly 29 %. Codex config
   still unchanged (#11). Next: action words (last #144 theme), then #157 lone card check, #145.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
