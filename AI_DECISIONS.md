@@ -2,6 +2,14 @@
 
 Durable decisions with reasons. Newest first. Earlier ones are summarized from `PROGRESS.md`.
 
+- 2026-11-11 · **Counting game (#151) shows only after three Numbers words.** The Games list adds "Count with me" once
+  the child has met ≥ 3 words of the (premium) Numbers theme in unlocked themes, so free children never see a game they
+  can't play and Premium content stays behind the paywall. Rounds use met numbers only; the counted pictures are 8 plain
+  objects (apple, banana, fish, ball, balloon, star, flower, car) shown four a row at every width (8 = 4 + 4). Each tap
+  plays the grown-up's Family voice recording of that number word if one exists (any number, met or not), else the tap
+  sound — no new voice behaviour. Answers record on the number word, so Count also schedules Numbers reviews. New Buddy
+  lines, **need native proofreading:** Սեղմի՛ր ամեն մեկին և հաշվի՛ր։ (Tap each one and count!) · Քանի՞ հատ կա։ (How many
+  are there?) · Նախ սովորի՛ր թվերը։ (Learn the Numbers words first!).
 - 2026-11-11 · **Word fitting weighs letter widths (#158).** `wordEms` counts wide letters (ա թ խ պ տ փ ֆ և Թ Խ Մ Պ Ռ
   Վ Փ Ֆ, measured 0.77–0.99 em in the bold web system font) at 0.95 em, narrow ones (լ յ չ ւ Ւ, 0.27–0.45 em) at 0.55
   and the rest at 0.75; a flat 0.75 let Խաղահրապարակ (9.99 em real) break mid-word. Home card title floor 11 → 9 px and

@@ -10,6 +10,7 @@ const titles: Record<string, string> = {
   '/games': 'Games',
   '/games/memory': 'Memory game',
   '/games/find': 'Find game',
+  '/games/count': 'Counting game',
   '/games/read': 'Read game',
   '/parent-gate': 'Grown-ups check',
   '/parent': 'Grown-ups',

@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-11 22:30 run. Updated at the end of every session._
+_Updated: 2026-11-11 23:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -165,6 +165,11 @@ _Updated: 2026-11-11 22:30 run. Updated at the end of every session._
   stale: Premium holds 136). #161 done the same run (button now "136 more words"; 84 suites / 366 tests ✓).
   Usage at start: 5-hour 1 %, weekly 32 %. Next: #148–#156 by score
   (#153 talk-together cards 12, #151 counting game 12); #143 alongside; #157 decision.
+- 2026-11-11 23:30 run: **#151 done** — counting game "Count with me" (tap each picture, the Family voice says the number
+  if recorded, then pick how many; card appears after 3 met Numbers words). Web check found and fixed 4 issues (fast
+  taps counted once; answer row 8 px past the column at 320 px; clipped badges; 5 a row on tablets). 86 suites / 373
+  tests ✓; web 320/375/1024 px, full game 6/6. New: #162 (free counting, owner decision), #163 (check with recordings).
+  Usage at start: 5-hour 9 %, weekly 33 %. Next: #153 talk-together cards (12), #163, #156 learned-word bounce (8).
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

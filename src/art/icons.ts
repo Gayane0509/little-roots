@@ -1,7 +1,7 @@
 import type { ArtXml } from './types';
 
 /** UI icons drawn in the word-art style (STYLE.md), so they look the same on every platform. */
-export type IconName = 'letters' | 'stickers' | 'games' | 'lock' | 'flame' | 'memory' | 'find' | 'read' | 'sprout' | 'voice' | 'point'
+export type IconName = 'letters' | 'stickers' | 'games' | 'lock' | 'flame' | 'memory' | 'find' | 'read' | 'count' | 'sprout' | 'voice' | 'point'
   | 'chart' | 'clock' | 'bulb' | 'gear' | 'play' | 'check' | 'seed' | 'starSlot';
 
 export const ICONS: Record<IconName, ArtXml> = {
@@ -74,6 +74,19 @@ export const ICONS: Record<IconName, ArtXml> = {
 <circle cx="54" cy="54" r="26" fill="#CFE8FF"/>
 </g>
 <path d="M38 46 Q42 34 54 32" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+</svg>`,
+  // Three red apples in a row with counting dots 1, 2, 3 above them.
+  count: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<g stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<circle cx="24" cy="84" r="17" fill="#F25C54"/>
+<circle cx="64" cy="84" r="17" fill="#F25C54"/>
+<circle cx="104" cy="84" r="17" fill="#F25C54"/>
+<path d="M24 67 Q26 60 30 58" fill="none"/><path d="M64 67 Q66 60 70 58" fill="none"/><path d="M104 67 Q106 60 110 58" fill="none"/>
+<circle cx="24" cy="30" r="8" fill="#FFD23F"/>
+<circle cx="56" cy="30" r="8" fill="#FFD23F"/><circle cx="72" cy="30" r="8" fill="#FFD23F"/>
+<circle cx="92" cy="30" r="8" fill="#FFD23F"/><circle cx="104" cy="18" r="8" fill="#FFD23F"/><circle cx="116" cy="30" r="8" fill="#FFD23F"/>
+</g>
+<path d="M17 78 Q19 72 25 71 M57 78 Q59 72 65 71 M97 78 Q99 72 105 71" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
 </svg>`,
   // An open book.
   read: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">

@@ -2,6 +2,24 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-11 23:30 run
+- claude · Usage at start: Claude 5-hour 9 %, weekly 33 %; Codex config unchanged since 2026-10-30 (#11), so a reviewer
+  subagent reviewed: no blocking findings; 2 low applied (counted pictures no longer announced as dimmed; no number
+  asked twice in a row), 1 low skipped (no live region for the "How many?" prompt — same as Find/Read today).
+- #151 Counting game "Count with me": tap each picture to count it (badge 1..N; Family voice plays that number word if
+  recorded, else tap sound), then pick how many from three met numbers (digit + Armenian); 6 rounds; recorded as answers
+  on the number words. Games card only after 3 met Numbers words; new drawn `count` icon; web tab title "Counting game".
+  Web check found and fixed: several taps in one tick counted once (count/answer lock now in refs), answer row 8 px past
+  the column at 320 px, count badges clipped on the right column, 5 a row on tablets (now always 4).
+- Files: src/features/games/counting.ts, counting.test.ts, CountGame.tsx, CountGame.render.test.tsx,
+  src/app/games/count.tsx, src/app/games/index.tsx, src/app/_layout.tsx, src/lib/screenTitle.ts, src/art/icons.ts,
+  src/content/phrases.ts; AI_TASKS.md (#151 done; #162, #163 new), AI_DECISIONS.md, PROJECT_STATUS.md.
+- Checks: `npm run check` (tsc, ESLint, Jest 86 suites / 374 tests) ✓. Web (localhost:8095, test child given Numbers
+  words + Premium for the check, then restored from a backup): Games card hidden without numbers, shown with them; full
+  game 6/6 at 375×812 and 375×667; 8 pictures at 320×640 (no horizontal overflow) and 1024×768 (no scroll); wrong then
+  right answer; console only shows Chrome's blocked `navigator.vibrate` from scripted clicks (no user gesture).
+- Not verified: native (#10); a Family voice recording during counting (#163). Commit: "Counting game (#151)".
+
 ## 2026-11-11 22:30 run
 - claude · Usage at start: Claude 5-hour 1 %, weekly 32 %; Codex config unchanged since 2026-10-30 (#11), so a
   reviewer subagent reviewed instead: 2 medium + 3 low applied (word changed mid-day after a lesson; voice icon could

@@ -1,6 +1,6 @@
 
 import { router, useFocusEffect, type Href } from 'expo-router';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { gamesLeftToday } from '@/lib/entitlements';
 import { gamesPlayedToday, useProgressState } from '@/state/progress';
 import type { IconName } from '@/art/icons';
@@ -13,6 +13,8 @@ import { useBuddyLine } from '@/features/buddy/useBuddyLine';
 import { gameCardIconSize } from '@/features/games/gameListLayout';
 import { goBackOrHome } from '@/lib/navigation';
 import { FreeActivities } from '@/features/games/FreeActivities';
+import { canPlayCounting } from '@/features/games/counting';
+import { pickSeenWords } from '@/features/games/logic';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN } from '@/ui/tokens';
@@ -22,6 +24,8 @@ const GAMES: { href: Href; icon: IconName; title: string; sub: string; color: st
   { href: '/games/find', icon: 'find', title: 'Find the picture', sub: 'Read the word, tap its picture', color: '#CDE7FF' },
   { href: '/games/read', icon: 'read', title: 'Read it', sub: 'For readers: pick the word', color: '#CAFFBF' },
 ];
+// Shown once the child has met three Numbers words (#151), so free children never meet a locked game.
+const COUNT_GAME = { href: '/games/count', icon: 'count', title: 'Count with me', sub: 'Tap and count the pictures', color: '#FFE5EC' } as const;
 
 export default function Games() {
   const line = useBuddyLine();
@@ -30,6 +34,7 @@ export default function Games() {
   useFocusEffect(useCallback(() => { setNow(Date.now()); const sub = AppState.addEventListener('change', (status) => { if (status === 'active') setNow(Date.now()); }); return () => sub.remove(); }, []));
   const iconSize = gameCardIconSize(useWindowDimensions().width);
   const left = gamesLeftToday(state.isPremium, gamesPlayedToday(state, now));
+  const games = useMemo(() => (canPlayCounting(pickSeenWords(state.words, Math.random, Infinity, undefined, state.isPremium)) ? [...GAMES, COUNT_GAME] : GAMES), [state.words, state.isPremium]);
   return (
     <Screen>
       <ScrollView contentContainerStyle={styles.content}>
@@ -37,7 +42,7 @@ export default function Games() {
         {left !== null ? <Text style={styles.count}>3 games a day · {left} left today</Text> : <Text style={styles.count}>Unlimited games</Text>}
         {/* Out of games is not a dead end: Letters and the sticker book have no daily limit (#116). Grown-up prompt stays last and grey. */}
         {left === 0 ? <><Buddy message={line('games_done_today')} /><FreeActivities /><BigButton label="Grown-ups: unlimited games" color={colors.textMuted} onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'games' } })} /></> : null}
-        {GAMES.map((game) => (
+        {games.map((game) => (
           <Pressable
             key={game.title}
             accessibilityRole="button"

@@ -50,6 +50,7 @@ function ProfileTree() {
             <Stack.Screen name="games/index" />
             <Stack.Screen name="games/memory" />
             <Stack.Screen name="games/find" />
+            <Stack.Screen name="games/count" />
             <Stack.Screen name="games/read" />
             <Stack.Screen name="parent/reminders" />
             <Stack.Screen name="parent/settings" />
