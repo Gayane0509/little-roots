@@ -1,5 +1,5 @@
 import { fitFontSize, wordEms } from './fitFontSize';
-import { CONTENT_MAX_WIDTH, DISPLAY_MAX_FONT_SCALE, spacing, TOUCH_MIN, WIDE_BREAKPOINT } from './tokens';
+import { CONTENT_MAX_WIDTH, DISPLAY_MAX_FONT_SCALE, font, spacing, TOUCH_MIN, WIDE_BREAKPOINT } from './tokens';
 
 /**
  * Text boxes that show one Armenian word, from the window width (#105). A word that doesn't fit its box would break in the
@@ -28,6 +28,9 @@ export const wordBox = {
   /** Letter sheet example word (`LetterDetail`): the sheet (full window, capped), `spacing.lg` content padding and
    * `spacing.md` card padding. The word wraps below the picture when it doesn't fit beside it, so this is its widest line. */
   letterExample: (width: number) => Math.min(width, CONTENT_MAX_WIDTH) - 2 * spacing.lg - 2 * spacing.md,
+  /** Home word of the day (`WordOfTheDay`): 2 px border and `spacing.md` padding; beside the picture (plus a `spacing.md`
+   * gap) or, for a long word, below it at full width. */
+  wordOfDay: (width: number, besidePicture: number) => contentWidth(width) - 2 * 2 - 2 * spacing.md - (besidePicture > 0 ? besidePicture + spacing.md : 0),
   /** Parent "New this week" tile: 96 px wide with `spacing.sm` padding. */
   parentLearned: () => 96 - 2 * spacing.sm,
 };
@@ -50,4 +53,22 @@ export function wordFontSize(text: string, box: number, base: number, fontScale 
 export function wordFits(text: string, box: number, base: number, fontScale = 1) {
   const scale = Math.min(fontScale, DISPLAY_MAX_FONT_SCALE);
   return wordFontSize(text, box, base, fontScale) * scale * Math.max(...text.split(/\s+/).map(wordEms)) <= box;
+}
+
+/** Word of the day picture (`WordOfTheDay`): phones, then from WIDE_BREAKPOINT. */
+export const wordOfDayPicture = (width: number) => (width >= WIDE_BREAKPOINT ? 160 : 112);
+
+/** Room the `Wiggle` voice icon takes at the card's top right (28 px icon, 8 px inset) when the word has a recording. */
+export const WORD_OF_DAY_VOICE_ICON = 36;
+
+/**
+ * Word of the day sizing (#147): the word sits beside the picture at up to `font.title` (clear of the voice icon when there
+ * is a recording); a word that would shrink below `font.heading` there (հրավառություն on a phone) goes under the picture
+ * at full card width instead, where the icon sits beside the centred picture.
+ */
+export function wordOfDayText(text: string, width: number, hasVoice: boolean, fontScale = 1): { stacked: boolean; size: number } {
+  const picture = wordOfDayPicture(width);
+  const beside = wordFontSize(text, wordBox.wordOfDay(width, picture) - (hasVoice ? WORD_OF_DAY_VOICE_ICON : 0), font.title, fontScale);
+  if (beside >= font.heading) return { stacked: false, size: beside };
+  return { stacked: true, size: wordFontSize(text, wordBox.wordOfDay(width, 0), font.title, fontScale) };
 }

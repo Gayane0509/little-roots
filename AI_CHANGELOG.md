@@ -2,6 +2,21 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-11 22:30 run
+- claude · Usage at start: Claude 5-hour 1 %, weekly 32 %; Codex config unchanged since 2026-10-30 (#11), so a
+  reviewer subagent reviewed instead: 2 medium + 3 low applied (word changed mid-day after a lesson; voice icon could
+  cover a long word; tests at large text and the 600 px breakpoint; picker tests; header role), 1 nit skipped (memo).
+- #147 Word of the day on Home: one picture + Armenian + transliteration + English after the tiles (lesson button stays
+  above the fold). Same word all day per child (FNV hash of profile id + local day) from words met before today in
+  unlocked themes, else the theme the next lesson started with; tap plays the Family voice recording (else wiggle +
+  tap sound). Long words go under the picture rather than shrinking below heading size.
+- Files: src/lib/wordOfDay.ts, src/lib/wordOfDay.test.ts, src/features/home/WordOfTheDay.tsx, src/app/index.tsx,
+  src/ui/wordFit.ts, src/ui/wordFit.test.ts; AI_TASKS.md (#147 done, #161 new), AI_DECISIONS.md, PROJECT_STATUS.md.
+- Checks: `npm run check` (tsc, ESLint, Jest 84 suites / 365 tests) ✓. Web (localhost:8095, test child): card at 320,
+  375 and 1024 px, word whole (նորածին 22 px in its 124 px column at 320), tap works, heading role, no console errors.
+- Not verified: native (Xcode, #10); a recorded word on the card (no recording in the test child). Commit: see git log
+  ("Word of the day on Home (#147)").
+
 ## 2026-11-11 21:30 run
 - claude · Usage at start: Claude 5-hour 36 %, weekly 31 %; Codex config unchanged since 2026-10-30 (#11), so a
   reviewer subagent (sonnet) reviewed instead: no correctness findings, 1 low applied (replay no longer re-asks the

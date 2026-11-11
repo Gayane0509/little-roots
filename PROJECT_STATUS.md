@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-11 21:30 run. Updated at the end of every session._
+_Updated: 2026-11-11 22:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -159,6 +159,11 @@ _Updated: 2026-11-11 21:30 run. Updated at the end of every session._
   pushed words days ahead). 83 suites / 355 tests ✓; web-checked on Find. Reviewer subagent: no defects, 1 low applied.
   New ideas #159 (second 3D picture for review), #160 ("Do you remember?" line). Usage at start: 5-hour 36 %, weekly
   31 %. Next: #147 word of the day, then #148–#156 by score; #143 alongside; #157 decision.
+- 2026-11-11 22:30 run: **#147 done** — Word of the day card on Home (same word all day per child, from words met
+  before today; tap plays the Family voice recording; long words stack under the picture). 84 suites / 365 tests ✓;
+  web 320/375/1024 px. Reviewer subagent: 2 medium + 3 low applied. Found #161 (Home/lesson "80 more words" label is
+  stale: Premium holds 136). Usage at start: 5-hour 1 %, weekly 32 %. Next: #161, then #148–#156 by score
+  (#153 talk-together cards 12, #151 counting game 12); #143 alongside; #157 decision.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

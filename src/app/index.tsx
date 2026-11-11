@@ -5,9 +5,12 @@ import { ActivityIndicator, AppState, Pressable, ScrollView, StyleSheet, Text, u
 
 import { ACTIVE_PACK } from '@/content/packs';
 import { ThemeCard } from '@/features/home/ThemeCard';
+import { WordOfTheDay } from '@/features/home/WordOfTheDay';
+import { localDay } from '@/lib/date';
 import { isThemeUnlocked, nextNewTheme, themeProgress } from '@/lib/lesson';
 import { wornOutfit } from '@/lib/outfits';
 import { currentStreak } from '@/lib/streak';
+import { wordOfTheDay } from '@/lib/wordOfDay';
 import { useProgress } from '@/state/progress';
 import { useProfiles } from '@/state/profiles';
 import { ProfileAvatar } from '@/features/profiles/ProfileAvatar';
@@ -49,6 +52,7 @@ export default function Home() {
   const nextThemeId = nextNewTheme(ACTIVE_PACK.themes, state.words, state.isPremium)?.id;
 
   const freeDone = !state.isPremium && freeWordsFinished(state);
+  const todaysWord = wordOfTheDay({ themes: ACTIVE_PACK.themes, words: state.words, isPremium: state.isPremium, day: localDay(now), seed: active?.id ?? state.childName });
   return (
     <Screen scene="hills">
       <ScrollView contentContainerStyle={[styles.content, { paddingBottom: sceneHeight(width) }]}>
@@ -111,6 +115,9 @@ export default function Home() {
             <Text style={styles.tileLabel}>Games</Text>
           </Pressable>
         </View>
+
+        {/* Below the lesson button and tiles, so the lesson stays above the fold on short phones (#86). */}
+        {todaysWord ? <WordOfTheDay word={todaysWord} /> : null}
 
         <View style={styles.grid}>
           {ACTIVE_PACK.themes.map((theme) => {

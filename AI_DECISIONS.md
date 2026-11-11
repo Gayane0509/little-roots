@@ -238,3 +238,7 @@ Durable decisions with reasons. Newest first. Earlier ones are summarized from `
   answers, so it keeps picking at random.
 - No second picture from the old flat drawings in review: the #142/#143 rule is one 3D style on screen (→ #159).
 
+## 2026-11-11 — Word of the day (#147)
+- A reminder, not a test: picked from words met before today (so a lesson doesn't swap it mid-day), per child, per local
+  day; no score, no streak. Placed after the Letters/Stickers/Games tiles so the lesson button stays above the fold (#86).
+- Tap reuses `Wiggle` (Family voice if recorded, else tap sound); no new voice behaviour (owner's voice rule).

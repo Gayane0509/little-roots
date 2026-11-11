@@ -5,7 +5,7 @@ import { memoryLayout } from '@/features/games/memoryLayout';
 
 import { wordEms } from './fitFontSize';
 import { font } from './tokens';
-import { wordBox, wordFits, wordFontSize } from './wordFit';
+import { WORD_OF_DAY_VOICE_ICON, wordBox, wordFits, wordFontSize, wordOfDayPicture, wordOfDayText } from './wordFit';
 
 const words = ACTIVE_PACK.themes.flatMap((t) => t.words);
 const widestWord = (text: string) => Math.max(...text.split(/\s+/).map(wordEms));
@@ -60,4 +60,25 @@ test('short words keep the base size in roomy boxes', () => {
   expect(wordFontSize('մայրիկ', wordBox.lessonCard(375), font.word)).toBe(font.word);
   expect(wordFontSize('մայրիկ', wordBox.themeCard(375), font.heading)).toBe(font.heading);
   expect(wordFontSize('նարնջագույն', wordBox.lessonCard(375), font.word)).toBe(35);
+});
+
+test('word of the day: every word reads at heading size or larger, beside the picture or under it (#147)', () => {
+  const bad: string[] = [];
+  for (const width of [320, 375, 430, 599, 600, 768, 1024]) {
+    for (const hasVoice of [false, true]) {
+      for (const scale of [1, 1.5, 2]) {
+        for (const word of words) {
+          const { stacked, size } = wordOfDayText(word.hy, width, hasVoice, scale);
+          const box = stacked ? wordBox.wordOfDay(width, 0) : wordBox.wordOfDay(width, wordOfDayPicture(width)) - (hasVoice ? WORD_OF_DAY_VOICE_ICON : 0);
+          const shown = size * Math.min(scale, 1.5);
+          if (shown < font.heading || shown * widestWord(word.hy) > box) bad.push(`${width}${hasVoice ? ' voice' : ''} x${scale}: ${word.hy} ${size}`);
+        }
+      }
+    }
+  }
+  expect(bad).toEqual([]);
+  expect(wordOfDayPicture(599)).toBe(112);
+  expect(wordOfDayPicture(600)).toBe(160);
+  expect(wordOfDayText('հրավառություն', 375, false).stacked).toBe(true);
+  expect(wordOfDayText('մայրիկ', 375, false)).toEqual({ stacked: false, size: font.title });
 });
