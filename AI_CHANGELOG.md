@@ -16,7 +16,16 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   Զգացմունքներ 14); 320 px — all one line (Խաղահրապարակ 9 px), no horizontal scroll; no console errors.
 - Reviewer subagent: no blocking findings; applied narrow letters 0.5 → 0.55 em (margin for Android fonts) and a second
   measured anchor (Տրանսպորտ ≥ 6.66 em); uppercase-letter note not taken (Ա 0.72, Տ 0.67 em measured, not wide).
-- Checks: `npm run check` 83 suites / 346 tests ✓.
+- Checks: `npm run check` 83 suites / 345 tests ✓ (without the Playground files). Commit 738a6df "Fit Armenian words by
+  letter width (#158)".
+- #144 (4 of 6): new premium theme **Playground** (`playground`) — slide, kite, bucket, carousel, bubbles, ice cream,
+  fountain, scooter; 8 Fluent 3D PNGs (assets/words/playground/, 21–43 KB, MIT: Playground slide, Kite, Bucket,
+  Carousel horse, Bubbles, Soft ice cream, Fountain, Kick scooter), drawn fallbacks (src/art/words/playground.ts,
+  contact sheet checked), rhyme "At the playground" (each line shows its picture; test). "National park" dropped (shows
+  mountains). Same files as Kitchen + src/art/words/playground.ts.
+- Web: Home 375 + 320 px shows the Playground card, name whole (after #158); locked card → parent gate → paywall "112
+  more words in 14 themes", Words Premium 136; no console errors.
+- Checks: `npm run check` 83 suites / 346 tests ✓. Commit: "New theme: Playground (#144)".
 
 ## 2026-11-11 18:30 run
 - claude · Usage at start: Claude 5-hour 7 %, weekly 26 %; Codex still blocked by #11 (`~/.codex/config.toml`

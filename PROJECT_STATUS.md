@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-11 18:30 run. Updated at the end of every session._
+_Updated: 2026-11-11 19:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -138,6 +138,11 @@ _Updated: 2026-11-11 18:30 run. Updated at the end of every session._
   121 theme words, 14 themes; paywall now "96 more words in 12 themes"). `npm run check` 83 suites / 343 tests ✓;
   web-checked 375 + 320 px. Then Kitchen (3 of 6; 129 theme words, 15 themes; 83 suites / 344 tests ✓; web-checked
   375 px). Usage at start: 5-hour 7 %, weekly 26 %. Next: playground, holidays (Vardavar, New Year), action words.
+- 2026-11-11 19:30 run: #144 4 of 6 — Playground theme (8 words, Fluent 3D, rhyme "At the playground"; 137 theme
+  words, 16 themes; paywall "112 more words in 14 themes"). Its long name exposed #158: the word-fit estimate used a flat
+  0.75 em per letter and Խաղահրապարակ broke mid-word; now weighed by measured letter widths (738a6df). `npm run check`
+  83 suites / 346 tests ✓; web-checked 375 + 320 px. Reviewer subagent on #158: no blockers, 2 lows applied. Usage at
+  start: 5-hour 15 %, weekly 27 %. Next: holidays (Vardavar, New Year), action words (16-letter title), then #145.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

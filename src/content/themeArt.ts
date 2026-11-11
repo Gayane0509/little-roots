@@ -5,7 +5,7 @@ const words: Record<ThemeId, string> = {
   numbers: 'numbers.three', body: 'body.hand', clothes: 'clothes.shirt', home: 'home.house',
   toys: 'toys.ball', nature: 'nature.sun', transport: 'transport.car', feelings: 'feelings.happy',
   school: 'school.school', weather: 'weather.rainbow',
-  kitchen: 'kitchen.teapot',
+  kitchen: 'kitchen.teapot', playground: 'playground.slide',
 };
 
 export function themeArtWordId(themeId: ThemeId): string {

@@ -110,6 +110,14 @@ export const WORD_PICTURES: Readonly<Record<string, ImageSourcePropType>> = {
   'kitchen.pan': require('../../assets/words/kitchen/pan.png'), // Cooking
   'kitchen.teapot': require('../../assets/words/kitchen/teapot.png'), // Teapot
   'kitchen.salt': require('../../assets/words/kitchen/salt.png'), // Salt
+  'playground.slide': require('../../assets/words/playground/slide.png'), // Playground slide
+  'playground.kite': require('../../assets/words/playground/kite.png'), // Kite
+  'playground.bucket': require('../../assets/words/playground/bucket.png'), // Bucket
+  'playground.carousel': require('../../assets/words/playground/carousel.png'), // Carousel horse
+  'playground.bubbles': require('../../assets/words/playground/bubbles.png'), // Bubbles
+  'playground.icecream': require('../../assets/words/playground/icecream.png'), // Soft ice cream
+  'playground.fountain': require('../../assets/words/playground/fountain.png'), // Fountain
+  'playground.scooter': require('../../assets/words/playground/scooter.png'), // Kick scooter
   'transport.car': require('../../assets/words/transport/car.png'), // Automobile
   'transport.bus': require('../../assets/words/transport/bus.png'), // Bus
   'transport.train': require('../../assets/words/transport/train.png'), // Locomotive
