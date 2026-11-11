@@ -23,6 +23,7 @@ import { wordBox, wordFontSize } from '@/ui/wordFit';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing } from '@/ui/tokens';
 import { StorageErrorBanner } from '@/features/storage/StorageErrorBanner';
 import { WeeklyShareCard } from '@/features/report/WeeklyShareCard';
+import { talkTogetherCards } from '@/features/report/talkTogether';
 
 const LEARNED_SHOWN = 8;
 
@@ -50,6 +51,7 @@ export default function ParentArea() {
   const childName = active?.name ?? 'Your child';
   const practice = toWords(report.practiceWordIds);
   const learned = toWords(report.newWordIds);
+  const talkCards = talkTogetherCards(learned, practice, ACTIVE_PACK.phrases);
   const teaserWords = practice.length >= 3 ? practice.slice(0, 3) : ACTIVE_PACK.themes[0].words.slice(0, 3);
 
   const confirmReset = () =>
@@ -112,6 +114,21 @@ export default function ParentArea() {
           </>
         )}
 
+        {talkCards.length > 0 ? (
+          <>
+            <Text accessibilityRole="header" style={styles.heading}>Talk together</Text>
+            <Text style={styles.body}>Ask these in {ACTIVE_PACK.name.en} while you play or eat together. Any answer is a good answer.</Text>
+            {talkCards.map(({ word, question }) => (
+              <View key={word.id} style={styles.talkCard} accessible accessibilityLabel={`${question.hy}, ${question.translit}, ${question.en}`}>
+                <WordArt wordId={word.id} emoji={word.emoji} size={45} />
+                <View style={styles.talkTexts}>
+                  <Text style={styles.talkHy}>{question.hy}</Text>
+                  <Text style={styles.muted}>{question.translit} · {question.en}</Text>
+                </View>
+              </View>
+            ))}
+          </>
+        ) : null}
         <Text accessibilityRole="header" style={styles.heading}>Full progress</Text>
         {!canSeeFullReport(state.isPremium) ? <View style={styles.teaser}>
           <Text style={styles.body}>See every word your child learns, by theme and week.</Text>
@@ -190,6 +207,9 @@ const styles = StyleSheet.create({
   statValue: { fontSize: font.title, fontWeight: '800', color: colors.primaryText },
   statLabel: { fontSize: font.small, color: colors.textMuted },
   learned: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
+  talkCard: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, padding: spacing.md, backgroundColor: colors.surface, borderRadius: radius.md },
+  talkTexts: { flexShrink: 1 },
+  talkHy: { fontSize: font.heading, fontWeight: '800', color: colors.text },
   learnedItem: { width: 96, alignItems: 'center', gap: spacing.xs, padding: spacing.sm, backgroundColor: colors.surface, borderRadius: radius.md },
   // fontSize comes from `wordFontSize` (long words shrink instead of being cut off, #105).
   learnedHy: { fontWeight: '700', color: colors.text },

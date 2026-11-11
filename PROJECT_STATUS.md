@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-11 23:30 run. Updated at the end of every session._
+_Updated: 2026-11-12 00:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -170,6 +170,9 @@ _Updated: 2026-11-11 23:30 run. Updated at the end of every session._
   taps counted once; answer row 8 px past the column at 320 px; clipped badges; 5 a row on tablets). 86 suites / 373
   tests ✓; web 320/375/1024 px, full game 6/6. New: #162 (free counting, owner decision), #163 (check with recordings).
   Usage at start: 5-hour 9 %, weekly 33 %. Next: #153 talk-together cards (12), #163, #156 learned-word bounce (8).
+- 2026-11-12 00:30 run: **#153 done** — "Talk together" cards in the parent weekly report (3 questions in Armenian
+  from this week's words; Armenian on the proofreading list). 87 suites / 377 tests ✓; web 320 px. New: #164.
+  Usage at start: 5-hour 19 %, weekly 35 %. Next: #163 Count with recordings (9), #156 learned-word bounce (8), #157.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

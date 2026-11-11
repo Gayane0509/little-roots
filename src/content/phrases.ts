@@ -1,6 +1,9 @@
 export type Phrase = { hy: string; translit: string; en: string };
 
-/** Child-facing Buddy lines. Placeholders: {name} {count} {moves} {score} {total}. */
+/**
+ * Child-facing Buddy lines, plus the parent report's talk-together questions (`talk_*`, read aloud by a grown-up).
+ * Placeholders: {name} {count} {moves} {score} {total} {word}. `{word}` stays in the dictionary form (no case ending).
+ */
 export const PHRASES = {
   greeting: { hy: 'Բարև, {name}։', translit: 'Barev, {name}.', en: 'Hello, {name}!' },
   greeting_anon: { hy: 'Բարև։', translit: 'Barev.', en: 'Hello!' },
@@ -33,6 +36,9 @@ export const PHRASES = {
   tracing_success: { hy: 'Հիանալի է։ Ապրե՛ս։', translit: 'Hianali e. Apres.', en: '⭐ Wonderful tracing!' },
   tracing_retry: { hy: 'Փորձի՛ր նորից։', translit: 'Portsir norits.', en: 'Try once more! Clear and try again.' },
   stickers_empty: { hy: 'Գիրքդ դեռ դատարկ է։ Ավարտի՛ր դասը և կստանաս առաջին կպչուկդ։', translit: 'Girqd der datark e. Avartir dasy yev kstanas arajin kpchukd.', en: 'Your book is empty. Finish a lesson to get your first sticker!' },
+  talk_show_me: { hy: 'Ցույց տո՛ւր՝ {word}։', translit: 'Tsuyts tur, {word}.', en: 'Show me: {word}!' },
+  talk_is_this: { hy: 'Սա {word} է՞։', translit: 'Sa {word} e?', en: 'Is this the {word}?' },
+  talk_say_with_me: { hy: 'Ասա՛ ինձ հետ՝ {word}։', translit: 'Asa indz het, {word}.', en: 'Say it with me: {word}!' },
 } satisfies Record<string, Phrase>;
 
 export type PhraseKey = keyof typeof PHRASES;

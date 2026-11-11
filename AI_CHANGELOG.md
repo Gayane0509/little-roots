@@ -2,6 +2,19 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-12 00:30 run
+- claude · Usage at start: Claude 5-hour 19 %, weekly 35 %; Codex still blocked (#11, usage data from 2026-10-30), so
+  Claude alone; short final run of the window (started 00:33), one task.
+- #153 "Talk together" cards in the parent weekly report: up to three questions for a grown-up to ask in the family
+  language, one per word (this week's new words first, then practice words), picture + Armenian + transliteration ·
+  English. New pack phrases `talk_show_me`, `talk_is_this`, `talk_say_with_me` (`{word}` placeholder). Web check at
+  320 px found "Do we have grandma at home?" (didn't fit people words) and "Is this apple?" — replaced with
+  "Say it with me: {word}!" and "Is this the {word}?". Files: `src/features/report/talkTogether.ts` (+ test),
+  `src/content/phrases.ts`, `src/app/parent/index.tsx`.
+- Checks: `npm run check` — tsc, ESLint, Jest 87 suites / 377 tests ✓; web /parent at 320 px: 3 cards, no horizontal
+  overflow, no console errors. Not checked: 1024 px (cards are full-width rows in the 720 px column), native (#10).
+  No reviewer subagent (out of time in the window). Commit: "Talk together cards in the weekly report (#153)".
+
 ## 2026-11-11 23:30 run
 - claude · Usage at start: Claude 5-hour 9 %, weekly 33 %; Codex config unchanged since 2026-10-30 (#11), so a reviewer
   subagent reviewed: no blocking findings; 2 low applied (counted pictures no longer announced as dimmed; no number

@@ -2,6 +2,11 @@
 
 Durable decisions with reasons. Newest first. Earlier ones are summarized from `PROGRESS.md`.
 
+- 2026-11-12 · **Talk-together questions (#153) keep the word in its dictionary form.** Questions are built from pack
+  phrases with a `{word}` placeholder, so only frames where the noun needs no case ending or article are used (it must
+  work for people and things alike): Ցույց տո՛ւր՝ {word}։ (Show me: {word}!) · Սա {word} է՞։ (Is this the {word}?) ·
+  Ասա՛ ինձ հետ՝ {word}։ (Say it with me: {word}!). **Needs native proofreading.** Frames that need inflection
+  ("where is the …") wait for a native speaker (#164).
 - 2026-11-11 · **Counting game (#151) shows only after three Numbers words.** The Games list adds "Count with me" once
   the child has met ≥ 3 words of the (premium) Numbers theme in unlocked themes, so free children never see a game they
   can't play and Premium content stays behind the paywall. Rounds use met numbers only; the counted pictures are 8 plain
