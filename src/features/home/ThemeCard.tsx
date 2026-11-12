@@ -19,11 +19,15 @@ interface ThemeCardProps {
   unlocked: boolean;
   /** Where the child continues: Buddy badge + "Next" ribbon (static, no motion). */
   isNext?: boolean;
+  /** Width in the Home grid; a short last row's cards stretch to fill it (#157). Defaults to the usual column width. */
+  width?: `${number}%`;
+  /** The card fills its row alone: picture beside the names instead of above them. */
+  fullRow?: boolean;
   onOpenPress: () => void;
   onLockedPress: () => void;
 }
 
-export function ThemeCard({ theme, learned, total, unlocked, isNext = false, onOpenPress, onLockedPress }: ThemeCardProps) {
+export function ThemeCard({ theme, learned, total, unlocked, isNext = false, width, fullRow = false, onOpenPress, onLockedPress }: ThemeCardProps) {
   const window = useWindowDimensions();
   const wide = window.width >= WIDE_BREAKPOINT;
   const label = themeCardLabel(theme, learned, total, unlocked, isNext);
@@ -33,7 +37,7 @@ export function ThemeCard({ theme, learned, total, unlocked, isNext = false, onO
       accessibilityRole="button"
       accessibilityLabel={label}
       onPress={unlocked ? onOpenPress : onLockedPress}
-      style={[styles.card, wide && styles.cardWide, { backgroundColor: unlocked ? theme.color : tint(theme.color, 0.55) }, !unlocked && styles.lockedCard, isNext && styles.nextCard]}
+      style={[styles.card, wide && styles.cardWide, width ? { width } : null, fullRow && styles.cardFullRow, { backgroundColor: unlocked ? theme.color : tint(theme.color, 0.55) }, !unlocked && styles.lockedCard, isNext && styles.nextCard]}
     >
       {/* A finished theme gets a gold star badge (#123); it is never the "Next" theme, so the corner is free. */}
       {complete ? <View style={styles.doneBadge} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><Icon name="stickers" size={30} /></View> : null}
@@ -59,6 +63,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   cardWide: { width: '31.5%' },
+  cardFullRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: spacing.lg },
   art: { minWidth: 64, minHeight: 64, alignSelf: 'flex-start', alignItems: 'center', justifyContent: 'center' },
   nextCard: { borderWidth: 3, borderColor: colors.primaryText },
   ribbon: { position: 'absolute', top: -spacing.sm, right: spacing.sm, zIndex: 1, flexDirection: 'row', alignItems: 'center', gap: spacing.xs, paddingLeft: spacing.xs, paddingRight: spacing.sm, paddingVertical: 2, borderRadius: radius.round, backgroundColor: colors.primaryText },

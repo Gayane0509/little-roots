@@ -255,3 +255,9 @@ Durable decisions with reasons. Newest first. Earlier ones are summarized from `
 - A reminder, not a test: picked from words met before today (so a lesson doesn't swap it mid-day), per child, per local
   day; no score, no streak. Placed after the Letters/Stickers/Games tiles so the lesson button stays above the fold (#86).
 - Tap reuses `Wiggle` (Family voice if recorded, else tap sound); no new voice behaviour (owner's voice rule).
+
+## 2026-11-12 — Home grid last row (#157)
+- A short last row of theme cards stretches to fill the row instead of leaving one half-width card beside a gap; a
+  lone card lays its picture beside the names. Chosen over adding a 20th theme just to even the count (content should
+  follow learning value, not the grid) and over centring the card (still reads as "missing one"). Widths come from
+  `themeCardWidth` so any future theme count stays even.

@@ -15,6 +15,13 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   the Browser pane was hidden (unattended run), so requestAnimationFrame never fired — motion verified by unit tests
   only; watch it on the next attended web check or native (#10) → #165. No separate reviewer (small diff, capacity pacing).
 - Commit: "Learned words hop on the lesson reward (#156)".
+- #157 Home grid: cards left in a short last row now share that row (`src/features/home/themeGrid.ts`, + test); a lone
+  card fills it with its picture beside the names. With 19 themes, Phrases is a full-width card on phones (2 columns)
+  and tablets (3). Files: `src/features/home/themeGrid.ts` (new), `themeGrid.test.ts` (new, 5 tests),
+  `src/features/home/ThemeCard.tsx` (`width`, `fullRow` props), `src/app/index.tsx`.
+- Checks: tsc, ESLint, Jest 89 suites / 385 tests ✓. Web: 375×812 (last card 343 px wide, x 16), 1024×768 (720 px, same
+  left edge as the row above), 320×700 (288 px); no horizontal overflow; screenshots at 375 and 1024.
+- Commit: "Lone last theme card fills its row on Home (#157)".
 
 ## 2026-11-12 00:30 run
 - claude · Usage at start: Claude 5-hour 19 %, weekly 35 %; Codex still blocked (#11, usage data from 2026-10-30), so

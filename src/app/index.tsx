@@ -5,6 +5,7 @@ import { ActivityIndicator, AppState, Pressable, ScrollView, StyleSheet, Text, u
 
 import { ACTIVE_PACK } from '@/content/packs';
 import { ThemeCard } from '@/features/home/ThemeCard';
+import { homeGridColumns, isFullRowCard, themeCardWidth } from '@/features/home/themeGrid';
 import { WordOfTheDay } from '@/features/home/WordOfTheDay';
 import { localDay } from '@/lib/date';
 import { isThemeUnlocked, nextNewTheme, themeProgress } from '@/lib/lesson';
@@ -120,8 +121,9 @@ export default function Home() {
         {todaysWord ? <WordOfTheDay word={todaysWord} /> : null}
 
         <View style={styles.grid}>
-          {ACTIVE_PACK.themes.map((theme) => {
+          {ACTIVE_PACK.themes.map((theme, index, themes) => {
             const { learned, total } = themeProgress(theme, state.words);
+            const columns = homeGridColumns(width);
             return (
               <ThemeCard
                 key={theme.id}
@@ -130,6 +132,8 @@ export default function Home() {
                 total={total}
                 unlocked={isThemeUnlocked(theme, state.isPremium)}
                 isNext={theme.id === nextThemeId}
+                width={themeCardWidth(index, themes.length, columns)}
+                fullRow={isFullRowCard(index, themes.length, columns)}
                 onOpenPress={() => router.push({ pathname: '/theme/[id]', params: { id: theme.id } })}
                 onLockedPress={() =>
                   router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'themes' } })

@@ -176,8 +176,10 @@ _Updated: 2026-11-12 17:30 run. Updated at the end of every session._
 - 2026-11-12 17:30 run: **#156 done** — on the lesson reward each of today's learned words hops once, in turn, after the
   star burst (native driver, still under reduced motion, stops on unmount). 88 suites / 380 tests ✓; web 375×812 layout
   and resting state checked; the hop itself not seen moving (hidden Browser pane: no requestAnimationFrame) → #165.
-  Usage at start: 5-hour 2 %, weekly 41 %. Codex still blocked (#11). Next: #163 Count with recordings (9), #157
-  decision, #165 when a pane/device is visible.
+  **#157 done** — a short last row of Home theme cards stretches to fill it (lone Phrases card full width, picture
+  beside the names; 89 suites / 385 tests ✓; web 320/375/1024 px).
+  Usage at start: 5-hour 2 %, weekly 41 %. Codex still blocked (#11). Next: #163 Count with recordings (9, needs the
+  mic on web: attended run), #160 review line (6, Armenian → proofreading), #165 when a pane/device is visible.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)
