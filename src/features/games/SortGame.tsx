@@ -30,7 +30,7 @@ const BASKETS: { id: Basket; icon: IconName; label: string; color: string }[] = 
   { id: 'other', icon: 'toybox', label: 'Not food', color: '#D9ECFF' },
 ];
 
-export type SortLayout = { compact: boolean; art: number; basketIcon: number; mini: number };
+export type SortLayout = { compact: boolean; art: number; basketIcon: number; label: number; mini: number };
 
 /** Sizes for the sorting screen: the picture shrinks on short windows so the baskets and Back stay on screen. */
 export function sortLayout(window: { width: number; height: number }): SortLayout {
@@ -40,6 +40,8 @@ export function sortLayout(window: { width: number; height: number }): SortLayou
     compact,
     art: compact ? 120 : big ? 220 : Math.min(176, Math.floor(window.width * 0.45)),
     basketIcon: compact ? 48 : big ? 96 : 64,
+    // The label keeps its size next to the basket drawing: tablet baskets are wider and their drawing bigger.
+    label: big ? font.title : font.body,
     mini: big ? 40 : 28,
   };
 }
@@ -62,7 +64,7 @@ export function SortGame({ seenWords, reviewIds, onFinishedChange }: { seenWords
   const { recordAnswer, recordGamePlayed } = useProgressActions();
   const voice = useFamilyVoice();
   const window = useWindowDimensions();
-  const { compact, art, basketIcon, mini } = sortLayout(window);
+  const { compact, art, basketIcon, label, mini } = sortLayout(window);
   const [rounds, setRounds] = useState<SortRound[]>(() => buildSortRounds(seenWords, Math.random, undefined, reviewIds));
   const [index, setIndex] = useState(0);
   const [misses, setMisses] = useState(0);
@@ -216,7 +218,7 @@ export function SortGame({ seenWords, reviewIds, onFinishedChange }: { seenWords
               style={({ pressed }) => [styles.basket, { backgroundColor: basket.color, transform: [{ scale: pressed ? 0.97 : 1 }] }]}
             >
               <Icon name={basket.icon} size={basketIcon} />
-              <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.basketLabel} accessible={false}>{basket.label}</Text>
+              <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={[styles.basketLabel, { fontSize: label }]} accessible={false}>{basket.label}</Text>
               <View style={[styles.minis, { minHeight: mini }]} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
                 {sorted[basket.id].map((word) => <WordArt key={word.id} wordId={word.id} emoji={word.emoji} size={mini} />)}
               </View>
@@ -238,7 +240,7 @@ const styles = StyleSheet.create({
   baskets: { flexDirection: 'row', gap: spacing.sm, width: '100%', maxWidth: 600, alignSelf: 'center' },
   basketSlot: { flex: 1 },
   basket: { minHeight: TOUCH_MIN + 72, borderRadius: radius.lg, borderWidth: 3, borderColor: colors.border, alignItems: 'center', justifyContent: 'center', padding: spacing.sm, gap: spacing.xs },
-  basketLabel: { fontSize: font.body, fontWeight: '800', color: colors.text, textAlign: 'center' },
+  basketLabel: { fontWeight: '800', color: colors.text, textAlign: 'center' },
   minis: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 2 },
   done: { flexGrow: 1, justifyContent: 'center', gap: spacing.lg },
   back: { marginTop: 'auto' },

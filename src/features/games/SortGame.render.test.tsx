@@ -123,4 +123,8 @@ test('the picture shrinks on short windows and grows on tablets', () => {
   expect(sortLayout({ width: 375, height: 812 }).art).toBe(168);
   expect(sortLayout({ width: 320, height: 812 }).art).toBe(144);
   expect(sortLayout({ width: 1024, height: 768 }).art).toBe(220);
+  // #169: tablet basket labels grow with the 96 px basket drawing; phones keep body text.
+  expect(sortLayout({ width: 1024, height: 768 }).label).toBe(30);
+  expect(sortLayout({ width: 375, height: 812 }).label).toBe(18);
+  expect(sortLayout({ width: 1024, height: 600 }).label).toBe(18);
 });
