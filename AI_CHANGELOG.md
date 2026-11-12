@@ -19,7 +19,7 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   web storage for the check): locked screen with 2 letters; card in Games list with 3; 375×812 round, wrong (red) then
   right (green, արջ under the bear); 320×568 no horizontal overflow, Back bottom 552, card heights 118 before and after
   solving, letter orange rgb(255,140,66); 1024×768 fits (→ #166 bigger tablet sizing). Console: only the browser's
-  blocked `navigator.vibrate` from scripted clicks. Native not run (Xcode, #10).
+  blocked `navigator.vibrate` from scripted clicks. Native not run (Xcode, #10). Commit 852ef1b.
 
 ## 2026-11-12 18:30 run
 - claude · Usage at start: Claude 5-hour 7 %, weekly 42 %; Codex still blocked (#11, config unchanged since 2026-10-30).
