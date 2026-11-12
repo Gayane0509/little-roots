@@ -182,7 +182,7 @@ _Updated: 2026-11-12 18:30 run. Updated at the end of every session._
   mic on web: attended run), #160 review line (6, Armenian → proofreading), #165 when a pane/device is visible.
 - 2026-11-12 18:30 run: **#160 done** — lesson rounds for due-review words open with Buddy's "Do you remember? Find the
   picture!" (Armenian → proofreading). 89 suites / 387 tests ✓; web 320×640 + 375×667. Usage at start: 5-hour 7 %,
-  weekly 42 %. Codex still blocked (#11). Next: #149 sorting game / #150 letter sounds / #148 grandparent messages (6),
+  weekly 42 %. Codex still blocked (#11). #150 letter-sounds plan written in AI_TASKS (build next run). Next: #150, #149 sorting game, #148 grandparent messages (6),
   #163 Count with recordings (attended run), #165 hop check (visible pane).
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 

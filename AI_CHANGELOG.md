@@ -12,6 +12,7 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   horizontal or vertical overflow; no console errors. Lesson closed unfinished (test child's progress unchanged).
   No separate reviewer (27-line diff, capacity pacing).
 - Commit: "Buddy asks "Do you remember?" on review rounds (#160)".
+- #150 letter sounds game: plan only (problem, design, risks, success measure in AI_TASKS row 150); not built this run (pacing).
 
 ## 2026-11-12 17:30 run
 - claude · Usage at start: Claude 5-hour 2 %, weekly 41 %; Codex still blocked (#11: `~/.codex/config.toml` unchanged
