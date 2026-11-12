@@ -201,7 +201,8 @@ _Updated: 2026-11-12 22:30 run. Updated at the end of every session._
 - 2026-11-12 22:30 run: **#167 done (web)** — Sort it checked on web at 320×568, 375×667, 375×812, 1024×768: fits, drag into a
   basket / drop outside / tap a basket / finish screen / daily limit all work; no app console errors. **#169 done** — basket
   labels 30 px on tablets (0e223e2). 93 suites / 407 tests ✓. Usage at start: 5-hour 1 %, weekly 46 %. Codex still blocked
-  (#11). Next: #163 Count with recordings (attended), #165 hop check (visible pane), #148 grandparent messages (6), #168.
+  (#11). Next: #163 Count with recordings (attended), #165 hop check (visible pane), #168; new review tasks. #148 blocked:
+  grandparent voice messages conflict with the voice rule ("voice messages" not allowed) → owner decision (Blockers 8).
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)
@@ -223,6 +224,8 @@ then #148–#156 by score; #143 (last flat drawings) alongside. New Armenian tex
 6. #68 Decision: keep iPad rotation (recommended) or set `ios.requireFullScreen: true` (portrait-only iPad, no Split View).
 7. #47 Proposal: migration treats an empty-default `.hy` record as missing so a kept old record is shown (stored-data
    contract change).
+8. #148 Decision: grandparent voice messages on the child's Home conflict with the 2026-11-04 voice rule (only per-word
+   Family voice recordings; voice messages not allowed). Allow as an exception, or drop #148.
 (No bundled native-speaker recordings: since 2026-11-04 each family records its own words in Family voice.)
 
 ## How a session works

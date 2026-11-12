@@ -12,7 +12,8 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   storage (dev preview data only). Console: only Chrome blocking `navigator.vibrate` before a real user tap. Native drag → #10.
 - #169 Sort it basket labels 30 px on tablets (were 18 px under 96 px drawings). Files: `src/features/games/SortGame.tsx`,
   `src/features/games/SortGame.render.test.tsx` (3 assertions). Web: 1024×768 30 px, no scroll; 320×568 18 px, unchanged.
-- Checks: `npm run check` — tsc ✓, ESLint ✓, Jest 93 suites / 407 tests ✓. Commit 0e223e2 (#169) + this notes commit.
+- Checks: `npm run check` — tsc ✓, ESLint ✓, Jest 93 suites / 407 tests ✓. Commit 0e223e2 (#169) + notes c9d3d0a.
+- #148 marked blocked: grandparent voice messages conflict with the voice rule (owner decision; PROJECT_STATUS Blockers 8).
 
 ## 2026-11-12 21:30 run
 - claude · Usage at start: Claude 5-hour 23 %, weekly 45 %; Codex still blocked (#11, config unchanged since 2026-10-30).
