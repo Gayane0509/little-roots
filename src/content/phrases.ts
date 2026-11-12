@@ -34,6 +34,7 @@ export const PHRASES = {
   game_count_how_many: { hy: 'Քանի՞ հատ կա։', translit: 'Kani hat ka.', en: 'How many are there?' },
   game_sounds_prompt: { hy: 'Ո՞ր նկարն է սկսվում այս տառով։', translit: 'Vor nkarn e sksvum ays tarov.', en: 'Which picture starts with this letter?' },
   game_sounds_locked: { hy: 'Նախ գրի՛ր երեք տառ։', translit: 'Nakh grir yerek tar.', en: 'Trace three letters first!' },
+  game_sort_prompt: { hy: 'Ուտելի՞ք է, թե՞ ոչ։ Դի՛ր զամբյուղի մեջ։', translit: 'Utelik e, te voch. Dir zambyughi mej.', en: 'Is it food or not? Put it in a basket!' },
   game_count_locked: { hy: 'Նախ սովորի՛ր թվերը։', translit: 'Nakh sovorir tvery.', en: 'Learn the Numbers words first!' },
   game_correct: { hy: 'Ապրե՛ս։', translit: 'Apres.', en: 'Great!' },
   game_try_again: { hy: 'Փորձի՛ր նորից։', translit: 'Portsir norits.', en: 'Try again' },

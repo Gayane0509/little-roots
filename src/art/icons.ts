@@ -1,7 +1,7 @@
 import type { ArtXml } from './types';
 
 /** UI icons drawn in the word-art style (STYLE.md), so they look the same on every platform. */
-export type IconName = 'letters' | 'stickers' | 'games' | 'lock' | 'flame' | 'memory' | 'find' | 'read' | 'count' | 'sounds' | 'sprout' | 'voice' | 'point'
+export type IconName = 'letters' | 'stickers' | 'games' | 'lock' | 'flame' | 'memory' | 'find' | 'read' | 'count' | 'sounds' | 'sort' | 'plate' | 'toybox' | 'sprout' | 'voice' | 'point'
   | 'chart' | 'clock' | 'bulb' | 'gear' | 'play' | 'check' | 'seed' | 'starSlot';
 
 export const ICONS: Record<IconName, ArtXml> = {
@@ -99,6 +99,42 @@ export const ICONS: Record<IconName, ArtXml> = {
 </g>
 <path d="M21 50 V66 A12 12 0 0 0 45 66 V50 M45 66 V80" fill="none" stroke="#3A2E39" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M88 62 Q90 57 95 56" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+</svg>`,
+  // A basket with an apple dropping in on one side and a ball on the other: sort pictures into baskets (#149).
+  sort: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<g stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<circle cx="36" cy="30" r="15" fill="#F25C54"/>
+<path d="M36 15 Q38 8 44 6" fill="none"/>
+<circle cx="92" cy="30" r="15" fill="#4DA3FF"/>
+<path d="M78 26 Q92 34 106 26" fill="none"/>
+<path d="M14 64 H114 L104 116 H24 Z" fill="#D9A066"/>
+<path d="M20 80 H108 M24 98 H104 M46 64 L50 116 M82 64 L78 116" fill="none"/>
+<rect x="10" y="56" width="108" height="12" rx="6" fill="#B87B45"/>
+</g>
+<path d="M28 26 Q30 21 35 20" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+</svg>`,
+  // A plate with an apple and a slice of bread: the Food basket (#149).
+  plate: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<g stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="64" cy="84" rx="56" ry="24" fill="#FFFFFF"/>
+<ellipse cx="64" cy="82" rx="38" ry="14" fill="#F4F1EC"/>
+<path d="M66 82 V50 Q66 40 78 40 H96 Q106 40 106 50 V82 Z" fill="#E8A85C"/>
+<circle cx="44" cy="68" r="17" fill="#F25C54"/>
+<path d="M44 51 Q46 44 52 42" fill="none"/>
+</g>
+<path d="M36 64 Q38 58 43 57" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+</svg>`,
+  // An open toy box with a ball and a block: the Not food basket (#149).
+  toybox: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<g stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<circle cx="46" cy="46" r="18" fill="#4DA3FF"/>
+<path d="M30 40 Q46 52 62 40" fill="none"/>
+<rect x="66" y="30" width="30" height="30" rx="4" fill="#FFD23F" transform="rotate(12 81 45)"/>
+<rect x="16" y="60" width="96" height="54" rx="8" fill="#7BC67E"/>
+<path d="M16 76 H112" fill="none"/>
+<circle cx="64" cy="94" r="6" fill="#FFFFFF"/>
+</g>
+<path d="M38 40 Q40 34 46 33" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
 </svg>`,
   // An open book.
   read: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">

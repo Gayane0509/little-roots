@@ -2,6 +2,20 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-12 21:30 run
+- claude · Usage at start: Claude 5-hour 23 %, weekly 45 %; Codex still blocked (#11, config unchanged since 2026-10-30).
+- #149 Sorting game "Sort it" (`/games/sort`): drag a picture (or tap a basket) into Food / Not food; Family voice says the
+  word when recorded; answers recorded for spaced review; card in Games after 3 food + 3 other sortable met words. New
+  drawn icons `sort`, `plate`, `toybox`; phrase `game_sort_prompt` (Armenian → proofreading). Files:
+  `src/features/games/sorting.ts` (+ test), `src/features/games/SortGame.tsx` (+ render test), `src/app/games/sort.tsx`,
+  `src/app/games/index.tsx`, `src/app/_layout.tsx`, `src/art/icons.ts`, `src/content/phrases.ts`, `src/lib/screenTitle.ts`.
+- Reviewer subagent: ice cream was "Not food" and 5 kitchen pictures show food (fixed: ice cream → Food, those 5 left out);
+  ScrollView had scrolling off (fixed: Back reachable on short phones); answers not recorded (fixed); rects refreshed on
+  layout/resize; no jump when caught mid spring-back; comment order. All fixed, +3 tests.
+- Checks: `npm run check` → 93 suites / 407 tests ✓. **Not web-checked**: the unattended run can't start the preview
+  server (terminal start needs a person) → #167. Drag never seen on screen yet.
+- Commit: see git log ("Sort it game (#149)").
+
 ## 2026-11-12 20:30 run
 - claude · Usage at start: Claude 5-hour 20 %, weekly 44 %; Codex still blocked (#11, config unchanged since 2026-10-30).
 - #166 Letter sounds on tablets: new `soundLayout(window)` — tablets (≥ 600 px wide, not short) get a 128 px letter

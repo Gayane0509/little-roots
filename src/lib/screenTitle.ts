@@ -13,6 +13,7 @@ const titles: Record<string, string> = {
   '/games/count': 'Counting game',
   '/games/read': 'Read game',
   '/games/sounds': 'Letter sounds game',
+  '/games/sort': 'Sorting game',
   '/parent-gate': 'Grown-ups check',
   '/parent': 'Grown-ups',
   '/parent/intro': 'Grown-ups guide',

@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-12 20:30 run. Updated at the end of every session._
+_Updated: 2026-11-12 21:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -193,6 +193,11 @@ _Updated: 2026-11-12 20:30 run. Updated at the end of every session._
   88 / 128 px in wide tiles); phones unchanged. 91 suites / 397 tests ✓; web 1024×768, 768×1024, 320×568. Usage at start:
   5-hour 20 %, weekly 44 %. Codex still blocked (#11). Next: #149 sorting game (6), #148 grandparent messages (6),
   #163 (attended), #165 (visible pane).
+- 2026-11-12 21:30 run: **#149 done** — "Sort it" game: drag a picture (or tap a basket) into Food / Not food; Family voice
+  says the word if recorded; review answers recorded; card after 3 food + 3 other met words (free children too). Reviewer:
+  2 high + 1 medium + 3 low fixed. 93 suites / 407 tests ✓. **Not web-checked** (the unattended run could not start the
+  preview server) → #167 first next run. Usage at start: 5-hour 23 %, weekly 45 %. Codex still blocked (#11). Next: #167
+  (16), #163 (attended), #165 (visible pane), #148 grandparent messages (6).
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

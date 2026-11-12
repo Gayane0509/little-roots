@@ -51,6 +51,12 @@ Durable decisions with reasons. Newest first. Earlier ones are summarized from `
   գիշեր · Շնորհակալ եմ (shorter than Շնորհակալություն, which can't fit small word boxes) · Խնդրում եմ · Սիրում եմ քեզ ·
   Ինչպե՞ս ես · Ցտեսություն · Բարի լույս, մայրիկ։ · Շնորհակալ եմ, տատիկ։ · Սիրում եմ քեզ, պապիկ։ · Բարի գիշեր, հայրիկ։
   A phrase is a word entry (stable id `phrases.<slug>`), so lessons, games and Family voice work unchanged.
+- 2026-11-12 · **Sort it sorts only pictures nobody could argue about (#149).** Food = the Food theme + gata, cake, ice
+  cream. Not food = family, body, clothes, home, toys, transport, school, kitchen, playground, minus the kitchen pictures
+  that show food in them (pot of stew, frying pan with egg, cereal bowl, hot drink, salt). Animals (fish, chicken), nature
+  (fruit), actions (eat) and abstract themes sit out. Drag + tap a basket both sort (tap is the screen-reader path). New
+  Armenian, **needs native proofreading:** Ուտելի՞ք է, թե՞ ոչ։ Դի՛ր զամբյուղի մեջ։ (basket labels are English for now:
+  "Food" / "Not food").
 - 2026-11-11 · **Memory skips words that can't fit its cards (#144).** `wordFits` says whether a word fits its box at
   WORD_MIN_SIZE (8 px); `buildMemoryDeck` puts non-fitting words last, so they play only when too few others are seen.
   Today only հրավառություն on 320 px phones. Preferred over a smaller floor (unreadable) or a mid-word break.
