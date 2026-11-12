@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-12 23:30 run. Updated at the end of every session._
+_Updated: 2026-11-13 00:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -206,6 +206,10 @@ _Updated: 2026-11-12 23:30 run. Updated at the end of every session._
 - 2026-11-12 23:30 run: Games list review → **#170 done** — two columns of game cards on tablets (≥ 600 px; lone last card
   fills its row); phones unchanged. 93 suites / 408 tests ✓; web 1024×768, 600×900, 320×640. Usage at start: 5-hour 6 %,
   weekly 47 %. Codex still blocked (#11). Next: #163 (attended), #165 (visible pane), new review tasks; #148 owner decision.
+- 2026-11-13 00:30 run (last of the day): Home at 320×568 on web: no horizontal overflow, no console errors, Word of the Day
+  card fits. Finding → #171 (Կենդանիներ shrinks to 12 px; size estimate ~19 % conservative vs the web font; needs native
+  font measurement first). No code change. Usage at start: Claude 5-hour 9 %, weekly 47 %; Codex still blocked (#11).
+  Next: #163 Count with Family voice numbers (needs web mic), #154 printable weekly words PDF, #143/#155 art.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

@@ -2,6 +2,14 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-13 00:30 run
+- claude · Usage at start: Claude 5-hour 9 %, weekly 47 %; Codex still blocked (#11, `~/.codex/config.toml` unchanged since
+  2026-10-30). Short run (started 00:33, cutoff 00:45).
+- Review of Home at 320×568 on web (scrollWidth 320, no off-screen elements, no console errors; Word of the Day card fits).
+  New task #171: Կենդանիներ at 12 px vs 17–18 px neighbours, because `homeCardTitleSize`'s em estimate is ~19 % above the web
+  font; held until native fonts are measured (#10). No app code changed. Files: AI_TASKS.md, PROJECT_STATUS.md,
+  AI_CHANGELOG.md. Checks: `npm run check` — tsc, ESLint, Jest 93 suites / 408 tests ✓. Commit: see `git log` ("Notes: Home 320 px review, #171").
+
 ## 2026-11-12 23:30 run
 - claude · Usage at start: Claude 5-hour 6 %, weekly 47 %; Codex still blocked (#11, `~/.codex/config.toml` unchanged since
   2026-10-30).
