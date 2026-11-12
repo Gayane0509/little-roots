@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-12 19:30 run. Updated at the end of every session._
+_Updated: 2026-11-12 20:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -189,6 +189,10 @@ _Updated: 2026-11-12 19:30 run. Updated at the end of every session._
   Reviewer: 1 medium + 1 low fixed. 91 suites / 396 tests ✓; web 320×568, 375×812, 1024×768. New #166 (tablet sizing).
   Usage: 5-hour 11 → 18 %, weekly 42 → 44 % (over the ~1.5 %/run budget, so stopped after one task). Codex still
   blocked (#11). Next: #166 (6), #149 sorting game (6), #148 grandparent messages (6), #163 (attended), #165 (visible pane).
+- 2026-11-12 20:30 run: **#166 done** — Letter sounds on tablets: 128 px letter, 172 px pictures in a 600 px row (were
+  88 / 128 px in wide tiles); phones unchanged. 91 suites / 397 tests ✓; web 1024×768, 768×1024, 320×568. Usage at start:
+  5-hour 20 %, weekly 44 %. Codex still blocked (#11). Next: #149 sorting game (6), #148 grandparent messages (6),
+  #163 (attended), #165 (visible pane).
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

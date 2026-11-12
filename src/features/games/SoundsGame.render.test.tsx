@@ -3,7 +3,7 @@ import { afterEach, beforeEach, expect, jest, test } from '@jest/globals';
 
 import { ACTIVE_PACK } from '@/content/packs';
 
-import { SoundsGame, soundOptionArt } from './SoundsGame';
+import { SoundsGame, soundLayout, soundOptionArt } from './SoundsGame';
 
 // DOM stand-ins so the game renders under react-dom: Pressable is a button carrying its accessibility label.
 jest.mock('react-native', () => {
@@ -108,4 +108,17 @@ test('answer pictures fit three a row from 320 px to tablets', () => {
     expect(3 * (soundOptionArt(width) + 22) + 2 * 8).toBeLessThanOrEqual(column);
   }
   expect(ACTIVE_PACK.alphabet[1].example.en).toBe('duck');
+});
+
+test('tablets get a bigger letter and bigger pictures in a narrower row; phones and short windows keep their sizes (#166)', () => {
+  const tablet = soundLayout({ width: 1024, height: 768 });
+  expect(tablet).toMatchObject({ compact: false, optionsMaxWidth: 600, letterSize: 128 });
+  expect(tablet.optionArt).toBeGreaterThan(soundOptionArt(1024));
+  expect(tablet.optionArt).toBeLessThanOrEqual(176);
+  expect(3 * (tablet.optionArt + 22) + 2 * 8).toBeLessThanOrEqual(600);
+  expect(soundLayout({ width: 768, height: 1024 }).letterSize).toBe(128);
+  for (const [width, height] of [[320, 568], [375, 812], [414, 896]] as const) {
+    expect(soundLayout({ width, height })).toMatchObject({ optionArt: soundOptionArt(width), optionsMaxWidth: 720, letterSize: height < 760 ? 64 : 88 });
+  }
+  expect(soundLayout({ width: 1024, height: 700 })).toMatchObject({ compact: true, letterSize: 64, optionArt: 128 });
 });

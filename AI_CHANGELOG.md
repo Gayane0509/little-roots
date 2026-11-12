@@ -2,6 +2,16 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-12 20:30 run
+- claude · Usage at start: Claude 5-hour 20 %, weekly 44 %; Codex still blocked (#11, config unchanged since 2026-10-30).
+- #166 Letter sounds on tablets: new `soundLayout(window)` — tablets (≥ 600 px wide, not short) get a 128 px letter
+  (was 88) and answer pictures up to 176 px in a 600 px row (were 128 px inside 234 px tiles); phones and short windows
+  keep their sizes. Files: `src/features/games/SoundsGame.tsx`, `src/features/games/SoundsGame.render.test.tsx` (+1 test).
+- Checks: `npm run check` → 91 suites / 397 tests ✓. Web (127.0.0.1:8095, test child's traced letters and today's game
+  count set in web storage): 1024×768 pictures 172 px, no scroll, Back on screen; 768×1024 pictures 172 px, no scroll;
+  320×568 pictures 68 px as before, no horizontal overflow. No console errors. Not separately reviewed (small layout
+  diff; Codex blocked). Native not run (#10). Commit: see git log ("Letter sounds fills tablets (#166)").
+
 ## 2026-11-12 19:30 run
 - claude · Usage at start: Claude 5-hour 11 %, weekly 42 % (end 18 % / 44 %); Codex still blocked (#11, config unchanged
   since 2026-10-30).
