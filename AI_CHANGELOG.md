@@ -2,6 +2,20 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-12 17:30 run
+- claude · Usage at start: Claude 5-hour 2 %, weekly 41 %; Codex still blocked (#11: `~/.codex/config.toml` unchanged
+  since 2026-10-30), so Claude alone.
+- #156 learned-word bounce: on the lesson reward, each of "Today's words" (the words just learned) hops once, one after
+  another, after the star burst (450 ms + 160 ms per card; up 10 pt with a 6 % grow, a small settle, then still).
+  Native driver; nothing moves under reduced motion; the hop stops on unmount. Files: `src/ui/Bounce.tsx` (new),
+  `src/ui/Bounce.render.test.tsx` (new, 3 tests), `src/app/lesson.tsx`.
+- Checks: `npx tsc --noEmit && npx eslint . && npx jest --watchman=false` → 88 suites / 380 tests ✓. Web 375×812: two
+  full lessons to the reward; cards in one row inside the column, at rest `translateY(0) scale(1)`, no new console
+  errors (only the known blocked `navigator.vibrate` from scripted clicks). The hop itself could **not** be seen on web:
+  the Browser pane was hidden (unattended run), so requestAnimationFrame never fired — motion verified by unit tests
+  only; watch it on the next attended web check or native (#10) → #165. No separate reviewer (small diff, capacity pacing).
+- Commit: "Learned words hop on the lesson reward (#156)".
+
 ## 2026-11-12 00:30 run
 - claude · Usage at start: Claude 5-hour 19 %, weekly 35 %; Codex still blocked (#11, usage data from 2026-10-30), so
   Claude alone; short final run of the window (started 00:33), one task.

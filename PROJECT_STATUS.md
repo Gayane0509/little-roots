@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-12 00:30 run. Updated at the end of every session._
+_Updated: 2026-11-12 17:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -173,6 +173,11 @@ _Updated: 2026-11-12 00:30 run. Updated at the end of every session._
 - 2026-11-12 00:30 run: **#153 done** — "Talk together" cards in the parent weekly report (3 questions in Armenian
   from this week's words; Armenian on the proofreading list). 87 suites / 377 tests ✓; web 320 px. New: #164.
   Usage at start: 5-hour 19 %, weekly 35 %. Next: #163 Count with recordings (9), #156 learned-word bounce (8), #157.
+- 2026-11-12 17:30 run: **#156 done** — on the lesson reward each of today's learned words hops once, in turn, after the
+  star burst (native driver, still under reduced motion, stops on unmount). 88 suites / 380 tests ✓; web 375×812 layout
+  and resting state checked; the hop itself not seen moving (hidden Browser pane: no requestAnimationFrame) → #165.
+  Usage at start: 5-hour 2 %, weekly 41 %. Codex still blocked (#11). Next: #163 Count with recordings (9), #157
+  decision, #165 when a pane/device is visible.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

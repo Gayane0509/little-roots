@@ -21,6 +21,7 @@ import { useFamilyVoice } from '@/state/familyVoice';
 import { useSettings } from '@/state/settings';
 import { useProgress } from '@/state/progress';
 import { BigButton } from '@/ui/BigButton';
+import { Bounce, BOUNCE_STAGGER_MS } from '@/ui/Bounce';
 import { Buddy, BUDDY_NAME } from '@/ui/Buddy';
 import { Confetti } from '@/ui/Confetti';
 import { Icon } from '@/ui/Icon';
@@ -260,11 +261,14 @@ function ReadyLesson() {
           {/* The intro's seeds have grown: today's new words once more, at the happy moment (#113). */}
           {art.rewardWords && lesson.newWords.length > 0 ? (
             <View accessible accessibilityRole="text" accessibilityLabel={`Today's words: ${lesson.newWords.map((word) => word.en).join(', ')}`} style={styles.rewardWords}>
-              {lesson.newWords.map((word) => (
-                <View key={word.id} style={styles.rewardWord} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
-                  <WordArt wordId={word.id} emoji={word.emoji} size={56} />
-                  <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={[styles.rewardWordHy, { fontSize: wordFontSize(word.hy, REWARD_WORD_TEXT, font.body, fontScale) }]}>{word.hy}</Text>
-                </View>
+              {/* Each learned word hops once, one after another, after the star burst (#156). */}
+              {lesson.newWords.map((word, index) => (
+                <Bounce key={word.id} delay={REWARD_BOUNCE_DELAY + index * BOUNCE_STAGGER_MS}>
+                  <View style={styles.rewardWord} accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+                    <WordArt wordId={word.id} emoji={word.emoji} size={56} />
+                    <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={[styles.rewardWordHy, { fontSize: wordFontSize(word.hy, REWARD_WORD_TEXT, font.body, fontScale) }]}>{word.hy}</Text>
+                  </View>
+                </Bounce>
               ))}
             </View>
           ) : null}
@@ -283,6 +287,9 @@ function ReadyLesson() {
     </Screen>
   );
 }
+
+/** The learned-word hops start once the reward star's burst has mostly settled (#156). */
+const REWARD_BOUNCE_DELAY = 450;
 
 /** A word card on the reward (#113): three fit a 320 px phone; the word's text box is the card minus border and a little padding. */
 const REWARD_WORD_WIDTH = 96;
