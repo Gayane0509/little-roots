@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-12 18:30 run. Updated at the end of every session._
+_Updated: 2026-11-12 19:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -184,6 +184,11 @@ _Updated: 2026-11-12 18:30 run. Updated at the end of every session._
   picture!" (Armenian → proofreading). 89 suites / 387 tests ✓; web 320×640 + 375×667. Usage at start: 5-hour 7 %,
   weekly 42 %. Codex still blocked (#11). #150 letter-sounds plan written in AI_TASKS (build next run). Next: #150, #149 sorting game, #148 grandparent messages (6),
   #163 Count with recordings (attended run), #165 hop check (visible pane).
+- 2026-11-12 19:30 run: **#150 done** — "Letter sounds" game: a traced letter + 3 pictures, tap the one that starts
+  with it (word shown with the letter coloured; Family voice says it if recorded); card after 3 traced letters.
+  Reviewer: 1 medium + 1 low fixed. 91 suites / 396 tests ✓; web 320×568, 375×812, 1024×768. New #166 (tablet sizing).
+  Usage: 5-hour 11 → 18 %, weekly 42 → 44 % (over the ~1.5 %/run budget, so stopped after one task). Codex still
+  blocked (#11). Next: #166 (6), #149 sorting game (6), #148 grandparent messages (6), #163 (attended), #165 (visible pane).
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

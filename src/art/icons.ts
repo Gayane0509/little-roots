@@ -1,7 +1,7 @@
 import type { ArtXml } from './types';
 
 /** UI icons drawn in the word-art style (STYLE.md), so they look the same on every platform. */
-export type IconName = 'letters' | 'stickers' | 'games' | 'lock' | 'flame' | 'memory' | 'find' | 'read' | 'count' | 'sprout' | 'voice' | 'point'
+export type IconName = 'letters' | 'stickers' | 'games' | 'lock' | 'flame' | 'memory' | 'find' | 'read' | 'count' | 'sounds' | 'sprout' | 'voice' | 'point'
   | 'chart' | 'clock' | 'bulb' | 'gear' | 'play' | 'check' | 'seed' | 'starSlot';
 
 export const ICONS: Record<IconName, ArtXml> = {
@@ -87,6 +87,18 @@ export const ICONS: Record<IconName, ArtXml> = {
 <circle cx="92" cy="30" r="8" fill="#FFD23F"/><circle cx="104" cy="18" r="8" fill="#FFD23F"/><circle cx="116" cy="30" r="8" fill="#FFD23F"/>
 </g>
 <path d="M17 78 Q19 72 25 71 M57 78 Q59 72 65 71 M97 78 Q99 72 105 71" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+</svg>`,
+  // A letter block (Ա) pointing to a picture card: the letter a word starts with (#150).
+  sounds: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<g stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<rect x="8" y="40" width="50" height="50" rx="10" fill="#FFD23F"/>
+<rect x="72" y="30" width="48" height="66" rx="8" fill="#FFFFFF"/>
+<circle cx="96" cy="66" r="15" fill="#F25C54"/>
+<path d="M96 51 Q98 44 104 42" fill="none"/>
+<path d="M62 65 H70 M65 59 L71 65 L65 71" fill="none"/>
+</g>
+<path d="M21 50 V66 A12 12 0 0 0 45 66 V50 M45 66 V80" fill="none" stroke="#3A2E39" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M88 62 Q90 57 95 56" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
 </svg>`,
   // An open book.
   read: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">

@@ -14,6 +14,9 @@ import { gameCardIconSize } from '@/features/games/gameListLayout';
 import { goBackOrHome } from '@/lib/navigation';
 import { FreeActivities } from '@/features/games/FreeActivities';
 import { canPlayCounting } from '@/features/games/counting';
+import { canPlaySounds } from '@/features/games/letterSounds';
+import { ACTIVE_PACK } from '@/content/packs';
+import { useTracedLetters } from '@/state/letters';
 import { pickSeenWords } from '@/features/games/logic';
 import { BigButton } from '@/ui/BigButton';
 import { Screen } from '@/ui/Screen';
@@ -26,6 +29,8 @@ const GAMES: { href: Href; icon: IconName; title: string; sub: string; color: st
 ];
 // Shown once the child has met three Numbers words (#151), so free children never meet a locked game.
 const COUNT_GAME = { href: '/games/count', icon: 'count', title: 'Count with me', sub: 'Tap and count the pictures', color: '#FFE5EC' } as const;
+// Shown once the child has traced three letters (#150): the game only asks letters the child has met.
+const SOUNDS_GAME = { href: '/games/sounds', icon: 'sounds', title: 'Letter sounds', sub: 'Which picture starts with it?', color: '#FFF4CC' } as const;
 
 export default function Games() {
   const line = useBuddyLine();
@@ -34,7 +39,12 @@ export default function Games() {
   useFocusEffect(useCallback(() => { setNow(Date.now()); const sub = AppState.addEventListener('change', (status) => { if (status === 'active') setNow(Date.now()); }); return () => sub.remove(); }, []));
   const iconSize = gameCardIconSize(useWindowDimensions().width);
   const left = gamesLeftToday(state.isPremium, gamesPlayedToday(state, now));
-  const games = useMemo(() => (canPlayCounting(pickSeenWords(state.words, Math.random, Infinity, undefined, state.isPremium)) ? [...GAMES, COUNT_GAME] : GAMES), [state.words, state.isPremium]);
+  const { traced } = useTracedLetters();
+  const games = useMemo(() => [
+    ...GAMES,
+    ...(canPlayCounting(pickSeenWords(state.words, Math.random, Infinity, undefined, state.isPremium)) ? [COUNT_GAME] : []),
+    ...(canPlaySounds(ACTIVE_PACK.alphabet, traced) ? [SOUNDS_GAME] : []),
+  ], [state.words, state.isPremium, traced]);
   return (
     <Screen>
       <ScrollView contentContainerStyle={styles.content}>

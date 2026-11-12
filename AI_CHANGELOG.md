@@ -2,6 +2,25 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-12 19:30 run
+- claude · Usage at start: Claude 5-hour 11 %, weekly 42 % (end 18 % / 44 %); Codex still blocked (#11, config unchanged
+  since 2026-10-30).
+- #150 Letter sounds game (`/games/sounds`): a big traced letter (Noto Armenian, upper + lower) and three example
+  pictures; the child taps the one whose word starts with it; found → the word appears under it with the letter in
+  orange and the Family voice says it if recorded. Only traced letters are asked (card after 3 traced); wrong pictures
+  never start with the letter and the answer never starts with theirs (Ո/Ու apart); և left out (արև). New drawn
+  `sounds` icon; phrases `game_sounds_prompt` (Ո՞ր նկարն է սկսվում այս տառով։) and `game_sounds_locked` (Նախ գրի՛ր
+  երեք տառ։) → proofreading. Files: `src/features/games/letterSounds{,.test}.ts`,
+  `src/features/games/SoundsGame{.tsx,.render.test.tsx}`, `src/app/games/sounds.tsx`, `src/app/games/index.tsx`,
+  `src/app/_layout.tsx`, `src/lib/screenTitle.ts`, `src/content/phrases.ts`, `src/art/icons.ts`.
+- Reviewer subagent: medium (rounds stuck empty if the screen opened before traced letters loaded) fixed + test; low
+  (cards grew when the word appeared) fixed; low (direct route with < 3 letters counts a daily game, as Count) kept.
+- Checks: `npm run check` → 91 suites / 396 tests ✓. Web (localhost:8095, test child: traced letters set to Ա Բ Գ in
+  web storage for the check): locked screen with 2 letters; card in Games list with 3; 375×812 round, wrong (red) then
+  right (green, արջ under the bear); 320×568 no horizontal overflow, Back bottom 552, card heights 118 before and after
+  solving, letter orange rgb(255,140,66); 1024×768 fits (→ #166 bigger tablet sizing). Console: only the browser's
+  blocked `navigator.vibrate` from scripted clicks. Native not run (Xcode, #10).
+
 ## 2026-11-12 18:30 run
 - claude · Usage at start: Claude 5-hour 7 %, weekly 42 %; Codex still blocked (#11, config unchanged since 2026-10-30).
 - #160 review line: lesson game rounds for due-review words open with Buddy's "Do you remember? Find the picture!"
