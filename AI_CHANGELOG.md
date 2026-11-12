@@ -2,6 +2,15 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-12 23:30 run
+- claude · Usage at start: Claude 5-hour 6 %, weekly 47 %; Codex still blocked (#11, `~/.codex/config.toml` unchanged since
+  2026-10-30).
+- Review of the Games list at 320 px (fits) and 1024×768 → #170. **#170 done**: Games list two columns on tablets
+  (`gameCardColumns`, ≥ 600 px; lone last card fills its row; card text centred). Files: `src/app/games/index.tsx`,
+  `src/features/games/gameListLayout.ts`, `src/features/games/gameListLayout.test.ts`. Checks: `npm run check` — tsc,
+  ESLint, Jest 93 suites / 408 tests ✓; web 1024×768 (page 1,511 → 1,111 px), 600×900, 320×640 (unchanged), no console
+  errors. Commit: see `git log` ("Games list: two columns on tablets (#170)").
+
 ## 2026-11-12 22:30 run
 - claude · Usage at start: Claude 5-hour 1 %, weekly 46 %; Codex still blocked (#11, `~/.codex/config.toml` unchanged since
   2026-10-30, not re-probed).

@@ -7,10 +7,10 @@ import type { IconName } from '@/art/icons';
 import { Buddy } from '@/ui/Buddy';
 import { Icon } from '@/ui/Icon';
 import { IconTitle } from '@/ui/IconTitle';
-import { AppState, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions } from 'react-native';
+import { AppState, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
 import { useBuddyLine } from '@/features/buddy/useBuddyLine';
-import { gameCardIconSize } from '@/features/games/gameListLayout';
+import { gameCardColumns, gameCardIconSize } from '@/features/games/gameListLayout';
 import { goBackOrHome } from '@/lib/navigation';
 import { FreeActivities } from '@/features/games/FreeActivities';
 import { canPlayCounting } from '@/features/games/counting';
@@ -40,7 +40,9 @@ export default function Games() {
   const { state } = useProgressState();
   const [now, setNow] = useState(() => Date.now());
   useFocusEffect(useCallback(() => { setNow(Date.now()); const sub = AppState.addEventListener('change', (status) => { if (status === 'active') setNow(Date.now()); }); return () => sub.remove(); }, []));
-  const iconSize = gameCardIconSize(useWindowDimensions().width);
+  const { width } = useWindowDimensions();
+  const iconSize = gameCardIconSize(width);
+  const twoColumns = gameCardColumns(width) === 2;
   const left = gamesLeftToday(state.isPremium, gamesPlayedToday(state, now));
   const { traced } = useTracedLetters();
   const games = useMemo(() => {
@@ -59,6 +61,8 @@ export default function Games() {
         {left !== null ? <Text style={styles.count}>3 games a day · {left} left today</Text> : <Text style={styles.count}>Unlimited games</Text>}
         {/* Out of games is not a dead end: Letters and the sticker book have no daily limit (#116). Grown-up prompt stays last and grey. */}
         {left === 0 ? <><Buddy message={line('games_done_today')} /><FreeActivities /><BigButton label="Grown-ups: unlimited games" color={colors.textMuted} onPress={() => router.push({ pathname: '/parent-gate', params: { next: '/parent/paywall', reason: 'games' } })} /></> : null}
+        {/* Tablets: two columns; a lone last card grows to the full row, like the Home theme grid (#157, #170). */}
+        <View style={twoColumns ? styles.grid : styles.list}>
         {games.map((game) => (
           <Pressable
             key={game.title}
@@ -68,13 +72,14 @@ export default function Games() {
             onPress={() => { if (left !== 0) router.push(game.href); }}
             accessibilityState={{ disabled: left === 0 }}
             disabled={left === 0}
-            style={({ pressed }) => [styles.card, { backgroundColor: game.color, transform: [{ scale: pressed ? 0.97 : 1 }] }, left === 0 && styles.cardResting]}
+            style={({ pressed }) => [styles.card, twoColumns && styles.cardHalf, { backgroundColor: game.color, transform: [{ scale: pressed ? 0.97 : 1 }] }, left === 0 && styles.cardResting]}
           >
             <Icon name={game.icon} size={iconSize} />
             <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={styles.cardTitle}>{game.title}</Text>
             <Text style={styles.cardSub}>{game.sub}</Text>
           </Pressable>
         ))}
+        </View>
         <BigButton label="Back" color={colors.textMuted} onPress={goBackOrHome} />
       </ScrollView>
     </Screen>
@@ -85,6 +90,10 @@ const styles = StyleSheet.create({
   content: { gap: spacing.md, paddingBottom: spacing.xl },
   count: { fontSize: font.body, color: colors.textMuted, textAlign: 'center', fontWeight: '700' },
   title: { fontSize: font.title, fontWeight: '800', color: colors.text, textAlign: 'center' },
+  list: { gap: spacing.md },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md },
+  // 40 % basis + grow: two cards share a row; a lone last card fills it.
+  cardHalf: { flexBasis: '40%', flexGrow: 1 },
   card: {
     minHeight: TOUCH_MIN + 70,
     borderRadius: radius.lg,
@@ -95,6 +104,6 @@ const styles = StyleSheet.create({
   },
   // Out of games for today: the cards can't be opened, so they look resting rather than tappable (#98).
   cardResting: { opacity: 0.5 },
-  cardTitle: { fontSize: font.title, fontWeight: '800', color: colors.text },
-  cardSub: { fontSize: font.body, fontWeight: '600', color: colors.textMuted },
+  cardTitle: { fontSize: font.title, fontWeight: '800', color: colors.text, textAlign: 'center' },
+  cardSub: { fontSize: font.body, fontWeight: '600', color: colors.textMuted, textAlign: 'center' },
 });

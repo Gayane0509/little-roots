@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-12 22:30 run. Updated at the end of every session._
+_Updated: 2026-11-12 23:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -203,6 +203,9 @@ _Updated: 2026-11-12 22:30 run. Updated at the end of every session._
   labels 30 px on tablets (0e223e2). 93 suites / 407 tests ✓. Usage at start: 5-hour 1 %, weekly 46 %. Codex still blocked
   (#11). Next: #163 Count with recordings (attended), #165 hop check (visible pane), #168; new review tasks. #148 blocked:
   grandparent voice messages conflict with the voice rule ("voice messages" not allowed) → owner decision (Blockers 8).
+- 2026-11-12 23:30 run: Games list review → **#170 done** — two columns of game cards on tablets (≥ 600 px; lone last card
+  fills its row); phones unchanged. 93 suites / 408 tests ✓; web 1024×768, 600×900, 320×640. Usage at start: 5-hour 6 %,
+  weekly 47 %. Codex still blocked (#11). Next: #163 (attended), #165 (visible pane), new review tasks; #148 owner decision.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)
