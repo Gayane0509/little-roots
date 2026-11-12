@@ -2,6 +2,18 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-12 22:30 run
+- claude · Usage at start: Claude 5-hour 1 %, weekly 46 %; Codex still blocked (#11, `~/.codex/config.toml` unchanged since
+  2026-10-30, not re-probed).
+- #167 Sort it web check (no code change): the Little Roots Expo web server was already running on 8095. 320×568,
+  375×667, 375×812 and 1024×768 all fit (no horizontal overflow or vertical scroll, baskets side by side, Back on screen). Mouse
+  drag into a basket, drop outside (springs back, not counted), tapping a basket, Try again, the finish screen ("4 of 6") and the
+  daily-games limit all work. For the tablet check the preview test child's `gamesToday.count` was reset to 0 in browser
+  storage (dev preview data only). Console: only Chrome blocking `navigator.vibrate` before a real user tap. Native drag → #10.
+- #169 Sort it basket labels 30 px on tablets (were 18 px under 96 px drawings). Files: `src/features/games/SortGame.tsx`,
+  `src/features/games/SortGame.render.test.tsx` (3 assertions). Web: 1024×768 30 px, no scroll; 320×568 18 px, unchanged.
+- Checks: `npm run check` — tsc ✓, ESLint ✓, Jest 93 suites / 407 tests ✓. Commit 0e223e2 (#169) + this notes commit.
+
 ## 2026-11-12 21:30 run
 - claude · Usage at start: Claude 5-hour 23 %, weekly 45 %; Codex still blocked (#11, config unchanged since 2026-10-30).
 - #149 Sorting game "Sort it" (`/games/sort`): drag a picture (or tap a basket) into Food / Not food; Family voice says the
