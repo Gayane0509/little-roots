@@ -1,6 +1,6 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import type { Word } from '@/content/types';
-import { gameOptions } from './game';
+import { gameOptions, roundPromptKey } from './game';
 
 jest.mock('@/content/packs', () => {
   const word = (id: string, themeId: string, emoji: string) => ({ id, themeId, emoji, en: id, hy: id, translit: id });
@@ -20,5 +20,21 @@ describe('picture choices', () => {
     expect(options.some((word) => word.id === 'family.b')).toBe(true);
     expect(new Set(options.map((word) => word.id)).size).toBe(4);
     expect(new Set(options.map((word) => word.emoji)).size).toBe(4);
+  });
+});
+
+describe('round prompt', () => {
+  const word = (id: string): Word => ({ id, themeId: 'family', emoji: id, en: id, hy: id, translit: id });
+  const review = [word('family.old')];
+
+  it('asks "Do you remember?" only for a due-review word', () => {
+    expect(roundPromptKey(word('family.old'), review, false)).toBe('lesson_remember_picture');
+    expect(roundPromptKey(word('family.new'), review, false)).toBe('lesson_find_picture');
+    expect(roundPromptKey(word('family.new'), [], false)).toBe('lesson_find_picture');
+  });
+
+  it('encourages after a wrong tap, review or not', () => {
+    expect(roundPromptKey(word('family.old'), review, true)).toBe('lesson_good_try');
+    expect(roundPromptKey(word('family.new'), review, true)).toBe('lesson_good_try');
   });
 });

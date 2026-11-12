@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-12 17:30 run. Updated at the end of every session._
+_Updated: 2026-11-12 18:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -180,6 +180,10 @@ _Updated: 2026-11-12 17:30 run. Updated at the end of every session._
   beside the names; 89 suites / 385 tests ✓; web 320/375/1024 px).
   Usage at start: 5-hour 2 %, weekly 41 %. Codex still blocked (#11). Next: #163 Count with recordings (9, needs the
   mic on web: attended run), #160 review line (6, Armenian → proofreading), #165 when a pane/device is visible.
+- 2026-11-12 18:30 run: **#160 done** — lesson rounds for due-review words open with Buddy's "Do you remember? Find the
+  picture!" (Armenian → proofreading). 89 suites / 387 tests ✓; web 320×640 + 375×667. Usage at start: 5-hour 7 %,
+  weekly 42 %. Codex still blocked (#11). Next: #149 sorting game / #150 letter sounds / #148 grandparent messages (6),
+  #163 Count with recordings (attended run), #165 hop check (visible pane).
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

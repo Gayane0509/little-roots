@@ -8,7 +8,7 @@ import { useBuddyLine } from '@/features/buddy/useBuddyLine';
 import { ASK_GROWN_UP_LABEL, freeWordsFinished } from '@/features/paywall/offer';
 import type { Word } from '@/content/types';
 import { lessonArtSizes } from '@/features/lesson/artSizes';
-import { gameOptions, shuffled } from '@/features/lesson/game';
+import { gameOptions, roundPromptKey, shuffled } from '@/features/lesson/game';
 import { initialLessonState, lessonReducer, type Step } from '@/features/lesson/lessonReducer';
 import { keepLastWord, lineWordIds } from '@/features/lesson/rhymeWords';
 import { shouldShowTapHint } from '@/features/lesson/tapHint';
@@ -196,7 +196,7 @@ function ReadyLesson() {
         </>}
 
         {step === 'game' && currentRound && <>
-          <Buddy message={line(hadWrongTap ? 'lesson_good_try' : 'lesson_find_picture')} mood={hadWrongTap ? 'cheer' : 'point'} outfit={outfit} />
+          <Buddy message={line(roundPromptKey(currentRound, lesson.reviewWords, hadWrongTap))} mood={hadWrongTap ? 'cheer' : 'point'} outfit={outfit} />
           <Text style={styles.counter}>Picture {roundIndex + 1} of {rounds.length}</Text>
           <View style={styles.promptRow}>
             <View accessible accessibilityRole="text" accessibilityLabel={`Find ${currentRound.hy}, ${currentRound.translit}`} style={styles.prompt}>

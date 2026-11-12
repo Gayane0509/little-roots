@@ -16,6 +16,8 @@ export const PHRASES = {
   lesson_practice: { hy: 'Եկ կրկնենք մեր բառերը։', translit: 'Yek krknenk mer barery.', en: "Let's practice our words!" },
   lesson_tap_card: { hy: 'Նայի՛ր նկարին և կարդա՛ բառը։', translit: 'Nayir nkarin yev karda bary.', en: 'Look at the picture and read the word!' },
   lesson_find_picture: { hy: 'Գտի՛ր նկարը։', translit: 'Gtir nkary.', en: 'Find the picture!' },
+  // Before a round that reviews a word met on an earlier day (#160), so the child knows it is not a new word.
+  lesson_remember_picture: { hy: 'Հիշու՞մ ես։ Գտի՛ր նկարը։', translit: 'Hishu՞m es. Gtir nkary.', en: 'Do you remember? Find the picture!' },
   lesson_good_try: { hy: 'Փորձի՛ր նորից։ Սեղմի՛ր մյուս նկարին։', translit: 'Portsir norits. Seghmir myus nkarin.', en: 'Good try! Tap another picture.' },
   lesson_song: { hy: 'Եկ կարդանք մեր ոտանավորը։ Սեղմի՛ր տողերին։', translit: 'Yek kardank mer votanavory. Seghmir toghyerin.', en: "Let's read our little rhyme! Tap a line." },
   lesson_done: { hy: 'Ապրե՛ս։ Հիանալի աշխատեցիր։', translit: 'Apres. Hianali ashkhatetsir.', en: 'Amazing work! You did it!' },

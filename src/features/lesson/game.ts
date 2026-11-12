@@ -28,3 +28,9 @@ export function gameOptions(answer: Word): Word[] {
   }
   return shuffled(selected);
 }
+
+/** Buddy's line for a lesson game round: a wrong tap encourages; a due-review word gets "Do you remember?" (#160). */
+export function roundPromptKey(word: Word, reviewWords: readonly Word[], hadWrongTap: boolean) {
+  if (hadWrongTap) return 'lesson_good_try' as const;
+  return reviewWords.some((item) => item.id === word.id) ? 'lesson_remember_picture' as const : 'lesson_find_picture' as const;
+}

@@ -2,6 +2,17 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-12 18:30 run
+- claude · Usage at start: Claude 5-hour 7 %, weekly 42 %; Codex still blocked (#11, config unchanged since 2026-10-30).
+- #160 review line: lesson game rounds for due-review words open with Buddy's "Do you remember? Find the picture!"
+  (Հիշու՞մ ես։ Գտի՛ր նկարը։ — proofreading); a wrong tap still shows "Good try". Files: `src/content/phrases.ts`,
+  `src/features/lesson/game.ts` (`roundPromptKey`), `src/features/lesson/game.test.ts` (+2 tests), `src/app/lesson.tsx`.
+- Checks: `npm run check` → 89 suites / 387 tests ✓. Web (localhost:8095, test child Mari, practice-only lesson,
+  Buddy in Armenian): 320×640 bubble shows both lines, 4 pictures in view; wrong tap → "Good try"; 375×667 no
+  horizontal or vertical overflow; no console errors. Lesson closed unfinished (test child's progress unchanged).
+  No separate reviewer (27-line diff, capacity pacing).
+- Commit: "Buddy asks "Do you remember?" on review rounds (#160)".
+
 ## 2026-11-12 17:30 run
 - claude · Usage at start: Claude 5-hour 2 %, weekly 41 %; Codex still blocked (#11: `~/.codex/config.toml` unchanged
   since 2026-10-30), so Claude alone.

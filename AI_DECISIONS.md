@@ -2,6 +2,11 @@
 
 Durable decisions with reasons. Newest first. Earlier ones are summarized from `PROGRESS.md`.
 
+- 2026-11-12 · **Review rounds in the lesson say "Do you remember?" (#160).** A game round whose word is a due review
+  word (`DailyLesson.reviewWords`) opens with `lesson_remember_picture` instead of "Find the picture!"; after a wrong tap
+  the usual "Good try" line wins. In a practice-only lesson every round is a review round, so every round asks it.
+  Armenian: Հիշու՞մ ես։ Գտի՛ր նկարը։ (Hishu՞m es. Gtir nkary.) — **needs native proofreading** (question mark placed
+  on the stressed vowel of հիշում; check Հիշու՞մ vs Հիշո՞ւմ).
 - 2026-11-12 · **Talk-together questions (#153) keep the word in its dictionary form.** Questions are built from pack
   phrases with a `{word}` placeholder, so only frames where the noun needs no case ending or article are used (it must
   work for people and things alike): Ցույց տո՛ւր՝ {word}։ (Show me: {word}!) · Սա {word} է՞։ (Is this the {word}?) ·
