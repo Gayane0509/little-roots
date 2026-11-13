@@ -2,6 +2,9 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-13 22:30 run
+- claude · planning only, no app change. Usage at start: Claude 5-hour 7 %, weekly 62 % (cap 80 %, resets 2026-11-16 23:00 UTC → ~0.7 % per remaining run); Codex still blocked (#11). #154 printable weekly words plan written in `AI_TASKS.md` (expo-print + pure HTML builder with tests, base64 pictures, button on `parent/report.tsx`). Files: `AI_TASKS.md`, `PROJECT_STATUS.md`, `AI_CHANGELOG.md`. Checks: none needed (notes only). Commit: see `git log` ("Notes: #154 plan").
+
 ## 2026-11-13 21:30 run
 - claude · #168 "Big or small" sorting game (`/games/sort-size`). Usage at start: Claude 5-hour 0 %, weekly 61 % (≤ 65 %
   build rule from the 18:30 plan); Codex still blocked (#11). `sorting.ts`: `SortPair` ('food' | 'size'), `BIG_IDS` (14) /
