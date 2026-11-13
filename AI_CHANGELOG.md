@@ -2,6 +2,11 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-13 17:30 run
+- claude · Pacing stop, no app change. Usage at start: Claude 5-hour 28 %, weekly 60 % (47 % at the end of the 00:30 run);
+  80 % cap until the 2026-11-16 23:00 UTC reset → ~0.8 % per run. Codex still blocked (#11). Files: PROJECT_STATUS.md,
+  AI_CHANGELOG.md. Checks: `npm run check` — tsc, ESLint, Jest 93 suites / 408 tests ✓. Commit: see `git log` ("Notes: pacing stop").
+
 ## 2026-11-13 00:30 run
 - claude · Usage at start: Claude 5-hour 9 %, weekly 47 %; Codex still blocked (#11, `~/.codex/config.toml` unchanged since
   2026-10-30). Short run (started 00:33, cutoff 00:45).

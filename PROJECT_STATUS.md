@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-13 00:30 run. Updated at the end of every session._
+_Updated: 2026-11-13 17:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -210,6 +210,10 @@ _Updated: 2026-11-13 00:30 run. Updated at the end of every session._
   card fits. Finding → #171 (Կենդանիներ shrinks to 12 px; size estimate ~19 % conservative vs the web font; needs native
   font measurement first). No code change. Usage at start: Claude 5-hour 9 %, weekly 47 %; Codex still blocked (#11).
   Next: #163 Count with Family voice numbers (needs web mic), #154 printable weekly words PDF, #143/#155 art.
+- 2026-11-13 17:30 run: pacing stop, no app change. Claude weekly 60 % at start (was 47 % at the end of the 00:30 run;
+  5-hour 28 %), cap 80 %, resets 2026-11-16 23:00 UTC → ~0.8 % per hourly run, less than one small task. Codex still
+  blocked (#11, config unchanged since 2026-10-30). Next runs: implement only when weekly ≤ ~70 % leaves room
+  (one small task: #163 attended, #154 PDF, #168), otherwise usage check only.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)
