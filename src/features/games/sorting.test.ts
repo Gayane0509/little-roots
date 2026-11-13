@@ -3,7 +3,7 @@ import { describe, expect, it } from '@jest/globals';
 import { ACTIVE_PACK, getWord } from '@/content/packs';
 import type { Word } from '@/content/types';
 
-import { basketOf, buildSortRounds, canPlaySorting } from './sorting';
+import { basketOf, BIG_IDS, buildSortRounds, canPlaySorting, SMALL_IDS } from './sorting';
 
 const word = (id: string): Word => {
   const found = getWord(id);
@@ -70,5 +70,42 @@ describe('sorting game', () => {
 
   it('builds nothing without enough words for both baskets', () => {
     expect(buildSortRounds(themeWords('food'))).toEqual([]);
+  });
+
+  describe('big / small (#168)', () => {
+    const big = [...BIG_IDS].map(word);
+    const small = [...SMALL_IDS].map(word);
+
+    it('tags every listed word, none in both lists, and leaves every other word out', () => {
+      for (const id of BIG_IDS) expect(SMALL_IDS.has(id)).toBe(false);
+      for (const w of big) expect(basketOf(w, 'size')).toBe('big');
+      for (const w of small) expect(basketOf(w, 'size')).toBe('small');
+      for (const id of ['toys.ball', 'transport.car', 'transport.boat', 'animals.fish', 'nature.sun', 'family.mom']) {
+        expect(basketOf(word(id), 'size')).toBeUndefined();
+      }
+    });
+
+    it('keeps food / not food unchanged by default', () => {
+      expect(basketOf(word('food.apple'))).toBe('food');
+      expect(basketOf(word('transport.bus'))).toBe('other');
+    });
+
+    it('stays closed to free children, whose themes hold no big word', () => {
+      const free = ACTIVE_PACK.themes.filter((theme) => theme.free).flatMap((theme) => theme.words);
+      expect(free.some((w) => basketOf(w, 'size') === 'big')).toBe(false);
+      expect(canPlaySorting(free, 'size')).toBe(false);
+      expect(canPlaySorting([...big.slice(0, 3), ...small.slice(0, 3)], 'size')).toBe(true);
+      expect(canPlaySorting([...big.slice(0, 2), ...small], 'size')).toBe(false);
+    });
+
+    it('builds three big and three small pictures', () => {
+      const seen = [...themeWords('food'), ...themeWords('transport'), ...themeWords('family')];
+      for (let seed = 1; seed < 10; seed++) {
+        const rounds = buildSortRounds(seen, seeded(seed), 6, [], 'size');
+        expect(rounds).toHaveLength(6);
+        expect(rounds.filter((r) => r.basket === 'big')).toHaveLength(3);
+        for (const r of rounds) expect(basketOf(r.word, 'size')).toBe(r.basket);
+      }
+    });
   });
 });

@@ -2,6 +2,21 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-13 21:30 run
+- claude · #168 "Big or small" sorting game (`/games/sort-size`). Usage at start: Claude 5-hour 0 %, weekly 61 % (≤ 65 %
+  build rule from the 18:30 plan); Codex still blocked (#11). `sorting.ts`: `SortPair` ('food' | 'size'), `BIG_IDS` (14) /
+  `SMALL_IDS` (17), `PAIR_BASKETS`, pair argument on `basketOf` / `canPlaySorting` / `buildSortRounds` (food stays the
+  default). `SortGame`: `pair` prop, Big / Small baskets with new drawn icons `bigBox` (crate with a tree and house) /
+  `smallBox` (little box with a cherry), prompt `game_size_prompt` (Armenian → proofreading), screen-reader question per
+  pair. Games card only after 3 big + 3 small met words; free themes hold no big word (tested). Files:
+  `src/features/games/{sorting.ts,sorting.test.ts,SortGame.tsx,SortGame.render.test.tsx}`, `src/app/games/{index.tsx,sort-size.tsx}`,
+  `src/app/_layout.tsx`, `src/lib/screenTitle.ts`, `src/art/icons.ts`, `src/content/phrases.ts`. Checks: `npm run check` ✓
+  (93 suites / 413 tests). Web (127.0.0.1:8095): card hidden for the free test child; with the dev test child made Premium
+  + 6 size words for the check (backed up and restored afterwards, verified): played to the finish (3 big / 3 small, Try
+  again, "5 of 6"), fits 320×568 / 375×812 / 1024×768 with no overflow or scroll, no console errors. Reviewer subagent:
+  no blocking findings; low: `basketAt` with the new keys untested → assertion added; slide / gloves noted as defensible
+  content calls. Commit: see `git log` ("#168").
+
 ## 2026-11-13 20:30 run
 - claude · Pacing stop, no app change. Usage at start: Claude 5-hour 32 %, weekly 61 % (cap 80 %, resets
   2026-11-16 23:00 UTC); Codex still blocked (#11). Files: PROJECT_STATUS.md, AI_CHANGELOG.md. Checks: `npm run check`

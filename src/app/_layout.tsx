@@ -54,6 +54,7 @@ function ProfileTree() {
             <Stack.Screen name="games/read" />
             <Stack.Screen name="games/sounds" />
             <Stack.Screen name="games/sort" />
+            <Stack.Screen name="games/sort-size" />
             <Stack.Screen name="parent/reminders" />
             <Stack.Screen name="parent/settings" />
             <Stack.Screen name="parent/intro" />

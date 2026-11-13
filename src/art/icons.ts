@@ -1,7 +1,7 @@
 import type { ArtXml } from './types';
 
 /** UI icons drawn in the word-art style (STYLE.md), so they look the same on every platform. */
-export type IconName = 'letters' | 'stickers' | 'games' | 'lock' | 'flame' | 'memory' | 'find' | 'read' | 'count' | 'sounds' | 'sort' | 'plate' | 'toybox' | 'sprout' | 'voice' | 'point'
+export type IconName = 'letters' | 'stickers' | 'games' | 'lock' | 'flame' | 'memory' | 'find' | 'read' | 'count' | 'sounds' | 'sort' | 'plate' | 'toybox' | 'bigBox' | 'smallBox' | 'sprout' | 'voice' | 'point'
   | 'chart' | 'clock' | 'bulb' | 'gear' | 'play' | 'check' | 'seed' | 'starSlot';
 
 export const ICONS: Record<IconName, ArtXml> = {
@@ -135,6 +135,28 @@ export const ICONS: Record<IconName, ArtXml> = {
 <circle cx="64" cy="94" r="6" fill="#FFFFFF"/>
 </g>
 <path d="M38 40 Q40 34 46 33" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+</svg>`,
+  // A big open crate filling the frame, a tall tree and a house peeking out: the Big basket (#168).
+  bigBox: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<g stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<path d="M34 50 V30" fill="none" stroke-width="5"/>
+<circle cx="34" cy="20" r="14" fill="#7BC67E"/>
+<path d="M62 50 V30 L84 14 L106 30 V50 Z" fill="#FFD23F"/>
+<path d="M58 32 L84 10 L110 32" fill="none" stroke="#F25C54" stroke-width="6"/>
+<rect x="6" y="48" width="116" height="72" rx="8" fill="#9B7BFF"/>
+<path d="M6 66 H122" fill="none"/>
+</g>
+<path d="M18 80 V108" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+</svg>`,
+  // A little box with a cherry in it, small in a wide empty frame: the Small basket (#168).
+  smallBox: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<g stroke="#3A2E39" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<circle cx="64" cy="70" r="11" fill="#F25C54"/>
+<path d="M64 59 Q66 52 72 50" fill="none"/>
+<rect x="38" y="78" width="52" height="38" rx="6" fill="#FF8FB1"/>
+<path d="M38 89 H90" fill="none"/>
+</g>
+<path d="M46 96 V108" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
 </svg>`,
   // An open book.
   read: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">

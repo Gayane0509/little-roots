@@ -14,6 +14,7 @@ const titles: Record<string, string> = {
   '/games/read': 'Read game',
   '/games/sounds': 'Letter sounds game',
   '/games/sort': 'Sorting game',
+  '/games/sort-size': 'Big or small game',
   '/parent-gate': 'Grown-ups check',
   '/parent': 'Grown-ups',
   '/parent/intro': 'Grown-ups guide',

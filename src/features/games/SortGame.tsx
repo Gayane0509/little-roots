@@ -19,16 +19,26 @@ import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN, WIDE_
 
 import { CHOICE_COMPACT_BELOW } from './choiceLayout';
 import { GameDoneActions } from './GameDoneActions';
-import { buildSortRounds, type Basket, type SortRound } from './sorting';
+import { buildSortRounds, PAIR_BASKETS, type Basket, type SortPair, type SortRound } from './sorting';
 
 const NEXT_DELAY_MS = 900;
 /** Sorted pictures shown inside a basket; older ones drop off so the basket never grows past one row. */
 const BASKET_SHOWN = 4;
 
-const BASKETS: { id: Basket; icon: IconName; label: string; color: string }[] = [
-  { id: 'food', icon: 'plate', label: 'Food', color: '#FFE8C2' },
-  { id: 'other', icon: 'toybox', label: 'Not food', color: '#D9ECFF' },
-];
+const BASKETS: Record<Basket, { icon: IconName; label: string; color: string }> = {
+  food: { icon: 'plate', label: 'Food', color: '#FFE8C2' },
+  other: { icon: 'toybox', label: 'Not food', color: '#D9ECFF' },
+  big: { icon: 'bigBox', label: 'Big', color: '#E6DEFF' },
+  small: { icon: 'smallBox', label: 'Small', color: '#FFE0EC' },
+};
+
+/** Per pair: Buddy's prompt and the question a screen reader hears with each picture. */
+const PAIRS = {
+  food: { prompt: 'game_sort_prompt', question: 'Is it food?' },
+  size: { prompt: 'game_size_prompt', question: 'Is it big or small?' },
+} as const satisfies Record<SortPair, { prompt: string; question: string }>;
+
+const emptySorted = (): Record<Basket, Word[]> => ({ food: [], other: [], big: [], small: [] });
 
 export type SortLayout = { compact: boolean; art: number; basketIcon: number; label: number; mini: number };
 
@@ -51,24 +61,24 @@ type Measurable = { measureInWindow(callback: (x: number, y: number, width: numb
 
 /** The basket under a finger at window point (x, y), if any. */
 export function basketAt(rects: Partial<Record<Basket, Rect>>, x: number, y: number): Basket | undefined {
-  return (['food', 'other'] as const).find((id) => {
+  return (Object.keys(rects) as Basket[]).find((id) => {
     const rect = rects[id];
     return !!rect && x >= rect.x && x <= rect.x + rect.width && y >= rect.y && y <= rect.y + rect.height;
   });
 }
 
-/** Sorting game (#149): drag each picture (or tap a basket) into Food or Not food. No reading needed. */
-export function SortGame({ seenWords, reviewIds, onFinishedChange }: { seenWords: Word[]; reviewIds: readonly string[]; onFinishedChange?: (finished: boolean) => void }) {
+/** Sorting game: drag each picture (or tap a basket) into Food / Not food (#149) or Big / Small (#168). No reading needed. */
+export function SortGame({ seenWords, reviewIds, onFinishedChange, pair = 'food' }: { seenWords: Word[]; reviewIds: readonly string[]; onFinishedChange?: (finished: boolean) => void; pair?: SortPair }) {
   const line = useBuddyLine();
   const { soundEffects, haptics } = useSettings();
   const { recordAnswer, recordGamePlayed } = useProgressActions();
   const voice = useFamilyVoice();
   const window = useWindowDimensions();
   const { compact, art, basketIcon, label, mini } = sortLayout(window);
-  const [rounds, setRounds] = useState<SortRound[]>(() => buildSortRounds(seenWords, Math.random, undefined, reviewIds));
+  const [rounds, setRounds] = useState<SortRound[]>(() => buildSortRounds(seenWords, Math.random, undefined, reviewIds, pair));
   const [index, setIndex] = useState(0);
   const [misses, setMisses] = useState(0);
-  const [sorted, setSorted] = useState<Record<Basket, Word[]>>({ food: [], other: [] });
+  const [sorted, setSorted] = useState<Record<Basket, Word[]>>(emptySorted);
   const [solved, setSolved] = useState(false);
   const [score, setScore] = useState(0);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -118,10 +128,10 @@ export function SortGame({ seenWords, reviewIds, onFinishedChange }: { seenWords
   }, [round, soundEffects, haptics, springBack, voice, misses, pan, recordAnswer]);
 
   const measureBaskets = useCallback(() => {
-    for (const id of ['food', 'other'] as const) {
+    for (const id of PAIR_BASKETS[pair]) {
       basketViews.current[id]?.measureInWindow((x, y, width, height) => { basketRects.current[id] = { x, y, width, height }; });
     }
-  }, []);
+  }, [pair]);
   // Rects are kept fresh on layout and resize too, so a quick flick right after the pick-up still finds its basket.
   useEffect(() => { measureBaskets(); }, [measureBaskets, window.width, window.height]);
 
@@ -165,11 +175,11 @@ export function SortGame({ seenWords, reviewIds, onFinishedChange }: { seenWords
   const playAgain = () => {
     clearTimer();
     recordGamePlayed();
-    setRounds(buildSortRounds(seenWords, Math.random, undefined, reviewIds));
+    setRounds(buildSortRounds(seenWords, Math.random, undefined, reviewIds, pair));
     setIndex(0);
     locked.current = false;
     setMisses(0);
-    setSorted({ food: [], other: [] });
+    setSorted(emptySorted());
     setSolved(false);
     setScore(0);
     pan.setValue({ x: 0, y: 0 });
@@ -183,7 +193,7 @@ export function SortGame({ seenWords, reviewIds, onFinishedChange }: { seenWords
     );
   }
 
-  const message = solved ? line('game_correct') : misses > 0 ? line('game_try_again') : line('game_sort_prompt');
+  const message = solved ? line('game_correct') : misses > 0 ? line('game_try_again') : line(PAIRS[pair].prompt);
 
   return (
     <ScrollView contentContainerStyle={[styles.root, { gap: compact ? spacing.sm : spacing.md }]}>
@@ -197,7 +207,7 @@ export function SortGame({ seenWords, reviewIds, onFinishedChange }: { seenWords
             key={`${index}:${round.word.id}`}
             {...responder.panHandlers}
             accessible
-            accessibilityLabel={`${round.word.en}. Is it food? Tap a basket.`}
+            accessibilityLabel={`${round.word.en}. ${PAIRS[pair].question} Tap a basket.`}
             style={[styles.card, { transform: pan.getTranslateTransform() }]}
           >
             <WordArt wordId={round.word.id} emoji={round.word.emoji} size={art} />
@@ -206,7 +216,7 @@ export function SortGame({ seenWords, reviewIds, onFinishedChange }: { seenWords
       </View>
 
       <View style={styles.baskets}>
-        {BASKETS.map((basket) => (
+        {PAIR_BASKETS[pair].map((id) => ({ id, ...BASKETS[id] })).map((basket) => (
           <HintPulse key={basket.id} style={styles.basketSlot} active={!solved && basket.id === round.basket && misses >= HINT_AFTER_MISSES}>
             <Pressable
               ref={(view) => { basketViews.current[basket.id] = view; }}

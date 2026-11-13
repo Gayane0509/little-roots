@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-13 20:30 run. Updated at the end of every session._
+_Updated: 2026-11-13 21:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -223,6 +223,10 @@ _Updated: 2026-11-13 20:30 run. Updated at the end of every session._
   allowing one build run per day) would leave room for #168.
 - 2026-11-13 20:30 run: pacing stop, no app change. Claude weekly 61 % (5-hour 32 %), cap 80 %, resets 2026-11-16
   23:00 UTC. Codex still blocked (#11, config unchanged since 2026-10-30). Owner suggestion from 19:30 stands.
+- 2026-11-13 21:30 run: **#168 done** — "Big or small" sorting game (`/games/sort-size`, Premium themes only: 14 big / 17
+  small words, drawn Big / Small baskets). 93 suites / 413 tests ✓; web-checked 320×568, 375×812, 1024×768 (dev test
+  child restored). Reviewer subagent: no blockers. Usage at start: 5-hour 0 %, weekly 61 %. Codex still blocked (#11).
+  New Armenian prompt Մե՞ծ է, թե՞ փոքր → proofreading. Next: #154 printable weekly words PDF, #163 (attended), #143/#155 art.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

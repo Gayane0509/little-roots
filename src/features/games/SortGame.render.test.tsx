@@ -50,7 +50,12 @@ jest.mock('./sorting', () => {
   const actual = jest.requireActual('./sorting') as typeof import('./sorting');
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { getWord: get } = require('@/content/packs') as typeof import('@/content/packs');
-  return { ...actual, buildSortRounds: () => [{ word: get('food.apple'), basket: 'food' }, { word: get('family.mom'), basket: 'other' }] };
+  return {
+    ...actual,
+    buildSortRounds: (...args: Parameters<typeof actual.buildSortRounds>) => (args[4] === 'size'
+      ? [{ word: get('animals.horse'), basket: 'big' }, { word: get('food.apple'), basket: 'small' }]
+      : [{ word: get('food.apple'), basket: 'food' }, { word: get('family.mom'), basket: 'other' }]),
+  };
 });
 
 const word = (id: string) => getWord(id) as Word;
@@ -72,12 +77,12 @@ afterEach(async () => { if (root) await act(async () => root?.unmount()); root =
 const button = (label: string) => [...document.querySelectorAll('button')].find((b) => b.getAttribute('aria-label') === label) as HTMLButtonElement;
 const buddy = () => document.querySelector('[data-testid="buddy"]')?.textContent;
 
-async function renderGame() {
+async function renderGame(pair?: 'size') {
   const element = document.createElement('div'); document.body.appendChild(element);
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { createRoot } = require('react-dom/client') as { createRoot(element: HTMLElement): NonNullable<typeof root> };
   root = createRoot(element);
-  await act(async () => { root?.render(<SortGame seenWords={[word('food.apple'), word('family.mom')]} reviewIds={[]} />); });
+  await act(async () => { root?.render(<SortGame pair={pair} seenWords={[word('food.apple'), word('family.mom')]} reviewIds={[]} />); });
 }
 
 test('the wrong basket asks to try again; the right one says the word, then the next picture comes', async () => {
@@ -115,6 +120,7 @@ test('a drop lands in the basket under the finger, or nowhere', () => {
   expect(basketAt(rects, 180, 560)).toBeUndefined();
   expect(basketAt(rects, 100, 300)).toBeUndefined();
   expect(basketAt({}, 100, 560)).toBeUndefined();
+  expect(basketAt({ big: { x: 0, y: 500, width: 150, height: 100 }, small: { x: 170, y: 500, width: 150, height: 100 } }, 200, 550)).toBe('small');
 });
 
 test('the picture shrinks on short windows and grows on tablets', () => {
@@ -127,4 +133,19 @@ test('the picture shrinks on short windows and grows on tablets', () => {
   expect(sortLayout({ width: 1024, height: 768 }).label).toBe(30);
   expect(sortLayout({ width: 375, height: 812 }).label).toBe(18);
   expect(sortLayout({ width: 1024, height: 600 }).label).toBe(18);
+});
+
+test('big / small shows its own baskets and prompt (#168)', async () => {
+  await renderGame('size');
+  expect(buddy()).toBe('game_size_prompt');
+  expect(button('Food')).toBeUndefined();
+  expect(document.querySelector('[aria-label="horse. Is it big or small? Tap a basket."]')).not.toBeNull();
+  await act(async () => { button('Small').click(); });
+  expect(buddy()).toBe('game_try_again');
+  await act(async () => { button('Big').click(); });
+  expect(buddy()).toBe('game_correct');
+  await act(async () => { jest.advanceTimersByTime(1000); });
+  await act(async () => { button('Small').click(); });
+  await act(async () => { jest.advanceTimersByTime(1000); });
+  expect(document.querySelector('[data-testid="done"]')?.textContent).toBe('game_score 1/2');
 });

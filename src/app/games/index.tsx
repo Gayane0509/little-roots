@@ -28,6 +28,8 @@ const GAMES: { href: Href; icon: IconName; title: string; sub: string; color: st
   { href: '/games/find', icon: 'find', title: 'Find the picture', sub: 'Read the word, tap its picture', color: '#CDE7FF' },
   { href: '/games/read', icon: 'read', title: 'Read it', sub: 'For readers: pick the word', color: '#CAFFBF' },
 ];
+// Shown once the child has met three big and three small words (#168): only Premium themes hold big words.
+const SIZE_GAME = { href: '/games/sort-size', icon: 'bigBox', title: 'Big or small', sub: 'Sort by size', color: '#F0EBFF' } as const;
 // Shown once the child has met three Numbers words (#151), so free children never meet a locked game.
 const COUNT_GAME = { href: '/games/count', icon: 'count', title: 'Count with me', sub: 'Tap and count the pictures', color: '#FFE5EC' } as const;
 // Shown once the child has met three food and three other sortable words (#149); free children get there via Family + Food.
@@ -50,6 +52,7 @@ export default function Games() {
     return [
       ...GAMES,
       ...(canPlaySorting(seen) ? [SORT_GAME] : []),
+      ...(canPlaySorting(seen, 'size') ? [SIZE_GAME] : []),
       ...(canPlayCounting(seen) ? [COUNT_GAME] : []),
       ...(canPlaySounds(ACTIVE_PACK.alphabet, traced) ? [SOUNDS_GAME] : []),
     ];
