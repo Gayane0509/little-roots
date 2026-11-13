@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { AppState, Platform, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 
 import { ACTIVE_PACK, getWord } from '@/content/packs';
-import { confirmAction } from '@/lib/dialog';
+import { confirmAction, notify } from '@/lib/dialog';
 import { canSeeFullReport } from '@/lib/entitlements';
 import { WordArt } from '@/ui/WordArt';
 import type { Word } from '@/content/types';
@@ -24,6 +24,8 @@ import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing } from '@/ui/toke
 import { StorageErrorBanner } from '@/features/storage/StorageErrorBanner';
 import { WeeklyShareCard } from '@/features/report/WeeklyShareCard';
 import { talkTogetherCards } from '@/features/report/talkTogether';
+import { printWordIds } from '@/features/report/printSheet';
+import { printWeekWords } from '@/features/report/printWeek';
 
 const LEARNED_SHOWN = 8;
 
@@ -52,6 +54,14 @@ export default function ParentArea() {
   const practice = toWords(report.practiceWordIds);
   const learned = toWords(report.newWordIds);
   const talkCards = talkTogetherCards(learned, practice, ACTIVE_PACK.phrases);
+  const printWords = toWords(printWordIds(report));
+  const [printing, setPrinting] = useState(false);
+  const printSheet = () => {
+    setPrinting(true);
+    printWeekWords(childName === 'Your child' ? 'My child' : childName, printWords)
+      .catch(() => notify('Printing is not available on this device'))
+      .finally(() => setPrinting(false));
+  };
   const teaserWords = practice.length >= 3 ? practice.slice(0, 3) : ACTIVE_PACK.themes[0].words.slice(0, 3);
 
   const confirmReset = () =>
@@ -113,6 +123,15 @@ export default function ParentArea() {
             {practice.map((w) => <PracticeRow key={w.id} word={w} />)}
           </>
         )}
+        {printWords.length > 0 ? (
+          <BigButton
+            label="Print this week's words"
+            color={colors.primary}
+            disabled={printing}
+            accessibilityHint="Opens the print sheet with picture cards you can print or save as a PDF"
+            onPress={printSheet}
+          />
+        ) : null}
 
         {talkCards.length > 0 ? (
           <>

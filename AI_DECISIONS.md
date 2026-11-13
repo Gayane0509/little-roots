@@ -272,3 +272,10 @@ Durable decisions with reasons. Newest first. Earlier ones are summarized from `
   lone card lays its picture beside the names. Chosen over adding a 20th theme just to even the count (content should
   follow learning value, not the grid) and over centring the card (still reads as "missing one"). Widths come from
   `themeCardWidth` so any future theme count stays even.
+
+## 2026-11-13 — Printable weekly words (#154)
+- Printing uses `expo-print` and the system print sheet (print or Save as PDF); nothing leaves the device unless the
+  grown-up chooses a printer or share target there. The button sits on the parent home (behind the gate) for free and
+  Premium alike, because it prints this week's words, not the Premium full report. On web the sheet prints through a
+  hidden same-origin iframe (expo-print's web `printAsync` only prints the app page). Pictures are inlined as base64 on
+  native so the print renderer needs no file access.

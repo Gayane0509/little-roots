@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-13 22:30 run. Updated at the end of every session._
+_Updated: 2026-11-13 23:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -230,6 +230,10 @@ _Updated: 2026-11-13 22:30 run. Updated at the end of every session._
 - 2026-11-13 22:30 run: planning only, no app change. Claude weekly 62 % (5-hour 7 %), cap 80 %, resets 2026-11-16 23:00 UTC.
   #154 printable weekly words planned in AI_TASKS (expo-print, HTML builder + tests, report button); build it when a run
   starts with room for ~2 % weekly (after the reset, or a single build run). Codex still blocked (#11).
+- 2026-11-13 23:30 run: **#154 done** — "Print this week's words" on the parent home: system print sheet (print or Save as
+  PDF) with up to 12 picture cards (Armenian, transliteration, English), new words or practice words; offline, `expo-print`.
+  94 suites / 419 tests ✓; web-checked (9 cards, pictures loaded). Native print → #173 (Xcode). New #172 Expo patch updates.
+  Usage: weekly 62 → 63 %. Codex still blocked (#11). Next: #172 (6), #163 (attended), #143/#155 art.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)
