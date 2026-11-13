@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-13 17:30 run. Updated at the end of every session._
+_Updated: 2026-11-13 18:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -214,6 +214,9 @@ _Updated: 2026-11-13 17:30 run. Updated at the end of every session._
   5-hour 28 %), cap 80 %, resets 2026-11-16 23:00 UTC → ~0.8 % per hourly run, less than one small task. Codex still
   blocked (#11, config unchanged since 2026-10-30). Next runs: implement only when weekly ≤ ~70 % leaves room
   (one small task: #163 attended, #154 PDF, #168), otherwise usage check only.
+- 2026-11-13 18:30 run: weekly still 60 % (5-hour 29 %); planning only, no app change. #168 big / small sorting pair
+  planned in AI_TASKS (size lists, unlock rule, files) and re-sized to M: build it in one run when weekly usage leaves
+  room (after the 2026-11-16 reset, or ≤ ~65 % with hours left). Codex still blocked (#11).
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)
