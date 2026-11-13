@@ -1244,3 +1244,7 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
 ## 2026-10-30 (first build sprint — details in PROGRESS.md)
 - Waves 1–9 + accessibility pass; final regression in the web preview; FINAL_REPORT.md. Last commit 6b63ae5.
   Checks: tsc, ESLint, Jest 33/135, CI green.
+
+## 2026-11-13 19:30 run
+- Pacing stop: Claude weekly 61 % (5-hour 31 %), Codex blocked (#11). No app change. Files: PROJECT_STATUS.md,
+  AI_CHANGELOG.md. Checks not run (notes only).
