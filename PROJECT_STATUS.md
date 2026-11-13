@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-13 23:30 run. Updated at the end of every session._
+_Updated: 2026-11-14 00:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -258,6 +258,8 @@ then #148–#156 by score; #143 (last flat drawings) alongside. New Armenian tex
 8. #148 Decision: grandparent voice messages on the child's Home conflict with the 2026-11-04 voice rule (only per-word
    Family voice recordings; voice messages not allowed). Allow as an exception, or drop #148.
 (No bundled native-speaker recordings: since 2026-11-04 each family records its own words in Family voice.)
+
+- 2026-11-14 00:30 run: pacing stop (started 00:33, last hour; weekly 63 %). No app change. Next run (17:30): #172 Expo patch updates (6) with web smoke, then #173 / #163 when attended.
 
 ## How a session works
 Schedule: daily 17:30–01:00 Asia/Yerevan, hourly at half past until 00:30 (local scheduled task "little-roots-daily"). Read this file, `AI_TASKS.md`,

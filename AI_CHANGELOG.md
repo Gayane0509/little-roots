@@ -2,6 +2,9 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-14 00:30 run
+- claude · pacing stop, no app change. Started 00:33 (12 min before the 00:45 no-new-task cutoff). Usage at start: Claude 5-hour 15 %, weekly 63 % (resets 2026-11-16 23:00 UTC); Codex usage script still reports a stale 2026-10-30 reading and Codex stays blocked (#11). Open backlog is low-score or blocked (#163 attended, #165 visible pane, #171 native fonts, #172 patch updates need a web smoke). Starting #172 now could not be finished and smoke-tested before 01:00. Files: `PROJECT_STATUS.md`, `AI_CHANGELOG.md`. Checks: none needed (notes only). Commit: see `git log` ("Notes: pacing stop 00:30").
+
 ## 2026-11-13 23:30 run
 - claude · #154 Print this week's words. Usage at start: Claude 5-hour 9 %, weekly 62 % (end 63 %); Codex still blocked (#11). Added `expo-print` ~58.0.9; new `src/features/report/printSheet.ts` (+ `printSheet.test.ts`, 6 tests) and `printWeek.ts`; button on `src/app/parent/index.tsx`. Web check (127.0.0.1:8095, 1024×768): button shown under Practice together; the print frame got 9 cards (8 pictures loaded, 1 drawing), Armenian words, title "Ani's words this week"; frame removed after afterprint; sheet screenshot looks right. First web try showed drawings instead of PNGs (Asset.downloadAsync path) → web now uses the bundled URL directly. Not verified: native print (#173). No reviewer pass (weekly pacing). Checks: `npm run check` ✓ (tsc, ESLint, Jest 94 suites / 419 tests); expo-doctor 19/20 — patch updates out upstream, same without this change → #172. Commit: see `git log` ("#154 Print this week's words").
 
