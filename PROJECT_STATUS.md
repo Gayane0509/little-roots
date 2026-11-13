@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-13 19:30 run. Updated at the end of every session._
+_Updated: 2026-11-13 20:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -221,6 +221,8 @@ _Updated: 2026-11-13 19:30 run. Updated at the end of every session._
   23:00 UTC → ~0.7 % per remaining hourly run. Codex still blocked (#11, config unchanged since 2026-10-30).
   Suggestion for the owner: check-only runs use most of that budget, so pausing the hourly task until the reset (or
   allowing one build run per day) would leave room for #168.
+- 2026-11-13 20:30 run: pacing stop, no app change. Claude weekly 61 % (5-hour 32 %), cap 80 %, resets 2026-11-16
+  23:00 UTC. Codex still blocked (#11, config unchanged since 2026-10-30). Owner suggestion from 19:30 stands.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

@@ -2,6 +2,11 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-13 20:30 run
+- claude · Pacing stop, no app change. Usage at start: Claude 5-hour 32 %, weekly 61 % (cap 80 %, resets
+  2026-11-16 23:00 UTC); Codex still blocked (#11). Files: PROJECT_STATUS.md, AI_CHANGELOG.md. Checks: `npm run check`
+  (see commit). Commit: see `git log` ("Notes: pacing stop 20:30").
+
 ## 2026-11-13 18:30 run
 - claude · Usage at start: Claude 5-hour 29 %, weekly 60 % (unchanged since 17:30); Codex still blocked (#11, config unchanged
   since 2026-10-30). Planning only, no app change: #168 (big / small sorting pair) gets its size lists (14 big, 17 small,
