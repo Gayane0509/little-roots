@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-14 18:30 run. Updated at the end of every session._
+_Updated: 2026-11-14 19:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -241,6 +241,10 @@ _Updated: 2026-11-14 18:30 run. Updated at the end of every session._
 - 2026-11-14 18:30 run: **#143 family picture done** — "family" now a 3D picture composed from the Fluent dad, mom and child
   (`scripts/compose-family.mjs`); theme pages show only 3D pictures except colours/numbers (guard test). 95 suites / 424 tests ✓;
   web-checked at 320 px. #176 overflow scan at 320 px: clean. **#175 done** — Family card on Home shows the family (425 tests ✓; web 320 + 1024). Usage: weekly 65 %. Codex still blocked (#11). Next: #163 (attended), #155 3D Buddy, #165 (visible pane).
+- 2026-11-14 19:30 run: pacing stop, no app change. Claude weekly 66 % (5-hour 15 %), cap 80 %, resets 2026-11-16
+  23:00 UTC → ~21 hourly runs left, ~0.67 % each, below the ~0.7 % a check-only run costs. Codex still blocked (#11,
+  `gpt-6-sol` unchanged). Open unblocked tasks need an attended run (#163 web mic), a visible pane (#165) or native
+  font measurement (#171). Next: build only if usage leaves room (#155 3D Buddy); owner suggestion from 2026-11-13 stands.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)
