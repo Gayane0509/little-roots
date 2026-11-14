@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-14 23:30 run. Updated at the end of every session._
+_Updated: 2026-11-15 00:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -288,6 +288,7 @@ then #148–#156 by score; #143 (last flat drawings) alongside. New Armenian tex
    Family voice recordings; voice messages not allowed). Allow as an exception, or drop #148.
 (No bundled native-speaker recordings: since 2026-11-04 each family records its own words in Family voice.)
 
+- 2026-11-15 00:30 run: pacing stop (started 00:33, 12 min before the 00:45 no-new-task cutoff; Claude 5-hour 10 %, weekly 69 %; Codex blocked #11). `npm run check` green (95 suites / 430 tests). No app change. Remaining unblocked todos need an attended session: #163 (web mic grant), #165 (visible pane); #49 lowest. Next run (17:30): new review/research pass for scored tasks.
 - 2026-11-14 00:30 run: pacing stop (started 00:33, last hour; weekly 63 %). No app change. Next run (17:30): #172 Expo patch updates (6) with web smoke, then #173 / #163 when attended.
 
 ## How a session works

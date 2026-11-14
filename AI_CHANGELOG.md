@@ -2,6 +2,10 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-15 00:30 run
+- claude · pacing stop, no app change: started 00:33, too late for a full task plus web check before 00:45. Gate
+  `npm run check` ✓ (tsc, ESLint, Jest 95 suites / 430 tests). Usage: Claude 5-hour 10 %, weekly 69 %; Codex blocked (#11).
+
 ## 2026-11-14 23:30 run
 - claude · parent-area tablet review (1024×768): settings, children, paywall fit, no overflow. #180 paywall comparison
   table: `src/app/parent/paywall.tsx` now shows a Free / Premium header and three aligned columns (Premium values in
