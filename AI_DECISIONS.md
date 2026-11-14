@@ -67,7 +67,7 @@ Durable decisions with reasons. Newest first. Earlier ones are summarized from `
   the same on every device (the reason for #89 still holds). People and body parts use the Light skin tone (light
   skin, dark hair; owner 2026-11-11). Drawn SVGs stay for the colours and numbers themes (a paint blob / numeral with dots teaches better), for
   three letter examples Fluent lacks (walnut, ship's wheel, wheat), and as the fallback for every
-  word; Buddy, icons, scenes and avatars stay drawn. The Family theme card shows mom (`themeArt`). "family" (#143, 2026-11-14) is composed from the Fluent
+  word; Buddy, icons, scenes and avatars stay drawn. The Family theme card shows the family picture (#175; was mom). "family" (#143, 2026-11-14) is composed from the Fluent
   dad + mom + child by `scripts/compose-family.mjs`, not drawn. Guard:
   `src/art/pictures.test.ts`. Limits: 256 px is soft above ~170 pt on 3× screens.
 - 2026-11-04 · **Short-window rule (#84–#88).** `SHORT_WINDOW_BELOW` (700 px window height, `src/ui/tokens.ts`) is the

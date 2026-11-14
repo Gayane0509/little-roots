@@ -240,7 +240,7 @@ _Updated: 2026-11-14 18:30 run. Updated at the end of every session._
   Usage: weekly 64 % (cap 80 %, resets 2026-11-16 23:00 UTC). Codex still blocked (#11). Next: #163 (attended), #143/#155 art, #117 start dots.
 - 2026-11-14 18:30 run: **#143 family picture done** — "family" now a 3D picture composed from the Fluent dad, mom and child
   (`scripts/compose-family.mjs`); theme pages show only 3D pictures except colours/numbers (guard test). 95 suites / 424 tests ✓;
-  web-checked at 320 px. #176 overflow scan at 320 px: clean. Usage: weekly 65 %. Codex still blocked (#11). Next: #175 card check, #163 (attended), #155 3D Buddy.
+  web-checked at 320 px. #176 overflow scan at 320 px: clean. **#175 done** — Family card on Home shows the family (425 tests ✓; web 320 + 1024). Usage: weekly 65 %. Codex still blocked (#11). Next: #163 (attended), #155 3D Buddy, #165 (visible pane).
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)
