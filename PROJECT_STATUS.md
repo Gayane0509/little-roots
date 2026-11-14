@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-14 21:30 run. Updated at the end of every session._
+_Updated: 2026-11-14 22:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -254,6 +254,11 @@ _Updated: 2026-11-14 21:30 run. Updated at the end of every session._
 - 2026-11-14 21:30 run: **#178 done** — Buddy small-size review (48/56/88 pt, all poses): only flaw was the "point"
   finger (bare outline stroke) → filled fur fingertip; 95 suites / 428 tests ✓; contact sheet before/after; web Home clean.
   Usage at start: weekly 67 %, 5-hour 21 %. Codex still blocked (#11). Next: #163 (attended), #165 (visible pane).
+- 2026-11-14 22:30 run: **#179 done** — the parent Share this week card no longer offers to share "0 of 7 days · Practising
+  words already learned" in a week without a lesson (note instead; text never claims practice without a lesson).
+  95 suites / 430 tests ✓; web 1024×768 parent home, no console errors. Word-picture audit: all 166 PNGs used; 256 px
+  limit already recorded (#142). Usage at start: Claude 5-hour 1 %, weekly 67 %. Codex still blocked (#11, config
+  unchanged since 2026-10-30). Next: #163 (attended), #165 (visible pane), more parent-area review on tablet.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

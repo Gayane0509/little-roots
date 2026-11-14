@@ -2,6 +2,18 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-14 22:30 run
+- claude · #179 Share this week without a lesson: the parent card offered "Share with family" with "0 of 7 days" and
+  "✨ Practising words already learned" in a week with no lesson (untrue). `src/features/report/shareText.ts`: new
+  `canShareWeek` (a lesson this week); the practising line only when the week had a lesson. `WeeklyShareCard.tsx`: no
+  preview or button without a lesson, a muted note instead ("Nothing to share yet this week…"). Test:
+  `shareText.test.ts` (+2). Asset audit: all 166 word PNGs referenced; 256 px soft-above-size limit already in
+  AI_DECISIONS (#142), no change.
+- Checks: `npm run check` (tsc ✓, ESLint ✓, Jest 95 suites / 430 tests ✓). Web 1024×768, parent home of the dev test
+  child (no lesson this week): note shown, no share button, no console errors. The with-lesson path is unchanged UI,
+  covered by the unit test, not seen on web (test child has no lesson this week). No Codex review (#11 blocked); no
+  subagent review (small diff, weekly usage 67 %). Not verified: native (#10).
+
 ## 2026-11-14 18:30 run
 - claude · #143 (family part) 3D "family" picture: `scripts/compose-family.mjs` composes `assets/words/family/family.png` (256 px, 70 KB) from the bundled Fluent 3D dad, mom and child with resvg (MIT sources, same Light skin tone); `src/art/pictures.ts` registers `family.family`; `src/art/pictures.test.ts` adds a guard that only colours and numbers keep drawn pictures on theme pages (fails without the picture, passes with it). #176 overflow scan at 320×568: no child screen wider than the window. New #175 (family picture on the Home card?). Usage at start: Claude 5-hour 9 %, weekly 65 %; Codex still blocked (#11, config still `gpt-6-sol`). No reviewer pass (asset + registry only; weekly pacing). Checks: `npm run check` 95 suites / 424 tests ✓; web 320×568 Family page: 13 pictures loaded, 0 drawings, no console errors. Commit ecf749f.
 - claude · #175 Family theme portrait: `src/content/themeArt.ts` family → `family.family` (Home card, lesson intro, theme header, parent voice chip); `src/content/themeArt.test.ts` checks portraits are 3D except colours/numbers. Compared mom vs family at 3× density (168 px card, 72 px chip): the family reads clearly. Checks: `npm run check` 95 suites / 425 tests ✓; web Home 320 (56 px) + 1024 (72 px) picture loaded, no console errors. Commit: see `git log` ("#175 Family card shows the family").

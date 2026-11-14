@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 
 import type { Word } from '@/content/types';
-import { weeklyShareText } from './shareText';
+import { canShareWeek, weeklyShareText } from './shareText';
 
 const mk = (i: number): Word => ({ hy: `հ${i}`, translit: `t${i}`, en: `e${i}` }) as Word;
 const base = { childName: 'Ani', daysActive: 4, newWords: [mk(1), mk(2)], totalWords: 24, streakDays: 3 };
@@ -32,5 +32,17 @@ describe('weeklyShareText', () => {
     const t = weeklyShareText({ ...base, newWords: [] });
     expect(t).toContain('Practising words already learned');
     expect(t).not.toContain('new word');
+  });
+  it('claims no practice in a week without lessons', () => {
+    const t = weeklyShareText({ ...base, daysActive: 0, newWords: [], streakDays: 0 });
+    expect(t).toContain('0 of 7 days');
+    expect(t).not.toContain('Practising');
+  });
+});
+
+describe('canShareWeek', () => {
+  it('offers sharing only after a lesson this week', () => {
+    expect(canShareWeek({ daysActive: 0 })).toBe(false);
+    expect(canShareWeek({ daysActive: 1 })).toBe(true);
   });
 });

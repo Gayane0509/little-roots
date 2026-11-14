@@ -6,7 +6,7 @@ import type { weeklyReport } from '@/lib/report';
 import { BigButton } from '@/ui/BigButton';
 import { colors, font, radius, spacing } from '@/ui/tokens';
 
-import { weeklyShareText } from './shareText';
+import { canShareWeek, weeklyShareText } from './shareText';
 import { notify } from '@/lib/dialog';
 
 interface Props {
@@ -50,15 +50,21 @@ export function WeeklyShareCard({ childName, report }: Props) {
       <Text style={styles.heading} accessibilityRole="header">
         Share this week
       </Text>
-      <Text style={styles.preview} numberOfLines={5}>
-        {preview}
-      </Text>
-      <BigButton
-        label="Share with family"
-        color={colors.success}
-        accessibilityHint="Opens the share sheet with this week's progress"
-        onPress={() => void shareMessage(message)}
-      />
+      {canShareWeek(report) ? (
+        <>
+          <Text style={styles.preview} numberOfLines={5}>
+            {preview}
+          </Text>
+          <BigButton
+            label="Share with family"
+            color={colors.success}
+            accessibilityHint="Opens the share sheet with this week's progress"
+            onPress={() => void shareMessage(message)}
+          />
+        </>
+      ) : (
+        <Text style={styles.empty}>Nothing to share yet this week. After the next lesson you can send the family a short note.</Text>
+      )}
     </View>
   );
 }
@@ -73,6 +79,7 @@ const styles = StyleSheet.create({
     gap: spacing.md,
   },
   heading: { fontSize: font.heading, fontWeight: '800', color: colors.text },
+  empty: { fontSize: font.body, color: colors.textMuted },
   preview: {
     fontSize: font.body,
     color: colors.textMuted,
