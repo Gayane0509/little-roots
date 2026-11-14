@@ -1300,3 +1300,7 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   4 blinks, 3 outfits (before/after); web Home (localhost:8095) renders the new Buddy with its hat, no console errors.
   Not verified: native rendering (Xcode blocker #10). Codex review skipped (Codex blocked, #11); no subagent review
   (art-only diff, usage pacing at 66 % weekly).
+- claude · #177 Buddy sheens: `shine()` helper in `src/art/buddy.ts` adds a soft white stroke along the visible arm of
+  each pose (rest-pose sheens placed on the paw edge, outside the head) and on the hat, glasses lenses and crown; test in
+  `src/art/buddy.test.ts`. Checks: `npm run check` (tsc ✓, ESLint ✓, Jest 95 suites / 427 tests ✓); contact sheet
+  re-rendered and reviewed; web Home (localhost:8095) clean console.

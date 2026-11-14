@@ -58,3 +58,11 @@ test('blink lids use the lit fur tone, and the lit face circle covers each lid i
     }
   }
 });
+
+test('every pose and every outfit item has a white sheen for the 3D look (#177)', () => {
+  const sheen = /<path d="[^"]+" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0\.\d+"\/>/;
+  for (const mood of BUDDY_MOODS) {
+    expect(BUDDY_ART[mood]).toMatch(sheen);
+    for (const item of BUDDY_OUTFITS) expect(BUDDY_OUTFIT_ART[item][mood]).toMatch(sheen);
+  }
+});

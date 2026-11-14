@@ -49,6 +49,21 @@ const face = (mood: BuddyMood) => {
   return `<ellipse cx="64" cy="79" rx="23" ry="16" fill="#EBD3AE"/><ellipse cx="64" cy="77" rx="21" ry="13.5" fill="#FFF3DC"/>${eyes}<circle cx="39" cy="78" r="6" fill="#FF9EAA" opacity="0.65"/><circle cx="89" cy="78" r="6" fill="#FF9EAA" opacity="0.65"/><path d="M59 76 Q64 72 69 76 Q68 82 64 82 Q60 82 59 76Z" fill="#3A2E39"/><ellipse cx="62.5" cy="75.8" rx="2.2" ry="1.1" fill="#FFFFFF" opacity="0.55"/>${mouth}${mood === 'think' ? `<ellipse cx="83" cy="91" rx="8" ry="7" fill="${FUR}" ${furOutline}/><ellipse cx="81.5" cy="89.5" rx="4" ry="3" fill="${BUDDY_FUR_LIT}"/>` : ''}`;
 };
 
+/** A soft white sheen along a rounded edge (arms, outfit items), part of the 3D look (#177). */
+const shine = (d: string, opacity = 0.35) => `<path d="${d}" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="${opacity}"/>`;
+
+const LEFT_ARM_SHINE = 'M23 93 Q22 88 25 86';
+const RIGHT_ARM_SHINE = 'M105 93 Q106 88 103 86';
+const ARM_SHINE: Record<BuddyMood, string> = {
+  happy: `${LEFT_ARM_SHINE} ${RIGHT_ARM_SHINE}`,
+  sleep: `${LEFT_ARM_SHINE} ${RIGHT_ARM_SHINE}`,
+  proud: `${LEFT_ARM_SHINE} ${RIGHT_ARM_SHINE}`,
+  cheer: 'M21 72 Q25 70 27 76 M107 72 Q103 70 101 76',
+  think: 'M36 90 Q39 87 44 87',
+  wave: `${LEFT_ARM_SHINE} M112 59 Q114 55 118 57`,
+  point: `${LEFT_ARM_SHINE} M100 94 Q108 92 115 95`,
+};
+
 const LEFT_ARM_REST = 'M40 99 Q27 100 24 92 Q22 84 29 82 Q35 80 43 87';
 const RIGHT_ARM_REST = 'M88 99 Q101 100 104 92 Q106 84 99 82 Q93 80 85 87';
 
@@ -62,6 +77,7 @@ function bear(mood: BuddyMood): string {
         : mood === 'point'
           ? `<path d="${LEFT_ARM_REST} M86 96 Q100 90 113 92 Q122 93 121 100 Q120 106 111 105 Q98 105 88 104" fill="${FUR}" ${furOutline}/><path d="M120 97 L126 96" fill="none" ${outline}/>`
           : `<path d="${LEFT_ARM_REST} ${RIGHT_ARM_REST}" fill="${FUR}" ${furOutline}/>`;
+  const sheen = shine(ARM_SHINE[mood], 0.3);
   const extras = mood === 'cheer'
     ? '<path d="M14 47 l5 -6 M109 47 l5 -6" fill="none" stroke="#4DA3FF" stroke-width="4" stroke-linecap="round"/><circle cx="18" cy="59" r="3" fill="#FFD23F"/><circle cx="110" cy="60" r="3" fill="#FF8FB1"/>'
     : mood === 'think'
@@ -71,7 +87,7 @@ function bear(mood: BuddyMood): string {
         : mood === 'proud'
           ? `${star(14, 30, 9)}${star(116, 20, 7)}<circle cx="20" cy="58" r="3" fill="#FF8FB1"/>`
           : '';
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">${extras}<ellipse cx="64" cy="124" rx="30" ry="3.5" fill="#3A2E39" opacity="0.12"/><ellipse cx="64" cy="103" rx="28" ry="22" fill="${FUR_SHADE}" ${furOutline}/><ellipse cx="62" cy="101" rx="23" ry="18" fill="${FUR}"/><ellipse cx="62" cy="101" rx="15" ry="12" fill="${BUDDY_FUR_LIT}"/>${arms}${ear(34)}${ear(94)}<circle cx="64" cy="65" r="43" fill="${FUR_SHADE}" ${furOutline}/><circle cx="62" cy="62" r="36" fill="${FUR}"/><circle cx="60" cy="60" r="30" fill="${BUDDY_FUR_LIT}"/><ellipse cx="46" cy="40" rx="11" ry="5.5" fill="#FFFFFF" opacity="0.35" transform="rotate(-24 46 40)"/>${face(mood)}<path d="M48 105 Q64 115 80 105 L77 114 Q64 119 51 114Z" fill="#FF8C42" ${outline}/><path d="M76 111 L85 120 L78 121 L72 115" fill="#FF8C42" ${outline}/></svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">${extras}<ellipse cx="64" cy="124" rx="30" ry="3.5" fill="#3A2E39" opacity="0.12"/><ellipse cx="64" cy="103" rx="28" ry="22" fill="${FUR_SHADE}" ${furOutline}/><ellipse cx="62" cy="101" rx="23" ry="18" fill="${FUR}"/><ellipse cx="62" cy="101" rx="15" ry="12" fill="${BUDDY_FUR_LIT}"/>${arms}${sheen}${ear(34)}${ear(94)}<circle cx="64" cy="65" r="43" fill="${FUR_SHADE}" ${furOutline}/><circle cx="62" cy="62" r="36" fill="${FUR}"/><circle cx="60" cy="60" r="30" fill="${BUDDY_FUR_LIT}"/><ellipse cx="46" cy="40" rx="11" ry="5.5" fill="#FFFFFF" opacity="0.35" transform="rotate(-24 46 40)"/>${face(mood)}<path d="M48 105 Q64 115 80 105 L77 114 Q64 119 51 114Z" fill="#FF8C42" ${outline}/><path d="M76 111 L85 120 L78 121 L72 115" fill="#FF8C42" ${outline}/></svg>`;
 }
 
 /** Closed-eye lids drawn over the open eyes (fur-coloured patch + a curved line); shown for a moment to blink. */
@@ -103,15 +119,15 @@ function eyeLine(mood: BuddyMood): readonly [number, number] {
 function outfit(item: BuddyOutfit, mood: BuddyMood): string {
   if (item === 'hat') {
     // A striped party hat resting on top of the head, between the ears.
-    return `<path d="M50 29 L64 6 L78 29 Q64 34 50 29Z" fill="#4DA3FF" ${outline}/><path d="M56 20 Q64 23 72 20 M60 13 Q64 15 68 13" fill="none" stroke="#FFD23F" stroke-width="3" stroke-linecap="round"/><circle cx="64" cy="7" r="5" fill="#FF8FB1" ${outline}/>`;
+    return `<path d="M50 29 L64 6 L78 29 Q64 34 50 29Z" fill="#4DA3FF" ${outline}/><path d="M56 20 Q64 23 72 20 M60 13 Q64 15 68 13" fill="none" stroke="#FFD23F" stroke-width="3" stroke-linecap="round"/>${shine('M55 26 L61 15')}<circle cx="64" cy="7" r="5" fill="#FF8FB1" ${outline}/>`;
   }
   if (item === 'glasses') {
     const [left, right] = eyeLine(mood);
-    const frame = (x: number) => `<circle cx="${x}" cy="${EYE_Y}" r="10" fill="#FFFFFF" fill-opacity="0.18" stroke="#9B6BFF" stroke-width="3.5"/>`;
+    const frame = (x: number) => `<circle cx="${x}" cy="${EYE_Y}" r="10" fill="#FFFFFF" fill-opacity="0.18" stroke="#9B6BFF" stroke-width="3.5"/>${shine(`M${x - 6} ${EYE_Y - 2} Q${x - 5} ${EYE_Y - 5} ${x - 2} ${EYE_Y - 6}`, 0.6)}`;
     return `${frame(left)}${frame(right)}<path d="M${left + 10} ${EYE_Y - 1} Q64 ${EYE_Y - 5} ${right - 10} ${EYE_Y - 1}" fill="none" stroke="#9B6BFF" stroke-width="3.5" stroke-linecap="round"/>`;
   }
   // A small golden crown with three gems.
-  return `<path d="M46 29 L44 9 L54 18 L64 5 L74 18 L84 9 L82 29 Q64 34 46 29Z" fill="#FFD23F" ${outline}/><circle cx="54" cy="25" r="2.8" fill="#F25C54"/><circle cx="64" cy="26" r="2.8" fill="#4DA3FF"/><circle cx="74" cy="25" r="2.8" fill="#4CC985"/>`;
+  return `<path d="M46 29 L44 9 L54 18 L64 5 L74 18 L84 9 L82 29 Q64 34 46 29Z" fill="#FFD23F" ${outline}/>${shine('M49 26 L48 16')}<circle cx="54" cy="25" r="2.8" fill="#F25C54"/><circle cx="64" cy="26" r="2.8" fill="#4DA3FF"/><circle cx="74" cy="25" r="2.8" fill="#4CC985"/>`;
 }
 
 /** Outfit overlays, drawn above Buddy (and above the blink lids so glasses stay on during a blink). */

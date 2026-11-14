@@ -286,3 +286,4 @@ Durable decisions with reasons. Newest first. Earlier ones are summarized from `
   shadow, a muzzle shade, eye catchlights, a nose shine and a warm brown outline on the fur. No `<radialGradient>`:
   `SvgXml` gradient ids are document-global on web, so many Buddy instances would share or lose one definition.
 - Blink lids are filled with the lit tone; a test checks the lit circle covers every lid and stays inside the head.
+- Arms and outfit items get a soft white sheen stroke (#177) instead of extra tone layers, which keeps each pose path single.

@@ -248,8 +248,9 @@ _Updated: 2026-11-14 20:30 run. Updated at the end of every session._
 - 2026-11-14 20:30 run: **#155 done** — 3D-style Buddy: stacked flat tones (shade rim, fur, lit face), ground shadow,
   muzzle shade, eye catchlights, warm brown outline; still no gradients (web id clash). Blink lids use the lit tone (new
   test, mutation-checked). 95 suites / 426 tests ✓; contact sheet of all 7 poses + blinks + outfits reviewed; web Home
-  shows the new Buddy, no console errors. New #177 (shade arms/outfits). Usage: weekly 66 %. Codex still blocked (#11).
-  Next: #177 (small art), #163 (attended), #165 (visible pane).
+  shows the new Buddy, no console errors. **#177 done** — soft white sheens on the arms of every pose and on the hat,
+  glasses and crown (guard test); 427 tests ✓; web Home clean. Usage: weekly 66 %. Codex still blocked (#11).
+  Next: #163 (attended), #165 (visible pane), new art review of Buddy at small sizes on device (#10).
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)
