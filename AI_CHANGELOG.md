@@ -1304,3 +1304,13 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   each pose (rest-pose sheens placed on the paw edge, outside the head) and on the hat, glasses lenses and crown; test in
   `src/art/buddy.test.ts`. Checks: `npm run check` (tsc ✓, ESLint ✓, Jest 95 suites / 427 tests ✓); contact sheet
   re-rendered and reviewed; web Home (localhost:8095) clean console.
+
+## 2026-11-14 21:30 run
+- claude · #178 Buddy at small sizes: rendered all 7 poses at 48, 56 and 88 pt (3× density) with resvg. Poses, eyes,
+  cheeks and outfits read clearly; the "point" pose finger was a bare outline stroke (`M120 97 L126 96`) that looked like a
+  stray stick at 48–56 pt (game screens). Replaced with a filled fur fingertip drawn under the paw (`src/art/buddy.ts`);
+  test in `src/art/buddy.test.ts` (fails on the old art — mutation-checked).
+- Checks: `npm run check` (tsc ✓, ESLint ✓, Jest 95 suites / 428 tests ✓). Visual: before/after contact sheet reviewed;
+  web Home (localhost:8095) renders, no console errors. The point pose appears only in lesson rounds, which the preview's
+  test child cannot reach (free words finished), so it was not seen live on web. Not verified: native (#10).
+  No Codex review (#11 blocked); no subagent review (one-line art diff, usage pacing at 67 % weekly).

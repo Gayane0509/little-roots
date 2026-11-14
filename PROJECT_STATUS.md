@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-14 20:30 run. Updated at the end of every session._
+_Updated: 2026-11-14 21:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -251,6 +251,9 @@ _Updated: 2026-11-14 20:30 run. Updated at the end of every session._
   shows the new Buddy, no console errors. **#177 done** — soft white sheens on the arms of every pose and on the hat,
   glasses and crown (guard test); 427 tests ✓; web Home clean. Usage: weekly 66 %. Codex still blocked (#11).
   Next: #163 (attended), #165 (visible pane), new art review of Buddy at small sizes on device (#10).
+- 2026-11-14 21:30 run: **#178 done** — Buddy small-size review (48/56/88 pt, all poses): only flaw was the "point"
+  finger (bare outline stroke) → filled fur fingertip; 95 suites / 428 tests ✓; contact sheet before/after; web Home clean.
+  Usage at start: weekly 67 %, 5-hour 21 %. Codex still blocked (#11). Next: #163 (attended), #165 (visible pane).
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

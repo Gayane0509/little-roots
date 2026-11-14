@@ -66,3 +66,13 @@ test('every pose and every outfit item has a white sheen for the 3D look (#177)'
     for (const item of BUDDY_OUTFITS) expect(BUDDY_OUTFIT_ART[item][mood]).toMatch(sheen);
   }
 });
+
+test('the pointing finger is a filled fur tip inside the canvas, not a bare outline stroke (#178)', () => {
+  const art = BUDDY_ART.point;
+  expect(art).not.toContain('M120 97 L126 96');
+  const tip = art.match(/<ellipse cx="([\d.]+)" cy="[\d.]+" rx="([\d.]+)" ry="[\d.]+" fill="#[0-9A-F]{6}" stroke="#5C3018" stroke-width="3"/);
+  expect(tip).not.toBeNull();
+  const [, cx, rx] = tip!.map(Number);
+  expect(cx + rx + 1.5).toBeLessThanOrEqual(128);
+  expect(art.indexOf(tip![0])).toBeLessThan(art.indexOf('M86 96 Q100 90'));
+});

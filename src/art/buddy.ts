@@ -75,7 +75,7 @@ function bear(mood: BuddyMood): string {
       : mood === 'wave'
         ? `<path d="${LEFT_ARM_REST} M90 100 Q108 88 108 64 Q107 52 115 52 Q123 53 121 64 Q118 92 92 104" fill="${FUR}" ${furOutline}/>`
         : mood === 'point'
-          ? `<path d="${LEFT_ARM_REST} M86 96 Q100 90 113 92 Q122 93 121 100 Q120 106 111 105 Q98 105 88 104" fill="${FUR}" ${furOutline}/><path d="M120 97 L126 96" fill="none" ${outline}/>`
+          ? `<ellipse cx="121.5" cy="96.5" rx="4.5" ry="3.2" fill="${FUR}" ${furOutline}/><path d="${LEFT_ARM_REST} M86 96 Q100 90 113 92 Q122 93 121 100 Q120 106 111 105 Q98 105 88 104" fill="${FUR}" ${furOutline}/>`
           : `<path d="${LEFT_ARM_REST} ${RIGHT_ARM_REST}" fill="${FUR}" ${furOutline}/>`;
   const sheen = shine(ARM_SHINE[mood], 0.3);
   const extras = mood === 'cheer'
