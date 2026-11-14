@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-14 00:30 run. Updated at the end of every session._
+_Updated: 2026-11-14 17:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -234,6 +234,8 @@ _Updated: 2026-11-14 00:30 run. Updated at the end of every session._
   PDF) with up to 12 picture cards (Armenian, transliteration, English), new words or practice words; offline, `expo-print`.
   94 suites / 419 tests ✓; web-checked (9 cards, pictures loaded). Native print → #173 (Xcode). New #172 Expo patch updates.
   Usage: weekly 62 → 63 %. Codex still blocked (#11). Next: #172 (6), #163 (attended), #143/#155 art.
+- 2026-11-14 17:30 run: **#172 done** — 11 Expo SDK 58 patch updates; doctor 20/20, 94 suites / 419 tests ✓, web export + smoke ✓.
+  Usage: weekly 64 % (cap 80 %, resets 2026-11-16 23:00 UTC). Codex still blocked (#11). Next: #163 (attended), #143/#155 art, #117 start dots.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

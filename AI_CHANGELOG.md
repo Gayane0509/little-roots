@@ -2,6 +2,9 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-14 17:30 run
+- claude · #172 Expo SDK 58 patch updates: `npx expo install --fix` (expo 58.0.25, expo-asset, expo-audio 58.0.12, expo-constants, expo-font, expo-haptics, expo-linking, expo-notifications 58.1.9, expo-router 58.0.31, expo-splash-screen, expo-status-bar 58.0.5); `expo-status-bar` added to `app.json` plugins by the installer (no props → no-op). Files: `package.json`, `package-lock.json`, `app.json`, notes. Checks: expo-doctor 20/20; `npm run check` 94 suites / 419 tests ✓; `expo export --platform web` ✓; web smoke (Home, Games, Big or small) no console errors; npm audit unchanged (3 moderate, build tooling). Native not verified (#10, Xcode). Usage at start: 5-hour 1 %, weekly 64 %. Commit: see `git log` ("#172 Expo SDK 58 patch updates").
+
 ## 2026-11-14 00:30 run
 - claude · pacing stop, no app change. Started 00:33 (12 min before the 00:45 no-new-task cutoff). Usage at start: Claude 5-hour 15 %, weekly 63 % (resets 2026-11-16 23:00 UTC); Codex usage script still reports a stale 2026-10-30 reading and Codex stays blocked (#11). Open backlog is low-score or blocked (#163 attended, #165 visible pane, #171 native fonts, #172 patch updates need a web smoke). Starting #172 now could not be finished and smoke-tested before 01:00. Files: `PROJECT_STATUS.md`, `AI_CHANGELOG.md`. Checks: none needed (notes only). Commit: see `git log` ("Notes: pacing stop 00:30").
 
