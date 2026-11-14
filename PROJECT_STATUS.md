@@ -235,6 +235,8 @@ _Updated: 2026-11-14 17:30 run. Updated at the end of every session._
   94 suites / 419 tests ✓; web-checked (9 cards, pictures loaded). Native print → #173 (Xcode). New #172 Expo patch updates.
   Usage: weekly 62 → 63 %. Codex still blocked (#11). Next: #172 (6), #163 (attended), #143/#155 art.
 - 2026-11-14 17:30 run: **#172 done** — 11 Expo SDK 58 patch updates; doctor 20/20, 94 suites / 419 tests ✓, web export + smoke ✓.
+  **#174 done** — tracing guide letters centred by their real glyph ink (table read from the bundled font, test checks it
+  against the TTF); 95 suites / 423 tests ✓; web-checked. #117 start dots blocked: needs a teacher-checked stroke-start list.
   Usage: weekly 64 % (cap 80 %, resets 2026-11-16 23:00 UTC). Codex still blocked (#11). Next: #163 (attended), #143/#155 art, #117 start dots.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 

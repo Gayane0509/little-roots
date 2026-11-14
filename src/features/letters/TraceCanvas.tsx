@@ -6,6 +6,7 @@ import Svg, { Path, Text as SvgText } from 'react-native-svg';
 import { BigButton } from '@/ui/BigButton';
 import { LETTER_FONT } from '@/ui/letterFont';
 import { colors, radius, spacing } from '@/ui/tokens';
+import { traceBaselineY } from './letterInk';
 import type { TraceStroke } from './tracing';
 import { traceCanvasSize, traceScore } from './tracing';
 
@@ -104,7 +105,7 @@ function TraceCanvasInner({ size, screenReaderEnabled, upper, lower, onDone, onD
       <View style={[styles.frame, { width: size + 4, height: size + 4 }]}>
         <View style={{ width: size, height: size }} accessible accessibilityRole="image" accessibilityLabel={`Trace ${useUpper ? 'uppercase' : 'lowercase'} ${upper}`} accessibilityHint="Drawing area. Follow the faint letter with your finger." {...responder.panHandlers}>
           <Svg width={size} height={size} pointerEvents="none">
-            <SvgText x={size / 2} y={size * 0.5 + size * 0.7 * (useUpper ? 0.35 : 0.15)} fontSize={size * 0.7} fontFamily={LETTER_FONT} fill="#D7D9DF" textAnchor="middle">{useUpper ? upper : lower}</SvgText>
+            <SvgText x={size / 2} y={traceBaselineY(useUpper ? upper : lower, size, size * 0.7, useUpper)} fontSize={size * 0.7} fontFamily={LETTER_FONT} fill="#D7D9DF" textAnchor="middle">{useUpper ? upper : lower}</SvgText>
             {finishedStrokeElements}
             {activePath ? <Path d={activePath} fill="none" stroke={colors.primary} strokeWidth={14} strokeLinecap="round" strokeLinejoin="round" /> : null}
           </Svg>
