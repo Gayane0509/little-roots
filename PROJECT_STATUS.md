@@ -261,8 +261,8 @@ _Updated: 2026-11-14 23:30 run. Updated at the end of every session._
   unchanged since 2026-10-30). Next: #163 (attended), #165 (visible pane), more parent-area review on tablet.
 - 2026-11-14 23:30 run: parent-area tablet review (settings, children, paywall fit). **#180 done** — the paywall
   comparison is a Free / Premium column table (was "Free: 1  Premium: 4" on one line). 95 suites / 430 tests ✓; web 1024
-  + 320, no console errors. Usage at start: weekly 68 %, 5-hour 5 %. Codex still blocked (#11). Next: #163 (attended),
-  #165 (visible pane), review reminders / report / voice screens on tablet.
+  + 320, no console errors. Usage at start: weekly 68 %, 5-hour 5 %. Codex still blocked (#11). #181 Family voice + grown-ups guide on tablet: no change
+  needed (reminders native-only → #10). Next: #163 (attended), #165 (visible pane), full report screen with Premium on tablet.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)
