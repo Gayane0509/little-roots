@@ -2,6 +2,16 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-14 23:30 run
+- claude · parent-area tablet review (1024×768): settings, children, paywall fit, no overflow. #180 paywall comparison
+  table: `src/app/parent/paywall.tsx` now shows a Free / Premium header and three aligned columns (Premium values in
+  the accent colour) instead of "Free: 1  Premium: 4" on one line; screen-reader row labels unchanged, header hidden
+  from them. No new logic (data still `comparison` in `offer.ts`, covered by `offer.test.ts`); the app has no
+  screen render tests.
+- Checks: `npm run check` (tsc ✓, ESLint ✓, Jest 95 suites / 430 tests ✓). Web 1024×768 and 320×568: columns aligned, no
+  element wider than the window, no console errors. No Codex review (#11 blocked); no subagent review (style-only diff,
+  weekly usage 68 %). Not verified: native (#10). Usage at start: Claude 5-hour 5 %, weekly 68 %.
+
 ## 2026-11-14 22:30 run
 - claude · #179 Share this week without a lesson: the parent card offered "Share with family" with "0 of 7 days" and
   "✨ Practising words already learned" in a week with no lesson (untrue). `src/features/report/shareText.ts`: new

@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-14 22:30 run. Updated at the end of every session._
+_Updated: 2026-11-14 23:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -259,6 +259,10 @@ _Updated: 2026-11-14 22:30 run. Updated at the end of every session._
   95 suites / 430 tests ✓; web 1024×768 parent home, no console errors. Word-picture audit: all 166 PNGs used; 256 px
   limit already recorded (#142). Usage at start: Claude 5-hour 1 %, weekly 67 %. Codex still blocked (#11, config
   unchanged since 2026-10-30). Next: #163 (attended), #165 (visible pane), more parent-area review on tablet.
+- 2026-11-14 23:30 run: parent-area tablet review (settings, children, paywall fit). **#180 done** — the paywall
+  comparison is a Free / Premium column table (was "Free: 1  Premium: 4" on one line). 95 suites / 430 tests ✓; web 1024
+  + 320, no console errors. Usage at start: weekly 68 %, 5-hour 5 %. Codex still blocked (#11). Next: #163 (attended),
+  #165 (visible pane), review reminders / report / voice screens on tablet.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

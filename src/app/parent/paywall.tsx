@@ -49,8 +49,10 @@ export default function Paywall() {
       </View>
       <Text style={styles.premiumCaption}>{PREMIUM_WORDS} more words in {PREMIUM_THEMES.length} themes</Text>
     </View>
+    {/* Free and Premium as aligned columns (#180); each row still reads as one sentence to screen readers. */}
     <View style={styles.table}>
-      {comparison.map((row) => <View key={row.feature} style={styles.tableRow} accessible accessibilityLabel={`${row.feature}. Free: ${row.free}. Premium: ${row.premium}`}><Text style={styles.feature}>{row.feature}</Text><View style={styles.cells}><Text style={styles.column}>Free: {row.free}</Text><Text style={styles.column}>Premium: {row.premium}</Text></View></View>)}
+      <View style={[styles.tableRow, styles.headRow]} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"><View style={styles.feature} /><Text style={[styles.column, styles.head]}>Free</Text><Text style={[styles.column, styles.head, styles.premium]}>Premium</Text></View>
+      {comparison.map((row) => <View key={row.feature} style={[styles.tableRow, styles.bodyRow]} accessible accessibilityLabel={`${row.feature}. Free: ${row.free}. Premium: ${row.premium}`}><Text style={[styles.feature, styles.featureText]}>{row.feature}</Text><Text style={styles.column}>{row.free}</Text><Text style={[styles.column, styles.premium]}>{row.premium}</Text></View>)}
     </View>
     {state.isPremium ? <Text style={styles.active}>Premium is active</Text> : <>
       {__DEV__ ? <Text style={styles.trial}>7-day free trial · Test mode</Text> : null}
@@ -73,8 +75,9 @@ const styles = StyleSheet.create({
   premiumTile: { borderRadius: radius.md, alignItems: 'center', justifyContent: 'center' },
   premiumCaption: { fontSize: font.body, fontWeight: '700', color: colors.text, textAlign: 'center' },
   table: { borderRadius: radius.md, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border },
-  tableRow: { gap: spacing.xs, minHeight: 54, padding: spacing.sm, borderTopWidth: 1, borderColor: colors.border }, cells: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
-  feature: { color: colors.text, fontSize: font.small, fontWeight: '700' }, column: { color: colors.text, fontSize: font.small },
+  tableRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, padding: spacing.sm }, headRow: { paddingBottom: spacing.xs }, bodyRow: { minHeight: 54, borderTopWidth: 1, borderColor: colors.border },
+  feature: { flex: 1.3 }, featureText: { color: colors.text, fontSize: font.small, fontWeight: '700' },
+  column: { flex: 1, color: colors.text, fontSize: font.small, textAlign: 'center' }, head: { fontWeight: '800' }, premium: { color: colors.primaryText, fontWeight: '700' },
   trial: { color: colors.successText, fontSize: font.heading, fontWeight: '800', textAlign: 'center' }, plan: { backgroundColor: colors.surface, borderRadius: radius.md, padding: spacing.md, gap: spacing.xs }, badge: { color: colors.primaryText, fontSize: font.small, fontWeight: '800', textAlign: 'center' }, planNote: { color: colors.textMuted, textAlign: 'center' },
   planLabel: { color: colors.text, fontSize: font.heading, fontWeight: '800', textAlign: 'center' },
   coming: { color: colors.textMuted, fontSize: font.body, textAlign: 'center' }, active: { color: colors.successText, fontSize: font.heading, fontWeight: '800', textAlign: 'center' }, link: { minHeight: TOUCH_MIN, alignItems: 'center', justifyContent: 'center' }, linkText: { color: colors.primaryText, fontSize: font.body, fontWeight: '700', textDecorationLine: 'underline' },
