@@ -1289,3 +1289,14 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
 ## 2026-11-14 19:30 run
 - Pacing stop: Claude weekly 66 % (5-hour 15 %), Codex blocked (#11). No app change. Files: PROJECT_STATUS.md,
   AI_CHANGELOG.md. Checks not run (notes only).
+
+## 2026-11-14 20:30 run
+- claude · #155 3D-style Buddy: `src/art/buddy.ts` shades head, ears, body and the think paw with stacked flat tones
+  (`#874621` → `#A0582F` → `#B06637`), adds a ground shadow, muzzle shade, eye catchlights, nose shine and a warm brown
+  fur outline; blink lids now use the lit tone. No gradients (gradient ids clash across Buddy instances on web).
+  `src/art/buddy.test.ts`: lids use the lit tone, the lit circle covers each lid and stays inside the head (fails when
+  the lit circle shrinks — mutation-checked). `src/art/STYLE.md` notes the Buddy shading exception. New task #177.
+- Checks: `npm run check` (tsc ✓, ESLint ✓, Jest 95 suites / 426 tests ✓). Visual: resvg contact sheet of 7 poses,
+  4 blinks, 3 outfits (before/after); web Home (localhost:8095) renders the new Buddy with its hat, no console errors.
+  Not verified: native rendering (Xcode blocker #10). Codex review skipped (Codex blocked, #11); no subagent review
+  (art-only diff, usage pacing at 66 % weekly).

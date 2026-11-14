@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-14 19:30 run. Updated at the end of every session._
+_Updated: 2026-11-14 20:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -245,6 +245,11 @@ _Updated: 2026-11-14 19:30 run. Updated at the end of every session._
   23:00 UTC → ~21 hourly runs left, ~0.67 % each, below the ~0.7 % a check-only run costs. Codex still blocked (#11,
   `gpt-6-sol` unchanged). Open unblocked tasks need an attended run (#163 web mic), a visible pane (#165) or native
   font measurement (#171). Next: build only if usage leaves room (#155 3D Buddy); owner suggestion from 2026-11-13 stands.
+- 2026-11-14 20:30 run: **#155 done** — 3D-style Buddy: stacked flat tones (shade rim, fur, lit face), ground shadow,
+  muzzle shade, eye catchlights, warm brown outline; still no gradients (web id clash). Blink lids use the lit tone (new
+  test, mutation-checked). 95 suites / 426 tests ✓; contact sheet of all 7 poses + blinks + outfits reviewed; web Home
+  shows the new Buddy, no console errors. New #177 (shade arms/outfits). Usage: weekly 66 %. Codex still blocked (#11).
+  Next: #177 (small art), #163 (attended), #165 (visible pane).
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

@@ -2,7 +2,17 @@
 export type BuddyMood = 'happy' | 'cheer' | 'think' | 'sleep' | 'wave' | 'point' | 'proud';
 
 const outline = 'stroke="#3A2E39" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"';
-const ear = (x: number) => `<circle cx="${x}" cy="36" r="17" fill="#A0582F" ${outline}/><circle cx="${x}" cy="36" r="9" fill="#D9965B"/>`;
+
+/**
+ * 3D look (#155) from stacked flat tones, not gradients: gradient ids would clash between the many Buddy
+ * instances on one web page. Shade rim → fur → lit face; the lit circle covers every open eye, so the blink
+ * lids use that same tone and match exactly.
+ */
+const FUR_SHADE = '#874621';
+const FUR = '#A0582F';
+export const BUDDY_FUR_LIT = '#B06637';
+const furOutline = 'stroke="#5C3018" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"';
+const ear = (x: number) => `<circle cx="${x}" cy="36" r="17" fill="${FUR_SHADE}" ${furOutline}/><circle cx="${x - 1}" cy="35" r="13" fill="${FUR}"/><circle cx="${x}" cy="37" r="9" fill="#C27B45"/><circle cx="${x - 1}" cy="35.5" r="6.5" fill="#D9965B"/>`;
 
 /** Where the open eyes sit; moods missing here have closed or uneven eyes and never blink. */
 const OPEN_EYES: Partial<Record<BuddyMood, readonly [number, number]>> = {
@@ -21,8 +31,9 @@ function star(cx: number, cy: number, r: number): string {
 
 const face = (mood: BuddyMood) => {
   const open = OPEN_EYES[mood];
+  const eye = (x: number) => `<circle cx="${x}" cy="${EYE_Y}" r="3.5" fill="#3A2E39"/><circle cx="${x + 1.2}" cy="${EYE_Y - 1.3}" r="1.2" fill="#FFFFFF"/>`;
   const eyes = open
-    ? `<circle cx="${open[0]}" cy="${EYE_Y}" r="3.5" fill="#3A2E39"/><circle cx="${open[1]}" cy="${EYE_Y}" r="3.5" fill="#3A2E39"/>`
+    ? `${eye(open[0])}${eye(open[1])}`
     : mood === 'sleep'
       ? '<path d="M43 66 Q49 71 55 66 M73 66 Q79 71 85 66" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>'
       : mood === 'proud'
@@ -35,7 +46,7 @@ const face = (mood: BuddyMood) => {
       : mood === 'proud'
         ? '<path d="M52 83 Q64 98 76 83" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>'
         : '<path d="M54 84 Q64 95 74 84" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>';
-  return `<ellipse cx="64" cy="79" rx="23" ry="16" fill="#FFF3DC"/>${eyes}<circle cx="39" cy="78" r="6" fill="#FF9EAA" opacity="0.65"/><circle cx="89" cy="78" r="6" fill="#FF9EAA" opacity="0.65"/><path d="M59 76 Q64 72 69 76 Q68 82 64 82 Q60 82 59 76Z" fill="#3A2E39"/>${mouth}${mood === 'think' ? `<ellipse cx="83" cy="91" rx="8" ry="7" fill="#A0582F" ${outline}/>` : ''}`;
+  return `<ellipse cx="64" cy="79" rx="23" ry="16" fill="#EBD3AE"/><ellipse cx="64" cy="77" rx="21" ry="13.5" fill="#FFF3DC"/>${eyes}<circle cx="39" cy="78" r="6" fill="#FF9EAA" opacity="0.65"/><circle cx="89" cy="78" r="6" fill="#FF9EAA" opacity="0.65"/><path d="M59 76 Q64 72 69 76 Q68 82 64 82 Q60 82 59 76Z" fill="#3A2E39"/><ellipse cx="62.5" cy="75.8" rx="2.2" ry="1.1" fill="#FFFFFF" opacity="0.55"/>${mouth}${mood === 'think' ? `<ellipse cx="83" cy="91" rx="8" ry="7" fill="${FUR}" ${furOutline}/><ellipse cx="81.5" cy="89.5" rx="4" ry="3" fill="${BUDDY_FUR_LIT}"/>` : ''}`;
 };
 
 const LEFT_ARM_REST = 'M40 99 Q27 100 24 92 Q22 84 29 82 Q35 80 43 87';
@@ -43,14 +54,14 @@ const RIGHT_ARM_REST = 'M88 99 Q101 100 104 92 Q106 84 99 82 Q93 80 85 87';
 
 function bear(mood: BuddyMood): string {
   const arms = mood === 'cheer'
-    ? `<path d="M41 103 Q22 96 16 78 Q12 71 20 69 Q27 66 30 76 L46 88 M87 103 Q106 96 112 78 Q116 71 108 69 Q101 66 98 76 L82 88" fill="#A0582F" ${outline}/>`
+    ? `<path d="M41 103 Q22 96 16 78 Q12 71 20 69 Q27 66 30 76 L46 88 M87 103 Q106 96 112 78 Q116 71 108 69 Q101 66 98 76 L82 88" fill="${FUR}" ${furOutline}/>`
     : mood === 'think'
-      ? `<path d="M39 102 Q30 100 33 91 Q36 84 48 86 M89 102 Q94 90 83 80 Q78 76 75 82 L71 89" fill="#A0582F" ${outline}/>`
+      ? `<path d="M39 102 Q30 100 33 91 Q36 84 48 86 M89 102 Q94 90 83 80 Q78 76 75 82 L71 89" fill="${FUR}" ${furOutline}/>`
       : mood === 'wave'
-        ? `<path d="${LEFT_ARM_REST} M90 100 Q108 88 108 64 Q107 52 115 52 Q123 53 121 64 Q118 92 92 104" fill="#A0582F" ${outline}/>`
+        ? `<path d="${LEFT_ARM_REST} M90 100 Q108 88 108 64 Q107 52 115 52 Q123 53 121 64 Q118 92 92 104" fill="${FUR}" ${furOutline}/>`
         : mood === 'point'
-          ? `<path d="${LEFT_ARM_REST} M86 96 Q100 90 113 92 Q122 93 121 100 Q120 106 111 105 Q98 105 88 104" fill="#A0582F" ${outline}/><path d="M120 97 L126 96" fill="none" ${outline}/>`
-          : `<path d="${LEFT_ARM_REST} ${RIGHT_ARM_REST}" fill="#A0582F" ${outline}/>`;
+          ? `<path d="${LEFT_ARM_REST} M86 96 Q100 90 113 92 Q122 93 121 100 Q120 106 111 105 Q98 105 88 104" fill="${FUR}" ${furOutline}/><path d="M120 97 L126 96" fill="none" ${outline}/>`
+          : `<path d="${LEFT_ARM_REST} ${RIGHT_ARM_REST}" fill="${FUR}" ${furOutline}/>`;
   const extras = mood === 'cheer'
     ? '<path d="M14 47 l5 -6 M109 47 l5 -6" fill="none" stroke="#4DA3FF" stroke-width="4" stroke-linecap="round"/><circle cx="18" cy="59" r="3" fill="#FFD23F"/><circle cx="110" cy="60" r="3" fill="#FF8FB1"/>'
     : mood === 'think'
@@ -60,14 +71,14 @@ function bear(mood: BuddyMood): string {
         : mood === 'proud'
           ? `${star(14, 30, 9)}${star(116, 20, 7)}<circle cx="20" cy="58" r="3" fill="#FF8FB1"/>`
           : '';
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">${extras}<ellipse cx="64" cy="103" rx="28" ry="22" fill="#A0582F" ${outline}/>${arms}${ear(34)}${ear(94)}<circle cx="64" cy="65" r="43" fill="#A0582F" ${outline}/><ellipse cx="46" cy="38" rx="10" ry="5" fill="#FFFFFF" opacity="0.25" transform="rotate(-22 46 38)"/>${face(mood)}<path d="M48 105 Q64 115 80 105 L77 114 Q64 119 51 114Z" fill="#FF8C42" ${outline}/><path d="M76 111 L85 120 L78 121 L72 115" fill="#FF8C42" ${outline}/></svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">${extras}<ellipse cx="64" cy="124" rx="30" ry="3.5" fill="#3A2E39" opacity="0.12"/><ellipse cx="64" cy="103" rx="28" ry="22" fill="${FUR_SHADE}" ${furOutline}/><ellipse cx="62" cy="101" rx="23" ry="18" fill="${FUR}"/><ellipse cx="62" cy="101" rx="15" ry="12" fill="${BUDDY_FUR_LIT}"/>${arms}${ear(34)}${ear(94)}<circle cx="64" cy="65" r="43" fill="${FUR_SHADE}" ${furOutline}/><circle cx="62" cy="62" r="36" fill="${FUR}"/><circle cx="60" cy="60" r="30" fill="${BUDDY_FUR_LIT}"/><ellipse cx="46" cy="40" rx="11" ry="5.5" fill="#FFFFFF" opacity="0.35" transform="rotate(-24 46 40)"/>${face(mood)}<path d="M48 105 Q64 115 80 105 L77 114 Q64 119 51 114Z" fill="#FF8C42" ${outline}/><path d="M76 111 L85 120 L78 121 L72 115" fill="#FF8C42" ${outline}/></svg>`;
 }
 
 /** Closed-eye lids drawn over the open eyes (fur-coloured patch + a curved line); shown for a moment to blink. */
 function lids(mood: BuddyMood): string | undefined {
   const open = OPEN_EYES[mood];
   if (!open) return undefined;
-  const lid = (x: number) => `<circle cx="${x}" cy="${EYE_Y}" r="5.5" fill="#A0582F"/><path d="M${x - 5} ${EYE_Y} Q${x} ${EYE_Y + 4} ${x + 5} ${EYE_Y}" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>`;
+  const lid = (x: number) => `<circle cx="${x}" cy="${EYE_Y}" r="5.5" fill="${BUDDY_FUR_LIT}"/><path d="M${x - 5} ${EYE_Y} Q${x} ${EYE_Y + 4} ${x + 5} ${EYE_Y}" fill="none" stroke="#3A2E39" stroke-width="3" stroke-linecap="round"/>`;
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">${lid(open[0])}${lid(open[1])}</svg>`;
 }
 

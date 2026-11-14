@@ -280,3 +280,9 @@ Durable decisions with reasons. Newest first. Earlier ones are summarized from `
   Premium alike, because it prints this week's words, not the Premium full report. On web the sheet prints through a
   hidden same-origin iframe (expo-print's web `printAsync` only prints the app page). Pictures are inlined as base64 on
   native so the print renderer needs no file access.
+
+## 2026-11-14 — 3D-style Buddy without gradients (#155)
+- Buddy gets volume from stacked flat tones (shade rim `#874621` → fur `#A0582F` → lit face `#B06637`), a soft ground
+  shadow, a muzzle shade, eye catchlights, a nose shine and a warm brown outline on the fur. No `<radialGradient>`:
+  `SvgXml` gradient ids are document-global on web, so many Buddy instances would share or lose one definition.
+- Blink lids are filled with the lit tone; a test checks the lit circle covers every lid and stays inside the head.
