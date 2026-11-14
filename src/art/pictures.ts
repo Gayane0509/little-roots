@@ -2,8 +2,8 @@ import type { ImageSourcePropType } from 'react-native';
 
 /**
  * Word pictures from Microsoft Fluent Emoji 3D (MIT, assets/words/LICENSE), 256 px PNGs bundled with the app so they
- * work offline and look the same on every device. Keyed by word id; words without one (colours, numbers, "family" and
- * three letter examples Fluent has no picture for) keep their drawn SVG in src/art/words. Source name in each comment.
+ * work offline and look the same on every device. Keyed by word id; words without one (colours, numbers and three
+ * letter examples Fluent has no picture for) keep their drawn SVG in src/art/words. Source name in each comment.
  * People and body parts use Fluent's Light skin tone (light skin, dark hair) instead of the yellow emoji default.
  */
 export const WORD_PICTURES: Readonly<Record<string, ImageSourcePropType>> = {
@@ -42,6 +42,7 @@ export const WORD_PICTURES: Readonly<Record<string, ImageSourcePropType>> = {
   'family.friend': require('../../assets/words/family/friend.png'), // People hugging
   'family.uncle': require('../../assets/words/family/uncle.png'), // Man beard
   'family.aunt': require('../../assets/words/family/aunt.png'), // Woman curly hair
+  'family.family': require('../../assets/words/family/family.png'), // Man + Woman + Child (scripts/compose-family.mjs)
   'feelings.happy': require('../../assets/words/feelings/happy.png'), // Grinning face
   'feelings.sad': require('../../assets/words/feelings/sad.png'), // Crying face
   'feelings.angry': require('../../assets/words/feelings/angry.png'), // Angry face

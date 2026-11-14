@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-14 17:30 run. Updated at the end of every session._
+_Updated: 2026-11-14 18:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -238,6 +238,9 @@ _Updated: 2026-11-14 17:30 run. Updated at the end of every session._
   **#174 done** — tracing guide letters centred by their real glyph ink (table read from the bundled font, test checks it
   against the TTF); 95 suites / 423 tests ✓; web-checked. #117 start dots blocked: needs a teacher-checked stroke-start list.
   Usage: weekly 64 % (cap 80 %, resets 2026-11-16 23:00 UTC). Codex still blocked (#11). Next: #163 (attended), #143/#155 art, #117 start dots.
+- 2026-11-14 18:30 run: **#143 family picture done** — "family" now a 3D picture composed from the Fluent dad, mom and child
+  (`scripts/compose-family.mjs`); theme pages show only 3D pictures except colours/numbers (guard test). 95 suites / 424 tests ✓;
+  web-checked at 320 px. #176 overflow scan at 320 px: clean. Usage: weekly 65 %. Codex still blocked (#11). Next: #175 card check, #163 (attended), #155 3D Buddy.
 - Verified only in the web preview (`npx expo start --web`). No native run yet.
 
 ## Next priorities (owner, 2026-11-11)

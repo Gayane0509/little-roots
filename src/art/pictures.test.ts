@@ -38,6 +38,15 @@ describe('word pictures (Fluent 3D)', () => {
     expect(readFileSync('assets/words/LICENSE', 'utf8')).toContain('MIT License');
   });
 
+  it('theme pages show one 3D style: only colours and numbers keep their drawings (#143)', () => {
+    const drawn = ACTIVE_PACK.themes
+      .filter((theme) => theme.id !== 'colors' && theme.id !== 'numbers')
+      .flatMap((theme) => theme.words)
+      .filter((word) => !WORD_PICTURES[word.id])
+      .map((word) => word.id);
+    expect(drawn).toEqual([]);
+  });
+
   it('every word still has a drawn SVG fallback, so a picture never falls back to an emoji', () => {
     expect(Object.keys(WORD_PICTURES).filter((id) => !getWordArt(id))).toEqual([]);
   });
