@@ -2,6 +2,14 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-15 21:30 run
+- claude · #189 review, no app change: Count with me at 1024×768 (web, 127.0.0.1:8095) with the dev test child made
+  Premium and numbers 1–8 added (backed up first, restored and re-read after reload: not Premium, no number words).
+  Six rounds (1–8 items): tiles 120 px, choices end at 543, Back 688–752, no scroll; finish screen fits. Console: only
+  the known browser-blocked `navigator.vibrate` from synthetic clicks. Usage at start: Claude 5-hour 18 %, weekly 72 %;
+  Codex blocked (#11). Files: AI_TASKS.md, PROJECT_STATUS.md, AI_CHANGELOG.md. Checks: `npm run check` ✓ (95 suites /
+  434 tests). Commit: see `git log` ("#189").
+
 ## 2026-11-15 19:30 run
 - claude · #187 lesson reward fits landscape tablets: below 860 px tall, wide windows get the 140 px star / 96 px sticker and a
   16 px reward gap, so today's word cards sit above Back home (were 84 px under it at 1024×768). Review, no change: rhyme step
