@@ -1361,3 +1361,10 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
 - Checks: `npm run check` (tsc ✓, ESLint ✓, Jest 95 suites / 432 tests ✓). Web: 1024×768 baskets 418–619, Back 688–752,
   no scroll; 768×1024 and 375×667 unchanged; screenshot reviewed; no console errors. Not verified: native (#10).
   Commit: the "#183" commit on main.
+- claude · #184 Lesson round word on tablets: `src/features/lesson/artSizes.ts` adds `promptWord` (`font.word` 44 px on
+  tall tablets, `font.title` 30 px elsewhere); `src/app/lesson.tsx` uses it for the word to find;
+  `artSizes.test.ts` expectations and `src/ui/wordFit.test.ts` (every word stays whole at the tablet size, 768 and
+  1024 px, normal and 1.5× text).
+- Checks: `npm run check` (tsc ✓, ESLint ✓, Jest 95 suites / 432 tests ✓). Web: 1024×768 and 768×1024 word 44 px, no
+  scroll, last answer ends 614; 375×667 30 px, no scroll; no console errors. Not verified: native (#10).
+  Commit: the "#184" commit on main.

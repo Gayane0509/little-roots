@@ -18,6 +18,11 @@ export type LessonArtSizes = {
    */
   songEnglishOnTap: boolean;
   songTitleSize: number;
+  /**
+   * Largest size of the word to find in a lesson round. Tall tablets use the big word size, as the Find game does: the
+   * 30 px word looked small beside the 120 px answer pictures, with ~165 px free at 1024×768 (#184).
+   */
+  promptWord: number;
   /** The reward's row of today's new words (#113); left out where it would make the reward scroll (short windows with a new outfit). */
   rewardWords: boolean;
 };
@@ -61,6 +66,7 @@ export function lessonArtSizes(width: number, height: number, hasNewOutfit: bool
     songPicture: compact ? 24 : height < SONG_TIGHT_BELOW ? 32 : 40,
     songEnglishOnTap: compact,
     songTitleSize: compact ? font.heading : font.title,
+    promptWord: tallTablet ? font.word : font.title,
     // At 375×667 a reward that also unlocks an outfit scrolled 69 px with the words row; without the outfit row it fits.
     rewardWords: height >= REWARD_WORDS_FROM && !(compact && hasNewOutfit),
   };

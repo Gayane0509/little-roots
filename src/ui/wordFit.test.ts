@@ -4,7 +4,7 @@ import { ACTIVE_PACK } from '@/content/packs';
 import { memoryLayout } from '@/features/games/memoryLayout';
 
 import { wordEms } from './fitFontSize';
-import { font } from './tokens';
+import { font, WIDE_BREAKPOINT } from './tokens';
 import { WORD_OF_DAY_VOICE_ICON, wordBox, wordFits, wordFontSize, wordOfDayPicture, wordOfDayText } from './wordFit';
 
 const words = ACTIVE_PACK.themes.flatMap((t) => t.words);
@@ -28,7 +28,7 @@ test('every word stays one whole word in every box, 320 px phones to tablets, at
     const memoryCard = memoryLayout({ width, height: 900, fontScale: 1 }, 12).cardWidth;
     const boxes: [string, number, number][] = [
       ['lessonCard', wordBox.lessonCard(width), font.word],
-      ['lessonPrompt', wordBox.lessonPrompt(width, true), font.title],
+      ['lessonPrompt', wordBox.lessonPrompt(width, true), width >= WIDE_BREAKPOINT ? font.word : font.title],
       ['findPrompt', wordBox.findPrompt(width, true), font.word],
       ['readRow', wordBox.readRow(width), font.word],
       ['themeCard', wordBox.themeCard(width), font.heading],

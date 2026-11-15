@@ -200,7 +200,7 @@ function ReadyLesson() {
           <Text style={styles.counter}>Picture {roundIndex + 1} of {rounds.length}</Text>
           <View style={styles.promptRow}>
             <View accessible accessibilityRole="text" accessibilityLabel={`Find ${currentRound.hy}, ${currentRound.translit}`} style={styles.prompt}>
-              <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={[styles.promptWord, { fontSize: wordFontSize(currentRound.hy, wordBox.lessonPrompt(width, !!voice.uris[currentRound.id]), font.title, fontScale) }]}>{currentRound.hy}</Text>
+              <Text maxFontSizeMultiplier={DISPLAY_MAX_FONT_SCALE} style={[styles.promptWord, { fontSize: wordFontSize(currentRound.hy, wordBox.lessonPrompt(width, !!voice.uris[currentRound.id]), art.promptWord, fontScale) }]}>{currentRound.hy}</Text>
               <Text style={styles.promptTranslit}>{currentRound.translit}</Text>
             </View>
             <VoiceButton wordId={currentRound.id} label={currentRound.translit} />
