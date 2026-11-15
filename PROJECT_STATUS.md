@@ -1,6 +1,6 @@
 # Project status — Little Roots
 
-_Updated: 2026-11-15 19:30 run. Updated at the end of every session._
+_Updated: 2026-11-15 20:30 run. Updated at the end of every session._
 
 ## Where things stand
 - Expo SDK 58 / RN 0.88 / React 19 / strict TS kids app teaching the family language (Armenian first). Offline, no
@@ -288,6 +288,7 @@ then #148–#156 by score; #143 (last flat drawings) alongside. New Armenian tex
    Family voice recordings; voice messages not allowed). Allow as an exception, or drop #148.
 (No bundled native-speaker recordings: since 2026-11-04 each family records its own words in Family voice.)
 
+- 2026-11-15 20:30 run: #188 tablet-landscape review (sticker book + dress-up, Letters at 1024×768): no defect, no app change. Claude weekly 71 % (5-hour 17 %); Codex blocked (#11, config unchanged since 2026-10-30). `npm run check` green. Next: Count at 1024×768 needs a Premium test child; #163/#165 need an attended visible pane; then a new research pass.
 - 2026-11-15 19:30 run: #187 lesson reward fits 1024×768 (word cards were 84 px under Back home; big reward art now only ≥ 860 px tall). Rhyme step and sticker book at 1024×768 fit. `npm run check` green (95 suites / 434 tests). Claude weekly 71 % (5-hour 12 %); Codex blocked (#11). One task only, for pacing. Next: Count at 1024×768 needs a Premium test child; #163/#165 need an attended visible pane; otherwise a new review pass.
 - 2026-11-15 18:30 run: pacing stop, no app change. Claude weekly 71 % (5-hour 11 %), 80 % review-only line, resets 2026-11-16 23:00 UTC → ~15 hourly runs left, ~0.6 % each. Codex still blocked (#11, `gpt-6-sol` unchanged). `npm run check` green (95 suites / 433 tests). Next: tablet-landscape review (lesson rhyme + reward, Count, Stickers dress-up at 1024×768) when a run has room; #163/#165 need an attended visible pane.
 - 2026-11-15 17:30 run: #182 Read it fits landscape tablets (`choiceLayout` short-wide case: lower rows, half gaps; Back on screen at 1024×768); #183 Sort it picture 184 px on landscape tablets (room for the status bar); #184 lesson round word 44 px on tablets (matches Find); #185 trace box 480 px on tablets. `npm run check` green (95 suites / 432 tests). Codex still blocked (#11, probe failed again). Stopped early at 17:44 for pacing (Claude weekly 70 %, 80 % is the review-only line; 5-hour 10 %). Next: continue tablet-landscape review (lesson rhyme + reward steps, Count, Stickers dress-up at 1024×768; #186 native look); #163/#165 need an attended visible pane.

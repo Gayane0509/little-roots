@@ -1388,3 +1388,8 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   946–1010 in the window with the screen-reader button; lowercase guide centred (zoomed screenshot). 1024×768 unchanged
   (335, height-limited). The console's `navigator.vibrate` error came from a scripted click without a user tap (browser
   policy), not the app. Not verified: native (#10). Commit: the "#185" commit on main.
+
+## 2026-11-15 20:30 run
+- claude · #188 review only (web localhost:8095, 1024×768): sticker book with the Dress up card and the Letters grid
+  fit (no horizontal overflow, scrollWidth 1024; a clipped-looking first sticker was its pop-in animation mid-frame, gone
+  on a zoomed second look). No app change. Codex blocked (#11). Notes only.
