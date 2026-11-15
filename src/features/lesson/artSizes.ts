@@ -25,6 +25,8 @@ export type LessonArtSizes = {
   promptWord: number;
   /** The reward's row of today's new words (#113); left out where it would make the reward scroll (short windows with a new outfit). */
   rewardWords: boolean;
+  /** The reward step's gap: tighter on wide windows below REWARD_BIG_FROM_HEIGHT so today's words stay above the footer (#187). */
+  rewardGap: number;
 };
 
 /** Windows shorter than this (iPhone SE 375×667) get the compact lesson (#84): the word card, rhyme and reward overflowed. */
@@ -45,19 +47,25 @@ export const REWARD_WORDS_FROM = 640;
  * column of a 600 px window, so a reward with an outfit gets the big art only from REWARD_BIG_WITH_OUTFIT_FROM.
  */
 export const REWARD_BIG_WITH_OUTFIT_FROM = 768;
+/**
+ * Windows at least this tall get the big reward art. With today's words below it (#113) the big reward was 660 px, 84 px
+ * past the 576 px step of a 1024×768 iPad, so the word cards sat under the Back home button (#187).
+ */
+export const REWARD_BIG_FROM_HEIGHT = 860;
 
 export function lessonArtSizes(width: number, height: number, hasNewOutfit: boolean): LessonArtSizes {
   const wide = width >= WIDE_BREAKPOINT;
   const tallTablet = wide && height >= LESSON_COMPACT_BELOW;
-  const bigReward = tallTablet && (!hasNewOutfit || width >= REWARD_BIG_WITH_OUTFIT_FROM);
+  const bigReward = tallTablet && height >= REWARD_BIG_FROM_HEIGHT && (!hasNewOutfit || width >= REWARD_BIG_WITH_OUTFIT_FROM);
   const compact = height < LESSON_COMPACT_BELOW;
+  const gap = compact ? spacing.sm : spacing.lg;
   return {
     option: wide ? 120 : 88,
     card: tallTablet ? 220 : compact ? 104 : 160,
     reward: bigReward ? 180 : compact ? 104 : 140,
     sticker: bigReward ? 128 : compact ? 80 : 96,
     rewardRowsSideBySide: wide,
-    gap: compact ? spacing.sm : spacing.lg,
+    gap,
     songLinePadding: compact ? spacing.sm : spacing.md,
     songGap: height < SONG_TIGHT_BELOW ? spacing.sm : spacing.lg,
     introSeeds: height >= INTRO_SEEDS_FROM,
@@ -69,5 +77,6 @@ export function lessonArtSizes(width: number, height: number, hasNewOutfit: bool
     promptWord: tallTablet ? font.word : font.title,
     // At 375×667 a reward that also unlocks an outfit scrolled 69 px with the words row; without the outfit row it fits.
     rewardWords: height >= REWARD_WORDS_FROM && !(compact && hasNewOutfit),
+    rewardGap: wide && !compact && height < REWARD_BIG_FROM_HEIGHT ? spacing.md : gap,
   };
 }

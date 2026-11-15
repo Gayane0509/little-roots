@@ -2,6 +2,14 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-15 19:30 run
+- claude · #187 lesson reward fits landscape tablets: below 860 px tall, wide windows get the 140 px star / 96 px sticker and a
+  16 px reward gap, so today's word cards sit above Back home (were 84 px under it at 1024×768). Review, no change: rhyme step
+  and sticker book at 1024×768 fit. Files: `src/features/lesson/artSizes.ts`, `src/features/lesson/artSizes.test.ts`,
+  `src/app/lesson.tsx`. Checks: `npm run check` ✓ (tsc, ESLint, Jest 95 suites / 434 tests); web 1024×768 reward measured
+  (words 511–612, button 672, no scroll), no app console errors (only web vibrate blocked by scripted clicks). Not reviewed by
+  a second agent (pacing; Codex blocked #11). Commit: see `git log` ("#187 …").
+
 ## 2026-11-15 18:30 run
 - claude · pacing stop, no app change: Claude weekly 71 % with ~15 runs before the 2026-11-16 23:00 UTC reset (~0.6 % each),
   below a build-and-verify task. Gate `npm run check` ✓ (tsc, ESLint, Jest 95 suites / 433 tests). Codex blocked (#11). Files: notes only.
