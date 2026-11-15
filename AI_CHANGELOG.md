@@ -1354,3 +1354,10 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   errors. To see rounds, the preview test child's `gamesToday` counter was reset in web storage (test data only).
   Not verified: native iPad (#10). Codex review skipped (#11 blocked, probe failed); no subagent review (one-function
   layout diff, weekly usage 69 %). Commit: the "#182" commit on main.
+- claude · #183 Sort it on landscape tablets: `src/features/games/SortGame.tsx` `sortLayout` uses a 184 px picture (was
+  220) on wide windows shorter than `CHOICE_SHORT_WIDE_BELOW`; `SortGame.render.test.tsx` covers 1024×768, 1194×834,
+  768×1024 and 1366×1024. Found by a 1024×768 scan of every game with rounds visible: Sort left 17 px above Back on web,
+  less than the native iPad status bar inside `Screen`'s SafeAreaView.
+- Checks: `npm run check` (tsc ✓, ESLint ✓, Jest 95 suites / 432 tests ✓). Web: 1024×768 baskets 418–619, Back 688–752,
+  no scroll; 768×1024 and 375×667 unchanged; screenshot reviewed; no console errors. Not verified: native (#10).
+  Commit: the "#183" commit on main.

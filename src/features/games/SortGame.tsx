@@ -17,7 +17,7 @@ import { Icon } from '@/ui/Icon';
 import { WordArt } from '@/ui/WordArt';
 import { colors, DISPLAY_MAX_FONT_SCALE, font, radius, spacing, TOUCH_MIN, WIDE_BREAKPOINT } from '@/ui/tokens';
 
-import { CHOICE_COMPACT_BELOW } from './choiceLayout';
+import { CHOICE_COMPACT_BELOW, CHOICE_SHORT_WIDE_BELOW } from './choiceLayout';
 import { GameDoneActions } from './GameDoneActions';
 import { buildSortRounds, PAIR_BASKETS, type Basket, type SortPair, type SortRound } from './sorting';
 
@@ -42,13 +42,17 @@ const emptySorted = (): Record<Basket, Word[]> => ({ food: [], other: [], big: [
 
 export type SortLayout = { compact: boolean; art: number; basketIcon: number; label: number; mini: number };
 
-/** Sizes for the sorting screen: the picture shrinks on short windows so the baskets and Back stay on screen. */
+/**
+ * Sizes for the sorting screen: the picture shrinks on short windows so the baskets and Back stay on screen. Landscape
+ * tablets get a slightly smaller picture: at 1024×768 the 220 px one left 17 px above Back, less than an iPad status bar
+ * (#183).
+ */
 export function sortLayout(window: { width: number; height: number }): SortLayout {
   const compact = window.height < CHOICE_COMPACT_BELOW;
   const big = !compact && window.width >= WIDE_BREAKPOINT;
   return {
     compact,
-    art: compact ? 120 : big ? 220 : Math.min(176, Math.floor(window.width * 0.45)),
+    art: compact ? 120 : big ? (window.height < CHOICE_SHORT_WIDE_BELOW ? 184 : 220) : Math.min(176, Math.floor(window.width * 0.45)),
     basketIcon: compact ? 48 : big ? 96 : 64,
     // The label keeps its size next to the basket drawing: tablet baskets are wider and their drawing bigger.
     label: big ? font.title : font.body,
