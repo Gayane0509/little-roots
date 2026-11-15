@@ -2,6 +2,10 @@
 
 Newest first. Each entry: date · agent(s) · what changed · files · checks · commit.
 
+## 2026-11-15 18:30 run
+- claude · pacing stop, no app change: Claude weekly 71 % with ~15 runs before the 2026-11-16 23:00 UTC reset (~0.6 % each),
+  below a build-and-verify task. Gate `npm run check` ✓ (tsc, ESLint, Jest 95 suites / 433 tests). Codex blocked (#11). Files: notes only.
+
 ## 2026-11-15 00:30 run
 - claude · pacing stop, no app change: started 00:33, too late for a full task plus web check before 00:45. Gate
   `npm run check` ✓ (tsc, ESLint, Jest 95 suites / 430 tests). Usage: Claude 5-hour 10 %, weekly 69 %; Codex blocked (#11).
