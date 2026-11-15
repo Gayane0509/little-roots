@@ -1,4 +1,4 @@
-import { spacing, TOUCH_MIN } from '@/ui/tokens';
+import { CONTENT_MAX_WIDTH, spacing, TOUCH_MIN, WIDE_BREAKPOINT } from '@/ui/tokens';
 
 export interface TracePoint { x: number; y: number }
 export type TraceStroke = TracePoint[];
@@ -39,16 +39,23 @@ export function isTraceGoodEnough(score: number): boolean { return score >= 0.5;
 export const TRACE_SHEET_CHROME = 356;
 /** Extra sheet height when a screen reader is on: the "Mark as traced" BigButton (TOUCH_MIN tall) plus its gap (#94). */
 export const TRACE_MARK_BUTTON_CHROME = TOUCH_MIN + spacing.md;
+/** Largest canvas on phones. */
+export const TRACE_MAX_SIZE = 356;
+/**
+ * Largest canvas on tablets: the 668 px tablet sheet left the 356 px box looking small on a 768×1024 iPad, and a bigger
+ * letter is easier to follow with a finger (#185). Scoring is relative to the canvas, so the size doesn't change it.
+ */
+export const TRACE_MAX_SIZE_WIDE = 480;
 /** The canvas never shrinks below this for the height cap, so very short windows scroll instead. */
 export const TRACE_MIN_SIZE = 200;
 
 /**
- * Side of the square trace canvas: as wide as the sheet allows (max 356), and on short windows small enough that the
+ * Side of the square trace canvas: as wide as the sheet allows (max 356, 480 on tablets), and on short windows small enough that the
  * whole letter and Clear/Done fit in the sheet (90 % of the window), because the sheet can't scroll while drawing (#88).
  * `markButton`: the screen-reader "Mark as traced" button is shown too, so the canvas leaves room for it (#94).
  */
 export function traceCanvasSize(width: number, height: number, markButton = false): number {
-  const byWidth = Math.min(width - spacing.lg * 2 - 4, 356);
+  const byWidth = Math.min(Math.min(width, CONTENT_MAX_WIDTH) - spacing.lg * 2 - 4, width >= WIDE_BREAKPOINT ? TRACE_MAX_SIZE_WIDE : TRACE_MAX_SIZE);
   const chrome = TRACE_SHEET_CHROME + (markButton ? TRACE_MARK_BUTTON_CHROME : 0);
   const byHeight = Math.max(TRACE_MIN_SIZE, Math.floor(height * 0.9) - chrome);
   return Math.min(byWidth, byHeight);

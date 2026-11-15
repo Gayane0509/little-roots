@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals';
-import { isTraceGoodEnough, TRACE_MARK_BUTTON_CHROME, TRACE_MIN_SIZE, TRACE_SHEET_CHROME, traceCanvasSize, traceScore } from './tracing';
+import { isTraceGoodEnough, TRACE_MARK_BUTTON_CHROME, TRACE_MAX_SIZE, TRACE_MAX_SIZE_WIDE, TRACE_MIN_SIZE, TRACE_SHEET_CHROME, traceCanvasSize, traceScore } from './tracing';
 
 const point = (x: number, y: number) => ({ x, y });
 test('empty, one dot, invalid size, and off-canvas ink score zero', () => {
@@ -23,7 +23,7 @@ test('filling nearly every cell is a scribble, not a trace', () => {
 test('the trace canvas keeps its width-based size on tall phones and shrinks on short ones so Done stays in the sheet', () => {
   expect(traceCanvasSize(375, 812)).toBe(323);
   expect(traceCanvasSize(375, 667)).toBe(244);
-  expect(traceCanvasSize(1024, 1366)).toBe(356);
+  expect(traceCanvasSize(1024, 1366)).toBe(TRACE_MAX_SIZE_WIDE);
   expect(traceCanvasSize(1024, 768)).toBe(335);
   expect(traceCanvasSize(375, 400)).toBe(TRACE_MIN_SIZE);
   expect(traceCanvasSize(320, 568)).toBe(TRACE_MIN_SIZE);
@@ -33,10 +33,25 @@ test('screen-reader Mark as traced button: canvas shrinks so Clear/Done stay in 
   // 1024×768 iPad: 691 − 356 − 80 = 255 (was 335, which put Clear/Done at 776–840, below the window).
   expect(traceCanvasSize(1024, 768, true)).toBe(255);
   expect(traceCanvasSize(375, 812, true)).toBe(294);
-  expect(traceCanvasSize(1024, 1366, true)).toBe(356);
+  expect(traceCanvasSize(1024, 1366, true)).toBe(TRACE_MAX_SIZE_WIDE);
   expect(traceCanvasSize(375, 667, true)).toBe(TRACE_MIN_SIZE);
   for (const [w, h] of [[375, 812], [1024, 768], [430, 932]] as const) {
     const size = traceCanvasSize(w, h, true);
     if (size > TRACE_MIN_SIZE) expect(size + TRACE_SHEET_CHROME + TRACE_MARK_BUTTON_CHROME).toBeLessThanOrEqual(Math.floor(h * 0.9));
   }
+});
+
+test('tablets get a bigger trace canvas that still leaves Clear/Done in the sheet; phones keep the phone cap (#185)', () => {
+  expect(traceCanvasSize(768, 1024)).toBe(TRACE_MAX_SIZE_WIDE);
+  expect(traceCanvasSize(820, 1180)).toBe(TRACE_MAX_SIZE_WIDE);
+  expect(traceCanvasSize(430, 932)).toBeLessThanOrEqual(TRACE_MAX_SIZE);
+  expect(traceCanvasSize(599, 2000)).toBe(TRACE_MAX_SIZE);
+  for (const [w, h] of [[768, 1024], [820, 1180], [1024, 1366], [600, 960]] as const) {
+    const size = traceCanvasSize(w, h);
+    expect(size).toBeLessThanOrEqual(Math.min(w, 720) - 52);
+    expect(size + TRACE_SHEET_CHROME).toBeLessThanOrEqual(Math.floor(h * 0.9));
+  }
+  // The same drawing scores the same on a phone and a tablet canvas.
+  const zigzag = (size: number) => [[0.25, 0.25], [0.75, 0.3], [0.3, 0.5], [0.75, 0.55], [0.3, 0.75]].map(([x, y]) => ({ x: x * size, y: y * size }));
+  expect(traceScore([zigzag(TRACE_MAX_SIZE_WIDE)], TRACE_MAX_SIZE_WIDE)).toBe(traceScore([zigzag(TRACE_MAX_SIZE)], TRACE_MAX_SIZE));
 });

@@ -1368,3 +1368,11 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
 - Checks: `npm run check` (tsc ✓, ESLint ✓, Jest 95 suites / 432 tests ✓). Web: 1024×768 and 768×1024 word 44 px, no
   scroll, last answer ends 614; 375×667 30 px, no scroll; no console errors. Not verified: native (#10).
   Commit: the "#184" commit on main.
+- claude · #185 Bigger trace box on tablets: `src/features/letters/tracing.ts` adds `TRACE_MAX_SIZE` (356, phones) and
+  `TRACE_MAX_SIZE_WIDE` (480, wide windows); `traceCanvasSize` also caps by the 720 px sheet. `tracing.test.ts`: 480 at
+  768×1024 / 820×1180, Clear/Done budget on four tablet sizes, phones keep 356, same drawing scores the same at both
+  sizes. New task #186 (Back to letter below the fold; native check).
+- Checks: `npm run check` (tsc ✓, ESLint ✓, Jest 95 suites / 433 tests ✓). Web 768×1024: box 480 px, Clear/Done
+  946–1010 in the window with the screen-reader button; lowercase guide centred (zoomed screenshot). 1024×768 unchanged
+  (335, height-limited). The console's `navigator.vibrate` error came from a scripted click without a user tap (browser
+  policy), not the app. Not verified: native (#10). Commit: the "#185" commit on main.
