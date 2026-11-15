@@ -2,11 +2,11 @@ import { expect, test } from '@jest/globals';
 
 import { TOUCH_MIN } from '@/ui/tokens';
 
-import { CHOICE_COMPACT_BELOW, CHOICE_TALL_FROM, choiceLayout } from './choiceLayout';
+import { CHOICE_COMPACT_BELOW, CHOICE_SHORT_WIDE_BELOW, CHOICE_TALL_FROM, choiceLayout } from './choiceLayout';
 
 test('regular phones and tablets keep the full-size picture; phones get slightly lower rows', () => {
   expect(choiceLayout({ width: 375, height: 812 })).toEqual({ optionArt: 128, pictureArt: 128, picturePadding: 24, optionMinHeight: 88, gap: 16 });
-  expect(choiceLayout({ width: 1024, height: 768 })).toEqual({ optionArt: 112, pictureArt: 128, picturePadding: 24, optionMinHeight: 104, gap: 16 });
+  expect(choiceLayout({ width: 1366, height: 1024 })).toEqual({ optionArt: 112, pictureArt: 128, picturePadding: 24, optionMinHeight: 104, gap: 16 });
 });
 
 test('short windows get a smaller picture and rows that still meet the touch minimum', () => {
@@ -65,4 +65,23 @@ test('Read fits a 375×667 phone with a two-line Buddy prompt: short windows use
   expect(bottom).toBeLessThanOrEqual(667 - 16);
   expect(optionMinHeight).toBeGreaterThanOrEqual(TOUCH_MIN);
   expect(gap).toBe(8);
+});
+
+test('Read fits a landscape iPad (1024×768) under the status bar: lower rows, half the gaps (#182)', () => {
+  const { pictureArt, picturePadding, optionMinHeight, gap, optionArt } = choiceLayout({ width: 1024, height: 768 });
+  // Measured on the web at 1024×768 with the tablet rows: the picture card started at 196 after two 16 px gaps and Back
+  // ended 66 px below the window. Native iPads also lose about 24 px to the status bar.
+  const above = 196 - 2 * 16;
+  const picture = pictureArt + 2 * picturePadding + 2 * 3;
+  const bottom = above + 2 * gap + picture + gap + 3 * optionMinHeight + 2 * gap + gap + 64;
+  expect(bottom).toBeLessThanOrEqual(768 - 24 - 16);
+  expect(optionMinHeight).toBeGreaterThanOrEqual(TOUCH_MIN);
+  expect(pictureArt).toBe(128);
+  expect(optionArt).toBe(112);
+});
+
+test('the short-tablet threshold is exclusive and leaves phones alone', () => {
+  expect(choiceLayout({ width: 1194, height: CHOICE_SHORT_WIDE_BELOW - 1 }).optionMinHeight).toBe(88);
+  expect(choiceLayout({ width: 1194, height: CHOICE_SHORT_WIDE_BELOW }).optionMinHeight).toBe(104);
+  expect(choiceLayout({ width: 375, height: 812 }).gap).toBe(16);
 });

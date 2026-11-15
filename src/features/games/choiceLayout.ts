@@ -8,6 +8,12 @@ export const CHOICE_COMPACT_BELOW = 760;
 /** Phones at least this tall (375×812 and up) get bigger Find pictures: at 80 px about 200 px sat empty above Back (#101). */
 export const CHOICE_TALL_FROM = 800;
 
+/**
+ * Tablets shorter than this (landscape iPads: 1024×768, 1180×820, 1194×834) get lower Read rows and half the gaps: at
+ * 1024×768 the tablet rows (104 px) and 16 px gaps put Back 66 px below the window (#182).
+ */
+export const CHOICE_SHORT_WIDE_BELOW = 900;
+
 /** Largest Find picture on a tall phone; the drawings are 128×128. */
 const TALL_OPTION_ART_MAX = 128;
 
@@ -25,17 +31,19 @@ function findCardInner(width: number) {
  * rows stay above the touch minimum. Tall phones get Find pictures as big as the answer card allows (#101); Read is
  * unchanged there because its picture and three rows already fill a 375×812 screen. Phones get slightly lower answer
  * rows than tablets so Read's Back stays on screen at 375×812 when Buddy speaks Armenian and English (#102). Short
- * windows also halve the gaps between the screen's parts so Back fits at 375×667 in that mode (#103).
+ * windows also halve the gaps between the screen's parts so Back fits at 375×667 in that mode (#103). Landscape
+ * tablets keep the full picture but get phone-height rows, a smaller picture padding and half the gaps (#182).
  */
 export function choiceLayout(window: { width: number; height: number }): ChoiceLayout {
   const compact = window.height < CHOICE_COMPACT_BELOW;
   const wide = window.width >= WIDE_BREAKPOINT;
   const tallPhone = !wide && window.height >= CHOICE_TALL_FROM;
+  const shortWide = wide && !compact && window.height < CHOICE_SHORT_WIDE_BELOW;
   return {
     optionArt: wide ? 112 : tallPhone ? Math.max(80, Math.min(TALL_OPTION_ART_MAX, findCardInner(window.width))) : 80,
     pictureArt: compact ? 88 : 128,
-    picturePadding: compact ? spacing.md : spacing.lg,
-    optionMinHeight: compact ? TOUCH_MIN + 16 : wide ? TOUCH_MIN + 40 : TOUCH_MIN + 24,
-    gap: compact ? spacing.sm : spacing.md,
+    picturePadding: compact || shortWide ? spacing.md : spacing.lg,
+    optionMinHeight: compact ? TOUCH_MIN + 16 : wide && !shortWide ? TOUCH_MIN + 40 : TOUCH_MIN + 24,
+    gap: compact || shortWide ? spacing.sm : spacing.md,
   };
 }

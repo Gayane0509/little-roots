@@ -1342,3 +1342,15 @@ Newest first. Each entry: date · agent(s) · what changed · files · checks ·
   web Home (localhost:8095) renders, no console errors. The point pose appears only in lesson rounds, which the preview's
   test child cannot reach (free words finished), so it was not seen live on web. Not verified: native (#10).
   No Codex review (#11 blocked); no subagent review (one-line art diff, usage pacing at 67 % weekly).
+
+## 2026-11-15 17:30 run
+- claude · #182 Read it on landscape tablets: `src/features/games/choiceLayout.ts` adds `CHOICE_SHORT_WIDE_BELOW` (900);
+  wide windows shorter than that (landscape iPads 1024×768, 1180×820, 1194×834) get 88 px answer rows, 16 px picture
+  padding and 8 px gaps, keeping the 128 px picture and 112 px Find art. `src/features/games/choiceLayout.test.ts`: fit
+  budget at 1024×768 with a 24 px status bar, exclusive threshold, phones unchanged (fails on the old code —
+  mutation-checked); the full-size tablet expectation now uses 1366×1024.
+- Checks: `npm run check` (tsc ✓, ESLint ✓, Jest 95 suites / 432 tests ✓). Web (localhost:8095): Read at 1024×768 Back
+  688–752, no scroll (was 754–818, 66 px scroll); 768×1024 rows 104, no scroll; Find at 1024×768 no scroll; no console
+  errors. To see rounds, the preview test child's `gamesToday` counter was reset in web storage (test data only).
+  Not verified: native iPad (#10). Codex review skipped (#11 blocked, probe failed); no subagent review (one-function
+  layout diff, weekly usage 69 %). Commit: the "#182" commit on main.
